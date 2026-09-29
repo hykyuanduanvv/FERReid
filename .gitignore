@@ -1,0 +1,46 @@
+# Ignored files
+*.pyc
+__pycache__/
+*.egg-info/
+dist/
+build/
+
+# Data and weights (large files)
+data/
+reid-data/
+weights/
+external/
+*.pth
+*.pt
+*.bin
+*.safetensors
+*.ckpt
+*.npz
+*.npy
+*.zip
+*.tar*
+
+# Experiment outputs
+experiments/*/
+!experiments/.gitkeep
+
+# Logs
+*.log
+tf-logs/
+
+# IDE
+.vscode/
+.cursor/
+
+experiments
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+configs/local*.sh
+.venv/
+*.pem
+*.key
+.DS_Store
+Thumbs.db
