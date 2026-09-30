@@ -47,9 +47,23 @@ EVAL_TRANSFORM = PEDESTRIAN_EVAL_TRANSFORM
 
 
 class DomainPersonTrainDataset(Dataset):
-    def __init__(self, domain_datasets, transform=None):
+    """One sample = one source identity -> K augmented images of that person.
+
+    instances_per_id=2, cross_camera=False is the historical sampler (random.choices, with
+    replacement, cameras ignored). cross_camera=True draws the K images so they span at least two
+    cameras whenever the person has them (first image random, second from another camera, the rest
+    without replacement while possible).
+    """
+
+    def __init__(self, domain_datasets, transform=None, instances_per_id=2, cross_camera=False):
         self.transform = transform or TRAIN_TRANSFORM
+        if instances_per_id < 2 or instances_per_id % 2:
+            raise ValueError("instances_per_id must be an even number >= 2 (the ICL questions pair "
+                             "consecutive images of one identity)")
+        self.instances_per_id = instances_per_id
+        self.cross_camera = cross_camera
         self.label2images = {}
+        self.label2cams = {}
         self.pid2label = {}
         pid_offset = 0
         for domain_name, ds_obj in domain_datasets:
@@ -63,8 +77,10 @@ class DomainPersonTrainDataset(Dataset):
                 key = "{}/{}".format(domain_name, global_pid)
                 if key not in self.label2images:
                     self.label2images[key] = []
+                    self.label2cams[key] = []
                     self.pid2label[key] = domain_name
                 self.label2images[key].append(img_path)
+                self.label2cams[key].append(camid)
         self.label2images = {k: v for k, v in self.label2images.items() if len(v) >= 2}
         self.pid2label = {k: v for k, v in self.pid2label.items() if k in self.label2images}
         self.keys = list(self.label2images.keys())
@@ -72,12 +88,26 @@ class DomainPersonTrainDataset(Dataset):
     def __len__(self):
         return len(self.keys)
 
+    def _paths(self, key):
+        paths = self.label2images[key]
+        K = self.instances_per_id
+        if not self.cross_camera:
+            return random.choices(paths, k=K)  # the historical draw when K == 2
+        cams = self.label2cams[key]
+        first = random.randrange(len(paths))
+        other = [j for j in range(len(paths)) if cams[j] != cams[first]]
+        chosen = [first] + ([random.choice(other)] if other else [])
+        rest = [j for j in range(len(paths)) if j not in chosen]
+        random.shuffle(rest)
+        while len(chosen) < K:
+            chosen.append(rest.pop() if rest else random.randrange(len(paths)))
+        # the cross-camera pair sits in the first two slots (the ICL questions use consecutive pairs)
+        return [paths[j] for j in chosen]
+
     def __getitem__(self, idx):
         key = self.keys[idx]
-        img_path1, img_path2 = random.choices(self.label2images[key], k=2)
-        image1 = self.transform(Image.open(img_path1).convert("RGB"))
-        image2 = self.transform(Image.open(img_path2).convert("RGB"))
-        return {"image_crops": torch.stack([image1, image2]), "labels": torch.tensor(idx, dtype=torch.long)}
+        images = [self.transform(Image.open(p).convert("RGB")) for p in self._paths(key)]
+        return {"image_crops": torch.stack(images), "labels": torch.tensor(idx, dtype=torch.long)}
 
 
 class ContextPairDataset(Dataset):

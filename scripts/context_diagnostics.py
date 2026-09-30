@@ -35,8 +35,8 @@ from PIL import Image
 from sklearn.metrics import roc_auc_score
 
 from adapters.args_reid import ReIDTrainingArguments
-from adapters.config_reid import DOMAIN_CONFIG, NUM_SPLITS
-from adapters.context_selection import CandidatePool, select, make_pairs
+from adapters.config_reid import DOMAIN_CONFIG, NUM_SPLITS, NO_CAMERA_DOMAINS
+from adapters.context_selection import ContextSampler
 from adapters.reid_dataset import TRAIN_TRANSFORM
 from adapters.trainer_reid import _get_dataset_cls, _seed_all
 from scripts.context_sensitivity import build_model, load_images, SplitCache, evaluate
@@ -129,14 +129,20 @@ def llm_metrics(score, truth):
 class PairSource:
     """Annotated cross-camera pairs from one domain's train split (context pool)."""
 
+    unit = "image"  # set from --selection_unit in main()
+
     def __init__(self, name, split_id=0):
         kwargs = {"split_id": split_id} if name in NUM_SPLITS else {}
         ds = _get_dataset_cls(name)(root=DOMAIN_CONFIG["data_root"], verbose=False, **kwargs)
-        self.name, self.pool = name, CandidatePool(ds.train)
+        self.name = name
+        self.sampler = ContextSampler(ds.train, has_cameras=name not in NO_CAMERA_DOMAINS)
+        self.pool = self.sampler.identity_pool  # also used by pseudo_images (unlabeled image list)
+
+    def budget(self):
+        return len(self.pool) if self.unit == "identity" else len(self.sampler.image_pool)
 
     def images(self, k, rng, device):
-        pids = select("random", self.pool, k, rng)
-        pairs = make_pairs(self.pool, pids, rng)
+        pairs, _ = self.sampler.draw(self.unit, "random", k, rng)
         return load_images([p for pair in pairs for p in pair], device)
 
 
@@ -157,7 +163,9 @@ def main():
     parser = transformers.HfArgumentParser((ReIDTrainingArguments, DiagArguments))
     args, dargs = parser.parse_args_into_dataclasses()
     device = "cuda"
-    model = build_model(args, device)
+    model = build_model(args, device, dargs.checkpoint)
+    PairSource.unit = args.selection_unit
+    print("selection unit:", args.selection_unit)
     state = torch.load(os.path.join(dargs.checkpoint, "pytorch_model.bin"), map_location=device, weights_only=True)
     missing, unexpected = model.load_state_dict(state, strict=False)
     print("checkpoint:", dargs.checkpoint, "missing:", len(missing), "unexpected:", len(unexpected))
@@ -188,7 +196,7 @@ def main():
         for split_id in range(n_splits):
             kwargs = {"split_id": split_id} if name in NUM_SPLITS else {}
             ds = _get_dataset_cls(name)(root=DOMAIN_CONFIG["data_root"], verbose=False, **kwargs)
-            cache = SplitCache(ds, device)
+            cache = SplitCache(ds, device, name)
             own = PairSource(name, split_id)
             base = dargs.base_seed + 100000 * split_id
 
@@ -209,7 +217,7 @@ def main():
                         p, sc, tr = build_prompts(model, imgs, mode, seed)
                         record(k, mode, name, i, seed, p, sc, tr)
                     for other in domains:
-                        if other == name or k > len(others[other].pool):
+                        if other == name or k > others[other].budget():
                             continue
                         p, sc, tr = build_prompts(model, others[other].images(k, np.random.RandomState(seed), device), "true", seed)
                         record(k, "cross", other, i, seed, p, sc, tr)

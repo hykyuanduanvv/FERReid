@@ -1,0 +1,32 @@
+# Stage 4 -- final Protocol-2 runs: for each target T in {Market1501, MSMT17, CUHK-SYSU, CUHK03}, train
+# on the train splits of the other three (no validation, fixed STEPS / SCHEDULE from stage 2, options
+# LOSS_ARGS + FINAL_ARGS from stages 1/3), then evaluate on T's query/gallery with label-free image
+# selection from T's train split. Needs CUHK-SYSU. 12 trainings (~1.5-3 h each) + 12 evaluations
+# (MSMT17 as target is the slowest: 11,659 x 82,161).
+#   models: vpt (fixed prompt) | vicp (in-context) | plain full fine-tuning + BNNeck/CE (strong baseline)
+s4_vpt_market1501   | train s4_vpt_market1501   $STEPS --model_type vpt   --source_domains $(p2_sources market1501) --source_all_images False --val_domains none --eval_strategy no --target_domains market1501 $LOSS_ARGS $FINAL_ARGS $SCHEDULE
+s4_vpt_msmt17       | train s4_vpt_msmt17       $STEPS --model_type vpt   --source_domains $(p2_sources msmt17)     --source_all_images False --val_domains none --eval_strategy no --target_domains msmt17     $LOSS_ARGS $FINAL_ARGS $SCHEDULE
+s4_vpt_cuhksysu     | train s4_vpt_cuhksysu     $STEPS --model_type vpt   --source_domains $(p2_sources cuhksysu)   --source_all_images False --val_domains none --eval_strategy no --target_domains cuhksysu   $LOSS_ARGS $FINAL_ARGS $SCHEDULE
+s4_vpt_cuhk03       | train s4_vpt_cuhk03       $STEPS --model_type vpt   --source_domains $(p2_sources cuhk03)     --source_all_images False --val_domains none --eval_strategy no --target_domains cuhk03     $LOSS_ARGS $FINAL_ARGS $SCHEDULE
+s4_vicp_market1501  | train s4_vicp_market1501  $STEPS --model_type vicp  --source_domains $(p2_sources market1501) --source_all_images False --val_domains none --eval_strategy no --target_domains market1501 $LOSS_ARGS $FINAL_ARGS $SCHEDULE
+s4_vicp_msmt17      | train s4_vicp_msmt17      $STEPS --model_type vicp  --source_domains $(p2_sources msmt17)     --source_all_images False --val_domains none --eval_strategy no --target_domains msmt17     $LOSS_ARGS $FINAL_ARGS $SCHEDULE
+s4_vicp_cuhksysu    | train s4_vicp_cuhksysu    $STEPS --model_type vicp  --source_domains $(p2_sources cuhksysu)   --source_all_images False --val_domains none --eval_strategy no --target_domains cuhksysu   $LOSS_ARGS $FINAL_ARGS $SCHEDULE
+s4_vicp_cuhk03      | train s4_vicp_cuhk03      $STEPS --model_type vicp  --source_domains $(p2_sources cuhk03)     --source_all_images False --val_domains none --eval_strategy no --target_domains cuhk03     $LOSS_ARGS $FINAL_ARGS $SCHEDULE
+s4_full_market1501  | train s4_full_market1501  $STEPS --model_type plain --source_domains $(p2_sources market1501) --source_all_images False --val_domains none --eval_strategy no --target_domains market1501 $LOSS_BOT $FULL_FT $SCHEDULE
+s4_full_msmt17      | train s4_full_msmt17      $STEPS --model_type plain --source_domains $(p2_sources msmt17)     --source_all_images False --val_domains none --eval_strategy no --target_domains msmt17     $LOSS_BOT $FULL_FT $SCHEDULE
+s4_full_cuhksysu    | train s4_full_cuhksysu    $STEPS --model_type plain --source_domains $(p2_sources cuhksysu)   --source_all_images False --val_domains none --eval_strategy no --target_domains cuhksysu   $LOSS_BOT $FULL_FT $SCHEDULE
+s4_full_cuhk03      | train s4_full_cuhk03      $STEPS --model_type plain --source_domains $(p2_sources cuhk03)     --source_all_images False --val_domains none --eval_strategy no --target_domains cuhk03     $LOSS_BOT $FULL_FT $SCHEDULE
+@wait
+# evaluation: VICP with k = 4 / 16 annotated anchors x 3 context seeds; VPT / plain ignore the context
+s4e_vpt_market1501  | evaluate s4e_vpt_market1501  experiments/s4_vpt_market1501/checkpoint-$STEPS  --domains market1501 --target_domains market1501 --methods random --ks 16 --eval_seeds 1 --selection_unit image
+s4e_vpt_msmt17      | evaluate s4e_vpt_msmt17      experiments/s4_vpt_msmt17/checkpoint-$STEPS      --domains msmt17     --target_domains msmt17     --methods random --ks 16 --eval_seeds 1 --selection_unit image
+s4e_vpt_cuhksysu    | evaluate s4e_vpt_cuhksysu    experiments/s4_vpt_cuhksysu/checkpoint-$STEPS    --domains cuhksysu   --target_domains cuhksysu   --methods random --ks 16 --eval_seeds 1 --selection_unit image
+s4e_vpt_cuhk03      | evaluate s4e_vpt_cuhk03      experiments/s4_vpt_cuhk03/checkpoint-$STEPS      --domains cuhk03     --target_domains cuhk03     --methods random --ks 16 --eval_seeds 1 --selection_unit image
+s4e_vicp_market1501 | evaluate s4e_vicp_market1501 experiments/s4_vicp_market1501/checkpoint-$STEPS --domains market1501 --target_domains market1501 --methods random --ks 4,16 --eval_seeds 3 --selection_unit image
+s4e_vicp_msmt17     | evaluate s4e_vicp_msmt17     experiments/s4_vicp_msmt17/checkpoint-$STEPS     --domains msmt17     --target_domains msmt17     --methods random --ks 4,16 --eval_seeds 3 --selection_unit image
+s4e_vicp_cuhksysu   | evaluate s4e_vicp_cuhksysu   experiments/s4_vicp_cuhksysu/checkpoint-$STEPS   --domains cuhksysu   --target_domains cuhksysu   --methods random --ks 4,16 --eval_seeds 3 --selection_unit image
+s4e_vicp_cuhk03     | evaluate s4e_vicp_cuhk03     experiments/s4_vicp_cuhk03/checkpoint-$STEPS     --domains cuhk03     --target_domains cuhk03     --methods random --ks 4,16 --eval_seeds 3 --selection_unit image
+s4e_full_market1501 | evaluate s4e_full_market1501 experiments/s4_full_market1501/checkpoint-$STEPS --domains market1501 --target_domains market1501 --methods random --ks 16 --eval_seeds 1 --selection_unit image
+s4e_full_msmt17     | evaluate s4e_full_msmt17     experiments/s4_full_msmt17/checkpoint-$STEPS     --domains msmt17     --target_domains msmt17     --methods random --ks 16 --eval_seeds 1 --selection_unit image
+s4e_full_cuhksysu   | evaluate s4e_full_cuhksysu   experiments/s4_full_cuhksysu/checkpoint-$STEPS   --domains cuhksysu   --target_domains cuhksysu   --methods random --ks 16 --eval_seeds 1 --selection_unit image
+s4e_full_cuhk03     | evaluate s4e_full_cuhk03     experiments/s4_full_cuhk03/checkpoint-$STEPS     --domains cuhk03     --target_domains cuhk03     --methods random --ks 16 --eval_seeds 1 --selection_unit image

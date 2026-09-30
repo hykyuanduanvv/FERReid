@@ -39,3 +39,30 @@ GPU 检查只做冻结模型前向，没有优化器更新。原源码保留的�
 - 选择器当前使用已知身份分组；first/random 不等于已实现无标签主动选择算法。
 - 支持身份种子、上下文题目种子与训练种子是不同随机来源。现有结果不足以估计训练随机性。
 - 历史结果无法追溯到独立的上游 Qwen revision；优先保留原模型文件，后续新部署应记录下载 revision 与所有输入指纹。
+
+## 2026-10-01 发布
+
+来源：2026-09-30 服务器 `/root/FERReID`（包含 DINOv2 主干、VPT 基线、`oracle_prompt.py`、`label_value.py`、`prompt_select.py`、`analyze_0930.py`），合并 9/29 发布版的可移植改动（路径环境变量、缺权重报错）。9/30 结果归档于 `results/archive_20260930/`（CSV、训练状态、图与报告；不含 checkpoint）。
+
+计算相关的修改（均不改变默认配置下的结果）：
+1. LoRA 位置 / 秩、triplet margin、WPA 权重 0 时跳过计算、BNNeck/CE 头、全参数微调均为可选项，默认值即历史配置。
+2. `models.py` 中 `input_ids` 与 WPA 标签由 `.cuda()` 改为跟随输入设备；`ops/losses.py` 的 triplet 掩码由"有 CUDA 就放 cuda"改为跟随标签设备（GPU 上行为不变，修复 CPU 张量在 CUDA 机器上的设备不一致）。
+3. 目标域距离矩阵改为分块计算（GPU 可用时在 GPU 上），数值与原 CPU 计算一致到浮点误差。
+4. 评测从 checkpoint 的 `training_args.bin` 读取结构参数；权重键不匹配时报错。
+5. **`--selection_unit` 默认 `image`**：历史脚本（`scripts/run_*.sh`）与文档中的历史命令已显式加 `--selection_unit identity`。
+
+2026-10-01 发布前检查（服务器 CPU，无 GPU 训练）：
+
+| 检查 | 结果 |
+|---|---|
+| `python -m compileall`、`bash -n` 全部脚本 | 通过 |
+| `tests/test_selection.py --legacy <9/30 服务器 context_selection.py>` | 5 个数据集、k=2/4/16、各 5 个种子：`identity` 与旧实现逐项一致；`image` 的配对均为同一人、跨摄像头（有摄像头的域）、每人至多一次、`k = n_pairs + n_fail + n_dup` |
+| `tests/test_models.py` | plain / VPT / VICP × ViT / DINOv2 × BNNeck/CE、全参、LoRA 8 层 r=32、K=4：前后向通过，默认配置参数量与历史一致（plain 2.36M、VICP 37.95M） |
+| 端到端（CPU：`launch_tasks.py` → `plans/common.sh` → VPT DINOv2 + BNNeck/CE + K=4 跨摄像头采样 + cosine，训练 4 步 → CUHK03 验证 → checkpoint → `eval_context.py` 读回结构评测 VIPeR） | 两个任务状态 0；评测自动恢复 `vpt / dinov2_b14 / bnneck / num_train_ids=1792`（Market 751 + MSMT17 1,041，仅 train 部分），missing/unexpected 均为 0 |
+| 回归：新代码评测 9/30 的 VICP DINOv2 checkpoint（VIPeR split 0，`identity`，k=16，种子 0） | mAP 84.10 / R1 77.85（CPU fp32），存档 84.00 / 77.53（GPU fp16）；差异在精度范围内（R1 相差 1/316 个 query），上下文选择完全一致 |
+| `scripts/verify_repository.py` | 通过（9/29 归档 14 个哈希不变） |
+| 任务清单 `--dry-run` | 4 个阶段共 42 个任务 |
+| DINOv2 权重 | `prepare_weights.py --model dinov2_b14 --from-file` 严格加载通过 |
+| Cython 排序 | 在临时副本中 `setup.py build_ext --inplace` 编译成功 |
+
+未做：GPU 上的完整训练与 Protocol-2 评测（交由运行计划执行）；CUHK-SYSU 数据尚未取得，读取器未在真实数据上验证。

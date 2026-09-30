@@ -92,16 +92,16 @@ class Model(torch.nn.Module):
         encoder_copy.requires_grad_(False)
         self.encoder_copy = encoder_copy
 
-        from ops.lora import LoRALayerQKV
-        for i, block in enumerate(self.encoder.blocks[-4:]):
-            w_qkv_linear = block.attn.qkv
-            block.attn.qkv = LoRALayerQKV(
-                w_qkv_linear,
-                r=128,
-            )
+        # FERReID: LoRA placement / rank or full fine-tuning follow the args; the defaults
+        # (LoRA r=128 on the qkv of the last 4 blocks) are the original VICP configuration.
+        from ops.adapt import adapt_encoder
+        adapt_encoder(self.encoder, args)
 
         from ops.losses import HardTripletLoss
-        self.loss = HardTripletLoss(margin=0.1, hardest=True)
+        self.loss = HardTripletLoss(margin=getattr(args, "triplet_margin", 0.1), hardest=True)
+        # FERReID: optional BNNeck + ID classification head (None by default = original VICP)
+        from adapters.reid_head import build_head
+        self.reid_head = build_head(args, self.encoder.embed_dim)
 
         self.num_layers = len(encoder.blocks)
         llm_model = self._resolve_llm_model(args.llm_model)
@@ -218,7 +218,7 @@ class Model(torch.nn.Module):
                     else:
                         raise ValueError
                 input_ids.append(s)
-            input_ids = torch.tensor(input_ids).cuda().long()
+            input_ids = torch.tensor(input_ids, device=image_crops.device).long()  # FERReID: was .cuda()
             input_labels = input_ids.clone()
             input_labels[input_ids < 0] = -100
         
@@ -265,23 +265,38 @@ class Model(torch.nn.Module):
         patch_features = x[:, 1+prompts_.size(1):]
         # patch_features = x[:, 1:]
         x = x[:, 0]
+        raw = x
 
         x = F.normalize(x, dim=-1)
         std = x.std(dim=0).mean()
         if labels is not None:
             id_loss = self.loss(x, labels)
-            from ops.wpa import compute_wpa
-            all_pairs, all_labels = self.sample_pair(labels)
-            ot_loss = compute_wpa(patch_features[all_pairs[:, 0]], patch_features[all_pairs[:, 1]], all_labels.cuda())
+            if self.args.ot_loss_weight != 0:  # FERReID: skip the (unused) WPA computation at weight 0
+                from ops.wpa import compute_wpa
+                all_pairs, all_labels = self.sample_pair(labels)
+                ot_loss = compute_wpa(patch_features[all_pairs[:, 0]], patch_features[all_pairs[:, 1]], all_labels.to(x.device))
 
         else:
             id_loss = torch.tensor(0.0)
 
-        loss = icl_loss * self.args.icl_loss_weight + id_loss + ot_loss * self.args.ot_loss_weight
+        # FERReID: BNNeck / ID classification head. The CE term is only computed in training mode:
+        # in the context forward at test time the labels are context-pair indices, not source classes.
+        ce_loss = torch.tensor(0.0)
+        features = x
+        if self.reid_head is not None:
+            head = self.reid_head(raw, labels, compute_ce=labels is not None and self.training
+                                  and getattr(self.args, "ce_loss_weight", 0.0) > 0)
+            features = head["feat"]
+            ce_loss = head.get("ce", ce_loss)
+
+        loss = (icl_loss * self.args.icl_loss_weight + id_loss + ot_loss * self.args.ot_loss_weight
+                + ce_loss * getattr(self.args, "ce_loss_weight", 0.0))
+        x = features
 
         outputs = {
             'loss': loss,
             'id_loss': id_loss,
+            'ce_loss': ce_loss,
             'ot_loss': ot_loss,
             'icl_loss': icl_loss,
             'features': x,

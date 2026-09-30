@@ -1,18 +1,31 @@
 """Context (support set) selection for in-context ReID.
 
-A selector sees the unlabeled target-domain candidate pool and returns k identities
-to annotate. Annotation is simulated by revealing, for each chosen identity, one
-cross-camera positive pair. New selection methods go into SELECTORS.
+Two selection units (--selection_unit):
 
-Selector signature:
-    fn(pool, k, rng, **kwargs) -> list of pids
-    pool: CandidatePool
-    rng:  np.random.RandomState (use it for all randomness so runs are reproducible)
+image (default, label-free)
+    The selector sees only the unlabeled target-domain pool: image paths and camera ids (camera ids
+    come with surveillance footage, no annotation needed) -- never person ids. It returns k *anchor
+    images*. Annotation is simulated by an oracle that, for each anchor, returns another image of the
+    same person from a different camera (any other image of that person in NO_CAMERA_DOMAINS).
+    An anchor whose person has no such image, or whose person was already annotated, still consumes
+    budget and yields no new pair (reported as n_fail / n_dup).
+    Image selector signature:  fn(pool: ImagePool, k, rng, **kwargs) -> list of k distinct image indices
+
+identity (historical)
+    The selector picks k identities from the pid-grouped pool (only identities seen by >= 2 cameras)
+    and one cross-camera positive pair is revealed per identity. Grouping the pool by pid uses the
+    labels before annotation, so this is *not* label-free; kept to reproduce earlier results.
+    Identity selector signature:  fn(pool: CandidatePool, k, rng, **kwargs) -> list of pids
+
+All randomness must come from rng (np.random.RandomState) so runs are reproducible.
+New selection methods go into IMAGE_SELECTORS (or SELECTORS for the identity unit).
 """
 from collections import OrderedDict
 
 import numpy as np
 
+
+# ============================================================================ identity unit (historical)
 
 class CandidatePool:
     """Target-domain train split grouped by identity.
@@ -71,3 +84,114 @@ def make_pairs(pool, pids, rng):
         imgs_b = [p for p, c in items if c == cam_b]
         pairs.append((imgs_a[rng.randint(len(imgs_a))], imgs_b[rng.randint(len(imgs_b))]))
     return pairs
+
+
+# ============================================================================ image unit (label-free)
+
+class _AnnotationOracle:
+    """Holds the labels of the pool. Only annotate() may use it; selectors never see it."""
+
+    def __init__(self, pids, camids):
+        self._pids = list(pids)
+        self._camids = list(camids)
+        self._by_pid = {}
+        for i, pid in enumerate(self._pids):
+            self._by_pid.setdefault(pid, []).append(i)
+
+    def pid(self, i):
+        return self._pids[i]
+
+    def partner(self, i, rng, cross_camera):
+        """Index of another image of the same person (from another camera if cross_camera), or None."""
+        pid, cam = self._pids[i], self._camids[i]
+        cands = [j for j in self._by_pid[pid] if j != i and (not cross_camera or self._camids[j] != cam)]
+        if not cands:
+            return None
+        return cands[rng.randint(len(cands))]
+
+
+class ImagePool:
+    """Unlabeled target-domain pool (the train split): what a label-free selector may look at.
+
+    Public attributes: paths, camids (camera ids; not meaningful when has_cameras is False), has_cameras.
+    Person ids live in a private oracle used only by annotate().
+    """
+
+    def __init__(self, train_data, has_cameras=True):
+        self.paths = [x[0] for x in train_data]
+        self.camids = [x[2] for x in train_data]
+        self.has_cameras = has_cameras
+        self._oracle = _AnnotationOracle([x[1] for x in train_data], self.camids)
+
+    def __len__(self):
+        return len(self.paths)
+
+
+def select_images_random(pool, k, rng, **kwargs):
+    """Uniformly random anchor images (the label-free random baseline)."""
+    return [int(i) for i in rng.choice(len(pool), size=k, replace=False)]
+
+
+def select_images_first(pool, k, rng, **kwargs):
+    """The first k images in the listing order (label-free analogue of VICP's 'first')."""
+    return list(range(k))
+
+
+IMAGE_SELECTORS = {
+    "random": select_images_random,
+    "first": select_images_first,
+}
+
+
+def select_images(method, pool, k, rng, **kwargs):
+    if k > len(pool):
+        raise ValueError("budget k={} exceeds {} pool images".format(k, len(pool)))
+    idx = IMAGE_SELECTORS[method](pool, k, rng, **kwargs)
+    assert len(set(idx)) == k and all(0 <= i < len(pool) for i in idx), \
+        "image selector must return k distinct valid image indices"
+    return idx
+
+
+def annotate(pool, anchors, rng):
+    """Simulated annotation of the anchor images. Returns (pairs, info):
+    pairs = [(anchor_path, partner_path)], one per newly annotated person;
+    info = {k, n_pairs, n_fail (no valid partner), n_dup (person already annotated)}."""
+    oracle = pool._oracle
+    pairs, seen, n_fail, n_dup = [], set(), 0, 0
+    for a in anchors:
+        pid = oracle.pid(a)
+        if pid in seen:
+            n_dup += 1
+            continue
+        seen.add(pid)
+        b = oracle.partner(a, rng, cross_camera=pool.has_cameras)
+        if b is None:
+            n_fail += 1
+            continue
+        pairs.append((pool.paths[a], pool.paths[b]))
+    return pairs, {"k": len(anchors), "n_pairs": len(pairs), "n_fail": n_fail, "n_dup": n_dup}
+
+
+# ============================================================================ single entry point
+
+class ContextSampler:
+    """Both pools of one target split; draw() returns the annotated context pairs for a budget k."""
+
+    def __init__(self, train_data, has_cameras=True):
+        self.identity_pool = CandidatePool(train_data)
+        self.image_pool = ImagePool(train_data, has_cameras=has_cameras)
+
+    def draw(self, unit, method, k, rng):
+        """-> (pairs, info). unit "image": label-free anchors + simulated annotation;
+        unit "identity": historical pid-level selection (exactly the earlier random stream)."""
+        if unit == "identity":
+            pids = select(method, self.identity_pool, k, rng)
+            pairs = make_pairs(self.identity_pool, pids, rng)
+            return pairs, {"k": k, "n_pairs": len(pairs), "n_fail": 0, "n_dup": 0,
+                           "selected": " ".join(map(str, pids))}
+        if unit == "image":
+            anchors = select_images(method, self.image_pool, k, rng)
+            pairs, info = annotate(self.image_pool, anchors, rng)
+            info["selected"] = " ".join(map(str, anchors))
+            return pairs, info
+        raise ValueError("--selection_unit must be image or identity, got {}".format(unit))

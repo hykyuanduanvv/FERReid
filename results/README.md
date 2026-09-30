@@ -38,3 +38,7 @@ CUHK03 的 3,000 步模型最终验证 mAP=33.329、Rank-1=33.700；日志中 2,
 plain 与 VICP 在可训练参数数量、WPA、ICL 和 prompt 结构上均不同，主表不构成单因素上下文内容消融。诊断中的 `zero` 仍注入零 token；`noise` 仅改变问题抽样；`oracle` 使用测试成绩事后挑选。当前归档不含逐查询完整排序，也没有多训练种子重复，不能仅凭均值相近断言所有上下文无效。
 
 仓库整理保留历史模型计算路径；修复部署路径与缺权重静默初始化不产生新的论文指标。后续新实验请用独立输出目录、固定划分和完整配置，明确标记其协议与历史记录的差异。
+
+## 2026-09-30 归档
+
+`archive_20260930/`：9/30 服务器实验的逐次 CSV、训练状态（`trainer_state.json`）、图、自动汇总 `summary.md` 与报告 [REPORT_2026-09-30.md](archive_20260930/REPORT_2026-09-30.md)；队列日志保存为 `queue_0930.txt`。不含 checkpoint 与 `label_value` 的特征缓存（`.npz`）。评测均使用当时的按身份选择（等价于现在的 `--selection_unit identity`）。结果目录名与服务器 `/root/autodl-tmp/FERReID_experiments/` 下一致。

@@ -30,6 +30,8 @@ class EvalArguments:
     ks: str = field(default="2,4,8,16,32")
     domains: str = field(default="target")  # "target", "val", or comma-separated names
     out_csv: str = field(default="")
+    # a checkpoint whose keys do not match the model is an error unless explicitly allowed
+    allow_partial: bool = field(default=False)
 
 
 def main():
@@ -38,6 +40,18 @@ def main():
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
     from adapters.trainer_reid import DGReIDTrainer
+    if eargs.checkpoint:
+        # rebuild the checkpoint's own architecture and source-identity count (training_args.bin)
+        from adapters.reid_model import apply_checkpoint_structure
+        apply_checkpoint_structure(args, eargs.checkpoint)
+        saved = os.path.join(eargs.checkpoint, "training_args.bin")
+        if os.path.isfile(saved):
+            saved = torch.load(saved, map_location="cpu", weights_only=False)
+            for name in ("source_domains", "source_all_images", "val_domains"):
+                if hasattr(saved, name) and getattr(args, name) != getattr(saved, name):
+                    print("[checkpoint] {} = {!r} (command line had {!r})".format(
+                        name, getattr(saved, name), getattr(args, name)))
+                    setattr(args, name, getattr(saved, name))
     trainer = DGReIDTrainer(args=args, device=device)
 
     if eargs.checkpoint:
@@ -45,6 +59,10 @@ def main():
         state = torch.load(os.path.join(eargs.checkpoint, "pytorch_model.bin"), map_location=device, weights_only=True)
         missing, unexpected = trainer.model.load_state_dict(state, strict=False)
         print("missing:", len(missing), "unexpected:", len(unexpected))
+        if (missing or unexpected) and not eargs.allow_partial:
+            raise RuntimeError("checkpoint does not match the model (missing {}, unexpected {}; e.g. {}). "
+                               "Check --model_type/--backbone or pass --allow_partial True."
+                               .format(len(missing), len(unexpected), (missing + unexpected)[:3]))
     else:
         print("WARNING: no checkpoint given, evaluating initial weights")
 

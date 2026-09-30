@@ -1,0 +1,6 @@
+# Stage 2 -- train to convergence (tuning fold): the stage-1 loss for VPT and for the full fine-tuning
+# baseline, 12000 steps, cosine schedule with 500 warm-up steps, validation every 250 steps
+# (~1.5-2.5 h each). Afterwards:
+#   python scripts/pick_best.py stage2        -> writes STEPS (and keeps SCHEDULE) to plans/chosen.sh
+s2_vpt_long      | train s2_vpt_long      12000 --model_type vpt   $TUNE_DATA $LOSS_ARGS --lr_scheduler_type cosine --warmup_steps 500
+s2_plain_full_long | train s2_plain_full_long 12000 --model_type plain $TUNE_DATA $LOSS_BOT $FULL_FT --lr_scheduler_type cosine --warmup_steps 500

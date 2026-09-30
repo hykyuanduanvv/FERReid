@@ -1,0 +1,22 @@
+# Stage 3 -- pedestrian-specific options, one change at a time on top of the stage-1 VPT config
+# (tuning fold, 3000 steps, constant lr: a relative comparison, cheap). The reference is s1 with the
+# chosen loss (s1_vpt_bot or s1_vpt_triplet). 12 runs (~20 min each). Afterwards:
+#   python scripts/pick_best.py stage3        -> table of deltas vs the reference; put the options
+#                                                worth keeping into plans/final.sh (FINAL_ARGS)
+# sampler: 32 identities x 4 images spanning >= 2 cameras, no repeated identity in a batch (same 128 images)
+s3_pk4_xcam   | train s3_pk4_xcam   3000 --model_type vpt $TUNE_DATA $LOSS_ARGS --per_device_train_batch_size 32 --instances_per_id 4 --cross_camera_instances True --unique_ids_per_batch True
+s3_xcam_uniq  | train s3_xcam_uniq  3000 --model_type vpt $TUNE_DATA $LOSS_ARGS --cross_camera_instances True --unique_ids_per_batch True
+s3_mixed      | train s3_mixed      3000 --model_type vpt $TUNE_DATA $LOSS_ARGS --batch_domain_mode mixed
+# LoRA placement / rank
+s3_lora8      | train s3_lora8      3000 --model_type vpt $TUNE_DATA $LOSS_ARGS --lora_layers 8
+s3_lora12     | train s3_lora12     3000 --model_type vpt $TUNE_DATA $LOSS_ARGS --lora_layers 12
+s3_rank32     | train s3_rank32     3000 --model_type vpt $TUNE_DATA $LOSS_ARGS --lora_rank 32
+# prompt size
+s3_vpt8       | train s3_vpt8       3000 --model_type vpt $TUNE_DATA $LOSS_ARGS --num_vpt_tokens 8
+s3_vpt64      | train s3_vpt64      3000 --model_type vpt $TUNE_DATA $LOSS_ARGS --num_vpt_tokens 64
+# learning rate / schedule
+s3_cosine     | train s3_cosine     3000 --model_type vpt $TUNE_DATA $LOSS_ARGS --lr_scheduler_type cosine --warmup_steps 300
+s3_lr3e-4     | train s3_lr3e-4     3000 --model_type vpt $TUNE_DATA $LOSS_ARGS --learning_rate 3e-4 --lr_scheduler_type cosine --warmup_steps 300
+# losses
+s3_nowpa      | train s3_nowpa      3000 --model_type vpt $TUNE_DATA $LOSS_ARGS --ot_loss_weight 0
+s3_margin0.3  | train s3_margin0.3  3000 --model_type vpt $TUNE_DATA $LOSS_ARGS --triplet_margin 0.3

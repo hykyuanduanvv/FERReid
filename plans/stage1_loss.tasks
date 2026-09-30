@@ -1,0 +1,7 @@
+# Stage 1 -- loss function and the full fine-tuning baseline (tuning fold, 3000 steps, DINOv2).
+# 4 independent runs (~20-40 min each on a 24 GB GPU). Afterwards:
+#   python scripts/pick_best.py stage1        -> writes LOSS_ARGS to plans/chosen.sh
+s1_vpt_triplet   | train s1_vpt_triplet   3000 --model_type vpt   $TUNE_DATA $LOSS_TRIPLET
+s1_vpt_bot       | train s1_vpt_bot       3000 --model_type vpt   $TUNE_DATA $LOSS_BOT
+s1_plain_bot     | train s1_plain_bot     3000 --model_type plain $TUNE_DATA $LOSS_BOT
+s1_plain_full    | train s1_plain_full    3000 --model_type plain $TUNE_DATA $LOSS_BOT $FULL_FT

@@ -18,7 +18,13 @@ git clone https://github.com/KaiyangZhou/deep-person-reid.git external/deep-pers
 git -C external/deep-person-reid checkout f8cd150fdf77e8d9e1ed143b7f308c2c609ded50
 ```
 
-本项目使用源码中的 `torchreid` 包，通过 `PYTHONPATH` 加载。不要以同名 PyPI 包替代。无需编译 Cython，未编译时使用 Python 排序评估。`requirements.txt` 已列入主流程和诊断的依赖；`env/requirements_frozen.txt` 含原 Conda 环境的本机 `file://` 包，仅供追溯，**不要对该快照执行 pip install -r**。
+本项目使用源码中的 `torchreid` 包，通过 `PYTHONPATH` 加载。不要以同名 PyPI 包替代。小目标域（VIPeR/GRID/i-LIDS）无需编译 Cython，未编译时使用 Python 排序评估；**Protocol-2 的大目标域（尤其 MSMT17：11,659 query × 82,161 gallery）请编译**：
+
+```bash
+(cd external/deep-person-reid/torchreid/metrics/rank_cylib && python setup.py build_ext --inplace)
+```
+
+编译后 `evaluate_rank` 自动使用 Cython 版本（结果与 Python 版相同，可用同目录的 `test_cython.py` 核对）。DINOv2 主干还需要其模型代码：`git clone https://github.com/facebookresearch/dinov2.git external/dinov2`，并设置 `FERREID_DINOV2_REPO`。`requirements.txt` 已列入主流程和诊断的依赖；`env/requirements_frozen.txt` 含原 Conda 环境的本机 `file://` 包，仅供追溯，**不要对该快照执行 pip install -r**。
 
 固定版本反映原服务器实况，并不代表已验证所有软件镜像都能下载。若某镜像缺包，先检查正确包源；不要无记录地升级关键依赖。`CustomTrainer` 使用 transformers 的内部接口，版本变动可能导致签名不兼容。
 
@@ -58,8 +64,12 @@ $FERREID_DATA_ROOT/
 │   └── gallery/<pid>/*.jpg
 ├── viper/VIPeR/{cam_a,cam_b}/
 ├── grid/underground_reid/{probe,gallery}/
-└── ilids/i-LIDS_Pedestrian/Persons/
+├── ilids/i-LIDS_Pedestrian/Persons/
+└── cuhksysu/cuhksysu4reid/          # Protocol-2 需要；读取器 adapters/cuhksysu.py
+    ├── train/   ├── query/   └── gallery/     # <pid>_*.jpg 或 <pid>/*.jpg
 ```
+
+CUHK-SYSU 使用行人搜索数据集裁剪出的 ReID 版本（DG-ReID Protocol-2 所用划分）。它没有摄像头标签：读取器令 train/query 的 camid 为 0、gallery 为 1，使"同人同摄像头"过滤不删除真实匹配；标注模拟对它不要求跨摄像头。文献中的规模为 train 5,532 人 / 15,088 张、query 2,900、gallery 5,447（2,900 人），**放好数据后以 `python scripts/check_datasets.py --domains cuhksysu` 的输出为准**，不符时先核对版本与目录再使用。
 
 CUHK03 需使用 **NP labeled 的 767/700 身份划分**，文件名格式为 `<camera_pair>_<pid>_<camera>_<index>.jpg`；不要把原始 `.mat`、detected 版本或其他协议放进相同目录后直接套用本表。
 
@@ -88,8 +98,13 @@ $FERREID_WEIGHTS_DIR/vit_base_patch16_224.pth
 优先使用原实验保留的权重；其 SHA256 记录在 `results/archive_20260929/provenance.json`。新的部署也可从具名 timm 预训练权重准备：
 
 ```bash
-python scripts/prepare_weights.py --output-dir "$FERREID_WEIGHTS_DIR"
+python scripts/prepare_weights.py --model vit_b16 --output-dir "$FERREID_WEIGHTS_DIR"
+# DINOv2 ViT-B/14（--backbone dinov2_b14）：官方权重 -> dinov2_vitb14_pretrain.pth
+python scripts/prepare_weights.py --model dinov2_b14 --output-dir "$FERREID_WEIGHTS_DIR"
+#   无法联网时复制已有文件：--from-file ~/.cache/torch/hub/checkpoints/dinov2_vitb14_pretrain.pth
 ```
+
+9/30 实验所用 DINOv2 权重的 SHA256：`0b8b82f85de91b424aded121c7e1dcc2b7bc6d0adeea651bf73a13307fad8c73`。缺少任一主干权重时代码直接报错，不会静默随机初始化。
 
 脚本加载 `vit_base_patch16_224.augreg2_in21k_ft_in1k`，将位置编码适配到 256×128（16×8 patches），移除分类头，并检查完整 state_dict 可严格加载。它拒绝覆盖已有权重。新下载和重新序列化的文件不保证与历史权重逐字节一致；精确复算旧 checkpoint 应使用历史原文件。
 
@@ -141,14 +156,14 @@ python scripts/eval_context.py \
   --checkpoint experiments/main_vicp/val_cuhk03/checkpoint-1000 \
   --model_type vicp --domains viper,grid,ilids \
   --methods random --ks 16 --eval_seeds 3 --eval_splits 10 \
-  --num_icl_samples 64 --fp16 True --report_to none
+  --num_icl_samples 64 --fp16 True --report_to none --selection_unit identity
 
 python scripts/eval_context.py \
   --output_dir experiments/main_plain/eval \
   --checkpoint experiments/main_plain/val_cuhk03/checkpoint-1000 \
   --model_type plain --domains viper,grid,ilids \
   --methods random --ks 16 --eval_seeds 1 --eval_splits 10 \
-  --num_icl_samples 64 --fp16 True --report_to none
+  --num_icl_samples 64 --fp16 True --report_to none --selection_unit identity
 ```
 
 每项结果进入 `context_eval.csv`。评估入口为兼容原 Trainer 会先读取源训练数据，因此正式评估也需准备 Market/MSMT。必须确认日志为 `missing: 0 unexpected: 0`，且三个域均成功、有完整行数（VICP 90 行，plain 30 行）；旧入口遇到数据缺失会跳过域，不能只看进程退出码。
@@ -161,14 +176,14 @@ python scripts/context_diagnostics.py \
   --output_dir experiments/main_vicp/diagnostics \
   --checkpoint experiments/main_vicp/val_cuhk03/checkpoint-1000 \
   --domains viper,grid,ilids --ks 4,16 --n_contexts 8 --eval_splits 3 \
-  --num_icl_samples 64 --fp16 True --report_to none
+  --num_icl_samples 64 --fp16 True --report_to none --selection_unit identity
 
 # 更换支持身份与固定支持下的问题抽样波动
 python scripts/context_sensitivity.py \
   --output_dir experiments/main_vicp/sensitivity \
   --checkpoint experiments/main_vicp/val_cuhk03/checkpoint-1000 \
   --domains viper,grid,ilids --ks 2,4,8,16,32 --n_contexts 30 --noise_reps 5 \
-  --eval_splits 1 --num_icl_samples 64 --fp16 True --report_to none
+  --eval_splits 1 --num_icl_samples 64 --fp16 True --report_to none --selection_unit identity
 ```
 
 诊断会缓存图像到 GPU，规模大于目前小目标集时需要调整缓存实现。`noise` 表示固定图像对、改变题目抽样种子，不是随机 prompt 向量；`zero` 是插入全零 token，不等于完全移除 token。`oracle` 使用测试成绩事后选优，仅能作探索性上界。

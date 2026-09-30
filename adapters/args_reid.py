@@ -6,7 +6,7 @@ import transformers
 @dataclass
 class ReIDTrainingArguments(transformers.TrainingArguments):
     # --- VICP model options (same names/defaults as VICP's train_vpt_lora.TrainingArguments)
-    # ReIDModel always builds ViT-B/16 at 256x128; this field is kept for models.Model's signature
+    # the backbone comes from --backbone; this field is kept for models.Model's signature
     vision_model: str = field(default="vit_base_patch16_224")
     llm_model: str = field(default="Qwen/Qwen3-0.6B")
     num_id_tokens: int = field(default=32)     # Q-Former tokens per image pair
@@ -17,22 +17,51 @@ class ReIDTrainingArguments(transformers.TrainingArguments):
     # features the ICL questions are built from: "frozen" = VICP's frozen encoder copy;
     # "trained" = the trained encoder (LoRA, no prompts), gradient stopped as in VICP
     icl_feature: str = field(default="frozen")
-    ot_loss_weight: float = field(default=0.01)
+    ot_loss_weight: float = field(default=0.01)  # WPA; 0 disables it (and skips its computation)
 
-    # "vicp" = VICP (LLM + in-context prompts); "plain" = same ViT + LoRA, id_loss only (baseline)
+    # "vicp" = VICP (LLM + in-context prompts); "plain" = same encoder, triplet only (baseline);
+    # "vpt" = VICP with the LLM/context replaced by one learnable prompt (same encoder, prompts, losses)
     model_type: str = field(default="vicp")
+    # visual backbone, a key of adapters/config_reid.py::BACKBONES (empty = DEFAULT_BACKBONE = vit_b16)
+    backbone: str = field(default="")
 
-    # --- domains (comma-separated; empty = use adapters/config_reid.py)
+    # --- how the encoder is trained (defaults = historical: LoRA r=128 on the last 4 blocks)
+    train_backbone: str = field(default="lora")   # "lora" | "full" (every encoder weight trained, no LoRA)
+    lora_layers: int = field(default=4)           # LoRA on the qkv of the last N blocks
+    lora_rank: int = field(default=128)
+    backbone_lr_mult: float = field(default=1.0)  # lr multiplier for encoder weights when train_backbone=full
+
+    # --- losses (defaults = historical: hardest triplet on the normalized CLS, no ID loss)
+    triplet_margin: float = field(default=0.1)
+    ce_loss_weight: float = field(default=0.0)    # > 0: identity cross-entropy on source identities
+    bnneck: bool = field(default=False)           # BNNeck: CE on BN(feature), retrieval with BN(feature)
+    label_smoothing: float = field(default=0.1)
+    num_train_ids: int = field(default=0)         # set by the trainer / read from the checkpoint
+
+    # --- training sampler (defaults = historical)
+    instances_per_id: int = field(default=2)      # K images per identity (even; batch = P ids x K images)
+    cross_camera_instances: bool = field(default=False)  # draw K images spanning >= 2 cameras when possible
+    unique_ids_per_batch: bool = field(default=False)    # historical sampler draws identities with replacement
+    batch_domain_mode: str = field(default="single")     # "single": every batch from one source domain
+    #                                                       "mixed": identities from all source domains
+
+    # --- domains (comma-separated; empty = use adapters/config_reid.py; "none" = no validation)
     source_domains: str = field(default="")
     val_domains: str = field(default="")
-    # train on train+query+gallery of each source domain (torchreid combineall)
+    target_domains: str = field(default="")
+    # train on train+query+gallery of each source domain (torchreid combineall). Protocol-2 uses False.
     source_all_images: bool = field(default=True)
 
     # --- context evaluation
-    # context_k is the labeling budget: identities whose cross-camera pairs fill the L slots.
-    # num_icl_samples stays equal to the training value at test time.
+    # context_k is the labeling budget. num_icl_samples stays equal to the training value at test time.
     context_k: int = field(default=16)
     context_method: str = field(default="random")
+    # "image" (label-free): the selector sees only unlabeled images (paths, camera ids) and picks k
+    #     anchor images; simulated annotation pairs each anchor with another image of the same person
+    #     from a different camera (any other image in NO_CAMERA_DOMAINS). Failed / duplicate anchors
+    #     still consume budget.
+    # "identity" (historical): the selector picks k identities from the pid-grouped pool.
+    selection_unit: str = field(default="image")
     eval_seeds: int = field(default=1)
     eval_splits: int = field(default=10)
     # validation only: evaluate on a fixed random subset of this many test identities (0 = all)

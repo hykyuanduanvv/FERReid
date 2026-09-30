@@ -9,9 +9,9 @@ import torch.nn.functional as F
 from torch.utils.data import DataLoader, Sampler
 
 from custom_trainer import CustomTrainer
-from adapters.config_reid import DOMAIN_CONFIG, NUM_SPLITS
+from adapters.config_reid import DOMAIN_CONFIG, NUM_SPLITS, NO_CAMERA_DOMAINS
 from adapters.reid_dataset import DomainPersonTrainDataset, ContextPairDataset, DomainReIDEvalDataset
-from adapters.context_selection import CandidatePool, select, make_pairs
+from adapters.context_selection import ContextSampler
 from torchreid.metrics import evaluate_rank
 
 
@@ -27,6 +27,9 @@ def _get_dataset_cls(name, cls_map=_CLS_MAP):
     if name == "cuhk03":
         from adapters.cuhk03_np import CUHK03NP
         return CUHK03NP
+    if name == "cuhksysu":
+        from adapters.cuhksysu import CUHKSYSU
+        return CUHKSYSU
     return getattr(torchreid.data.datasets.image, cls_map[name])
 
 
@@ -72,7 +75,19 @@ class _RNGGuard:
 
 
 def _domains(arg_value, config_key):
+    if arg_value == "none":  # e.g. final model trained on every source domain, no validation
+        return []
     return [d for d in arg_value.split(",") if d] if arg_value else list(DOMAIN_CONFIG[config_key])
+
+
+def cosine_distmat(qf, gf, device, chunk=4096):
+    """1 - q.g for L2-normalized features, computed in query chunks (on the GPU when available)
+    so that large galleries (e.g. MSMT17: 11,659 x 82,161) fit in memory."""
+    out = np.empty((qf.size(0), gf.size(0)), dtype=np.float32)
+    g = gf.to(device)
+    for i in range(0, qf.size(0), chunk):
+        out[i:i + chunk] = (1 - qf[i:i + chunk].to(device) @ g.T).float().cpu().numpy()
+    return out
 
 
 class DGReIDTrainer(CustomTrainer):
@@ -81,11 +96,11 @@ class DGReIDTrainer(CustomTrainer):
         data_root = DOMAIN_CONFIG["data_root"]
         self.source_domains = _domains(args.source_domains, "source_domains")
         self.val_domains = _domains(args.val_domains, "val_domains")
-        self.target_domains = list(DOMAIN_CONFIG["target_domains"])
+        self.target_domains = _domains(args.target_domains, "target_domains")
         overlap = set(self.source_domains) & set(self.val_domains + self.target_domains)
         assert not overlap, "source domains reused for validation/test: {}".format(overlap)
         print("source domains:", self.source_domains, "(all images)" if args.source_all_images else "(train split)")
-        print("val domains:", self.val_domains)
+        print("val domains:", self.val_domains, "| target domains:", self.target_domains)
 
         source_datasets = []
         for name in self.source_domains:
@@ -95,16 +110,27 @@ class DGReIDTrainer(CustomTrainer):
             print("  {}: {} ids / {} images".format(name, ds.num_train_pids, len(ds.train)))
             source_datasets.append((name, ds))
 
-        train_dataset = DomainPersonTrainDataset(source_datasets)
+        train_dataset = DomainPersonTrainDataset(source_datasets, instances_per_id=args.instances_per_id,
+                                                 cross_camera=args.cross_camera_instances)
         print("num identities: ", len(train_dataset))
+        # size of the ID-classification head (if any). A value given on the command line (e.g. read from
+        # a checkpoint for evaluation) must agree with the data that is loaded now.
+        if args.num_train_ids and args.num_train_ids != len(train_dataset):
+            raise ValueError("--num_train_ids={} but the source data has {} identities; use the source "
+                             "domains / source_all_images of the checkpoint".format(args.num_train_ids,
+                                                                                   len(train_dataset)))
+        args.num_train_ids = len(train_dataset)
 
         if args.model_type == "plain":
             from adapters.baseline_model import PlainReIDModel
             model = PlainReIDModel(args)
+        elif args.model_type == "vpt":
+            from adapters.baseline_model import VPTReIDModel
+            model = VPTReIDModel(args)
         else:
             from adapters.reid_model import ReIDModel
             model = ReIDModel(args)
-        print("model type:", args.model_type,
+        print("model type:", args.model_type, "| train_backbone:", args.train_backbone,
               "| trainable params: {:.2f}M".format(sum(p.numel() for p in model.parameters() if p.requires_grad) / 1e6))
         weight_dtype = torch.float16 if args.fp16 else (torch.bfloat16 if args.bf16 else torch.float32)
         model.to(dtype=weight_dtype, device=device)
@@ -112,13 +138,25 @@ class DGReIDTrainer(CustomTrainer):
             if p.requires_grad:
                 p.data = p.to(dtype=torch.float32)
 
+        # encoder weights trained in full fine-tuning get lr * backbone_lr_mult (LoRA / heads / prompts: lr)
+        backbone, other = [], []
+        for n, p in model.named_parameters():
+            if not p.requires_grad:
+                continue
+            is_backbone = n.startswith("encoder.") and ".w_a" not in n and ".w_b" not in n
+            (backbone if is_backbone else other).append(p)
+        groups = [{"params": other}]
+        if backbone:
+            groups.append({"params": backbone, "lr": args.learning_rate * args.backbone_lr_mult})
+            print("encoder parameters trained with lr x {}: {:.2f}M".format(
+                args.backbone_lr_mult, sum(p.numel() for p in backbone) / 1e6))
         optimizer = torch.optim.Adam(
-            model.parameters(),
+            groups,
             lr=args.learning_rate,
             weight_decay=args.weight_decay,
         )
 
-        extra_losses = ["ot_loss", "id_loss", "icl_loss", "std"]
+        extra_losses = ["ot_loss", "id_loss", "icl_loss", "ce_loss", "std"]
 
         self._device = device
         self._data_root = data_root
@@ -134,10 +172,20 @@ class DGReIDTrainer(CustomTrainer):
         )
 
     def _get_train_sampler(self, dataset=None):
+        """Index stream of 100,000 batches of `batch_size` identities.
+
+        batch_domain_mode=single (historical): each batch comes from one source domain (chosen
+        uniformly), identities drawn with replacement (without with --unique_ids_per_batch);
+        batch_domain_mode=mixed: identities drawn from all source domains together."""
         dataset = self.train_dataset
         pids = np.array(list(dataset.label2images.keys()))
         labels = np.array([x.split("/")[0] for x in pids])
-        label_to_indices = {label: np.where(labels == label)[0] for label in np.unique(labels)}
+        if self.args.batch_domain_mode == "mixed":
+            label_to_indices = {"all": np.arange(len(pids))}
+        elif self.args.batch_domain_mode == "single":
+            label_to_indices = {label: np.where(labels == label)[0] for label in np.unique(labels)}
+        else:
+            raise ValueError("--batch_domain_mode must be single or mixed")
         num_batches = 100000
         batch_size = (
             self.args.per_device_train_batch_size
@@ -149,7 +197,8 @@ class DGReIDTrainer(CustomTrainer):
         while len(all_batches) < num_batches:
             current_label = np.random.choice(list(label_to_indices.keys()))
             indices = label_to_indices[current_label]
-            batch_indices = np.random.choice(indices, batch_size, replace=True)
+            replace = not (self.args.unique_ids_per_batch and len(indices) >= batch_size)
+            batch_indices = np.random.choice(indices, batch_size, replace=replace)
             all_batches.append(batch_indices)
         indices = np.array(all_batches).flatten()
 
@@ -180,7 +229,7 @@ class DGReIDTrainer(CustomTrainer):
             )
             if max_ids:
                 ds = _subsample_ids(ds, max_ids)
-            self._dataset_cache[key] = (ds, CandidatePool(ds.train))
+            self._dataset_cache[key] = (ds, ContextSampler(ds.train, has_cameras=name not in NO_CAMERA_DOMAINS))
         return self._dataset_cache[key]
 
     @torch.no_grad()
@@ -205,13 +254,13 @@ class DGReIDTrainer(CustomTrainer):
         ctx = ContextPairDataset(pairs)
         batch = next(iter(DataLoader(ctx, batch_size=len(ctx), shuffle=False, num_workers=0)))
         batch = {k: v.to(self._device) for k, v in batch.items()}
-        # num_icl_samples = sequence length L, filled from the k annotated identities
+        # num_icl_samples = sequence length L, filled from the annotated identities
         prompts = self.model(**batch)["prompts"]
 
         qf, q_pids, q_camids = self._extract(ds.query, prompts, seed)
         gf, g_pids, g_camids = self._extract(ds.gallery, prompts, seed)
         # features are L2-normalized, so cosine distance = 1 - q.g
-        distmat = (1 - qf @ gf.T).numpy()
+        distmat = cosine_distmat(qf, gf, self._device)
         cmc, mAP = evaluate_rank(
             distmat, q_pids.numpy(), g_pids.numpy(), q_camids.numpy(), g_camids.numpy(),
             max_rank=10,
@@ -225,15 +274,17 @@ class DGReIDTrainer(CustomTrainer):
 
     @torch.no_grad()
     def run_eval(self, domains, methods, ks, seeds, num_splits=None, max_ids=0):
-        """Returns one row per (domain, split, method, k, seed)."""
+        """Returns one row per (domain, split, method, k, seed). With --selection_unit image the row
+        also records how many annotated pairs the k anchors produced (n_pairs / n_fail / n_dup)."""
         self.model.eval()
+        unit = self.args.selection_unit
         rows = []
         with _RNGGuard():
             for name in domains:
                 n_splits = min(num_splits or NUM_SPLITS.get(name, 1), NUM_SPLITS.get(name, 1))
                 for split_id in range(n_splits):
                     try:
-                        ds, pool = self._load_split(name, split_id, max_ids)
+                        ds, sampler = self._load_split(name, split_id, max_ids)
                     except Exception as e:
                         print("Skipping {} split {}: {}".format(name, split_id, e))
                         break
@@ -242,11 +293,15 @@ class DGReIDTrainer(CustomTrainer):
                             for seed in seeds:
                                 s = seed + 1000 * split_id
                                 rng = np.random.RandomState(s)
-                                pids = select(method, pool, k, rng)
-                                pairs = make_pairs(pool, pids, rng)
+                                pairs, info = sampler.draw(unit, method, k, rng)
+                                if not pairs:
+                                    print("WARNING: {} split {} {} k={} seed {}: no annotated pair, skipped"
+                                          .format(name, split_id, method, k, seed))
+                                    continue
                                 res = self.eval_context(ds, pairs, s)
-                                rows.append(dict(domain=name, split=split_id, method=method,
-                                                 k=k, seed=seed, **res))
+                                rows.append(dict(domain=name, split=split_id, method=method, k=k, seed=seed,
+                                                 unit=unit, n_pairs=info["n_pairs"], n_fail=info["n_fail"],
+                                                 n_dup=info["n_dup"], **res))
         return rows
 
     @torch.no_grad()

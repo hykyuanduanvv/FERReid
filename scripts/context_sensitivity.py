@@ -35,8 +35,8 @@ from PIL import Image
 from torchreid.metrics import evaluate_rank
 
 from adapters.args_reid import ReIDTrainingArguments
-from adapters.config_reid import DOMAIN_CONFIG, NUM_SPLITS
-from adapters.context_selection import CandidatePool, select, make_pairs
+from adapters.config_reid import DOMAIN_CONFIG, NUM_SPLITS, NO_CAMERA_DOMAINS
+from adapters.context_selection import ContextSampler
 from adapters.reid_dataset import EVAL_TRANSFORM
 from adapters.trainer_reid import _get_dataset_cls, _seed_all
 
@@ -51,9 +51,20 @@ class SensArguments:
     base_seed: int = field(default=0)
 
 
-def build_model(args, device):
-    from adapters.reid_model import ReIDModel
-    model = ReIDModel(args)
+def build_model(args, device, checkpoint=None):
+    """VICP / VPT / plain model with the checkpoint's own architecture (training_args.bin), same
+    dtype layout as DGReIDTrainer. The caller loads the weights."""
+    from adapters.reid_model import ReIDModel, apply_checkpoint_structure
+    if checkpoint:
+        apply_checkpoint_structure(args, checkpoint)
+    if args.model_type == "vpt":
+        from adapters.baseline_model import VPTReIDModel
+        model = VPTReIDModel(args)
+    elif args.model_type == "plain":
+        from adapters.baseline_model import PlainReIDModel
+        model = PlainReIDModel(args)
+    else:
+        model = ReIDModel(args)
     dtype = torch.float16 if args.fp16 else (torch.bfloat16 if args.bf16 else torch.float32)
     model.to(dtype=dtype, device=device)
     for p in model.parameters():  # same dtype layout as DGReIDTrainer
@@ -71,8 +82,10 @@ def load_images(paths, device):
 class SplitCache:
     """Decoded images of one split, kept on the GPU."""
 
-    def __init__(self, ds, device):
-        self.pool = CandidatePool(ds.train)
+    def __init__(self, ds, device, name=None):
+        # label-free image pool + historical identity pool of the context candidates (the train split)
+        self.sampler = ContextSampler(ds.train, has_cameras=name not in NO_CAMERA_DOMAINS)
+        self.pool = self.sampler.identity_pool
         pool_paths = sorted({p for p, *_ in ds.train})
         self.pool_idx = {p: i for i, p in enumerate(pool_paths)}
         self.pool_imgs = load_images(pool_paths, device)
@@ -102,6 +115,11 @@ def evaluate(model, cache, prompts, seed):
     return float(cmc[0]) * 100, float(mAP) * 100
 
 
+def budget_ok(cache, unit, k):
+    """Whether budget k fits the pool of this split for the given selection unit."""
+    return k <= (len(cache.pool) if unit == "identity" else len(cache.sampler.image_pool))
+
+
 @torch.no_grad()
 def context_prompts(model, cache, pairs, seed):
     _seed_all(seed)
@@ -114,7 +132,9 @@ def main():
     parser = transformers.HfArgumentParser((ReIDTrainingArguments, SensArguments))
     args, sargs = parser.parse_args_into_dataclasses()
     device = "cuda"
-    model = build_model(args, device)
+    model = build_model(args, device, sargs.checkpoint)
+    unit = args.selection_unit
+    print("selection unit:", unit)
     if sargs.checkpoint:
         state = torch.load(os.path.join(sargs.checkpoint, "pytorch_model.bin"), map_location=device, weights_only=True)
         missing, unexpected = model.load_state_dict(state, strict=False)
@@ -135,37 +155,38 @@ def main():
             kwargs = {"split_id": split_id} if name in NUM_SPLITS else {}
             ds = _get_dataset_cls(name)(root=DOMAIN_CONFIG["data_root"], verbose=False, **kwargs)
             assert not ({p for p, *_ in ds.train} & {p for p, *_ in ds.query + ds.gallery}), "leak"
-            cache = SplitCache(ds, device)
+            cache = SplitCache(ds, device, name)
             base = sargs.base_seed + 100000 * split_id
-            add = lambda **r: rows.append(dict(domain=name, split=split_id, **r))
+            add = lambda **r: rows.append(dict(domain=name, split=split_id, unit=unit, **r))
 
             r1, mAP = evaluate(model, cache, zero_prompts, base)
-            add(k=0, kind="zero", idx=0, seed=base, rank1=r1, mAP=mAP, pids="")
+            add(k=0, kind="zero", idx=0, seed=base, rank1=r1, mAP=mAP, pids="", n_pairs=0)
 
             for k in ks:
-                if k > len(cache.pool):
-                    print("skip {} k={} (only {} eligible)".format(name, k, len(cache.pool)))
+                if not budget_ok(cache, unit, k):
+                    print("skip {} k={} (pool too small for unit {})".format(name, k, unit))
                     continue
                 for kind, n in (("first", 1), ("random", sargs.n_contexts)):
                     for i in range(n):
                         seed = base + 1000 * k + i
                         rng = np.random.RandomState(seed)
-                        pids = select(kind, cache.pool, k, rng)
-                        pairs = make_pairs(cache.pool, pids, rng)
+                        pairs, info = cache.sampler.draw(unit, kind, k, rng)
+                        if not pairs:
+                            continue
                         prompts = context_prompts(model, cache, pairs, seed)
                         r1, mAP = evaluate(model, cache, prompts, seed)
+                        # "pids" holds the selected identities (identity unit) or anchor images (image unit)
                         add(k=k, kind=kind, idx=i, seed=seed, rank1=r1, mAP=mAP,
-                            pids=" ".join(map(str, pids)))
+                            pids=info["selected"], n_pairs=info["n_pairs"])
                 # noise floor: context of random #0 fixed, only the model seed changes
                 rng = np.random.RandomState(base + 1000 * k)
-                pids = select("random", cache.pool, k, rng)
-                pairs = make_pairs(cache.pool, pids, rng)
-                for rep in range(sargs.noise_reps):
+                pairs, info = cache.sampler.draw(unit, "random", k, rng)
+                for rep in range(sargs.noise_reps if pairs else 0):
                     seed = base + 1000 * k + 500 + rep
                     prompts = context_prompts(model, cache, pairs, seed)
                     r1, mAP = evaluate(model, cache, prompts, seed)
                     add(k=k, kind="noise", idx=rep, seed=seed, rank1=r1, mAP=mAP,
-                        pids=" ".join(map(str, pids)))
+                        pids=info["selected"], n_pairs=info["n_pairs"])
             print("[{:6.0f}s] {} split {} done".format(time.time() - t0, name, split_id), flush=True)
             del cache
             torch.cuda.empty_cache()
