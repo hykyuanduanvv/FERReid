@@ -1,0 +1,4245 @@
+{
+  "probe_a0_control": [
+    {
+      "variant": "control",
+      "event": "environment",
+      "torch": "2.6.0+cu124",
+      "cuda": "12.4",
+      "gpu": "NVIDIA GeForce RTX 3090"
+    },
+    {
+      "variant": "control",
+      "event": "prompts",
+      "step": 1,
+      "hidden_rms": 4.0854997634887695,
+      "prompt_rms": 0.0,
+      "prompt_max": 0.0
+    },
+    {
+      "variant": "control",
+      "event": "features",
+      "step": 1,
+      "dtype": "torch.float32",
+      "std": 0.022214382886886597,
+      "triplet": 0.2706867456436157,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.8784356713294983,
+      "distance_fp32_mean": 0.8784302473068237
+    },
+    {
+      "variant": "control",
+      "event": "feature_gradient",
+      "step": 1,
+      "zero_fraction": 0.031341552734375,
+      "finite": true
+    },
+    {
+      "variant": "control",
+      "event": "parameter_gradients",
+      "step": 1,
+      "norms": {
+        "prompt_mlp": null,
+        "query_embeddings": 0.0,
+        "mm_projector": null,
+        "encoder.": 32192.005859375
+      }
+    },
+    {
+      "variant": "control",
+      "event": "prompts",
+      "step": 2,
+      "hidden_rms": 4.008070468902588,
+      "prompt_rms": 0.0,
+      "prompt_max": 0.0
+    },
+    {
+      "variant": "control",
+      "event": "features",
+      "step": 2,
+      "dtype": "torch.float32",
+      "std": 0.023871710523962975,
+      "triplet": 0.2932276129722595,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.9406078457832336,
+      "distance_fp32_mean": 0.9406046867370605
+    },
+    {
+      "variant": "control",
+      "event": "feature_gradient",
+      "step": 2,
+      "zero_fraction": 5.086263263365254e-05,
+      "finite": true
+    },
+    {
+      "variant": "control",
+      "event": "parameter_gradients",
+      "step": 2,
+      "norms": {
+        "prompt_mlp": null,
+        "query_embeddings": 0.0,
+        "mm_projector": null,
+        "encoder.": 15255.5615234375
+      }
+    },
+    {
+      "variant": "control",
+      "event": "prompts",
+      "step": 3,
+      "hidden_rms": 3.699594020843506,
+      "prompt_rms": 0.0,
+      "prompt_max": 0.0
+    },
+    {
+      "variant": "control",
+      "event": "features",
+      "step": 3,
+      "dtype": "torch.float32",
+      "std": 0.021474268287420273,
+      "triplet": 0.25026869773864746,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.8482732772827148,
+      "distance_fp32_mean": 0.8482673168182373
+    },
+    {
+      "variant": "control",
+      "event": "feature_gradient",
+      "step": 3,
+      "zero_fraction": 0.01570638082921505,
+      "finite": true
+    },
+    {
+      "variant": "control",
+      "event": "parameter_gradients",
+      "step": 3,
+      "norms": {
+        "prompt_mlp": null,
+        "query_embeddings": 0.0,
+        "mm_projector": null,
+        "encoder.": 6869.060546875
+      }
+    },
+    {
+      "variant": "control",
+      "event": "prompts",
+      "step": 4,
+      "hidden_rms": 3.832993745803833,
+      "prompt_rms": 0.0,
+      "prompt_max": 0.0
+    },
+    {
+      "variant": "control",
+      "event": "features",
+      "step": 4,
+      "dtype": "torch.float32",
+      "std": 0.02155338041484356,
+      "triplet": 0.2724068760871887,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.8522728085517883,
+      "distance_fp32_mean": 0.8522716164588928
+    },
+    {
+      "variant": "control",
+      "event": "feature_gradient",
+      "step": 4,
+      "zero_fraction": 0.0391133651137352,
+      "finite": true
+    },
+    {
+      "variant": "control",
+      "event": "parameter_gradients",
+      "step": 4,
+      "norms": {
+        "prompt_mlp": null,
+        "query_embeddings": 0.0,
+        "mm_projector": 5078319.0,
+        "encoder.": 4698.26416015625
+      }
+    },
+    {
+      "variant": "control",
+      "event": "prompts",
+      "step": 5,
+      "hidden_rms": 3.8219571113586426,
+      "prompt_rms": 0.0,
+      "prompt_max": 0.0
+    },
+    {
+      "variant": "control",
+      "event": "features",
+      "step": 5,
+      "dtype": "torch.float32",
+      "std": 0.023825742304325104,
+      "triplet": 0.2831701934337616,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.9410390853881836,
+      "distance_fp32_mean": 0.9410369396209717
+    },
+    {
+      "variant": "control",
+      "event": "feature_gradient",
+      "step": 5,
+      "zero_fraction": 0.0235087089240551,
+      "finite": true
+    },
+    {
+      "variant": "control",
+      "event": "parameter_gradients",
+      "step": 5,
+      "norms": {
+        "prompt_mlp": null,
+        "query_embeddings": 0.0,
+        "mm_projector": 2208389.0,
+        "encoder.": 1979.326171875
+      }
+    },
+    {
+      "variant": "control",
+      "event": "prompts",
+      "step": 10,
+      "hidden_rms": 4.190877437591553,
+      "prompt_rms": 0.0,
+      "prompt_max": 0.0
+    },
+    {
+      "variant": "control",
+      "event": "features",
+      "step": 10,
+      "dtype": "torch.float32",
+      "std": 0.023502778261899948,
+      "triplet": 0.2560240626335144,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.9260879158973694,
+      "distance_fp32_mean": 0.9260882139205933
+    },
+    {
+      "variant": "control",
+      "event": "feature_gradient",
+      "step": 10,
+      "zero_fraction": 0.0391438826918602,
+      "finite": true
+    },
+    {
+      "variant": "control",
+      "event": "parameter_gradients",
+      "step": 10,
+      "norms": {
+        "prompt_mlp": 533331.5,
+        "query_embeddings": 0.0,
+        "mm_projector": 284046.4375,
+        "encoder.": 58.426597595214844
+      }
+    },
+    {
+      "variant": "control",
+      "event": "prompts",
+      "step": 20,
+      "hidden_rms": 3.0793206691741943,
+      "prompt_rms": 0.27180707454681396,
+      "prompt_max": 0.69873046875
+    },
+    {
+      "variant": "control",
+      "event": "features",
+      "step": 20,
+      "dtype": "torch.float32",
+      "std": 0.00031666673021391034,
+      "triplet": 0.10537108778953552,
+      "zero_distance_amp": 0.8639271855354309,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.004315607249736786,
+      "distance_fp32_mean": 0.01500760205090046
+    },
+    {
+      "variant": "control",
+      "event": "feature_gradient",
+      "step": 20,
+      "zero_fraction": 0.8300577998161316,
+      "finite": true
+    },
+    {
+      "variant": "control",
+      "event": "parameter_gradients",
+      "step": 20,
+      "norms": {
+        "prompt_mlp": 105.13218688964844,
+        "query_embeddings": 23.50539207458496,
+        "mm_projector": 9781.8623046875,
+        "encoder.": 2.9168381690979004
+      }
+    },
+    {
+      "variant": "control",
+      "event": "prompts",
+      "step": 30,
+      "hidden_rms": 2.8342440128326416,
+      "prompt_rms": 0.3504309058189392,
+      "prompt_max": 0.7626953125
+    },
+    {
+      "variant": "control",
+      "event": "features",
+      "step": 30,
+      "dtype": "torch.float32",
+      "std": 0.00024143964401446283,
+      "triplet": 0.10146483778953552,
+      "zero_distance_amp": 0.9593995809555054,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0012687622802332044,
+      "distance_fp32_mean": 0.01128592062741518
+    },
+    {
+      "variant": "control",
+      "event": "feature_gradient",
+      "step": 30,
+      "zero_fraction": 0.95361328125,
+      "finite": true
+    },
+    {
+      "variant": "control",
+      "event": "parameter_gradients",
+      "step": 30,
+      "norms": {
+        "prompt_mlp": 14.348722457885742,
+        "query_embeddings": 1.8486026525497437,
+        "mm_projector": 460.5187683105469,
+        "encoder.": 0.6544126868247986
+      }
+    },
+    {
+      "variant": "control",
+      "event": "prompts",
+      "step": 40,
+      "hidden_rms": 2.9573593139648438,
+      "prompt_rms": 0.378892183303833,
+      "prompt_max": 0.9111328125
+    },
+    {
+      "variant": "control",
+      "event": "features",
+      "step": 40,
+      "dtype": "torch.float32",
+      "std": 0.00027090759249404073,
+      "triplet": 0.10122069716453552,
+      "zero_distance_amp": 0.9311023354530334,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.002157829003408551,
+      "distance_fp32_mean": 0.012679822742938995
+    },
+    {
+      "variant": "control",
+      "event": "feature_gradient",
+      "step": 40,
+      "zero_fraction": 0.9611918330192566,
+      "finite": true
+    },
+    {
+      "variant": "control",
+      "event": "parameter_gradients",
+      "step": 40,
+      "norms": {
+        "prompt_mlp": 23.804176330566406,
+        "query_embeddings": 4.462742328643799,
+        "mm_projector": 1187.180908203125,
+        "encoder.": 0.7506935000419617
+      }
+    },
+    {
+      "variant": "control",
+      "event": "prompts",
+      "step": 50,
+      "hidden_rms": 2.8702781200408936,
+      "prompt_rms": 0.3998267650604248,
+      "prompt_max": 1.0087890625
+    },
+    {
+      "variant": "control",
+      "event": "features",
+      "step": 50,
+      "dtype": "torch.float32",
+      "std": 0.00017550683696754277,
+      "triplet": 0.10000000149011612,
+      "zero_distance_amp": 0.9985235929489136,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 4.613681085174903e-05,
+      "distance_fp32_mean": 0.008030146360397339
+    },
+    {
+      "variant": "control",
+      "event": "feature_gradient",
+      "step": 50,
+      "zero_fraction": 1.0,
+      "finite": true
+    },
+    {
+      "variant": "control",
+      "event": "parameter_gradients",
+      "step": 50,
+      "norms": {
+        "prompt_mlp": 0.12457957863807678,
+        "query_embeddings": 0.003937536850571632,
+        "mm_projector": 563.6903686523438,
+        "encoder.": 0.0001337897265329957
+      }
+    },
+    {
+      "variant": "control",
+      "event": "prompts",
+      "step": 60,
+      "hidden_rms": 2.86580753326416,
+      "prompt_rms": 0.4118873178958893,
+      "prompt_max": 0.98193359375
+    },
+    {
+      "variant": "control",
+      "event": "features",
+      "step": 60,
+      "dtype": "torch.float32",
+      "std": 0.00017335463780909777,
+      "triplet": 0.10000000149011612,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.007959019392728806
+    },
+    {
+      "variant": "control",
+      "event": "feature_gradient",
+      "step": 60,
+      "zero_fraction": 1.0,
+      "finite": true
+    },
+    {
+      "variant": "control",
+      "event": "parameter_gradients",
+      "step": 60,
+      "norms": {
+        "prompt_mlp": 0.01647142320871353,
+        "query_embeddings": 0.0,
+        "mm_projector": 2077.609130859375,
+        "encoder.": 0.00012387633614707738
+      }
+    },
+    {
+      "variant": "control",
+      "event": "prompts",
+      "step": 70,
+      "hidden_rms": 3.000887155532837,
+      "prompt_rms": 0.39274951815605164,
+      "prompt_max": 0.9267578125
+    },
+    {
+      "variant": "control",
+      "event": "features",
+      "step": 70,
+      "dtype": "torch.float32",
+      "std": 0.00021194643341004848,
+      "triplet": 0.10000000149011612,
+      "zero_distance_amp": 0.9960629940032959,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0001230314956046641,
+      "distance_fp32_mean": 0.00971895456314087
+    },
+    {
+      "variant": "control",
+      "event": "feature_gradient",
+      "step": 70,
+      "zero_fraction": 1.0,
+      "finite": true
+    },
+    {
+      "variant": "control",
+      "event": "parameter_gradients",
+      "step": 70,
+      "norms": {
+        "prompt_mlp": 0.0,
+        "query_embeddings": 0.0,
+        "mm_projector": 623.6677856445312,
+        "encoder.": 0.0
+      }
+    },
+    {
+      "variant": "control",
+      "event": "prompts",
+      "step": 80,
+      "hidden_rms": 3.017760992050171,
+      "prompt_rms": 0.408858060836792,
+      "prompt_max": 0.97265625
+    },
+    {
+      "variant": "control",
+      "event": "features",
+      "step": 80,
+      "dtype": "torch.float32",
+      "std": 0.00020323123317211866,
+      "triplet": 0.10000000149011612,
+      "zero_distance_amp": 0.9993848204612732,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 1.9223671188228764e-05,
+      "distance_fp32_mean": 0.009376781061291695
+    },
+    {
+      "variant": "control",
+      "event": "feature_gradient",
+      "step": 80,
+      "zero_fraction": 1.0,
+      "finite": true
+    },
+    {
+      "variant": "control",
+      "event": "parameter_gradients",
+      "step": 80,
+      "norms": {
+        "prompt_mlp": 0.03210661932826042,
+        "query_embeddings": 0.0,
+        "mm_projector": 306.1579284667969,
+        "encoder.": 0.00020822713850066066
+      }
+    },
+    {
+      "variant": "control",
+      "event": "prompts",
+      "step": 90,
+      "hidden_rms": 2.997047185897827,
+      "prompt_rms": 0.42350491881370544,
+      "prompt_max": 0.9951171875
+    },
+    {
+      "variant": "control",
+      "event": "features",
+      "step": 90,
+      "dtype": "torch.float32",
+      "std": 0.0002063231950160116,
+      "triplet": 0.10000000149011612,
+      "zero_distance_amp": 0.9986466765403748,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 4.2292078433092684e-05,
+      "distance_fp32_mean": 0.009548721835017204
+    },
+    {
+      "variant": "control",
+      "event": "feature_gradient",
+      "step": 90,
+      "zero_fraction": 1.0,
+      "finite": true
+    },
+    {
+      "variant": "control",
+      "event": "parameter_gradients",
+      "step": 90,
+      "norms": {
+        "prompt_mlp": 0.01130201481282711,
+        "query_embeddings": 0.0,
+        "mm_projector": 506.1524353027344,
+        "encoder.": 0.00012499555305112153
+      }
+    },
+    {
+      "variant": "control",
+      "event": "prompts",
+      "step": 100,
+      "hidden_rms": 3.0171353816986084,
+      "prompt_rms": 0.41565677523612976,
+      "prompt_max": 1.029296875
+    },
+    {
+      "variant": "control",
+      "event": "features",
+      "step": 100,
+      "dtype": "torch.float32",
+      "std": 0.00019589168368838727,
+      "triplet": 0.10000000149011612,
+      "zero_distance_amp": 0.9958169460296631,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.00013072096044197679,
+      "distance_fp32_mean": 0.008992025628685951
+    },
+    {
+      "variant": "control",
+      "event": "feature_gradient",
+      "step": 100,
+      "zero_fraction": 1.0,
+      "finite": true
+    },
+    {
+      "variant": "control",
+      "event": "parameter_gradients",
+      "step": 100,
+      "norms": {
+        "prompt_mlp": 0.09024658799171448,
+        "query_embeddings": 5.960464477539063e-08,
+        "mm_projector": 789.6727905273438,
+        "encoder.": 5.438126027001999e-05
+      }
+    }
+  ],
+  "probe_a0_fp32_300": [
+    {
+      "variant": "fp32_triplet",
+      "event": "environment",
+      "torch": "2.6.0+cu124",
+      "cuda": "12.4",
+      "gpu": "NVIDIA GeForce RTX 3090"
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 110,
+      "hidden_rms": 2.9833085536956787,
+      "prompt_rms": 0.36261433362960815,
+      "prompt_max": 0.955078125
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 110,
+      "dtype": "torch.float32",
+      "std": 0.00010292645310983062,
+      "triplet": 0.10106264054775238,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.004629668314009905
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 110,
+      "zero_fraction": 1.0172526344831567e-05,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 110,
+      "norms": {
+        "prompt_mlp": 10.485114097595215,
+        "query_embeddings": 0.5433253049850464,
+        "mm_projector": 408.05743408203125,
+        "encoder.": 0.20472706854343414
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 120,
+      "hidden_rms": 2.9707117080688477,
+      "prompt_rms": 0.35527315735816956,
+      "prompt_max": 0.8994140625
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 120,
+      "dtype": "torch.float32",
+      "std": 9.480342851020396e-05,
+      "triplet": 0.10097913444042206,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.004231879021972418
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 120,
+      "zero_fraction": 1.0172526344831567e-05,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 120,
+      "norms": {
+        "prompt_mlp": 7.394958972930908,
+        "query_embeddings": 0.6083582043647766,
+        "mm_projector": 862.4119262695312,
+        "encoder.": 0.21453912556171417
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 130,
+      "hidden_rms": 2.9606802463531494,
+      "prompt_rms": 0.38309380412101746,
+      "prompt_max": 0.96484375
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 130,
+      "dtype": "torch.float32",
+      "std": 7.867136446293443e-05,
+      "triplet": 0.10064400732517242,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.0034681069664657116
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 130,
+      "zero_fraction": 0.0,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 130,
+      "norms": {
+        "prompt_mlp": 7.487563133239746,
+        "query_embeddings": 1.728127360343933,
+        "mm_projector": 1623.9344482421875,
+        "encoder.": 0.19926248490810394
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 140,
+      "hidden_rms": 2.9209158420562744,
+      "prompt_rms": 0.35014382004737854,
+      "prompt_max": 0.87548828125
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 140,
+      "dtype": "torch.float32",
+      "std": 8.94490149221383e-05,
+      "triplet": 0.10115066170692444,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.004033961798995733
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 140,
+      "zero_fraction": 1.0172526344831567e-05,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 140,
+      "norms": {
+        "prompt_mlp": 6.830850601196289,
+        "query_embeddings": 0.619516134262085,
+        "mm_projector": 614.9479370117188,
+        "encoder.": 0.2184036672115326
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 150,
+      "hidden_rms": 2.96915602684021,
+      "prompt_rms": 0.3658878207206726,
+      "prompt_max": 0.908203125
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 150,
+      "dtype": "torch.float32",
+      "std": 7.278710108948871e-05,
+      "triplet": 0.100669726729393,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.003222018713131547
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 150,
+      "zero_fraction": 1.0172526344831567e-05,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 150,
+      "norms": {
+        "prompt_mlp": 7.011127948760986,
+        "query_embeddings": 0.6763532161712646,
+        "mm_projector": 168.8438720703125,
+        "encoder.": 0.1754557192325592
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 160,
+      "hidden_rms": 3.0083484649658203,
+      "prompt_rms": 0.3460629880428314,
+      "prompt_max": 0.875
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 160,
+      "dtype": "torch.float32",
+      "std": 8.324264490511268e-05,
+      "triplet": 0.10089638829231262,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.003733295015990734
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 160,
+      "zero_fraction": 0.0,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 160,
+      "norms": {
+        "prompt_mlp": 6.558565139770508,
+        "query_embeddings": 0.47069433331489563,
+        "mm_projector": 186.24171447753906,
+        "encoder.": 0.17906789481639862
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 170,
+      "hidden_rms": 2.9493556022644043,
+      "prompt_rms": 0.3603765368461609,
+      "prompt_max": 0.927734375
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 170,
+      "dtype": "torch.float32",
+      "std": 6.883939204271883e-05,
+      "triplet": 0.1006508469581604,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.0030408636666834354
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 170,
+      "zero_fraction": 0.0,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 170,
+      "norms": {
+        "prompt_mlp": 5.743907928466797,
+        "query_embeddings": 0.3807617127895355,
+        "mm_projector": 220.57786560058594,
+        "encoder.": 0.21880240738391876
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 180,
+      "hidden_rms": 2.975344181060791,
+      "prompt_rms": 0.347708135843277,
+      "prompt_max": 0.88037109375
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 180,
+      "dtype": "torch.float32",
+      "std": 7.613713387399912e-05,
+      "triplet": 0.10057235509157181,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.0034310210030525923
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 180,
+      "zero_fraction": 0.0,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 180,
+      "norms": {
+        "prompt_mlp": 5.287123203277588,
+        "query_embeddings": 0.5378888249397278,
+        "mm_projector": 875.1145629882812,
+        "encoder.": 0.16403478384017944
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 190,
+      "hidden_rms": 2.993391990661621,
+      "prompt_rms": 0.3561834394931793,
+      "prompt_max": 0.91064453125
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 190,
+      "dtype": "torch.float32",
+      "std": 7.350971281994134e-05,
+      "triplet": 0.10070358216762543,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.003292253939434886
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 190,
+      "zero_fraction": 0.0,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 190,
+      "norms": {
+        "prompt_mlp": 4.497032642364502,
+        "query_embeddings": 0.5524727702140808,
+        "mm_projector": 294.2046813964844,
+        "encoder.": 0.16251704096794128
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 200,
+      "hidden_rms": 2.9625778198242188,
+      "prompt_rms": 0.3530155122280121,
+      "prompt_max": 0.93896484375
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 200,
+      "dtype": "torch.float32",
+      "std": 7.072494190651923e-05,
+      "triplet": 0.100739985704422,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.0031848952639847994
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 200,
+      "zero_fraction": 0.0,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 200,
+      "norms": {
+        "prompt_mlp": 3.9919817447662354,
+        "query_embeddings": 0.22160056233406067,
+        "mm_projector": 930.8274536132812,
+        "encoder.": 0.18425600230693817
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 210,
+      "hidden_rms": 3.000831127166748,
+      "prompt_rms": 0.3518465459346771,
+      "prompt_max": 0.9248046875
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 210,
+      "dtype": "torch.float32",
+      "std": 7.026483945082873e-05,
+      "triplet": 0.10065752267837524,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.0031519425101578236
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 210,
+      "zero_fraction": 0.0,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 210,
+      "norms": {
+        "prompt_mlp": 5.012211322784424,
+        "query_embeddings": 0.4494669437408447,
+        "mm_projector": 503.92388916015625,
+        "encoder.": 0.14911386370658875
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 220,
+      "hidden_rms": 2.994062900543213,
+      "prompt_rms": 0.34759068489074707,
+      "prompt_max": 0.97314453125
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 220,
+      "dtype": "torch.float32",
+      "std": 6.669406866421923e-05,
+      "triplet": 0.10067974030971527,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.002983500249683857
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 220,
+      "zero_fraction": 0.0,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 220,
+      "norms": {
+        "prompt_mlp": 4.993488311767578,
+        "query_embeddings": 0.4124029874801636,
+        "mm_projector": 352.7298278808594,
+        "encoder.": 0.17880506813526154
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 230,
+      "hidden_rms": 3.018653631210327,
+      "prompt_rms": 0.36789992451667786,
+      "prompt_max": 0.90234375
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 230,
+      "dtype": "torch.float32",
+      "std": 5.539328412851319e-05,
+      "triplet": 0.1005643755197525,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.0024313838221132755
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 230,
+      "zero_fraction": 1.0172526344831567e-05,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 230,
+      "norms": {
+        "prompt_mlp": 5.337624549865723,
+        "query_embeddings": 0.37479108572006226,
+        "mm_projector": 202.35800170898438,
+        "encoder.": 0.15675483644008636
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 240,
+      "hidden_rms": 2.981393575668335,
+      "prompt_rms": 0.3601599335670471,
+      "prompt_max": 0.90478515625
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 240,
+      "dtype": "torch.float32",
+      "std": 5.3048548579681665e-05,
+      "triplet": 0.10048333555459976,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.0023414723109453917
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 240,
+      "zero_fraction": 1.0172526344831567e-05,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 240,
+      "norms": {
+        "prompt_mlp": 5.188265800476074,
+        "query_embeddings": 0.18432992696762085,
+        "mm_projector": 322.00128173828125,
+        "encoder.": 0.15927551686763763
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 250,
+      "hidden_rms": 3.029372453689575,
+      "prompt_rms": 0.33799463510513306,
+      "prompt_max": 0.9189453125
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 250,
+      "dtype": "torch.float32",
+      "std": 6.335055513773113e-05,
+      "triplet": 0.10073207318782806,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.00283626327291131
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 250,
+      "zero_fraction": 0.0,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 250,
+      "norms": {
+        "prompt_mlp": 5.82535457611084,
+        "query_embeddings": 0.5243410468101501,
+        "mm_projector": 647.7634887695312,
+        "encoder.": 0.16032831370830536
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 260,
+      "hidden_rms": 3.006150245666504,
+      "prompt_rms": 0.3463454246520996,
+      "prompt_max": 0.939453125
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 260,
+      "dtype": "torch.float32",
+      "std": 6.083275002310984e-05,
+      "triplet": 0.10071441531181335,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.0027305386029183865
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 260,
+      "zero_fraction": 1.0172526344831567e-05,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 260,
+      "norms": {
+        "prompt_mlp": 3.8813419342041016,
+        "query_embeddings": 0.4520273804664612,
+        "mm_projector": 961.3558959960938,
+        "encoder.": 0.1530180424451828
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 270,
+      "hidden_rms": 3.0349607467651367,
+      "prompt_rms": 0.37611958384513855,
+      "prompt_max": 0.923828125
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 270,
+      "dtype": "torch.float32",
+      "std": 5.089695332571864e-05,
+      "triplet": 0.10041416436433792,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.0022366985213011503
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 270,
+      "zero_fraction": 0.0,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 270,
+      "norms": {
+        "prompt_mlp": 3.4096009731292725,
+        "query_embeddings": 0.45763158798217773,
+        "mm_projector": 562.8338012695312,
+        "encoder.": 0.1972247213125229
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 280,
+      "hidden_rms": 2.9734318256378174,
+      "prompt_rms": 0.3702950179576874,
+      "prompt_max": 0.9091796875
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 280,
+      "dtype": "torch.float32",
+      "std": 4.992249159840867e-05,
+      "triplet": 0.10051999241113663,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.002199067734181881
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 280,
+      "zero_fraction": 1.0172526344831567e-05,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 280,
+      "norms": {
+        "prompt_mlp": 3.8399412631988525,
+        "query_embeddings": 0.5829500555992126,
+        "mm_projector": 800.6599731445312,
+        "encoder.": 0.16097421944141388
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 290,
+      "hidden_rms": 3.064053535461426,
+      "prompt_rms": 0.3456633985042572,
+      "prompt_max": 0.826171875
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 290,
+      "dtype": "torch.float32",
+      "std": 5.735304148402065e-05,
+      "triplet": 0.1006794422864914,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.0025771649088710546
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 290,
+      "zero_fraction": 1.0172526344831567e-05,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 290,
+      "norms": {
+        "prompt_mlp": 5.062906742095947,
+        "query_embeddings": 0.5780492424964905,
+        "mm_projector": 312.4753723144531,
+        "encoder.": 0.16005562245845795
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 300,
+      "hidden_rms": 2.936112642288208,
+      "prompt_rms": 0.3593681752681732,
+      "prompt_max": 0.89501953125
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 300,
+      "dtype": "torch.float32",
+      "std": 4.613034980138764e-05,
+      "triplet": 0.10039766132831573,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.0020342771895229816
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 300,
+      "zero_fraction": 1.0172526344831567e-05,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 300,
+      "norms": {
+        "prompt_mlp": 6.057941436767578,
+        "query_embeddings": 0.2535952925682068,
+        "mm_projector": 256.92510986328125,
+        "encoder.": 0.1441332846879959
+      }
+    }
+  ],
+  "probe_a0_fp32_triplet": [
+    {
+      "variant": "fp32_triplet",
+      "event": "environment",
+      "torch": "2.6.0+cu124",
+      "cuda": "12.4",
+      "gpu": "NVIDIA GeForce RTX 3090"
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 1,
+      "hidden_rms": 4.0854997634887695,
+      "prompt_rms": 0.0,
+      "prompt_max": 0.0
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 1,
+      "dtype": "torch.float32",
+      "std": 0.022214382886886597,
+      "triplet": 0.27071136236190796,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.8784356713294983,
+      "distance_fp32_mean": 0.8784302473068237
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 1,
+      "zero_fraction": 0.03125,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 1,
+      "norms": {
+        "prompt_mlp": null,
+        "query_embeddings": 0.0,
+        "mm_projector": null,
+        "encoder.": 32195.3046875
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 2,
+      "hidden_rms": 4.008070468902588,
+      "prompt_rms": 0.0,
+      "prompt_max": 0.0
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 2,
+      "dtype": "torch.float32",
+      "std": 0.023871710523962975,
+      "triplet": 0.29317915439605713,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.9406078457832336,
+      "distance_fp32_mean": 0.9406046867370605
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 2,
+      "zero_fraction": 0.0,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 2,
+      "norms": {
+        "prompt_mlp": null,
+        "query_embeddings": 0.0,
+        "mm_projector": null,
+        "encoder.": 15264.0361328125
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 3,
+      "hidden_rms": 3.699594020843506,
+      "prompt_rms": 0.0,
+      "prompt_max": 0.0
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 3,
+      "dtype": "torch.float32",
+      "std": 0.021474268287420273,
+      "triplet": 0.25024014711380005,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.8482732772827148,
+      "distance_fp32_mean": 0.8482673168182373
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 3,
+      "zero_fraction": 0.015625,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 3,
+      "norms": {
+        "prompt_mlp": null,
+        "query_embeddings": 0.0,
+        "mm_projector": null,
+        "encoder.": 6925.57177734375
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 4,
+      "hidden_rms": 3.832993745803833,
+      "prompt_rms": 0.0,
+      "prompt_max": 0.0
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 4,
+      "dtype": "torch.float32",
+      "std": 0.02155338041484356,
+      "triplet": 0.27236634492874146,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.8522728085517883,
+      "distance_fp32_mean": 0.8522716164588928
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 4,
+      "zero_fraction": 0.0390625,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 4,
+      "norms": {
+        "prompt_mlp": null,
+        "query_embeddings": 0.0,
+        "mm_projector": 5073913.5,
+        "encoder.": 4697.8623046875
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 5,
+      "hidden_rms": 3.8219571113586426,
+      "prompt_rms": 0.0,
+      "prompt_max": 0.0
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 5,
+      "dtype": "torch.float32",
+      "std": 0.023825742304325104,
+      "triplet": 0.2831505537033081,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.9410390853881836,
+      "distance_fp32_mean": 0.9410369396209717
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 5,
+      "zero_fraction": 0.0234375,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 5,
+      "norms": {
+        "prompt_mlp": null,
+        "query_embeddings": 0.0,
+        "mm_projector": 2209246.0,
+        "encoder.": 1979.3155517578125
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 10,
+      "hidden_rms": 4.190877437591553,
+      "prompt_rms": 0.0,
+      "prompt_max": 0.0
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 10,
+      "dtype": "torch.float32",
+      "std": 0.023502778261899948,
+      "triplet": 0.2559888958930969,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.9260879158973694,
+      "distance_fp32_mean": 0.9260882139205933
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 10,
+      "zero_fraction": 0.0390625,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 10,
+      "norms": {
+        "prompt_mlp": 541244.0625,
+        "query_embeddings": 0.0,
+        "mm_projector": 284616.375,
+        "encoder.": 58.89488220214844
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 20,
+      "hidden_rms": 2.9072649478912354,
+      "prompt_rms": 0.2633734345436096,
+      "prompt_max": 0.720703125
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 20,
+      "dtype": "torch.float32",
+      "std": 0.00032006477704271674,
+      "triplet": 0.10784697532653809,
+      "zero_distance_amp": 0.8550689220428467,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0046346853487193584,
+      "distance_fp32_mean": 0.015164186246693134
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 20,
+      "zero_fraction": 0.0,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 20,
+      "norms": {
+        "prompt_mlp": 264.9114685058594,
+        "query_embeddings": 52.745174407958984,
+        "mm_projector": 2398.5068359375,
+        "encoder.": 7.777780055999756
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 30,
+      "hidden_rms": 2.9504237174987793,
+      "prompt_rms": 0.3631778061389923,
+      "prompt_max": 0.9443359375
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 30,
+      "dtype": "torch.float32",
+      "std": 0.00015805292059667408,
+      "triplet": 0.10230731964111328,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.007264968939125538
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 30,
+      "zero_fraction": 0.0,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 30,
+      "norms": {
+        "prompt_mlp": 43.87989807128906,
+        "query_embeddings": 4.247191429138184,
+        "mm_projector": 518.0625610351562,
+        "encoder.": 1.4529722929000854
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 40,
+      "hidden_rms": 3.000683069229126,
+      "prompt_rms": 0.3782084584236145,
+      "prompt_max": 0.9638671875
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 40,
+      "dtype": "torch.float32",
+      "std": 0.00015911782975308597,
+      "triplet": 0.10195885598659515,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.0072937943041324615
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 40,
+      "zero_fraction": 0.0,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 40,
+      "norms": {
+        "prompt_mlp": 20.846054077148438,
+        "query_embeddings": 3.7357213497161865,
+        "mm_projector": 883.5928955078125,
+        "encoder.": 0.8706121444702148
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 50,
+      "hidden_rms": 2.9216699600219727,
+      "prompt_rms": 0.40213948488235474,
+      "prompt_max": 1.029296875
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 50,
+      "dtype": "torch.float32",
+      "std": 0.00011502764391480014,
+      "triplet": 0.1012827679514885,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.005193629767745733
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 50,
+      "zero_fraction": 0.0,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 50,
+      "norms": {
+        "prompt_mlp": 10.79964542388916,
+        "query_embeddings": 1.2838674783706665,
+        "mm_projector": 447.46697998046875,
+        "encoder.": 0.39167603850364685
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 60,
+      "hidden_rms": 2.9237473011016846,
+      "prompt_rms": 0.40759897232055664,
+      "prompt_max": 1.06640625
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 60,
+      "dtype": "torch.float32",
+      "std": 0.00011035190982511267,
+      "triplet": 0.1011485904455185,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.0049481745809316635
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 60,
+      "zero_fraction": 0.0,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 60,
+      "norms": {
+        "prompt_mlp": 14.147743225097656,
+        "query_embeddings": 1.2722402811050415,
+        "mm_projector": 409.7457275390625,
+        "encoder.": 0.33952006697654724
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 70,
+      "hidden_rms": 2.932070255279541,
+      "prompt_rms": 0.3877660930156708,
+      "prompt_max": 0.9482421875
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 70,
+      "dtype": "torch.float32",
+      "std": 0.00012560175673570484,
+      "triplet": 0.10144108533859253,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.005677038338035345
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 70,
+      "zero_fraction": 0.0,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 70,
+      "norms": {
+        "prompt_mlp": 7.780559539794922,
+        "query_embeddings": 1.4425365924835205,
+        "mm_projector": 283.2405700683594,
+        "encoder.": 0.3456786274909973
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 80,
+      "hidden_rms": 2.955714225769043,
+      "prompt_rms": 0.3769308924674988,
+      "prompt_max": 0.9296875
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 80,
+      "dtype": "torch.float32",
+      "std": 0.000115094670036342,
+      "triplet": 0.10087130218744278,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.005192351061850786
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 80,
+      "zero_fraction": 0.0,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 80,
+      "norms": {
+        "prompt_mlp": 6.429815769195557,
+        "query_embeddings": 1.99411141872406,
+        "mm_projector": 376.0179443359375,
+        "encoder.": 0.22541511058807373
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 90,
+      "hidden_rms": 2.9302566051483154,
+      "prompt_rms": 0.37034884095191956,
+      "prompt_max": 0.9462890625
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 90,
+      "dtype": "torch.float32",
+      "std": 0.00011232203542022035,
+      "triplet": 0.10111027210950851,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.005048149265348911
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 90,
+      "zero_fraction": 0.0,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 90,
+      "norms": {
+        "prompt_mlp": 6.284862041473389,
+        "query_embeddings": 0.574880838394165,
+        "mm_projector": 486.9538269042969,
+        "encoder.": 0.2408849149942398
+      }
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "prompts",
+      "step": 100,
+      "hidden_rms": 2.937537431716919,
+      "prompt_rms": 0.357005774974823,
+      "prompt_max": 0.88916015625
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "features",
+      "step": 100,
+      "dtype": "torch.float32",
+      "std": 0.00010329102951800451,
+      "triplet": 0.10107553750276566,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.004686211701482534
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "feature_gradient",
+      "step": 100,
+      "zero_fraction": 0.0,
+      "finite": true
+    },
+    {
+      "variant": "fp32_triplet",
+      "event": "parameter_gradients",
+      "step": 100,
+      "norms": {
+        "prompt_mlp": 6.068387508392334,
+        "query_embeddings": 0.7901417016983032,
+        "mm_projector": 277.15625,
+        "encoder.": 0.22444182634353638
+      }
+    }
+  ],
+  "probe_a0_hidden_norm": [
+    {
+      "variant": "hidden_norm",
+      "event": "environment",
+      "torch": "2.6.0+cu124",
+      "cuda": "12.4",
+      "gpu": "NVIDIA GeForce RTX 3090"
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "prompts",
+      "step": 1,
+      "hidden_rms": 0.9999997019767761,
+      "prompt_rms": 0.0,
+      "prompt_max": 0.0
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "features",
+      "step": 1,
+      "dtype": "torch.float32",
+      "std": 0.022214382886886597,
+      "triplet": 0.2706867456436157,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.8784356713294983,
+      "distance_fp32_mean": 0.8784302473068237
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "feature_gradient",
+      "step": 1,
+      "zero_fraction": 0.031341552734375,
+      "finite": true
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "parameter_gradients",
+      "step": 1,
+      "norms": {
+        "prompt_mlp": null,
+        "query_embeddings": 0.0,
+        "mm_projector": null,
+        "encoder.": 32192.005859375
+      }
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "prompts",
+      "step": 2,
+      "hidden_rms": 0.9999996423721313,
+      "prompt_rms": 0.0,
+      "prompt_max": 0.0
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "features",
+      "step": 2,
+      "dtype": "torch.float32",
+      "std": 0.023871710523962975,
+      "triplet": 0.2932276129722595,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.9406078457832336,
+      "distance_fp32_mean": 0.9406046867370605
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "feature_gradient",
+      "step": 2,
+      "zero_fraction": 5.086263263365254e-05,
+      "finite": true
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "parameter_gradients",
+      "step": 2,
+      "norms": {
+        "prompt_mlp": null,
+        "query_embeddings": 0.0,
+        "mm_projector": null,
+        "encoder.": 15255.5615234375
+      }
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "prompts",
+      "step": 3,
+      "hidden_rms": 0.9999995827674866,
+      "prompt_rms": 0.0,
+      "prompt_max": 0.0
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "features",
+      "step": 3,
+      "dtype": "torch.float32",
+      "std": 0.021474268287420273,
+      "triplet": 0.25026869773864746,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.8482732772827148,
+      "distance_fp32_mean": 0.8482673168182373
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "feature_gradient",
+      "step": 3,
+      "zero_fraction": 0.01570638082921505,
+      "finite": true
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "parameter_gradients",
+      "step": 3,
+      "norms": {
+        "prompt_mlp": null,
+        "query_embeddings": 0.0,
+        "mm_projector": null,
+        "encoder.": 6869.060546875
+      }
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "prompts",
+      "step": 4,
+      "hidden_rms": 0.9999996423721313,
+      "prompt_rms": 0.0,
+      "prompt_max": 0.0
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "features",
+      "step": 4,
+      "dtype": "torch.float32",
+      "std": 0.02155338041484356,
+      "triplet": 0.2724068760871887,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.8522728085517883,
+      "distance_fp32_mean": 0.8522716164588928
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "feature_gradient",
+      "step": 4,
+      "zero_fraction": 0.0391133651137352,
+      "finite": true
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "parameter_gradients",
+      "step": 4,
+      "norms": {
+        "prompt_mlp": null,
+        "query_embeddings": 0.0,
+        "mm_projector": 5080249.0,
+        "encoder.": 4698.26416015625
+      }
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "prompts",
+      "step": 5,
+      "hidden_rms": 0.9999996423721313,
+      "prompt_rms": 0.0,
+      "prompt_max": 0.0
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "features",
+      "step": 5,
+      "dtype": "torch.float32",
+      "std": 0.023825742304325104,
+      "triplet": 0.2831701934337616,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.9410390853881836,
+      "distance_fp32_mean": 0.9410369396209717
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "feature_gradient",
+      "step": 5,
+      "zero_fraction": 0.0235087089240551,
+      "finite": true
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "parameter_gradients",
+      "step": 5,
+      "norms": {
+        "prompt_mlp": null,
+        "query_embeddings": 0.0,
+        "mm_projector": 2208617.0,
+        "encoder.": 1979.326171875
+      }
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "prompts",
+      "step": 10,
+      "hidden_rms": 0.9999996423721313,
+      "prompt_rms": 0.03439594432711601,
+      "prompt_max": 0.069580078125
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "features",
+      "step": 10,
+      "dtype": "torch.float32",
+      "std": 0.0027565709315240383,
+      "triplet": 0.12996943295001984,
+      "zero_distance_amp": 0.0002460629912093282,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.10749182105064392,
+      "distance_fp32_mean": 0.10744185745716095
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "feature_gradient",
+      "step": 10,
+      "zero_fraction": 0.0009969075908884406,
+      "finite": true
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "parameter_gradients",
+      "step": 10,
+      "norms": {
+        "prompt_mlp": 71967.8984375,
+        "query_embeddings": 1681.3082275390625,
+        "mm_projector": 133042.375,
+        "encoder.": 188.43902587890625
+      }
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "prompts",
+      "step": 20,
+      "hidden_rms": 0.9999997019767761,
+      "prompt_rms": 0.101634681224823,
+      "prompt_max": 0.2080078125
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "features",
+      "step": 20,
+      "dtype": "torch.float32",
+      "std": 0.0017906933790072799,
+      "triplet": 0.11408396065235138,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.07319318503141403,
+      "distance_fp32_mean": 0.07314623147249222
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "feature_gradient",
+      "step": 20,
+      "zero_fraction": 0.001312255859375,
+      "finite": true
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "parameter_gradients",
+      "step": 20,
+      "norms": {
+        "prompt_mlp": 1128.4554443359375,
+        "query_embeddings": 92.74456787109375,
+        "mm_projector": 20779.93359375,
+        "encoder.": 29.82291603088379
+      }
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "prompts",
+      "step": 30,
+      "hidden_rms": 0.9999995827674866,
+      "prompt_rms": 0.12493801862001419,
+      "prompt_max": 0.258544921875
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "features",
+      "step": 30,
+      "dtype": "torch.float32",
+      "std": 0.001528603257611394,
+      "triplet": 0.10755953192710876,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.061442140489816666,
+      "distance_fp32_mean": 0.061421506106853485
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "feature_gradient",
+      "step": 30,
+      "zero_fraction": 0.0015970866661518812,
+      "finite": true
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "parameter_gradients",
+      "step": 30,
+      "norms": {
+        "prompt_mlp": 456.9272766113281,
+        "query_embeddings": 47.42886734008789,
+        "mm_projector": 14041.685546875,
+        "encoder.": 33.70612335205078
+      }
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "prompts",
+      "step": 40,
+      "hidden_rms": 0.9999995827674866,
+      "prompt_rms": 0.12170447409152985,
+      "prompt_max": 0.285400390625
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "features",
+      "step": 40,
+      "dtype": "torch.float32",
+      "std": 0.0017425958067178726,
+      "triplet": 0.10771408677101135,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.07014161348342896,
+      "distance_fp32_mean": 0.07008592784404755
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "feature_gradient",
+      "step": 40,
+      "zero_fraction": 0.001312255859375,
+      "finite": true
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "parameter_gradients",
+      "step": 40,
+      "norms": {
+        "prompt_mlp": 395.7710876464844,
+        "query_embeddings": 49.40294647216797,
+        "mm_projector": 14942.67578125,
+        "encoder.": 29.594839096069336
+      }
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "prompts",
+      "step": 50,
+      "hidden_rms": 0.9999995827674866,
+      "prompt_rms": 0.14245012402534485,
+      "prompt_max": 0.31298828125
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "features",
+      "step": 50,
+      "dtype": "torch.float32",
+      "std": 0.0017539453692734241,
+      "triplet": 0.10682914406061172,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.07000698149204254,
+      "distance_fp32_mean": 0.06991565972566605
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "feature_gradient",
+      "step": 50,
+      "zero_fraction": 0.0015767415752634406,
+      "finite": true
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "parameter_gradients",
+      "step": 50,
+      "norms": {
+        "prompt_mlp": 390.5113525390625,
+        "query_embeddings": 44.601280212402344,
+        "mm_projector": 16745.728515625,
+        "encoder.": 34.96690368652344
+      }
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "prompts",
+      "step": 60,
+      "hidden_rms": 0.9999995827674866,
+      "prompt_rms": 0.14085718989372253,
+      "prompt_max": 0.307861328125
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "features",
+      "step": 60,
+      "dtype": "torch.float32",
+      "std": 0.001968060154467821,
+      "triplet": 0.10341030359268188,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.07821349054574966,
+      "distance_fp32_mean": 0.07815098762512207
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "feature_gradient",
+      "step": 60,
+      "zero_fraction": 0.0015462239971384406,
+      "finite": true
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "parameter_gradients",
+      "step": 60,
+      "norms": {
+        "prompt_mlp": 335.4754943847656,
+        "query_embeddings": 19.612756729125977,
+        "mm_projector": 5006.6376953125,
+        "encoder.": 39.548736572265625
+      }
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "prompts",
+      "step": 70,
+      "hidden_rms": 0.9999995827674866,
+      "prompt_rms": 0.1357543170452118,
+      "prompt_max": 0.31689453125
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "features",
+      "step": 70,
+      "dtype": "torch.float32",
+      "std": 0.002493741922080517,
+      "triplet": 0.10519839078187943,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0991496741771698,
+      "distance_fp32_mean": 0.09907764941453934
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "feature_gradient",
+      "step": 70,
+      "zero_fraction": 0.0008341471548192203,
+      "finite": true
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "parameter_gradients",
+      "step": 70,
+      "norms": {
+        "prompt_mlp": 389.86761474609375,
+        "query_embeddings": 33.53646469116211,
+        "mm_projector": 4267.53955078125,
+        "encoder.": 53.3995361328125
+      }
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "prompts",
+      "step": 80,
+      "hidden_rms": 0.9999995827674866,
+      "prompt_rms": 0.1345415562391281,
+      "prompt_max": 0.321044921875
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "features",
+      "step": 80,
+      "dtype": "torch.float32",
+      "std": 0.0029051953461021185,
+      "triplet": 0.09636913239955902,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.11482753604650497,
+      "distance_fp32_mean": 0.11476249247789383
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "feature_gradient",
+      "step": 80,
+      "zero_fraction": 0.0007222493877634406,
+      "finite": true
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "parameter_gradients",
+      "step": 80,
+      "norms": {
+        "prompt_mlp": 416.0185241699219,
+        "query_embeddings": 23.8468074798584,
+        "mm_projector": 7837.56982421875,
+        "encoder.": 53.29814910888672
+      }
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "prompts",
+      "step": 90,
+      "hidden_rms": 0.9999995827674866,
+      "prompt_rms": 0.13268518447875977,
+      "prompt_max": 0.331298828125
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "features",
+      "step": 90,
+      "dtype": "torch.float32",
+      "std": 0.0034420951269567013,
+      "triplet": 0.1027127131819725,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.135576531291008,
+      "distance_fp32_mean": 0.1355232149362564
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "feature_gradient",
+      "step": 90,
+      "zero_fraction": 0.000640869140625,
+      "finite": true
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "parameter_gradients",
+      "step": 90,
+      "norms": {
+        "prompt_mlp": 577.8165283203125,
+        "query_embeddings": 25.961118698120117,
+        "mm_projector": 4026.545654296875,
+        "encoder.": 62.86760330200195
+      }
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "prompts",
+      "step": 100,
+      "hidden_rms": 0.9999996423721313,
+      "prompt_rms": 0.13345202803611755,
+      "prompt_max": 0.35986328125
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "features",
+      "step": 100,
+      "dtype": "torch.float32",
+      "std": 0.005138333886861801,
+      "triplet": 0.09821957349777222,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.2022610753774643,
+      "distance_fp32_mean": 0.20222212374210358
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "feature_gradient",
+      "step": 100,
+      "zero_fraction": 0.0003662109375,
+      "finite": true
+    },
+    {
+      "variant": "hidden_norm",
+      "event": "parameter_gradients",
+      "step": 100,
+      "norms": {
+        "prompt_mlp": 765.3602294921875,
+        "query_embeddings": 38.41482925415039,
+        "mm_projector": 3666.06689453125,
+        "encoder.": 105.98799133300781
+      }
+    }
+  ],
+  "probe_a0_lr1e5": [
+    {
+      "variant": "lr1e5",
+      "event": "environment",
+      "torch": "2.6.0+cu124",
+      "cuda": "12.4",
+      "gpu": "NVIDIA GeForce RTX 3090"
+    },
+    {
+      "variant": "lr1e5",
+      "event": "prompts",
+      "step": 1,
+      "hidden_rms": 4.0854997634887695,
+      "prompt_rms": 0.0,
+      "prompt_max": 0.0
+    },
+    {
+      "variant": "lr1e5",
+      "event": "features",
+      "step": 1,
+      "dtype": "torch.float32",
+      "std": 0.022214382886886597,
+      "triplet": 0.2706867456436157,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.8784356713294983,
+      "distance_fp32_mean": 0.8784302473068237
+    },
+    {
+      "variant": "lr1e5",
+      "event": "feature_gradient",
+      "step": 1,
+      "zero_fraction": 0.031341552734375,
+      "finite": true
+    },
+    {
+      "variant": "lr1e5",
+      "event": "parameter_gradients",
+      "step": 1,
+      "norms": {
+        "prompt_mlp": null,
+        "query_embeddings": 0.0,
+        "mm_projector": null,
+        "encoder.": 32192.005859375
+      }
+    },
+    {
+      "variant": "lr1e5",
+      "event": "prompts",
+      "step": 2,
+      "hidden_rms": 4.008070468902588,
+      "prompt_rms": 0.0,
+      "prompt_max": 0.0
+    },
+    {
+      "variant": "lr1e5",
+      "event": "features",
+      "step": 2,
+      "dtype": "torch.float32",
+      "std": 0.023871710523962975,
+      "triplet": 0.2932276129722595,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.9406078457832336,
+      "distance_fp32_mean": 0.9406046867370605
+    },
+    {
+      "variant": "lr1e5",
+      "event": "feature_gradient",
+      "step": 2,
+      "zero_fraction": 5.086263263365254e-05,
+      "finite": true
+    },
+    {
+      "variant": "lr1e5",
+      "event": "parameter_gradients",
+      "step": 2,
+      "norms": {
+        "prompt_mlp": null,
+        "query_embeddings": 0.0,
+        "mm_projector": null,
+        "encoder.": 15255.5615234375
+      }
+    },
+    {
+      "variant": "lr1e5",
+      "event": "prompts",
+      "step": 3,
+      "hidden_rms": 3.699594020843506,
+      "prompt_rms": 0.0,
+      "prompt_max": 0.0
+    },
+    {
+      "variant": "lr1e5",
+      "event": "features",
+      "step": 3,
+      "dtype": "torch.float32",
+      "std": 0.021474268287420273,
+      "triplet": 0.25026869773864746,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.8482732772827148,
+      "distance_fp32_mean": 0.8482673168182373
+    },
+    {
+      "variant": "lr1e5",
+      "event": "feature_gradient",
+      "step": 3,
+      "zero_fraction": 0.01570638082921505,
+      "finite": true
+    },
+    {
+      "variant": "lr1e5",
+      "event": "parameter_gradients",
+      "step": 3,
+      "norms": {
+        "prompt_mlp": null,
+        "query_embeddings": 0.0,
+        "mm_projector": null,
+        "encoder.": 6869.060546875
+      }
+    },
+    {
+      "variant": "lr1e5",
+      "event": "prompts",
+      "step": 4,
+      "hidden_rms": 3.832993745803833,
+      "prompt_rms": 0.0,
+      "prompt_max": 0.0
+    },
+    {
+      "variant": "lr1e5",
+      "event": "features",
+      "step": 4,
+      "dtype": "torch.float32",
+      "std": 0.02155338041484356,
+      "triplet": 0.2724068760871887,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.8522728085517883,
+      "distance_fp32_mean": 0.8522716164588928
+    },
+    {
+      "variant": "lr1e5",
+      "event": "feature_gradient",
+      "step": 4,
+      "zero_fraction": 0.0391133651137352,
+      "finite": true
+    },
+    {
+      "variant": "lr1e5",
+      "event": "parameter_gradients",
+      "step": 4,
+      "norms": {
+        "prompt_mlp": null,
+        "query_embeddings": 0.0,
+        "mm_projector": 5075340.5,
+        "encoder.": 4698.26416015625
+      }
+    },
+    {
+      "variant": "lr1e5",
+      "event": "prompts",
+      "step": 5,
+      "hidden_rms": 3.8219571113586426,
+      "prompt_rms": 0.0,
+      "prompt_max": 0.0
+    },
+    {
+      "variant": "lr1e5",
+      "event": "features",
+      "step": 5,
+      "dtype": "torch.float32",
+      "std": 0.023825742304325104,
+      "triplet": 0.2831701934337616,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.9410390853881836,
+      "distance_fp32_mean": 0.9410369396209717
+    },
+    {
+      "variant": "lr1e5",
+      "event": "feature_gradient",
+      "step": 5,
+      "zero_fraction": 0.0235087089240551,
+      "finite": true
+    },
+    {
+      "variant": "lr1e5",
+      "event": "parameter_gradients",
+      "step": 5,
+      "norms": {
+        "prompt_mlp": null,
+        "query_embeddings": 0.0,
+        "mm_projector": 2209575.0,
+        "encoder.": 1979.326171875
+      }
+    },
+    {
+      "variant": "lr1e5",
+      "event": "prompts",
+      "step": 10,
+      "hidden_rms": 4.190877437591553,
+      "prompt_rms": 0.0,
+      "prompt_max": 0.0
+    },
+    {
+      "variant": "lr1e5",
+      "event": "features",
+      "step": 10,
+      "dtype": "torch.float32",
+      "std": 0.023502778261899948,
+      "triplet": 0.2560240626335144,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.9260879158973694,
+      "distance_fp32_mean": 0.9260882139205933
+    },
+    {
+      "variant": "lr1e5",
+      "event": "feature_gradient",
+      "step": 10,
+      "zero_fraction": 0.0391438826918602,
+      "finite": true
+    },
+    {
+      "variant": "lr1e5",
+      "event": "parameter_gradients",
+      "step": 10,
+      "norms": {
+        "prompt_mlp": 533331.5,
+        "query_embeddings": 0.0,
+        "mm_projector": 284967.09375,
+        "encoder.": 58.426597595214844
+      }
+    },
+    {
+      "variant": "lr1e5",
+      "event": "prompts",
+      "step": 20,
+      "hidden_rms": 4.019619464874268,
+      "prompt_rms": 0.044884007424116135,
+      "prompt_max": 0.08380126953125
+    },
+    {
+      "variant": "lr1e5",
+      "event": "features",
+      "step": 20,
+      "dtype": "torch.float32",
+      "std": 0.00026374246226623654,
+      "triplet": 0.10146483778953552,
+      "zero_distance_amp": 0.9536170959472656,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0014494648203253746,
+      "distance_fp32_mean": 0.012316616252064705
+    },
+    {
+      "variant": "lr1e5",
+      "event": "feature_gradient",
+      "step": 20,
+      "zero_fraction": 0.9535319209098816,
+      "finite": true
+    },
+    {
+      "variant": "lr1e5",
+      "event": "parameter_gradients",
+      "step": 20,
+      "norms": {
+        "prompt_mlp": 205.57339477539062,
+        "query_embeddings": 3.4894206523895264,
+        "mm_projector": 74247.65625,
+        "encoder.": 0.6663211584091187
+      }
+    },
+    {
+      "variant": "lr1e5",
+      "event": "prompts",
+      "step": 30,
+      "hidden_rms": 3.9967544078826904,
+      "prompt_rms": 0.06029011309146881,
+      "prompt_max": 0.10546875
+    },
+    {
+      "variant": "lr1e5",
+      "event": "features",
+      "step": 30,
+      "dtype": "torch.float32",
+      "std": 0.00018725814879871905,
+      "triplet": 0.10000000149011612,
+      "zero_distance_amp": 0.9991387724876404,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 2.691313966352027e-05,
+      "distance_fp32_mean": 0.00854478683322668
+    },
+    {
+      "variant": "lr1e5",
+      "event": "feature_gradient",
+      "step": 30,
+      "zero_fraction": 1.0,
+      "finite": true
+    },
+    {
+      "variant": "lr1e5",
+      "event": "parameter_gradients",
+      "step": 30,
+      "norms": {
+        "prompt_mlp": 0.0,
+        "query_embeddings": 0.0,
+        "mm_projector": 6391.45751953125,
+        "encoder.": 0.0
+      }
+    },
+    {
+      "variant": "lr1e5",
+      "event": "prompts",
+      "step": 40,
+      "hidden_rms": 3.110562324523926,
+      "prompt_rms": 0.05117041617631912,
+      "prompt_max": 0.10546875
+    },
+    {
+      "variant": "lr1e5",
+      "event": "features",
+      "step": 40,
+      "dtype": "torch.float32",
+      "std": 0.00032883542007766664,
+      "triplet": 0.10435263812541962,
+      "zero_distance_amp": 0.8369832634925842,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0052177500911056995,
+      "distance_fp32_mean": 0.015439853072166443
+    },
+    {
+      "variant": "lr1e5",
+      "event": "feature_gradient",
+      "step": 40,
+      "zero_fraction": 0.8684183955192566,
+      "finite": true
+    },
+    {
+      "variant": "lr1e5",
+      "event": "parameter_gradients",
+      "step": 40,
+      "norms": {
+        "prompt_mlp": 646.3595581054688,
+        "query_embeddings": 21.865793228149414,
+        "mm_projector": 8134.81884765625,
+        "encoder.": 3.0204410552978516
+      }
+    },
+    {
+      "variant": "lr1e5",
+      "event": "prompts",
+      "step": 50,
+      "hidden_rms": 3.925271511077881,
+      "prompt_rms": 0.06181847304105759,
+      "prompt_max": 0.1058349609375
+    },
+    {
+      "variant": "lr1e5",
+      "event": "features",
+      "step": 50,
+      "dtype": "torch.float32",
+      "std": 0.0001656970416661352,
+      "triplet": 0.10000000149011612,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.007543005980551243
+    },
+    {
+      "variant": "lr1e5",
+      "event": "feature_gradient",
+      "step": 50,
+      "zero_fraction": 1.0,
+      "finite": true
+    },
+    {
+      "variant": "lr1e5",
+      "event": "parameter_gradients",
+      "step": 50,
+      "norms": {
+        "prompt_mlp": 0.0,
+        "query_embeddings": 0.0,
+        "mm_projector": 6623.1904296875,
+        "encoder.": 0.0
+      }
+    },
+    {
+      "variant": "lr1e5",
+      "event": "prompts",
+      "step": 60,
+      "hidden_rms": 3.9496994018554688,
+      "prompt_rms": 0.06085048243403435,
+      "prompt_max": 0.1077880859375
+    },
+    {
+      "variant": "lr1e5",
+      "event": "features",
+      "step": 60,
+      "dtype": "torch.float32",
+      "std": 0.00015868106856942177,
+      "triplet": 0.10000000149011612,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.00719104241579771
+    },
+    {
+      "variant": "lr1e5",
+      "event": "feature_gradient",
+      "step": 60,
+      "zero_fraction": 1.0,
+      "finite": true
+    },
+    {
+      "variant": "lr1e5",
+      "event": "parameter_gradients",
+      "step": 60,
+      "norms": {
+        "prompt_mlp": 0.0,
+        "query_embeddings": 0.0,
+        "mm_projector": 7289.8740234375,
+        "encoder.": 0.0
+      }
+    },
+    {
+      "variant": "lr1e5",
+      "event": "prompts",
+      "step": 70,
+      "hidden_rms": 3.13549542427063,
+      "prompt_rms": 0.046982310712337494,
+      "prompt_max": 0.10601806640625
+    },
+    {
+      "variant": "lr1e5",
+      "event": "features",
+      "step": 70,
+      "dtype": "torch.float32",
+      "std": 0.0002426700375508517,
+      "triplet": 0.10097655653953552,
+      "zero_distance_amp": 0.9767470359802246,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0007266547763720155,
+      "distance_fp32_mean": 0.011176349595189095
+    },
+    {
+      "variant": "lr1e5",
+      "event": "feature_gradient",
+      "step": 70,
+      "zero_fraction": 0.9688720703125,
+      "finite": true
+    },
+    {
+      "variant": "lr1e5",
+      "event": "parameter_gradients",
+      "step": 70,
+      "norms": {
+        "prompt_mlp": 177.32408142089844,
+        "query_embeddings": 8.079750061035156,
+        "mm_projector": 5743.9501953125,
+        "encoder.": 0.4876082241535187
+      }
+    },
+    {
+      "variant": "lr1e5",
+      "event": "prompts",
+      "step": 80,
+      "hidden_rms": 3.566948413848877,
+      "prompt_rms": 0.05619489401578903,
+      "prompt_max": 0.11822509765625
+    },
+    {
+      "variant": "lr1e5",
+      "event": "features",
+      "step": 80,
+      "dtype": "torch.float32",
+      "std": 0.00021655384625773877,
+      "triplet": 0.10000000149011612,
+      "zero_distance_amp": 0.991879940032959,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0002537524560466409,
+      "distance_fp32_mean": 0.009983631782233715
+    },
+    {
+      "variant": "lr1e5",
+      "event": "feature_gradient",
+      "step": 80,
+      "zero_fraction": 1.0,
+      "finite": true
+    },
+    {
+      "variant": "lr1e5",
+      "event": "parameter_gradients",
+      "step": 80,
+      "norms": {
+        "prompt_mlp": 0.35078486800193787,
+        "query_embeddings": 0.0,
+        "mm_projector": 6106.89599609375,
+        "encoder.": 9.247335401596501e-05
+      }
+    },
+    {
+      "variant": "lr1e5",
+      "event": "prompts",
+      "step": 90,
+      "hidden_rms": 3.524210214614868,
+      "prompt_rms": 0.05073138698935509,
+      "prompt_max": 0.10174560546875
+    },
+    {
+      "variant": "lr1e5",
+      "event": "features",
+      "step": 90,
+      "dtype": "torch.float32",
+      "std": 0.0002039015816990286,
+      "triplet": 0.10000000149011612,
+      "zero_distance_amp": 0.993848443031311,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.00019223670824430883,
+      "distance_fp32_mean": 0.009397033601999283
+    },
+    {
+      "variant": "lr1e5",
+      "event": "feature_gradient",
+      "step": 90,
+      "zero_fraction": 1.0,
+      "finite": true
+    },
+    {
+      "variant": "lr1e5",
+      "event": "parameter_gradients",
+      "step": 90,
+      "norms": {
+        "prompt_mlp": 0.0,
+        "query_embeddings": 0.0,
+        "mm_projector": 14012.5712890625,
+        "encoder.": 0.0
+      }
+    },
+    {
+      "variant": "lr1e5",
+      "event": "prompts",
+      "step": 100,
+      "hidden_rms": 3.153261423110962,
+      "prompt_rms": 0.04937316104769707,
+      "prompt_max": 0.112060546875
+    },
+    {
+      "variant": "lr1e5",
+      "event": "features",
+      "step": 100,
+      "dtype": "torch.float32",
+      "std": 0.00020658998982980847,
+      "triplet": 0.10000000149011612,
+      "zero_distance_amp": 0.9974163174629211,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 8.07394171715714e-05,
+      "distance_fp32_mean": 0.009494110941886902
+    },
+    {
+      "variant": "lr1e5",
+      "event": "feature_gradient",
+      "step": 100,
+      "zero_fraction": 1.0,
+      "finite": true
+    },
+    {
+      "variant": "lr1e5",
+      "event": "parameter_gradients",
+      "step": 100,
+      "norms": {
+        "prompt_mlp": 0.07414479553699493,
+        "query_embeddings": 0.0,
+        "mm_projector": 2865.902587890625,
+        "encoder.": 6.601442146347836e-05
+      }
+    }
+  ],
+  "probe_a0_noicl": [
+    {
+      "variant": "noicl",
+      "event": "environment",
+      "torch": "2.6.0+cu124",
+      "cuda": "12.4",
+      "gpu": "NVIDIA GeForce RTX 3090"
+    },
+    {
+      "variant": "noicl",
+      "event": "prompts",
+      "step": 1,
+      "hidden_rms": 4.0854997634887695,
+      "prompt_rms": 0.0,
+      "prompt_max": 0.0
+    },
+    {
+      "variant": "noicl",
+      "event": "features",
+      "step": 1,
+      "dtype": "torch.float32",
+      "std": 0.022214382886886597,
+      "triplet": 0.2706867456436157,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.8784356713294983,
+      "distance_fp32_mean": 0.8784302473068237
+    },
+    {
+      "variant": "noicl",
+      "event": "feature_gradient",
+      "step": 1,
+      "zero_fraction": 0.031341552734375,
+      "finite": true
+    },
+    {
+      "variant": "noicl",
+      "event": "parameter_gradients",
+      "step": 1,
+      "norms": {
+        "prompt_mlp": null,
+        "query_embeddings": 0.0,
+        "mm_projector": 0.0,
+        "encoder.": 32192.005859375
+      }
+    },
+    {
+      "variant": "noicl",
+      "event": "prompts",
+      "step": 2,
+      "hidden_rms": 4.008070468902588,
+      "prompt_rms": 0.0,
+      "prompt_max": 0.0
+    },
+    {
+      "variant": "noicl",
+      "event": "features",
+      "step": 2,
+      "dtype": "torch.float32",
+      "std": 0.023871710523962975,
+      "triplet": 0.2932276129722595,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.9406078457832336,
+      "distance_fp32_mean": 0.9406046867370605
+    },
+    {
+      "variant": "noicl",
+      "event": "feature_gradient",
+      "step": 2,
+      "zero_fraction": 5.086263263365254e-05,
+      "finite": true
+    },
+    {
+      "variant": "noicl",
+      "event": "parameter_gradients",
+      "step": 2,
+      "norms": {
+        "prompt_mlp": null,
+        "query_embeddings": 0.0,
+        "mm_projector": 0.0,
+        "encoder.": 15255.5615234375
+      }
+    },
+    {
+      "variant": "noicl",
+      "event": "prompts",
+      "step": 3,
+      "hidden_rms": 3.699594020843506,
+      "prompt_rms": 0.0,
+      "prompt_max": 0.0
+    },
+    {
+      "variant": "noicl",
+      "event": "features",
+      "step": 3,
+      "dtype": "torch.float32",
+      "std": 0.021474268287420273,
+      "triplet": 0.25026869773864746,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.8482732772827148,
+      "distance_fp32_mean": 0.8482673168182373
+    },
+    {
+      "variant": "noicl",
+      "event": "feature_gradient",
+      "step": 3,
+      "zero_fraction": 0.01570638082921505,
+      "finite": true
+    },
+    {
+      "variant": "noicl",
+      "event": "parameter_gradients",
+      "step": 3,
+      "norms": {
+        "prompt_mlp": null,
+        "query_embeddings": 0.0,
+        "mm_projector": 0.0,
+        "encoder.": 6869.060546875
+      }
+    },
+    {
+      "variant": "noicl",
+      "event": "prompts",
+      "step": 4,
+      "hidden_rms": 3.832993745803833,
+      "prompt_rms": 0.0,
+      "prompt_max": 0.0
+    },
+    {
+      "variant": "noicl",
+      "event": "features",
+      "step": 4,
+      "dtype": "torch.float32",
+      "std": 0.02155338041484356,
+      "triplet": 0.2724068760871887,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.8522728085517883,
+      "distance_fp32_mean": 0.8522716164588928
+    },
+    {
+      "variant": "noicl",
+      "event": "feature_gradient",
+      "step": 4,
+      "zero_fraction": 0.0391133651137352,
+      "finite": true
+    },
+    {
+      "variant": "noicl",
+      "event": "parameter_gradients",
+      "step": 4,
+      "norms": {
+        "prompt_mlp": null,
+        "query_embeddings": 0.0,
+        "mm_projector": 0.0,
+        "encoder.": 4698.26416015625
+      }
+    },
+    {
+      "variant": "noicl",
+      "event": "prompts",
+      "step": 5,
+      "hidden_rms": 3.8219571113586426,
+      "prompt_rms": 0.0,
+      "prompt_max": 0.0
+    },
+    {
+      "variant": "noicl",
+      "event": "features",
+      "step": 5,
+      "dtype": "torch.float32",
+      "std": 0.023825742304325104,
+      "triplet": 0.2831701934337616,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.9410390853881836,
+      "distance_fp32_mean": 0.9410369396209717
+    },
+    {
+      "variant": "noicl",
+      "event": "feature_gradient",
+      "step": 5,
+      "zero_fraction": 0.0235087089240551,
+      "finite": true
+    },
+    {
+      "variant": "noicl",
+      "event": "parameter_gradients",
+      "step": 5,
+      "norms": {
+        "prompt_mlp": null,
+        "query_embeddings": 0.0,
+        "mm_projector": 0.0,
+        "encoder.": 1979.326171875
+      }
+    },
+    {
+      "variant": "noicl",
+      "event": "prompts",
+      "step": 10,
+      "hidden_rms": 4.190877437591553,
+      "prompt_rms": 0.0,
+      "prompt_max": 0.0
+    },
+    {
+      "variant": "noicl",
+      "event": "features",
+      "step": 10,
+      "dtype": "torch.float32",
+      "std": 0.023502778261899948,
+      "triplet": 0.2560240626335144,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.9260879158973694,
+      "distance_fp32_mean": 0.9260882139205933
+    },
+    {
+      "variant": "noicl",
+      "event": "feature_gradient",
+      "step": 10,
+      "zero_fraction": 0.0391438826918602,
+      "finite": true
+    },
+    {
+      "variant": "noicl",
+      "event": "parameter_gradients",
+      "step": 10,
+      "norms": {
+        "prompt_mlp": 533331.5,
+        "query_embeddings": 0.0,
+        "mm_projector": 0.0,
+        "encoder.": 58.426597595214844
+      }
+    },
+    {
+      "variant": "noicl",
+      "event": "prompts",
+      "step": 20,
+      "hidden_rms": 3.8214893341064453,
+      "prompt_rms": 0.07746879011392593,
+      "prompt_max": 0.321533203125
+    },
+    {
+      "variant": "noicl",
+      "event": "features",
+      "step": 20,
+      "dtype": "torch.float32",
+      "std": 0.0002174317487515509,
+      "triplet": 0.10000000149011612,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.009834027849137783
+    },
+    {
+      "variant": "noicl",
+      "event": "feature_gradient",
+      "step": 20,
+      "zero_fraction": 1.0,
+      "finite": true
+    },
+    {
+      "variant": "noicl",
+      "event": "parameter_gradients",
+      "step": 20,
+      "norms": {
+        "prompt_mlp": 0.0,
+        "query_embeddings": 0.0,
+        "mm_projector": 0.0,
+        "encoder.": 0.0
+      }
+    },
+    {
+      "variant": "noicl",
+      "event": "prompts",
+      "step": 30,
+      "hidden_rms": 3.8686962127685547,
+      "prompt_rms": 0.09470449388027191,
+      "prompt_max": 0.413330078125
+    },
+    {
+      "variant": "noicl",
+      "event": "features",
+      "step": 30,
+      "dtype": "torch.float32",
+      "std": 0.0001614335778867826,
+      "triplet": 0.10000000149011612,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.00734355952590704
+    },
+    {
+      "variant": "noicl",
+      "event": "feature_gradient",
+      "step": 30,
+      "zero_fraction": 1.0,
+      "finite": true
+    },
+    {
+      "variant": "noicl",
+      "event": "parameter_gradients",
+      "step": 30,
+      "norms": {
+        "prompt_mlp": 0.0,
+        "query_embeddings": 0.0,
+        "mm_projector": 0.0,
+        "encoder.": 0.0
+      }
+    },
+    {
+      "variant": "noicl",
+      "event": "prompts",
+      "step": 40,
+      "hidden_rms": 3.857114791870117,
+      "prompt_rms": 0.11514277011156082,
+      "prompt_max": 0.46875
+    },
+    {
+      "variant": "noicl",
+      "event": "features",
+      "step": 40,
+      "dtype": "torch.float32",
+      "std": 0.0001848888787208125,
+      "triplet": 0.10000000149011612,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.008690250106155872
+    },
+    {
+      "variant": "noicl",
+      "event": "feature_gradient",
+      "step": 40,
+      "zero_fraction": 1.0,
+      "finite": true
+    },
+    {
+      "variant": "noicl",
+      "event": "parameter_gradients",
+      "step": 40,
+      "norms": {
+        "prompt_mlp": 0.0,
+        "query_embeddings": 0.0,
+        "mm_projector": 0.0,
+        "encoder.": 0.0
+      }
+    },
+    {
+      "variant": "noicl",
+      "event": "prompts",
+      "step": 50,
+      "hidden_rms": 3.9201560020446777,
+      "prompt_rms": 0.13748762011528015,
+      "prompt_max": 0.48486328125
+    },
+    {
+      "variant": "noicl",
+      "event": "features",
+      "step": 50,
+      "dtype": "torch.float32",
+      "std": 0.00014725097571499646,
+      "triplet": 0.10000000149011612,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.0069155157543718815
+    },
+    {
+      "variant": "noicl",
+      "event": "feature_gradient",
+      "step": 50,
+      "zero_fraction": 1.0,
+      "finite": true
+    },
+    {
+      "variant": "noicl",
+      "event": "parameter_gradients",
+      "step": 50,
+      "norms": {
+        "prompt_mlp": 0.0,
+        "query_embeddings": 0.0,
+        "mm_projector": 0.0,
+        "encoder.": 0.0
+      }
+    },
+    {
+      "variant": "noicl",
+      "event": "prompts",
+      "step": 60,
+      "hidden_rms": 3.9178152084350586,
+      "prompt_rms": 0.1546502411365509,
+      "prompt_max": 0.52880859375
+    },
+    {
+      "variant": "noicl",
+      "event": "features",
+      "step": 60,
+      "dtype": "torch.float32",
+      "std": 0.0001532942842459306,
+      "triplet": 0.10000000149011612,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.007222999818623066
+    },
+    {
+      "variant": "noicl",
+      "event": "feature_gradient",
+      "step": 60,
+      "zero_fraction": 1.0,
+      "finite": true
+    },
+    {
+      "variant": "noicl",
+      "event": "parameter_gradients",
+      "step": 60,
+      "norms": {
+        "prompt_mlp": 0.0,
+        "query_embeddings": 0.0,
+        "mm_projector": 0.0,
+        "encoder.": 0.0
+      }
+    },
+    {
+      "variant": "noicl",
+      "event": "prompts",
+      "step": 70,
+      "hidden_rms": 3.97444224357605,
+      "prompt_rms": 0.11813730746507645,
+      "prompt_max": 0.4404296875
+    },
+    {
+      "variant": "noicl",
+      "event": "features",
+      "step": 70,
+      "dtype": "torch.float32",
+      "std": 0.00019273447105661035,
+      "triplet": 0.10000000149011612,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.008930624462664127
+    },
+    {
+      "variant": "noicl",
+      "event": "feature_gradient",
+      "step": 70,
+      "zero_fraction": 1.0,
+      "finite": true
+    },
+    {
+      "variant": "noicl",
+      "event": "parameter_gradients",
+      "step": 70,
+      "norms": {
+        "prompt_mlp": 0.0,
+        "query_embeddings": 0.0,
+        "mm_projector": 0.0,
+        "encoder.": 0.0
+      }
+    },
+    {
+      "variant": "noicl",
+      "event": "prompts",
+      "step": 80,
+      "hidden_rms": 3.820230484008789,
+      "prompt_rms": 0.09224646538496017,
+      "prompt_max": 0.388671875
+    },
+    {
+      "variant": "noicl",
+      "event": "features",
+      "step": 80,
+      "dtype": "torch.float32",
+      "std": 0.00018905305478256196,
+      "triplet": 0.10000000149011612,
+      "zero_distance_amp": 0.9998769760131836,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 3.844734237645753e-06,
+      "distance_fp32_mean": 0.008657213300466537
+    },
+    {
+      "variant": "noicl",
+      "event": "feature_gradient",
+      "step": 80,
+      "zero_fraction": 1.0,
+      "finite": true
+    },
+    {
+      "variant": "noicl",
+      "event": "parameter_gradients",
+      "step": 80,
+      "norms": {
+        "prompt_mlp": 0.0,
+        "query_embeddings": 0.0,
+        "mm_projector": 0.0,
+        "encoder.": 0.0
+      }
+    },
+    {
+      "variant": "noicl",
+      "event": "prompts",
+      "step": 90,
+      "hidden_rms": 3.928571939468384,
+      "prompt_rms": 0.1061415821313858,
+      "prompt_max": 0.421630859375
+    },
+    {
+      "variant": "noicl",
+      "event": "features",
+      "step": 90,
+      "dtype": "torch.float32",
+      "std": 0.00019449970568530262,
+      "triplet": 0.10000000149011612,
+      "zero_distance_amp": 0.9982775449752808,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 5.382627932704054e-05,
+      "distance_fp32_mean": 0.008959212340414524
+    },
+    {
+      "variant": "noicl",
+      "event": "feature_gradient",
+      "step": 90,
+      "zero_fraction": 1.0,
+      "finite": true
+    },
+    {
+      "variant": "noicl",
+      "event": "parameter_gradients",
+      "step": 90,
+      "norms": {
+        "prompt_mlp": 0.0,
+        "query_embeddings": 0.0,
+        "mm_projector": 0.0,
+        "encoder.": 0.0
+      }
+    },
+    {
+      "variant": "noicl",
+      "event": "prompts",
+      "step": 100,
+      "hidden_rms": 3.8466203212738037,
+      "prompt_rms": 0.0956834927201271,
+      "prompt_max": 0.433837890625
+    },
+    {
+      "variant": "noicl",
+      "event": "features",
+      "step": 100,
+      "dtype": "torch.float32",
+      "std": 0.00017991858476307243,
+      "triplet": 0.10000000149011612,
+      "zero_distance_amp": 0.9998769760131836,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 3.844734237645753e-06,
+      "distance_fp32_mean": 0.00812600739300251
+    },
+    {
+      "variant": "noicl",
+      "event": "feature_gradient",
+      "step": 100,
+      "zero_fraction": 1.0,
+      "finite": true
+    },
+    {
+      "variant": "noicl",
+      "event": "parameter_gradients",
+      "step": 100,
+      "norms": {
+        "prompt_mlp": 0.0,
+        "query_embeddings": 0.0,
+        "mm_projector": 0.0,
+        "encoder.": 0.0
+      }
+    }
+  ],
+  "probe_a0_random_init": [
+    {
+      "variant": "random_init",
+      "event": "environment",
+      "torch": "2.6.0+cu124",
+      "cuda": "12.4",
+      "gpu": "NVIDIA GeForce RTX 3090"
+    },
+    {
+      "variant": "random_init",
+      "event": "prompts",
+      "step": 1,
+      "hidden_rms": 4.0854997634887695,
+      "prompt_rms": 0.06640131771564484,
+      "prompt_max": 0.35693359375
+    },
+    {
+      "variant": "random_init",
+      "event": "features",
+      "step": 1,
+      "dtype": "torch.float32",
+      "std": 0.005645550787448883,
+      "triplet": 0.15031695365905762,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.22202232480049133,
+      "distance_fp32_mean": 0.22200030088424683
+    },
+    {
+      "variant": "random_init",
+      "event": "feature_gradient",
+      "step": 1,
+      "zero_fraction": 0.00041707357740961015,
+      "finite": true
+    },
+    {
+      "variant": "random_init",
+      "event": "parameter_gradients",
+      "step": 1,
+      "norms": {
+        "prompt_mlp": null,
+        "query_embeddings": null,
+        "mm_projector": null,
+        "encoder.": 15393.6015625
+      }
+    },
+    {
+      "variant": "random_init",
+      "event": "prompts",
+      "step": 2,
+      "hidden_rms": 4.008070468902588,
+      "prompt_rms": 0.0631980150938034,
+      "prompt_max": 0.30126953125
+    },
+    {
+      "variant": "random_init",
+      "event": "features",
+      "step": 2,
+      "dtype": "torch.float32",
+      "std": 0.005939818453043699,
+      "triplet": 0.15981051325798035,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.2329772263765335,
+      "distance_fp32_mean": 0.23294910788536072
+    },
+    {
+      "variant": "random_init",
+      "event": "feature_gradient",
+      "step": 2,
+      "zero_fraction": 0.0002848307485692203,
+      "finite": true
+    },
+    {
+      "variant": "random_init",
+      "event": "parameter_gradients",
+      "step": 2,
+      "norms": {
+        "prompt_mlp": null,
+        "query_embeddings": 368591.0625,
+        "mm_projector": null,
+        "encoder.": 10413.3203125
+      }
+    },
+    {
+      "variant": "random_init",
+      "event": "prompts",
+      "step": 3,
+      "hidden_rms": 3.699594020843506,
+      "prompt_rms": 0.05993722006678581,
+      "prompt_max": 0.313232421875
+    },
+    {
+      "variant": "random_init",
+      "event": "features",
+      "step": 3,
+      "dtype": "torch.float32",
+      "std": 0.006437196396291256,
+      "triplet": 0.18471550941467285,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.2532704174518585,
+      "distance_fp32_mean": 0.2532423138618469
+    },
+    {
+      "variant": "random_init",
+      "event": "feature_gradient",
+      "step": 3,
+      "zero_fraction": 0.00017293295240961015,
+      "finite": true
+    },
+    {
+      "variant": "random_init",
+      "event": "parameter_gradients",
+      "step": 3,
+      "norms": {
+        "prompt_mlp": null,
+        "query_embeddings": null,
+        "mm_projector": null,
+        "encoder.": 9787.57421875
+      }
+    },
+    {
+      "variant": "random_init",
+      "event": "prompts",
+      "step": 4,
+      "hidden_rms": 3.832993745803833,
+      "prompt_rms": 0.061765845865011215,
+      "prompt_max": 0.32275390625
+    },
+    {
+      "variant": "random_init",
+      "event": "features",
+      "step": 4,
+      "dtype": "torch.float32",
+      "std": 0.006804205477237701,
+      "triplet": 0.1812196671962738,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.26839950680732727,
+      "distance_fp32_mean": 0.26836270093917847
+    },
+    {
+      "variant": "random_init",
+      "event": "feature_gradient",
+      "step": 4,
+      "zero_fraction": 0.000213623046875,
+      "finite": true
+    },
+    {
+      "variant": "random_init",
+      "event": "parameter_gradients",
+      "step": 4,
+      "norms": {
+        "prompt_mlp": null,
+        "query_embeddings": 156839.0625,
+        "mm_projector": 5103612.5,
+        "encoder.": 4221.7060546875
+      }
+    },
+    {
+      "variant": "random_init",
+      "event": "prompts",
+      "step": 5,
+      "hidden_rms": 3.8219571113586426,
+      "prompt_rms": 0.06042364984750748,
+      "prompt_max": 0.283935546875
+    },
+    {
+      "variant": "random_init",
+      "event": "features",
+      "step": 5,
+      "dtype": "torch.float32",
+      "std": 0.0051462105475366116,
+      "triplet": 0.17612718045711517,
+      "zero_distance_amp": 0.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.20225945115089417,
+      "distance_fp32_mean": 0.20221787691116333
+    },
+    {
+      "variant": "random_init",
+      "event": "feature_gradient",
+      "step": 5,
+      "zero_fraction": 0.00030517578125,
+      "finite": true
+    },
+    {
+      "variant": "random_init",
+      "event": "parameter_gradients",
+      "step": 5,
+      "norms": {
+        "prompt_mlp": null,
+        "query_embeddings": 145852.875,
+        "mm_projector": 2243522.0,
+        "encoder.": 2109.941162109375
+      }
+    },
+    {
+      "variant": "random_init",
+      "event": "prompts",
+      "step": 10,
+      "hidden_rms": 3.4985549449920654,
+      "prompt_rms": 0.16869667172431946,
+      "prompt_max": 0.640625
+    },
+    {
+      "variant": "random_init",
+      "event": "features",
+      "step": 10,
+      "dtype": "torch.float32",
+      "std": 0.00028971783467568457,
+      "triplet": 0.10097655653953552,
+      "zero_distance_amp": 0.9669045209884644,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0010342334862798452,
+      "distance_fp32_mean": 0.013129816390573978
+    },
+    {
+      "variant": "random_init",
+      "event": "feature_gradient",
+      "step": 10,
+      "zero_fraction": 0.96905517578125,
+      "finite": true
+    },
+    {
+      "variant": "random_init",
+      "event": "parameter_gradients",
+      "step": 10,
+      "norms": {
+        "prompt_mlp": 259.54071044921875,
+        "query_embeddings": 53.23476791381836,
+        "mm_projector": 193276.296875,
+        "encoder.": 5.2870402336120605
+      }
+    },
+    {
+      "variant": "random_init",
+      "event": "prompts",
+      "step": 20,
+      "hidden_rms": 3.121065616607666,
+      "prompt_rms": 0.2975364029407501,
+      "prompt_max": 0.9541015625
+    },
+    {
+      "variant": "random_init",
+      "event": "features",
+      "step": 20,
+      "dtype": "torch.float32",
+      "std": 0.00025844655465334654,
+      "triplet": 0.10048827528953552,
+      "zero_distance_amp": 0.9952017664909363,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.00014994463708717376,
+      "distance_fp32_mean": 0.011692590080201626
+    },
+    {
+      "variant": "random_init",
+      "event": "feature_gradient",
+      "step": 20,
+      "zero_fraction": 0.9845784902572632,
+      "finite": true
+    },
+    {
+      "variant": "random_init",
+      "event": "parameter_gradients",
+      "step": 20,
+      "norms": {
+        "prompt_mlp": 38.71794128417969,
+        "query_embeddings": 20.060325622558594,
+        "mm_projector": 30595.861328125,
+        "encoder.": 1.8705055713653564
+      }
+    },
+    {
+      "variant": "random_init",
+      "event": "prompts",
+      "step": 30,
+      "hidden_rms": 3.168297290802002,
+      "prompt_rms": 0.3501931130886078,
+      "prompt_max": 1.171875
+    },
+    {
+      "variant": "random_init",
+      "event": "features",
+      "step": 30,
+      "dtype": "torch.float32",
+      "std": 0.00018941049347631633,
+      "triplet": 0.10000000149011612,
+      "zero_distance_amp": 1.0,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.0,
+      "distance_fp32_mean": 0.008476277813315392
+    },
+    {
+      "variant": "random_init",
+      "event": "feature_gradient",
+      "step": 30,
+      "zero_fraction": 1.0,
+      "finite": true
+    },
+    {
+      "variant": "random_init",
+      "event": "parameter_gradients",
+      "step": 30,
+      "norms": {
+        "prompt_mlp": 2.356200695037842,
+        "query_embeddings": 0.33624374866485596,
+        "mm_projector": 4614.37646484375,
+        "encoder.": 0.06744068115949631
+      }
+    },
+    {
+      "variant": "random_init",
+      "event": "prompts",
+      "step": 40,
+      "hidden_rms": 3.104936122894287,
+      "prompt_rms": 0.36774006485939026,
+      "prompt_max": 1.2529296875
+    },
+    {
+      "variant": "random_init",
+      "event": "features",
+      "step": 40,
+      "dtype": "torch.float32",
+      "std": 0.00024950457736849785,
+      "triplet": 0.10000000149011612,
+      "zero_distance_amp": 0.9981545209884644,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 5.7671015383675694e-05,
+      "distance_fp32_mean": 0.011297477409243584
+    },
+    {
+      "variant": "random_init",
+      "event": "feature_gradient",
+      "step": 40,
+      "zero_fraction": 1.0,
+      "finite": true
+    },
+    {
+      "variant": "random_init",
+      "event": "parameter_gradients",
+      "step": 40,
+      "norms": {
+        "prompt_mlp": 1.4070624113082886,
+        "query_embeddings": 0.35811665654182434,
+        "mm_projector": 17545.90234375,
+        "encoder.": 0.053695645183324814
+      }
+    },
+    {
+      "variant": "random_init",
+      "event": "prompts",
+      "step": 50,
+      "hidden_rms": 3.1282098293304443,
+      "prompt_rms": 0.37257012724876404,
+      "prompt_max": 1.3486328125
+    },
+    {
+      "variant": "random_init",
+      "event": "features",
+      "step": 50,
+      "dtype": "torch.float32",
+      "std": 0.00019668566528707743,
+      "triplet": 0.10000000149011612,
+      "zero_distance_amp": 0.9993848204612732,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 1.9223671188228764e-05,
+      "distance_fp32_mean": 0.008859514258801937
+    },
+    {
+      "variant": "random_init",
+      "event": "feature_gradient",
+      "step": 50,
+      "zero_fraction": 1.0,
+      "finite": true
+    },
+    {
+      "variant": "random_init",
+      "event": "parameter_gradients",
+      "step": 50,
+      "norms": {
+        "prompt_mlp": 4.337544918060303,
+        "query_embeddings": 2.2409474849700928,
+        "mm_projector": 14152.994140625,
+        "encoder.": 0.16365429759025574
+      }
+    },
+    {
+      "variant": "random_init",
+      "event": "prompts",
+      "step": 60,
+      "hidden_rms": 3.237015724182129,
+      "prompt_rms": 0.3939840793609619,
+      "prompt_max": 1.3671875
+    },
+    {
+      "variant": "random_init",
+      "event": "features",
+      "step": 60,
+      "dtype": "torch.float32",
+      "std": 0.00018137542065232992,
+      "triplet": 0.10000000149011612,
+      "zero_distance_amp": 0.9998769760131836,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 3.844734237645753e-06,
+      "distance_fp32_mean": 0.008191372267901897
+    },
+    {
+      "variant": "random_init",
+      "event": "feature_gradient",
+      "step": 60,
+      "zero_fraction": 1.0,
+      "finite": true
+    },
+    {
+      "variant": "random_init",
+      "event": "parameter_gradients",
+      "step": 60,
+      "norms": {
+        "prompt_mlp": 2.1731560230255127,
+        "query_embeddings": 1.1086461544036865,
+        "mm_projector": 16325.29296875,
+        "encoder.": 0.0859341025352478
+      }
+    },
+    {
+      "variant": "random_init",
+      "event": "prompts",
+      "step": 70,
+      "hidden_rms": 3.2915332317352295,
+      "prompt_rms": 0.412995845079422,
+      "prompt_max": 1.5126953125
+    },
+    {
+      "variant": "random_init",
+      "event": "features",
+      "step": 70,
+      "dtype": "torch.float32",
+      "std": 0.00024361367104575038,
+      "triplet": 0.10048827528953552,
+      "zero_distance_amp": 0.9961860179901123,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.00011918676318600774,
+      "distance_fp32_mean": 0.011117094196379185
+    },
+    {
+      "variant": "random_init",
+      "event": "feature_gradient",
+      "step": 70,
+      "zero_fraction": 0.98455810546875,
+      "finite": true
+    },
+    {
+      "variant": "random_init",
+      "event": "parameter_gradients",
+      "step": 70,
+      "norms": {
+        "prompt_mlp": 30.283191680908203,
+        "query_embeddings": 6.480018615722656,
+        "mm_projector": 9448.7861328125,
+        "encoder.": 1.6083755493164062
+      }
+    },
+    {
+      "variant": "random_init",
+      "event": "prompts",
+      "step": 80,
+      "hidden_rms": 3.4192724227905273,
+      "prompt_rms": 0.4297269582748413,
+      "prompt_max": 1.4111328125
+    },
+    {
+      "variant": "random_init",
+      "event": "features",
+      "step": 80,
+      "dtype": "torch.float32",
+      "std": 0.0002351301081944257,
+      "triplet": 0.10000000149011612,
+      "zero_distance_amp": 0.9996309280395508,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 1.1534202712937258e-05,
+      "distance_fp32_mean": 0.010780557058751583
+    },
+    {
+      "variant": "random_init",
+      "event": "feature_gradient",
+      "step": 80,
+      "zero_fraction": 1.0,
+      "finite": true
+    },
+    {
+      "variant": "random_init",
+      "event": "parameter_gradients",
+      "step": 80,
+      "norms": {
+        "prompt_mlp": 1.0680979490280151,
+        "query_embeddings": 0.36548107862472534,
+        "mm_projector": 5524.20361328125,
+        "encoder.": 0.042502667754888535
+      }
+    },
+    {
+      "variant": "random_init",
+      "event": "prompts",
+      "step": 90,
+      "hidden_rms": 3.2848410606384277,
+      "prompt_rms": 0.41791611909866333,
+      "prompt_max": 1.30859375
+    },
+    {
+      "variant": "random_init",
+      "event": "features",
+      "step": 90,
+      "dtype": "torch.float32",
+      "std": 0.0002432390465401113,
+      "triplet": 0.10048827528953552,
+      "zero_distance_amp": 0.9956939220428467,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 0.00013456569286063313,
+      "distance_fp32_mean": 0.011077974922955036
+    },
+    {
+      "variant": "random_init",
+      "event": "feature_gradient",
+      "step": 90,
+      "zero_fraction": 0.984619140625,
+      "finite": true
+    },
+    {
+      "variant": "random_init",
+      "event": "parameter_gradients",
+      "step": 90,
+      "norms": {
+        "prompt_mlp": 31.610939025878906,
+        "query_embeddings": 7.796187877655029,
+        "mm_projector": 2934.907958984375,
+        "encoder.": 1.6075915098190308
+      }
+    },
+    {
+      "variant": "random_init",
+      "event": "prompts",
+      "step": 100,
+      "hidden_rms": 3.303375005722046,
+      "prompt_rms": 0.4205242097377777,
+      "prompt_max": 1.3330078125
+    },
+    {
+      "variant": "random_init",
+      "event": "features",
+      "step": 100,
+      "dtype": "torch.float32",
+      "std": 0.00023276112915482372,
+      "triplet": 0.10000000149011612,
+      "zero_distance_amp": 0.9987697005271912,
+      "zero_distance_fp32": 0.0,
+      "distance_amp_mean": 3.844734237645753e-05,
+      "distance_fp32_mean": 0.010549032129347324
+    },
+    {
+      "variant": "random_init",
+      "event": "feature_gradient",
+      "step": 100,
+      "zero_fraction": 1.0,
+      "finite": true
+    },
+    {
+      "variant": "random_init",
+      "event": "parameter_gradients",
+      "step": 100,
+      "norms": {
+        "prompt_mlp": 1.5347305536270142,
+        "query_embeddings": 0.591025173664093,
+        "mm_projector": 4012.568603515625,
+        "encoder.": 0.0330282524228096
+      }
+    }
+  ]
+}
