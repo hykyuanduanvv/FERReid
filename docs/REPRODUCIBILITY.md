@@ -74,3 +74,14 @@ GPU 检查只做冻结模型前向，没有优化器更新。原源码保留的�
 | `tests/test_models.py` | 原 6 个变体数值与加入方向 A 代码前完全相同（默认不变）；残差 + EMA + episode 变体前后向通过，所有新参数有梯度，EMA 均值被更新，两个不同上下文生成的 prompt 余弦 0.23（< 1，prompt 随上下文变化） |
 | 摄像头对伪域（调参折 Market + MSMT17 train 部分） | `--pseudo_min_ids 64`：62 个伪域（Market 15、MSMT17 47），14,807 个样本，覆盖 1,771 / 1,792 人 |
 | 端到端（`launch_tasks.py`：VICP DINOv2 + BNNeck/CE + 残差/EMA + 摄像头对伪域 + episode，训练 4 步 → `context_gain.py`（VIPeR、i-LIDS）→ `eval_context.py`） | 三个任务状态 0；评测从 checkpoint 恢复 `prompt_mode / ctx_center / pseudo_domains / num_train_ids=1771`，missing/unexpected 均为 0。4 步模型的指标无意义，只验证流程 |
+
+### 方向 B（选择算法）代码检查（2026-10-01，服务器 RTX 4090 D）
+
+| 检查 | 结果 |
+|---|---|
+| `tests/test_selectors.py`（合成数据） | 11 个选择器均返回 k 个不同的合法索引、同种子可复现；**隐藏标签被访问即报错的守卫未触发**；去重类选择器无重复的人；`camera_balanced` / `facility_camera` 覆盖全部 4 个摄像头；`typical` 典型性最高、`kcenter` 多样性最高 |
+| `tests/test_selectors.py --real`（VIPeR / GRID split 0，k=16，10 个种子） | 用 9/30 训练好的 VPT DINOv2 特征：多数选择器得到 15.6–16.0 个有效配对；`first` 在 VIPeR 只有 8 个（相邻两张是同一人）。用未训练的预训练特征时 GRID 上 `facility` / `typical` 会重复选同一人（1.4–2.0 张），因此**选择特征默认改用模型训练过的编码器（无 prompt）** |
+| 回归 | `tests/test_models.py` 数值与之前完全一致；`tests/test_selection.py` 的 `identity` 仍与旧实现逐项一致 |
+| GPU 冒烟（launcher） | `eval_selectors.py` 两种生成器（tuned / incontext）、`eval_context.py --methods random,typical,facility_camera`（自动提取候选池特征并记录选择性质）、`--train_context_selector typical` 训练：全部成功 |
+| 发现并修复 | BNNeck 头在 fp16 训练中崩溃（BN 缓冲区与冻结 bias 仍为 fp16，旧代码只检查已转为 fp32 的 weight）；CPU（fp32）测试无法发现，GPU 测试暴露 |
+| 真实配置的显存与速度（batch 64，fp16，24 GB） | 全参微调 3.0 步/秒；方向 A 全开 1.35 步/秒；VPT + BNNeck 2.9 步/秒；方向 A + 训练时 `facility` 选择 1.21 步/秒；峰值显存 21.4 GB |

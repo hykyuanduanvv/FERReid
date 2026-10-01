@@ -182,6 +182,32 @@ class Model(torch.nn.Module):
         delta = delta.reshape(B, self.num_layers, T // self.num_layers, D) * self.ctx_gate.float()
         return self.base_prompt.float() + delta.reshape(B, T, D)
 
+    @torch.no_grad()
+    def _select_context_ids(self, image_crops, nview, n_ctx, method):
+        """Identity order (selected context identities first) chosen by a label-free selector over the
+        batch: one feature per identity = mean of its images' CLS features (trained encoder, no prompt,
+        no gradient, as at test time). No camera ids are
+        available in a batch, so camera-based selectors fall back to their camera-free behaviour."""
+        import numpy as np
+        from adapters.context_selection import select_images
+
+        class _BatchPool:  # the minimal ImagePool interface the selectors use
+            def __init__(self, feats):
+                self.paths, self.camids, self.has_cameras = [None] * len(feats), [0] * len(feats), False
+                self.feats, self.style, self._sel_stats = feats, None, None
+
+            def __len__(self):
+                return len(self.paths)
+
+        if method == "style_cover":
+            raise ValueError("--train_context_selector style_cover is not supported (no style features in a batch)")
+        f = self.encoder.forward_features(image_crops)["x_norm_clstoken"].float()  # trained encoder, no prompt
+        f = F.normalize(F.normalize(f, dim=-1).reshape(-1, nview, f.size(-1)).mean(1), dim=-1)
+        rng = np.random.RandomState(int(torch.randint(0, 2 ** 31 - 1, (1,)).item()))
+        chosen = select_images(method, _BatchPool(f.cpu().numpy()), n_ctx, rng)
+        rest = [i for i in range(f.size(0)) if i not in set(chosen)]
+        return torch.tensor(chosen + rest)
+
     def base_prompts(self):
         """Context-free prompt of --prompt_mode residual (what the model does without any context), shaped
         like the prompts returned by forward(); None for the original VICP prompt."""
@@ -248,6 +274,13 @@ class Model(torch.nn.Module):
                 n_min = getattr(self.args, "episode_context_ids_min", 0)
                 if 0 < n_min < n_ctx:
                     n_ctx = int(torch.randint(n_min, n_ctx + 1, (1,)).item())
+                # direction B phase 2 (--train_context_selector): a label-free selector, instead of the
+                # batch order, decides which identities of the batch form the context
+                sel = getattr(self.args, "train_context_selector", "random")
+                if sel != "random":
+                    order = self._select_context_ids(image_crops, nview, n_ctx, sel)
+                    img_order = (order[:, None] * nview + torch.arange(nview)).reshape(-1).to(image_crops.device)
+                    image_crops, labels = image_crops[img_order], labels[img_order]
                 cut = n_ctx * nview
                 if cut >= image_crops.size(0):
                     raise ValueError("episode_context_ids must leave identities to retrieve in the batch")

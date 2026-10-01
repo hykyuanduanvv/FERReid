@@ -33,7 +33,9 @@ class ReIDHead(nn.Module):
             nn.init.normal_(self.classifier.weight, std=0.001)
 
     def forward(self, raw, labels=None, compute_ce=False):
-        if self.bn.weight.dtype != torch.float32:  # model.to(fp16) also converts frozen params / buffers
+        # model.to(fp16) converts the BN buffers and the frozen bias; the trainer only moves *trainable*
+        # parameters back to fp32, so check the buffers (checking bn.weight would miss them)
+        if self.bn.running_mean.dtype != torch.float32 or self.bn.bias.dtype != torch.float32:
             self.float()
         with torch.autocast(device_type=raw.device.type, enabled=False):
             f = raw.float()

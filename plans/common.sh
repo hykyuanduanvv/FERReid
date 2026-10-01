@@ -81,3 +81,19 @@ gain() {
     --domains viper,grid,ilids --eval_splits 3 --ks 4,16 --n_draws 5 --n_cross 2 --selection_unit image \
     --num_icl_samples 64 --fp16 True --report_to none "$@" 2>&1 | tee "$out/gain.log"
 }
+
+# ---------------------------------------------------------------- direction B (plans/select_*.tasks)
+# best direction-A configuration / run, set after plans/dirA.tasks (override in plans/chosen.sh)
+A_BEST_ARGS=${A_BEST_ARGS:-"$A_EMA $A_EPI $A_CAM"}
+A_BEST_RUN=${A_BEST_RUN:-a5_all}
+SELECTORS_ALL="random,first,dedup,pairable,typical,kcenter,camera_balanced,style_cover,hard_negative,facility,facility_camera"
+
+# selsweep <name> <checkpoint> <incontext|tuned> [extra args...]: all selectors on the small target domains
+selsweep() {
+  local name=$1 ckpt=$2 gen=$3; shift 3
+  local out="experiments/$name"
+  if [ -e "$out/selectors.csv" ]; then echo "refusing to overwrite $out/selectors.csv" >&2; return 2; fi
+  mkdir -p "$out"
+  "$PY" scripts/eval_selectors.py --output_dir "$out" --checkpoint "$ckpt" --generator "$gen" \
+    --selectors "$SELECTORS_ALL" --num_icl_samples 64 --report_to none "$@" 2>&1 | tee "$out/selectors.log"
+}

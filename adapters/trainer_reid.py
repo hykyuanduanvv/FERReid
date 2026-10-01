@@ -12,7 +12,7 @@ from custom_trainer import CustomTrainer
 from adapters.config_reid import DOMAIN_CONFIG, NUM_SPLITS, NO_CAMERA_DOMAINS
 from adapters.reid_dataset import (DomainPersonTrainDataset, CameraPairTrainDataset, ContextPairDataset,
                                    DomainReIDEvalDataset)
-from adapters.context_selection import ContextSampler
+from adapters.context_selection import ContextSampler, needs_features
 from torchreid.metrics import evaluate_rank
 
 
@@ -240,6 +240,15 @@ class DGReIDTrainer(CustomTrainer):
         return self._dataset_cache[key]
 
     @torch.no_grad()
+    def _attach_selector_features(self, ds, sampler):
+        """Label-free features of the context pool (ds.train order) for feature-based selectors."""
+        from adapters.selectors import extract_selector_features
+        loader = DataLoader(DomainReIDEvalDataset(ds.train), batch_size=256, shuffle=False,
+                            num_workers=self.args.eval_num_workers)
+        feats, style = extract_selector_features(self.model, loader, self._device)
+        sampler.attach_features(feats, style)
+
+    @torch.no_grad()
     def _extract(self, split_data, prompts, seed):
         _seed_all(seed)
         loader = DataLoader(DomainReIDEvalDataset(split_data), batch_size=256, shuffle=False,
@@ -295,6 +304,8 @@ class DGReIDTrainer(CustomTrainer):
                     except Exception as e:
                         print("Skipping {} split {}: {}".format(name, split_id, e))
                         break
+                    if unit == "image" and any(needs_features(m) for m in methods) and not sampler.has_features:
+                        self._attach_selector_features(ds, sampler)
                     for method in methods:
                         for k in ks:
                             for seed in seeds:
@@ -306,9 +317,10 @@ class DGReIDTrainer(CustomTrainer):
                                           .format(name, split_id, method, k, seed))
                                     continue
                                 res = self.eval_context(ds, pairs, s)
+                                props = {key: v for key, v in info.items() if key.startswith("p_")}
                                 rows.append(dict(domain=name, split=split_id, method=method, k=k, seed=seed,
                                                  unit=unit, n_pairs=info["n_pairs"], n_fail=info["n_fail"],
-                                                 n_dup=info["n_dup"], **res))
+                                                 n_dup=info["n_dup"], **res, **props))
         return rows
 
     @torch.no_grad()

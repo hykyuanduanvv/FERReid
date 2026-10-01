@@ -45,6 +45,9 @@ class ReIDTrainingArguments(transformers.TrainingArguments):
     delta_init_std: float = field(default=0.02)   # init std of prompt_mlp in residual mode
     episode_context_ids: int = field(default=0)   # > 0: first N identities of a batch = context only
     episode_context_ids_min: int = field(default=0)  # > 0: N drawn uniformly from [min, episode_context_ids]
+    # direction B phase 2: label-free selector choosing the context identities of each batch
+    # (needs --episode_context_ids > 0; "random" = the batch order; see adapters/selectors.py)
+    train_context_selector: str = field(default="random")
     pseudo_domains: str = field(default="none")   # "camera_pair": a training "domain" = (dataset, camera pair)
     pseudo_min_ids: int = field(default=8)        # camera pairs with fewer identities are dropped
 

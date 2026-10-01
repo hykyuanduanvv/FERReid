@@ -121,10 +121,18 @@ class ImagePool:
         self.paths = [x[0] for x in train_data]
         self.camids = [x[2] for x in train_data]
         self.has_cameras = has_cameras
+        self.feats = None   # (N, D) label-free features, see attach_features()
+        self.style = None   # (N, S) label-free style statistics
         self._oracle = _AnnotationOracle([x[1] for x in train_data], self.camids)
+        self._sel_stats = None
 
     def __len__(self):
         return len(self.paths)
+
+    def attach_features(self, feats, style=None):
+        """Label-free features (row i = image i of this pool) for the feature-based selectors."""
+        assert len(feats) == len(self.paths)
+        self.feats, self.style, self._sel_stats = feats, style, None
 
 
 def select_images_random(pool, k, rng, **kwargs):
@@ -141,6 +149,14 @@ IMAGE_SELECTORS = {
     "random": select_images_random,
     "first": select_images_first,
 }
+# label-free feature-based selectors (direction B): dedup, pairable, typical, kcenter, camera_balanced,
+# style_cover, hard_negative, facility, facility_camera
+from adapters.selectors import SELECTORS as _FEATURE_SELECTORS, FEATURE_FREE  # noqa: E402
+IMAGE_SELECTORS.update(_FEATURE_SELECTORS)
+
+
+def needs_features(method):
+    return method not in FEATURE_FREE
 
 
 def select_images(method, pool, k, rng, **kwargs):
@@ -181,6 +197,13 @@ class ContextSampler:
         self.identity_pool = CandidatePool(train_data)
         self.image_pool = ImagePool(train_data, has_cameras=has_cameras)
 
+    def attach_features(self, feats, style=None):
+        self.image_pool.attach_features(feats, style)
+
+    @property
+    def has_features(self):
+        return self.image_pool.feats is not None
+
     def draw(self, unit, method, k, rng):
         """-> (pairs, info). unit "image": label-free anchors + simulated annotation;
         unit "identity": historical pid-level selection (exactly the earlier random stream)."""
@@ -193,5 +216,7 @@ class ContextSampler:
             anchors = select_images(method, self.image_pool, k, rng)
             pairs, info = annotate(self.image_pool, anchors, rng)
             info["selected"] = " ".join(map(str, anchors))
+            from adapters.selectors import selection_properties
+            info.update(selection_properties(self.image_pool, anchors))  # empty without features
             return pairs, info
         raise ValueError("--selection_unit must be image or identity, got {}".format(unit))

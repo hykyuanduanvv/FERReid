@@ -38,7 +38,7 @@ def main():
         spec.loader.exec_module(legacy)
 
     public = {k for k in vars(ImagePool([("x", 0, 0)])) if not k.startswith("_")}
-    assert public == {"paths", "camids", "has_cameras"}, public
+    assert public == {"paths", "camids", "has_cameras", "feats", "style"}, public  # all label-free
     for name in a.domains.split(","):
         ds = load(name)
         cams = name not in NO_CAMERA_DOMAINS
