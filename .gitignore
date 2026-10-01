@@ -44,3 +44,7 @@ configs/local*.sh
 *.key
 .DS_Store
 Thumbs.db
+
+# Generated local tuning decisions (archive reviewed snapshots under results/)
+plans/chosen.sh
+plans/final.sh

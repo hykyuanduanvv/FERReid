@@ -27,7 +27,9 @@ def curve(name):
     if not path.exists():
         return None
     hist = json.loads(path.read_text())["log_history"]
-    return [(h["step"], h["val_mean_mAP"]) for h in hist if "val_mean_mAP" in h]
+    # Final-step evaluation can be logged twice; score distinct evaluation steps.
+    points = {h["step"]: h["val_mean_mAP"] for h in hist if "val_mean_mAP" in h}
+    return sorted(points.items())
 
 
 def score(name):

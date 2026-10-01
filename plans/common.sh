@@ -27,7 +27,8 @@ TRAIN_COMMON="--backbone dinov2_b14 --per_device_train_batch_size 64 --num_icl_s
 
 # stage-1/2 decisions are written here by scripts/pick_best.py (LOSS_ARGS, STEPS, SCHEDULE)
 [ -f plans/chosen.sh ] && source plans/chosen.sh
-LOSS_ARGS=${LOSS_ARGS:-$LOSS_BOT}
+# Empty LOSS_ARGS intentionally selects triplet-only; default only when unset.
+LOSS_ARGS=${LOSS_ARGS-$LOSS_BOT}
 STEPS=${STEPS:-12000}
 SCHEDULE=${SCHEDULE:-"--lr_scheduler_type cosine --warmup_steps 500"}
 # stage-3 decisions (pedestrian-specific options kept after the sweep) go into plans/final.sh

@@ -10,6 +10,9 @@ def main():
     parser = transformers.HfArgumentParser(TrainingArguments)
     args = parser.parse_args_into_dataclasses()[0]
 
+    # Seed model initialization as well as the later Trainer sampling.
+    transformers.set_seed(args.seed)
+
     if args.no_cuda:
         device = "cpu"
     else:
