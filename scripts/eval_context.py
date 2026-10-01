@@ -47,7 +47,7 @@ def main():
         saved = os.path.join(eargs.checkpoint, "training_args.bin")
         if os.path.isfile(saved):
             saved = torch.load(saved, map_location="cpu", weights_only=False)
-            for name in ("source_domains", "source_all_images", "val_domains"):
+            for name in ("source_domains", "source_all_images", "val_domains", "pseudo_domains", "pseudo_min_ids"):
                 if hasattr(saved, name) and getattr(args, name) != getattr(saved, name):
                     print("[checkpoint] {} = {!r} (command line had {!r})".format(
                         name, getattr(saved, name), getattr(args, name)))

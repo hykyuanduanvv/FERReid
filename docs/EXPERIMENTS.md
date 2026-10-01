@@ -63,3 +63,11 @@ VIPeR、GRID、i-LIDS 为目标域，每个目标 split 从 train 取支持，qu
 **选择单位**（`--selection_unit`，默认 `image`）：见 [运行计划 §4](RUN_PLAN_20261001.md)。`identity` 为历史实现，与旧代码逐项一致（`tests/test_selection.py`）。
 
 **Protocol-2**：Market1501、MSMT17、CUHK-SYSU、CUHK03 留一交叉；源域只用 train 部分（`--source_all_images False`），目标域的 train 部分只作无标签候选池，query/gallery 评测。调参在"目标 = CUHK-SYSU"一折内进行：Market + MSMT17 训练、CUHK03 验证。任务清单见 `plans/`。
+
+## 方向 A：上下文依赖的 prompt（2026-10-01，实验待运行）
+
+`--prompt_mode residual`：`prompt = base + gate ⊙ prompt_mlp(LN(h − h̄))`。`base` 为零初始化的可学习 prompt（与 VPT 相同），`gate` 为每层一个标量（初值 `--ctx_gate_init` 0.1），`prompt_mlp` 小随机初始化（`--delta_init_std` 0.02），`h̄` 在 `--ctx_center ema` 时为训练中 `h` 的滑动均值（动量 0.99，保存在 checkpoint 中，评测时固定），否则为 0。`model.base_prompts()` 给出无上下文时的 prompt，供 `scripts/context_gain.py` 比较。
+
+`--episode_context_ids N`（`--episode_context_ids_min M`）：训练时 batch 中前 N 个身份（每步在 [M, N] 内随机）只用于出题，检索损失（triplet / CE / WPA）只在其余身份上计算；配合 `--unique_ids_per_batch True` 使上下文与检索的人不重叠。
+
+`--pseudo_domains camera_pair`（`--pseudo_min_ids`）：训练数据改为 `CameraPairTrainDataset`，每个 (数据集, 摄像头对) 是一个伪域，样本 = 同时出现在两摄像头的人，K 张图在两摄像头间交替；ID 分类的类别仍是全局身份。评测时 `eval_context.py` 从 checkpoint 读回 `pseudo_domains / pseudo_min_ids`，以复原同样的身份数。

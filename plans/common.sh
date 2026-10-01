@@ -61,3 +61,23 @@ p2_sources() {
   for d in market1501 msmt17 cuhksysu cuhk03; do [ "$d" != "$t" ] && out="${out:+$out,}$d"; done
   echo "$out"
 }
+
+# ---------------------------------------------------------------- direction A (plans/dirA.tasks)
+A_RES="--prompt_mode residual"                                  # prompt = base + gate * delta(context)
+A_EMA="--prompt_mode residual --ctx_center ema"                 # delta only sees what changes with the context
+A_EPI="--episode_context_ids 16 --episode_context_ids_min 4 --unique_ids_per_batch True"  # context people != retrieved people, k in [4,16]
+A_CAM="--pseudo_domains camera_pair --pseudo_min_ids 64 --unique_ids_per_batch True"  # (dataset, camera pair) pseudo-domains; >= 64 ids so a batch has no repeated person
+
+# gain <name> <checkpoint> [extra args...]: direction-A decision test (scripts/context_gain.py) on the small
+# target domains; the stage-1 VPT run with the same loss is the no-context reference when it exists.
+gain() {
+  local name=$1 ckpt=$2; shift 2
+  local out="experiments/$name" ref="experiments/${LOSS_REF:-s1_vpt_bot}/checkpoint-3000"
+  if [ -e "$out/context_gain.csv" ]; then echo "refusing to overwrite $out/context_gain.csv" >&2; return 2; fi
+  mkdir -p "$out"
+  local refarg=""; [ -d "$ref" ] && refarg="--reference_checkpoint $ref"
+  # shellcheck disable=SC2086
+  "$PY" scripts/context_gain.py --output_dir "$out" --checkpoint "$ckpt" $refarg \
+    --domains viper,grid,ilids --eval_splits 3 --ks 4,16 --n_draws 5 --n_cross 2 --selection_unit image \
+    --num_icl_samples 64 --fp16 True --report_to none "$@" 2>&1 | tee "$out/gain.log"
+}

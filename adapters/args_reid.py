@@ -38,6 +38,16 @@ class ReIDTrainingArguments(transformers.TrainingArguments):
     label_smoothing: float = field(default=0.1)
     num_train_ids: int = field(default=0)         # set by the trainer / read from the checkpoint
 
+    # --- direction A: make the prompt depend on the context (defaults = original VICP)
+    prompt_mode: str = field(default="vicp")      # "residual": prompt = base + gate * delta(context)
+    ctx_center: str = field(default="none")       # "ema": delta sees h minus a running mean of h
+    ctx_gate_init: float = field(default=0.1)     # initial per-layer gate of the context term
+    delta_init_std: float = field(default=0.02)   # init std of prompt_mlp in residual mode
+    episode_context_ids: int = field(default=0)   # > 0: first N identities of a batch = context only
+    episode_context_ids_min: int = field(default=0)  # > 0: N drawn uniformly from [min, episode_context_ids]
+    pseudo_domains: str = field(default="none")   # "camera_pair": a training "domain" = (dataset, camera pair)
+    pseudo_min_ids: int = field(default=8)        # camera pairs with fewer identities are dropped
+
     # --- training sampler (defaults = historical)
     instances_per_id: int = field(default=2)      # K images per identity (even; batch = P ids x K images)
     cross_camera_instances: bool = field(default=False)  # draw K images spanning >= 2 cameras when possible

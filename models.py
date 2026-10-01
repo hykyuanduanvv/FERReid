@@ -125,6 +125,27 @@ class Model(torch.nn.Module):
         self.prompt_mlp = nn.Linear(self.lm.config.hidden_size, self.hidden_size, bias=False)
         self.prompt_mlp.weight.data.zero_()
 
+        # FERReID direction A (--prompt_mode residual): prompt = base + gate * delta(context).
+        #   base : one learnable prompt shared by every domain (a VPT prompt, zero-initialised)
+        #   delta: prompt_mlp(LayerNorm(h - mean_h)), h = LLM hidden states at the query tokens;
+        #          with --ctx_center ema, mean_h is a running mean of h, so the constant part of h is
+        #          removed and delta can only carry what *changes* with the context
+        #   gate : one learnable scalar per ViT layer (--ctx_gate_init)
+        # prompt_mlp is initialised small instead of zero (a zero map with a zero-mean input has no
+        # gradient path worth mentioning). The default --prompt_mode vicp keeps the original prompt.
+        self.prompt_mode = getattr(args, "prompt_mode", "vicp")
+        if self.prompt_mode == "residual":
+            n_tok = self.args.num_vpt_tokens * self.num_layers
+            self.base_prompt = nn.Parameter(torch.zeros(1, n_tok, self.hidden_size))
+            self.delta_norm = nn.LayerNorm(self.lm.config.hidden_size)
+            nn.init.normal_(self.prompt_mlp.weight, std=getattr(args, "delta_init_std", 0.02))
+            self.ctx_gate = nn.Parameter(torch.full((self.num_layers, 1, 1), float(getattr(args, "ctx_gate_init", 0.1))))
+            if getattr(args, "ctx_center", "none") == "ema":
+                self.register_buffer("h_mean", torch.zeros(1, n_tok, self.lm.config.hidden_size))
+                self.register_buffer("h_mean_count", torch.zeros(()))
+        elif self.prompt_mode != "vicp":
+            raise ValueError("--prompt_mode must be vicp or residual")
+
     @staticmethod
     def _load_dinov2(model_name):
         local_repo = os.environ.get("DINOV2_REPO", "/root/basic-models/dinov2")
@@ -138,6 +159,35 @@ class Model(torch.nn.Module):
         if model_name == "Qwen/Qwen3-0.6B" and os.path.isdir(local_qwen):
             return local_qwen
         return model_name
+
+    def _prompts_from_hidden(self, h):
+        """LLM hidden states at the query tokens (B, L*V, H_lm) -> visual prompts (B, L*V, D)."""
+        if self.prompt_mode != "residual":  # original VICP
+            return self.prompt_mlp(h.to(dtype=self.prompt_mlp.weight.dtype))
+        h = h.float()
+        if hasattr(self, "h_mean"):
+            if self.training:
+                with torch.no_grad():
+                    mean = h.mean(0, keepdim=True)
+                    if self.h_mean_count.item() == 0:
+                        self.h_mean.copy_(mean)
+                    else:
+                        self.h_mean.mul_(0.99).add_(0.01 * mean)
+                    self.h_mean_count.add_(1)
+            h = h - self.h_mean.float()
+        dtype = self.prompt_mlp.weight.dtype
+        with torch.autocast(device_type=h.device.type, enabled=False):
+            delta = self.prompt_mlp(self.delta_norm.float()(h).to(dtype)).float()
+        B, T, D = delta.shape
+        delta = delta.reshape(B, self.num_layers, T // self.num_layers, D) * self.ctx_gate.float()
+        return self.base_prompt.float() + delta.reshape(B, T, D)
+
+    def base_prompts(self):
+        """Context-free prompt of --prompt_mode residual (what the model does without any context), shaped
+        like the prompts returned by forward(); None for the original VICP prompt."""
+        if self.prompt_mode != "residual":
+            return None
+        return self.base_prompt.reshape(1, self.num_layers, self.args.num_vpt_tokens, -1)
 
     def sample_pair(self, labels):
                     # 获取样本数量和索引
@@ -188,10 +238,25 @@ class Model(torch.nn.Module):
 
         if labels is not None and prompts is None:
             labels = labels.unsqueeze(1).expand(-1, nview).reshape(-1)
+            # FERReID direction A (--episode_context_ids N): in training, the first N identities of the
+            # batch are the context (questions for the LLM) and only the *other* identities are
+            # retrieved with the resulting prompt, as at test time (context people != query people).
+            # N is drawn uniformly from [--episode_context_ids_min, N] when the minimum is > 0.
+            ctx_crops, ctx_labels = image_crops, labels
+            n_ctx = getattr(self.args, "episode_context_ids", 0)
+            if self.training and n_ctx > 0:
+                n_min = getattr(self.args, "episode_context_ids_min", 0)
+                if 0 < n_min < n_ctx:
+                    n_ctx = int(torch.randint(n_min, n_ctx + 1, (1,)).item())
+                cut = n_ctx * nview
+                if cut >= image_crops.size(0):
+                    raise ValueError("episode_context_ids must leave identities to retrieve in the batch")
+                ctx_crops, ctx_labels = image_crops[:cut], labels[:cut]
+                image_crops, labels = image_crops[cut:], labels[cut:]
             # clip_image_crops = clip_image_crops.reshape(-1, nc, clip_image_crops.size(-2), clip_image_crops.size(-1))
             num_examples = 256
-            clip_image_crops_e = image_crops[:num_examples]
-            labels_e = labels[:num_examples]
+            clip_image_crops_e = ctx_crops[:num_examples]
+            labels_e = ctx_labels[:num_examples]
             with torch.no_grad():
                 image_features = self.encoder_copy.forward_features(clip_image_crops_e)['x_norm_clstoken']
 
@@ -242,8 +307,7 @@ class Model(torch.nn.Module):
             input_embeddings2 = torch.cat([input_embeddings, query_embeddings.unsqueeze(0).expand(input_embeddings.size(0), -1, -1)], dim=1)
             outputs2 = self.lm(inputs_embeds=input_embeddings2, use_cache=False, output_hidden_states=True)
             prompts = outputs2.hidden_states[-1][:, -self.args.num_vpt_tokens * self.num_layers:]
-            prompts = prompts.to(dtype=self.prompt_mlp.weight.dtype)
-            prompts = self.prompt_mlp(prompts)
+            prompts = self._prompts_from_hidden(prompts)
 
         ot_loss = torch.tensor(0.0)
 

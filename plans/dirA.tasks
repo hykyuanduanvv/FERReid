@@ -1,0 +1,21 @@
+# Direction A -- make the in-context prompt actually depend on the context (tuning fold, DINOv2, 3000 steps).
+# Every run is VICP with the stage-1 loss ($LOSS_ARGS); one ingredient is added at a time, then all together.
+# Reference without context: s1_vpt_bot / s1_vpt_triplet from plans/stage1_loss.tasks (same data and loss).
+# ~40 min per training on a 24 GB GPU, ~10 min per context_gain run. Decision: scripts/context_gain.py
+# (own-domain prompt vs base / VPT / cross-domain prompt on VIPeR, GRID, i-LIDS; see docs/RUN_PLAN_20261001.md).
+a0_vicp         | train a0_vicp         3000 --model_type vicp $TUNE_DATA $LOSS_ARGS
+a1_res          | train a1_res          3000 --model_type vicp $TUNE_DATA $LOSS_ARGS $A_RES
+a2_res_ema      | train a2_res_ema      3000 --model_type vicp $TUNE_DATA $LOSS_ARGS $A_EMA
+a3_vicp_epi     | train a3_vicp_epi     3000 --model_type vicp $TUNE_DATA $LOSS_ARGS $A_EPI
+a4_res_ema_epi  | train a4_res_ema_epi  3000 --model_type vicp $TUNE_DATA $LOSS_ARGS $A_EMA $A_EPI
+a5_all          | train a5_all          3000 --model_type vicp $TUNE_DATA $LOSS_ARGS $A_EMA $A_EPI $A_CAM
+a6_res_ema_cam  | train a6_res_ema_cam  3000 --model_type vicp $TUNE_DATA $LOSS_ARGS $A_EMA $A_CAM
+@wait
+# decision test on the unseen small target domains (3 splits; own k = 4, 16 x 5 draws; cross-domain contexts)
+g_a0 | gain g_a0 experiments/a0_vicp/checkpoint-3000
+g_a1 | gain g_a1 experiments/a1_res/checkpoint-3000
+g_a2 | gain g_a2 experiments/a2_res_ema/checkpoint-3000
+g_a3 | gain g_a3 experiments/a3_vicp_epi/checkpoint-3000
+g_a4 | gain g_a4 experiments/a4_res_ema_epi/checkpoint-3000
+g_a5 | gain g_a5 experiments/a5_all/checkpoint-3000
+g_a6 | gain g_a6 experiments/a6_res_ema_cam/checkpoint-3000

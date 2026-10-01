@@ -10,7 +10,8 @@ from torch.utils.data import DataLoader, Sampler
 
 from custom_trainer import CustomTrainer
 from adapters.config_reid import DOMAIN_CONFIG, NUM_SPLITS, NO_CAMERA_DOMAINS
-from adapters.reid_dataset import DomainPersonTrainDataset, ContextPairDataset, DomainReIDEvalDataset
+from adapters.reid_dataset import (DomainPersonTrainDataset, CameraPairTrainDataset, ContextPairDataset,
+                                   DomainReIDEvalDataset)
 from adapters.context_selection import ContextSampler
 from torchreid.metrics import evaluate_rank
 
@@ -110,16 +111,22 @@ class DGReIDTrainer(CustomTrainer):
             print("  {}: {} ids / {} images".format(name, ds.num_train_pids, len(ds.train)))
             source_datasets.append((name, ds))
 
-        train_dataset = DomainPersonTrainDataset(source_datasets, instances_per_id=args.instances_per_id,
-                                                 cross_camera=args.cross_camera_instances)
-        print("num identities: ", len(train_dataset))
+        if args.pseudo_domains == "camera_pair":
+            train_dataset = CameraPairTrainDataset(source_datasets, instances_per_id=args.instances_per_id,
+                                                   min_ids=args.pseudo_min_ids)
+        elif args.pseudo_domains == "none":
+            train_dataset = DomainPersonTrainDataset(source_datasets, instances_per_id=args.instances_per_id,
+                                                     cross_camera=args.cross_camera_instances)
+        else:
+            raise ValueError("--pseudo_domains must be none or camera_pair")
+        print("num identities: ", train_dataset.num_ids)
         # size of the ID-classification head (if any). A value given on the command line (e.g. read from
         # a checkpoint for evaluation) must agree with the data that is loaded now.
-        if args.num_train_ids and args.num_train_ids != len(train_dataset):
+        if args.num_train_ids and args.num_train_ids != train_dataset.num_ids:
             raise ValueError("--num_train_ids={} but the source data has {} identities; use the source "
-                             "domains / source_all_images of the checkpoint".format(args.num_train_ids,
-                                                                                   len(train_dataset)))
-        args.num_train_ids = len(train_dataset)
+                             "domains / source_all_images / pseudo_domains of the checkpoint".format(
+                                 args.num_train_ids, train_dataset.num_ids))
+        args.num_train_ids = train_dataset.num_ids
 
         if args.model_type == "plain":
             from adapters.baseline_model import PlainReIDModel

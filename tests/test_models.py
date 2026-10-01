@@ -76,6 +76,20 @@ def main():
         assert m.reid_head is None
         m, bad = check("vicp dinov2 + BNNeck/CE, K=4", K=4, model_type="vicp", backbone="dinov2_b14",
                        ce_loss_weight=1.0, bnneck=True)
+        # direction A: residual prompt + EMA centring + episodic split (context = first identity of 3)
+        m, bad = check("vicp dinov2 A: residual+ema+episodic", model_type="vicp", backbone="dinov2_b14",
+                       prompt_mode="residual", ctx_center="ema", episode_context_ids=1)
+        assert not bad and m.h_mean_count.item() == 1, (bad, m.h_mean_count)
+        assert tuple(m.base_prompts().shape) == (1, m.num_layers, m.args.num_vpt_tokens, m.hidden_size)
+        m.eval()
+        with torch.no_grad():  # two different contexts must give different prompts
+            torch.manual_seed(1)
+            p1 = m(torch.randn(3, 2, 3, 256, 128), torch.arange(3))["prompts"][0].flatten()
+            torch.manual_seed(1)
+            p2 = m(torch.randn(3, 2, 3, 256, 128) * 3, torch.arange(3))["prompts"][0].flatten()
+        c = torch.nn.functional.cosine_similarity(p1, p2, dim=0).item()
+        print("   residual prompt cosine between two contexts: {:.4f} (must be < 1)".format(c))
+        assert c < 0.9999
     print("PASS")
 
 

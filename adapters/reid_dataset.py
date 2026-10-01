@@ -84,6 +84,7 @@ class DomainPersonTrainDataset(Dataset):
         self.label2images = {k: v for k, v in self.label2images.items() if len(v) >= 2}
         self.pid2label = {k: v for k, v in self.pid2label.items() if k in self.label2images}
         self.keys = list(self.label2images.keys())
+        self.num_ids = len(self.keys)  # one sample per identity: label = sample index
 
     def __len__(self):
         return len(self.keys)
@@ -108,6 +109,61 @@ class DomainPersonTrainDataset(Dataset):
         key = self.keys[idx]
         images = [self.transform(Image.open(p).convert("RGB")) for p in self._paths(key)]
         return {"image_crops": torch.stack(images), "labels": torch.tensor(idx, dtype=torch.long)}
+
+
+class CameraPairTrainDataset(Dataset):
+    """Direction A (--pseudo_domains camera_pair): many training "domains" instead of two or three.
+
+    A pseudo-domain is (source dataset, camera pair (a, b)); its samples are the identities seen by both
+    cameras, and a sample gives K images alternating a, b, a, b, ... (random with replacement), so every
+    consecutive pair used by the ICL questions is a cross-camera positive of that pseudo-domain. With
+    --batch_domain_mode single every batch comes from one pseudo-domain, i.e. the context and the queries
+    share the same camera pair, as a deployment shares one camera network. Pseudo-domains with fewer than
+    min_ids identities are dropped. Labels are global identity indices (shared by an identity's samples
+    in different camera pairs), so the ID-classification head has num_ids classes.
+    """
+
+    def __init__(self, domain_datasets, transform=None, instances_per_id=2, min_ids=8):
+        self.transform = transform or TRAIN_TRANSFORM
+        if instances_per_id < 2 or instances_per_id % 2:
+            raise ValueError("instances_per_id must be an even number >= 2")
+        self.instances_per_id = instances_per_id
+        self.label2images, self.pid2label = {}, {}
+        self.items = []  # (paths in camera a, paths in camera b, identity index)
+        id_index = {}
+        for domain_name, ds_obj in domain_datasets:
+            by_pid = {}
+            for img_path, pid, camid, *_ in ds_obj.train:
+                by_pid.setdefault(pid, {}).setdefault(camid, []).append(img_path)
+            groups = {}
+            for pid, cams in by_pid.items():
+                cs = sorted(cams)
+                for i in range(len(cs)):
+                    for j in range(i + 1, len(cs)):
+                        groups.setdefault((cs[i], cs[j]), []).append(pid)
+            for (a, b), pids in sorted(groups.items()):
+                if len(pids) < min_ids:
+                    continue
+                group = "{}|c{}-c{}".format(domain_name, a, b)
+                for pid in pids:
+                    gid = id_index.setdefault((domain_name, pid), len(id_index))
+                    key = "{}/{}".format(group, gid)  # the sampler groups batches by the part before "/"
+                    self.label2images[key] = by_pid[pid][a] + by_pid[pid][b]
+                    self.pid2label[key] = group
+                    self.items.append((by_pid[pid][a], by_pid[pid][b], gid))
+        self.keys = list(self.label2images.keys())
+        self.num_ids = len(id_index)
+        print("camera-pair pseudo-domains: {} groups, {} samples, {} identities".format(
+            len(set(self.pid2label.values())), len(self.items), self.num_ids))
+
+    def __len__(self):
+        return len(self.items)
+
+    def __getitem__(self, idx):
+        paths_a, paths_b, gid = self.items[idx]
+        paths = [random.choice(paths_a if i % 2 == 0 else paths_b) for i in range(self.instances_per_id)]
+        images = [self.transform(Image.open(p).convert("RGB")) for p in paths]
+        return {"image_crops": torch.stack(images), "labels": torch.tensor(gid, dtype=torch.long)}
 
 
 class ContextPairDataset(Dataset):

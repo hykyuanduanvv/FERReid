@@ -66,3 +66,11 @@ GPU 检查只做冻结模型前向，没有优化器更新。原源码保留的�
 | Cython 排序 | 在临时副本中 `setup.py build_ext --inplace` 编译成功 |
 
 未做：GPU 上的完整训练与 Protocol-2 评测（交由运行计划执行）；CUHK-SYSU 数据尚未取得，读取器未在真实数据上验证。
+
+### 方向 A 代码检查（2026-10-01，服务器 CPU）
+
+| 检查 | 结果 |
+|---|---|
+| `tests/test_models.py` | 原 6 个变体数值与加入方向 A 代码前完全相同（默认不变）；残差 + EMA + episode 变体前后向通过，所有新参数有梯度，EMA 均值被更新，两个不同上下文生成的 prompt 余弦 0.23（< 1，prompt 随上下文变化） |
+| 摄像头对伪域（调参折 Market + MSMT17 train 部分） | `--pseudo_min_ids 64`：62 个伪域（Market 15、MSMT17 47），14,807 个样本，覆盖 1,771 / 1,792 人 |
+| 端到端（`launch_tasks.py`：VICP DINOv2 + BNNeck/CE + 残差/EMA + 摄像头对伪域 + episode，训练 4 步 → `context_gain.py`（VIPeR、i-LIDS）→ `eval_context.py`） | 三个任务状态 0；评测从 checkpoint 恢复 `prompt_mode / ctx_center / pseudo_domains / num_train_ids=1771`，missing/unexpected 均为 0。4 步模型的指标无意义，只验证流程 |

@@ -10,7 +10,7 @@
 
 ## 导航
 
-- [**下一步运行计划（强基线 + Protocol-2，多卡）**](docs/RUN_PLAN_20261001.md)
+- [**下一步运行计划（强基线 + Protocol-2 + 方向 A，多卡）**](docs/RUN_PLAN_20261001.md)
 - [9/30 实验报告（DINOv2、VPT 对照、域专属 prompt 上限、选人敏感性）](results/archive_20260930/REPORT_2026-09-30.md)
 - [环境安装、权重准备与完整部署](docs/DEPLOYMENT.md)
 - [模型架构与实验协议](docs/EXPERIMENTS.md)
