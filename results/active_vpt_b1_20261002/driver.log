@@ -1,0 +1,17 @@
+[16:23:17] start b1_grid_v2 on GPU 0
+[16:23:17] start b1_viper_v2 on GPU 1
+[16:23:17] start b1_ilids_v2 on GPU 2
+[16:23:17] start b1_cuhk03_v2 on GPU 7
+[16:24:32] b1_ilids_v2 done (GPU 2)
+[16:24:57] b1_grid_v2 done (GPU 0)
+[16:24:57] b1_viper_v2 done (GPU 1)
+[16:27:02] b1_cuhk03_v2 done (GPU 7)
+[16:27:02] start b1_replay_grid_v2 on GPU 0
+[16:27:02] start b1_replay_viper_v2 on GPU 1
+[16:27:02] start b1_replay_ilids_v2 on GPU 2
+[16:27:02] start b1_replay_cuhk03_v2 on GPU 7
+[16:27:22] b1_replay_ilids_v2 done (GPU 2)
+[16:27:37] b1_replay_grid_v2 done (GPU 0)
+[16:27:37] b1_replay_viper_v2 done (GPU 1)
+[16:28:42] b1_replay_cuhk03_v2 done (GPU 7)
+all task groups finished

@@ -1,0 +1,12 @@
+{
+  "original": "experiments/b2_vpt_active_20261002/grid/dedup/draw2_seed43/training.jsonl",
+  "original_sha256": "8a9703bb0ec6f983cad08c84b553e22b934b8011bf808d95f538cb87d7841c2f",
+  "original_bytes": 1675572,
+  "original_rows": 5000,
+  "sampled_rows": 56,
+  "sampling_rule": "steps 1,2,3,10,20,50 and every 100th update; full log retained on server",
+  "actual_updates": 5000,
+  "nonfinite_gradient_rows": 0,
+  "skipped_rows": 0,
+  "mean_loss_last100": 0.00011466745752841234
+}

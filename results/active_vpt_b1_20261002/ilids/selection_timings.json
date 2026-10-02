@@ -1,0 +1,107 @@
+[
+  {
+    "method": "random",
+    "draw": 0,
+    "seconds": 0.0003863009624183178
+  },
+  {
+    "method": "dedup",
+    "draw": 0,
+    "seconds": 0.0005758120678365231
+  },
+  {
+    "method": "kcenter",
+    "draw": 0,
+    "seconds": 0.0006076099816709757
+  },
+  {
+    "method": "typical",
+    "draw": 0,
+    "seconds": 0.12505452102050185
+  },
+  {
+    "method": "hard_negative",
+    "draw": 0,
+    "seconds": 0.0007538918871432543
+  },
+  {
+    "method": "facility",
+    "draw": 0,
+    "seconds": 0.004270609933882952
+  },
+  {
+    "method": "facility_camera",
+    "draw": 0,
+    "seconds": 0.003912562970072031
+  },
+  {
+    "method": "random",
+    "draw": 1,
+    "seconds": 0.00028461916372179985
+  },
+  {
+    "method": "dedup",
+    "draw": 1,
+    "seconds": 0.000497451052069664
+  },
+  {
+    "method": "kcenter",
+    "draw": 1,
+    "seconds": 0.0006158151663839817
+  },
+  {
+    "method": "typical",
+    "draw": 1,
+    "seconds": 0.02844339399598539
+  },
+  {
+    "method": "hard_negative",
+    "draw": 1,
+    "seconds": 0.0006977519951760769
+  },
+  {
+    "method": "facility",
+    "draw": 1,
+    "seconds": 0.0034009600058197975
+  },
+  {
+    "method": "facility_camera",
+    "draw": 1,
+    "seconds": 0.003467257833108306
+  },
+  {
+    "method": "random",
+    "draw": 2,
+    "seconds": 0.00023246300406754017
+  },
+  {
+    "method": "dedup",
+    "draw": 2,
+    "seconds": 0.00039296294562518597
+  },
+  {
+    "method": "kcenter",
+    "draw": 2,
+    "seconds": 0.0005610410589724779
+  },
+  {
+    "method": "typical",
+    "draw": 2,
+    "seconds": 0.02867483999580145
+  },
+  {
+    "method": "hard_negative",
+    "draw": 2,
+    "seconds": 0.0006962071638554335
+  },
+  {
+    "method": "facility",
+    "draw": 2,
+    "seconds": 0.003672761842608452
+  },
+  {
+    "method": "facility_camera",
+    "draw": 2,
+    "seconds": 0.003658008063212037
+  }
+]

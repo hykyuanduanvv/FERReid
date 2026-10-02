@@ -1,0 +1,19 @@
+{
+  "domain": "cuhk03",
+  "split": 0,
+  "frozen_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5",
+  "initial_prompt_hash": "36f18739dabc92486b311dd80c255311ea6603739dbfa3beac503ee35dcb9279",
+  "records_hash": "02e486be85e30d15455e9c798a764d55f7a70c7de525e6313003b4bc8f0d18ff",
+  "preprocess": "frozen VPT prompt; flip-summed retrieval features re-normalized in FP32 for selector cosine",
+  "shape": [
+    7368,
+    768
+  ],
+  "dtype": "float32",
+  "sha256": "493d341335836dc2538ab9070cec47a7a07eb8492b3e7ab6b2b3aab364e868c0",
+  "extraction_seconds": 14.161184084136039,
+  "raw_retrieval_norm_max_error": 0.0002982616424560547,
+  "selector_fp32_normalization": true,
+  "cache_roundtrip_exact": true,
+  "repeated_first_batch_exact": true
+}

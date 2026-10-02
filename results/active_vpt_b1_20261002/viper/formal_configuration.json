@@ -1,0 +1,39 @@
+{
+  "steps": 5000,
+  "eval_steps": [
+    100,
+    300,
+    1000,
+    3000,
+    5000
+  ],
+  "lr": 0.0001,
+  "k": 16,
+  "selection_seeds": [
+    1600,
+    1601,
+    1602
+  ],
+  "annotation_seeds": [
+    2600,
+    2601,
+    2602
+  ],
+  "optimization_seeds": [
+    42,
+    43
+  ],
+  "methods": [
+    "random",
+    "dedup",
+    "kcenter",
+    "typical",
+    "hard_negative",
+    "facility",
+    "facility_camera"
+  ],
+  "split": 0,
+  "feature_source": "frozen VPT prompt; flip-summed retrieval features re-normalized in FP32 for selector cosine",
+  "adaptation": "external prompt only; FP32 hardest triplet; Adam",
+  "status": "B2 not launched; B1 only"
+}

@@ -1,0 +1,12 @@
+{
+  "original": "experiments/b2_vpt_active_20261002/viper/typical/draw1_seed42/training.jsonl",
+  "original_sha256": "d8dec1ed5f6469a5b57215efa29544915be0aabf567ede4c0212d1a3899e8dd9",
+  "original_bytes": 1675465,
+  "original_rows": 5000,
+  "sampled_rows": 56,
+  "sampling_rule": "steps 1,2,3,10,20,50 and every 100th update; full log retained on server",
+  "actual_updates": 5000,
+  "nonfinite_gradient_rows": 0,
+  "skipped_rows": 0,
+  "mean_loss_last100": 0.0002944333548657596
+}

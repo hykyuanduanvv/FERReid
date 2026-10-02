@@ -1,0 +1,1319 @@
+{
+  "domain": "grid",
+  "method": "facility_camera",
+  "baseline": {
+    "mAP": 61.233729124069214,
+    "rank1": 51.99999809265137,
+    "rank5": 72.79999852180481
+  },
+  "final_baseline": {
+    "mAP": 61.233729124069214,
+    "rank1": 51.99999809265137,
+    "rank5": 72.79999852180481
+  },
+  "trials": [
+    {
+      "domain": "grid",
+      "method": "facility_camera",
+      "draw": 0,
+      "seed": 42,
+      "effective_identities": 16,
+      "annotation": {
+        "k": 16,
+        "n_pairs": 16,
+        "n_dup": 0,
+        "n_fail": 0,
+        "outcomes": [
+          {
+            "anchor": 58,
+            "result": "pair",
+            "partner": 183
+          },
+          {
+            "anchor": 142,
+            "result": "pair",
+            "partner": 17
+          },
+          {
+            "anchor": 135,
+            "result": "pair",
+            "partner": 10
+          },
+          {
+            "anchor": 52,
+            "result": "pair",
+            "partner": 177
+          },
+          {
+            "anchor": 122,
+            "result": "pair",
+            "partner": 247
+          },
+          {
+            "anchor": 16,
+            "result": "pair",
+            "partner": 141
+          },
+          {
+            "anchor": 191,
+            "result": "pair",
+            "partner": 66
+          },
+          {
+            "anchor": 200,
+            "result": "pair",
+            "partner": 75
+          },
+          {
+            "anchor": 108,
+            "result": "pair",
+            "partner": 233
+          },
+          {
+            "anchor": 86,
+            "result": "pair",
+            "partner": 211
+          },
+          {
+            "anchor": 238,
+            "result": "pair",
+            "partner": 113
+          },
+          {
+            "anchor": 182,
+            "result": "pair",
+            "partner": 57
+          },
+          {
+            "anchor": 152,
+            "result": "pair",
+            "partner": 27
+          },
+          {
+            "anchor": 64,
+            "result": "pair",
+            "partner": 189
+          },
+          {
+            "anchor": 1,
+            "result": "pair",
+            "partner": 126
+          },
+          {
+            "anchor": 88,
+            "result": "pair",
+            "partner": 213
+          }
+        ],
+        "pair_indices": [
+          [
+            58,
+            183
+          ],
+          [
+            142,
+            17
+          ],
+          [
+            135,
+            10
+          ],
+          [
+            52,
+            177
+          ],
+          [
+            122,
+            247
+          ],
+          [
+            16,
+            141
+          ],
+          [
+            191,
+            66
+          ],
+          [
+            200,
+            75
+          ],
+          [
+            108,
+            233
+          ],
+          [
+            86,
+            211
+          ],
+          [
+            238,
+            113
+          ],
+          [
+            182,
+            57
+          ],
+          [
+            152,
+            27
+          ],
+          [
+            64,
+            189
+          ],
+          [
+            1,
+            126
+          ],
+          [
+            88,
+            213
+          ]
+        ]
+      },
+      "anchor_set_hash": "6909351a19f88eb59f3ffd9650746f7cfc0dc15cc3252a34d6f15528fed1eb5c",
+      "support_hash": "7beeeec74a0c53e133532aee0d73c2803137cff815d3783b5507bedc1014f670",
+      "directory": "experiments/b2_vpt_active_20261002/grid/facility_camera/draw0_seed42",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 100,
+            "mAP": 67.53645539283752,
+            "rank1": 59.20000076293945,
+            "rank5": 78.39999794960022,
+            "gain": 6.3027262687683105
+          },
+          {
+            "step": 300,
+            "mAP": 65.68602919578552,
+            "rank1": 56.80000185966492,
+            "rank5": 76.80000066757202,
+            "gain": 4.452300071716309
+          },
+          {
+            "step": 1000,
+            "mAP": 60.1560115814209,
+            "rank1": 51.99999809265137,
+            "rank5": 68.80000233650208,
+            "gain": -1.0777175426483154
+          },
+          {
+            "step": 3000,
+            "mAP": 56.335294246673584,
+            "rank1": 47.200000286102295,
+            "rank5": 67.1999990940094,
+            "gain": -4.89843487739563
+          },
+          {
+            "step": 5000,
+            "mAP": 58.91163349151611,
+            "rank1": 51.20000243186951,
+            "rank5": 66.39999747276306,
+            "gain": -2.3220956325531006
+          }
+        ],
+        "actual_updates": 5000,
+        "attempts": 5000,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 840,
+        "support_loss_before": 0.032613545656204224,
+        "support_loss_after": 0.0,
+        "frozen_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5",
+        "saved_prompt_exact": true,
+        "prompt_hash": "39d51739d7f4b13fdbd7199bfa29dc578ddcef98c4272b216a082e42462fd8ba",
+        "train_seconds": 553.7669396330602,
+        "evaluation_seconds": 14.191616958938539,
+        "elapsed_seconds": 568.5255826038774,
+        "milliseconds_per_update": 110.75338792661205
+      }
+    },
+    {
+      "domain": "grid",
+      "method": "facility_camera",
+      "draw": 0,
+      "seed": 43,
+      "effective_identities": 16,
+      "annotation": {
+        "k": 16,
+        "n_pairs": 16,
+        "n_dup": 0,
+        "n_fail": 0,
+        "outcomes": [
+          {
+            "anchor": 58,
+            "result": "pair",
+            "partner": 183
+          },
+          {
+            "anchor": 142,
+            "result": "pair",
+            "partner": 17
+          },
+          {
+            "anchor": 135,
+            "result": "pair",
+            "partner": 10
+          },
+          {
+            "anchor": 52,
+            "result": "pair",
+            "partner": 177
+          },
+          {
+            "anchor": 122,
+            "result": "pair",
+            "partner": 247
+          },
+          {
+            "anchor": 16,
+            "result": "pair",
+            "partner": 141
+          },
+          {
+            "anchor": 191,
+            "result": "pair",
+            "partner": 66
+          },
+          {
+            "anchor": 200,
+            "result": "pair",
+            "partner": 75
+          },
+          {
+            "anchor": 108,
+            "result": "pair",
+            "partner": 233
+          },
+          {
+            "anchor": 86,
+            "result": "pair",
+            "partner": 211
+          },
+          {
+            "anchor": 238,
+            "result": "pair",
+            "partner": 113
+          },
+          {
+            "anchor": 182,
+            "result": "pair",
+            "partner": 57
+          },
+          {
+            "anchor": 152,
+            "result": "pair",
+            "partner": 27
+          },
+          {
+            "anchor": 64,
+            "result": "pair",
+            "partner": 189
+          },
+          {
+            "anchor": 1,
+            "result": "pair",
+            "partner": 126
+          },
+          {
+            "anchor": 88,
+            "result": "pair",
+            "partner": 213
+          }
+        ],
+        "pair_indices": [
+          [
+            58,
+            183
+          ],
+          [
+            142,
+            17
+          ],
+          [
+            135,
+            10
+          ],
+          [
+            52,
+            177
+          ],
+          [
+            122,
+            247
+          ],
+          [
+            16,
+            141
+          ],
+          [
+            191,
+            66
+          ],
+          [
+            200,
+            75
+          ],
+          [
+            108,
+            233
+          ],
+          [
+            86,
+            211
+          ],
+          [
+            238,
+            113
+          ],
+          [
+            182,
+            57
+          ],
+          [
+            152,
+            27
+          ],
+          [
+            64,
+            189
+          ],
+          [
+            1,
+            126
+          ],
+          [
+            88,
+            213
+          ]
+        ]
+      },
+      "anchor_set_hash": "6909351a19f88eb59f3ffd9650746f7cfc0dc15cc3252a34d6f15528fed1eb5c",
+      "support_hash": "7beeeec74a0c53e133532aee0d73c2803137cff815d3783b5507bedc1014f670",
+      "directory": "experiments/b2_vpt_active_20261002/grid/facility_camera/draw0_seed43",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 100,
+            "mAP": 68.1778073310852,
+            "rank1": 60.79999804496765,
+            "rank5": 80.0000011920929,
+            "gain": 6.944078207015991
+          },
+          {
+            "step": 300,
+            "mAP": 64.80607986450195,
+            "rank1": 57.59999752044678,
+            "rank5": 75.19999742507935,
+            "gain": 3.5723507404327393
+          },
+          {
+            "step": 1000,
+            "mAP": 63.64400386810303,
+            "rank1": 56.00000023841858,
+            "rank5": 72.79999852180481,
+            "gain": 2.4102747440338135
+          },
+          {
+            "step": 3000,
+            "mAP": 58.25015306472778,
+            "rank1": 47.999998927116394,
+            "rank5": 71.20000123977661,
+            "gain": -2.9835760593414307
+          },
+          {
+            "step": 5000,
+            "mAP": 59.05153155326843,
+            "rank1": 50.40000081062317,
+            "rank5": 67.1999990940094,
+            "gain": -2.1821975708007812
+          }
+        ],
+        "actual_updates": 5000,
+        "attempts": 5000,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 864,
+        "support_loss_before": 0.032613545656204224,
+        "support_loss_after": 0.0,
+        "frozen_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5",
+        "saved_prompt_exact": true,
+        "prompt_hash": "ae6d23fd45fac6fae91ce68f2a64dbd0285eddce24351535e6f8afc49b893c15",
+        "train_seconds": 557.8005425694864,
+        "evaluation_seconds": 14.149175926111639,
+        "elapsed_seconds": 572.5044012709986,
+        "milliseconds_per_update": 111.56010851389729
+      }
+    },
+    {
+      "domain": "grid",
+      "method": "facility_camera",
+      "draw": 1,
+      "seed": 42,
+      "effective_identities": 16,
+      "annotation": {
+        "k": 16,
+        "n_pairs": 16,
+        "n_dup": 0,
+        "n_fail": 0,
+        "outcomes": [
+          {
+            "anchor": 58,
+            "result": "pair",
+            "partner": 183
+          },
+          {
+            "anchor": 142,
+            "result": "pair",
+            "partner": 17
+          },
+          {
+            "anchor": 135,
+            "result": "pair",
+            "partner": 10
+          },
+          {
+            "anchor": 52,
+            "result": "pair",
+            "partner": 177
+          },
+          {
+            "anchor": 122,
+            "result": "pair",
+            "partner": 247
+          },
+          {
+            "anchor": 16,
+            "result": "pair",
+            "partner": 141
+          },
+          {
+            "anchor": 191,
+            "result": "pair",
+            "partner": 66
+          },
+          {
+            "anchor": 200,
+            "result": "pair",
+            "partner": 75
+          },
+          {
+            "anchor": 108,
+            "result": "pair",
+            "partner": 233
+          },
+          {
+            "anchor": 86,
+            "result": "pair",
+            "partner": 211
+          },
+          {
+            "anchor": 238,
+            "result": "pair",
+            "partner": 113
+          },
+          {
+            "anchor": 182,
+            "result": "pair",
+            "partner": 57
+          },
+          {
+            "anchor": 152,
+            "result": "pair",
+            "partner": 27
+          },
+          {
+            "anchor": 64,
+            "result": "pair",
+            "partner": 189
+          },
+          {
+            "anchor": 1,
+            "result": "pair",
+            "partner": 126
+          },
+          {
+            "anchor": 88,
+            "result": "pair",
+            "partner": 213
+          }
+        ],
+        "pair_indices": [
+          [
+            58,
+            183
+          ],
+          [
+            142,
+            17
+          ],
+          [
+            135,
+            10
+          ],
+          [
+            52,
+            177
+          ],
+          [
+            122,
+            247
+          ],
+          [
+            16,
+            141
+          ],
+          [
+            191,
+            66
+          ],
+          [
+            200,
+            75
+          ],
+          [
+            108,
+            233
+          ],
+          [
+            86,
+            211
+          ],
+          [
+            238,
+            113
+          ],
+          [
+            182,
+            57
+          ],
+          [
+            152,
+            27
+          ],
+          [
+            64,
+            189
+          ],
+          [
+            1,
+            126
+          ],
+          [
+            88,
+            213
+          ]
+        ]
+      },
+      "anchor_set_hash": "6909351a19f88eb59f3ffd9650746f7cfc0dc15cc3252a34d6f15528fed1eb5c",
+      "support_hash": "7beeeec74a0c53e133532aee0d73c2803137cff815d3783b5507bedc1014f670",
+      "directory": "experiments/b2_vpt_active_20261002/grid/facility_camera/draw1_seed42",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 100,
+            "mAP": 67.53645539283752,
+            "rank1": 59.20000076293945,
+            "rank5": 78.39999794960022,
+            "gain": 6.3027262687683105
+          },
+          {
+            "step": 300,
+            "mAP": 65.68602919578552,
+            "rank1": 56.80000185966492,
+            "rank5": 76.80000066757202,
+            "gain": 4.452300071716309
+          },
+          {
+            "step": 1000,
+            "mAP": 60.1560115814209,
+            "rank1": 51.99999809265137,
+            "rank5": 68.80000233650208,
+            "gain": -1.0777175426483154
+          },
+          {
+            "step": 3000,
+            "mAP": 56.335294246673584,
+            "rank1": 47.200000286102295,
+            "rank5": 67.1999990940094,
+            "gain": -4.89843487739563
+          },
+          {
+            "step": 5000,
+            "mAP": 58.91163349151611,
+            "rank1": 51.20000243186951,
+            "rank5": 66.39999747276306,
+            "gain": -2.3220956325531006
+          }
+        ],
+        "actual_updates": 5000,
+        "attempts": 5000,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 840,
+        "support_loss_before": 0.032613545656204224,
+        "support_loss_after": 0.0,
+        "frozen_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5",
+        "saved_prompt_exact": true,
+        "prompt_hash": "39d51739d7f4b13fdbd7199bfa29dc578ddcef98c4272b216a082e42462fd8ba",
+        "train_seconds": 516.8790351604111,
+        "evaluation_seconds": 14.487775720888749,
+        "elapsed_seconds": 531.9232847718522,
+        "milliseconds_per_update": 103.37580703208224
+      }
+    },
+    {
+      "domain": "grid",
+      "method": "facility_camera",
+      "draw": 1,
+      "seed": 43,
+      "effective_identities": 16,
+      "annotation": {
+        "k": 16,
+        "n_pairs": 16,
+        "n_dup": 0,
+        "n_fail": 0,
+        "outcomes": [
+          {
+            "anchor": 58,
+            "result": "pair",
+            "partner": 183
+          },
+          {
+            "anchor": 142,
+            "result": "pair",
+            "partner": 17
+          },
+          {
+            "anchor": 135,
+            "result": "pair",
+            "partner": 10
+          },
+          {
+            "anchor": 52,
+            "result": "pair",
+            "partner": 177
+          },
+          {
+            "anchor": 122,
+            "result": "pair",
+            "partner": 247
+          },
+          {
+            "anchor": 16,
+            "result": "pair",
+            "partner": 141
+          },
+          {
+            "anchor": 191,
+            "result": "pair",
+            "partner": 66
+          },
+          {
+            "anchor": 200,
+            "result": "pair",
+            "partner": 75
+          },
+          {
+            "anchor": 108,
+            "result": "pair",
+            "partner": 233
+          },
+          {
+            "anchor": 86,
+            "result": "pair",
+            "partner": 211
+          },
+          {
+            "anchor": 238,
+            "result": "pair",
+            "partner": 113
+          },
+          {
+            "anchor": 182,
+            "result": "pair",
+            "partner": 57
+          },
+          {
+            "anchor": 152,
+            "result": "pair",
+            "partner": 27
+          },
+          {
+            "anchor": 64,
+            "result": "pair",
+            "partner": 189
+          },
+          {
+            "anchor": 1,
+            "result": "pair",
+            "partner": 126
+          },
+          {
+            "anchor": 88,
+            "result": "pair",
+            "partner": 213
+          }
+        ],
+        "pair_indices": [
+          [
+            58,
+            183
+          ],
+          [
+            142,
+            17
+          ],
+          [
+            135,
+            10
+          ],
+          [
+            52,
+            177
+          ],
+          [
+            122,
+            247
+          ],
+          [
+            16,
+            141
+          ],
+          [
+            191,
+            66
+          ],
+          [
+            200,
+            75
+          ],
+          [
+            108,
+            233
+          ],
+          [
+            86,
+            211
+          ],
+          [
+            238,
+            113
+          ],
+          [
+            182,
+            57
+          ],
+          [
+            152,
+            27
+          ],
+          [
+            64,
+            189
+          ],
+          [
+            1,
+            126
+          ],
+          [
+            88,
+            213
+          ]
+        ]
+      },
+      "anchor_set_hash": "6909351a19f88eb59f3ffd9650746f7cfc0dc15cc3252a34d6f15528fed1eb5c",
+      "support_hash": "7beeeec74a0c53e133532aee0d73c2803137cff815d3783b5507bedc1014f670",
+      "directory": "experiments/b2_vpt_active_20261002/grid/facility_camera/draw1_seed43",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 100,
+            "mAP": 68.1778073310852,
+            "rank1": 60.79999804496765,
+            "rank5": 80.0000011920929,
+            "gain": 6.944078207015991
+          },
+          {
+            "step": 300,
+            "mAP": 64.80607986450195,
+            "rank1": 57.59999752044678,
+            "rank5": 75.19999742507935,
+            "gain": 3.5723507404327393
+          },
+          {
+            "step": 1000,
+            "mAP": 63.64400386810303,
+            "rank1": 56.00000023841858,
+            "rank5": 72.79999852180481,
+            "gain": 2.4102747440338135
+          },
+          {
+            "step": 3000,
+            "mAP": 58.25015306472778,
+            "rank1": 47.999998927116394,
+            "rank5": 71.20000123977661,
+            "gain": -2.9835760593414307
+          },
+          {
+            "step": 5000,
+            "mAP": 59.05153155326843,
+            "rank1": 50.40000081062317,
+            "rank5": 67.1999990940094,
+            "gain": -2.1821975708007812
+          }
+        ],
+        "actual_updates": 5000,
+        "attempts": 5000,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 864,
+        "support_loss_before": 0.032613545656204224,
+        "support_loss_after": 0.0,
+        "frozen_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5",
+        "saved_prompt_exact": true,
+        "prompt_hash": "ae6d23fd45fac6fae91ce68f2a64dbd0285eddce24351535e6f8afc49b893c15",
+        "train_seconds": 518.2923570275307,
+        "evaluation_seconds": 14.573419986758381,
+        "elapsed_seconds": 533.4197090798989,
+        "milliseconds_per_update": 103.65847140550613
+      }
+    },
+    {
+      "domain": "grid",
+      "method": "facility_camera",
+      "draw": 2,
+      "seed": 42,
+      "effective_identities": 16,
+      "annotation": {
+        "k": 16,
+        "n_pairs": 16,
+        "n_dup": 0,
+        "n_fail": 0,
+        "outcomes": [
+          {
+            "anchor": 58,
+            "result": "pair",
+            "partner": 183
+          },
+          {
+            "anchor": 142,
+            "result": "pair",
+            "partner": 17
+          },
+          {
+            "anchor": 135,
+            "result": "pair",
+            "partner": 10
+          },
+          {
+            "anchor": 52,
+            "result": "pair",
+            "partner": 177
+          },
+          {
+            "anchor": 122,
+            "result": "pair",
+            "partner": 247
+          },
+          {
+            "anchor": 16,
+            "result": "pair",
+            "partner": 141
+          },
+          {
+            "anchor": 191,
+            "result": "pair",
+            "partner": 66
+          },
+          {
+            "anchor": 200,
+            "result": "pair",
+            "partner": 75
+          },
+          {
+            "anchor": 108,
+            "result": "pair",
+            "partner": 233
+          },
+          {
+            "anchor": 86,
+            "result": "pair",
+            "partner": 211
+          },
+          {
+            "anchor": 238,
+            "result": "pair",
+            "partner": 113
+          },
+          {
+            "anchor": 182,
+            "result": "pair",
+            "partner": 57
+          },
+          {
+            "anchor": 152,
+            "result": "pair",
+            "partner": 27
+          },
+          {
+            "anchor": 64,
+            "result": "pair",
+            "partner": 189
+          },
+          {
+            "anchor": 1,
+            "result": "pair",
+            "partner": 126
+          },
+          {
+            "anchor": 88,
+            "result": "pair",
+            "partner": 213
+          }
+        ],
+        "pair_indices": [
+          [
+            58,
+            183
+          ],
+          [
+            142,
+            17
+          ],
+          [
+            135,
+            10
+          ],
+          [
+            52,
+            177
+          ],
+          [
+            122,
+            247
+          ],
+          [
+            16,
+            141
+          ],
+          [
+            191,
+            66
+          ],
+          [
+            200,
+            75
+          ],
+          [
+            108,
+            233
+          ],
+          [
+            86,
+            211
+          ],
+          [
+            238,
+            113
+          ],
+          [
+            182,
+            57
+          ],
+          [
+            152,
+            27
+          ],
+          [
+            64,
+            189
+          ],
+          [
+            1,
+            126
+          ],
+          [
+            88,
+            213
+          ]
+        ]
+      },
+      "anchor_set_hash": "6909351a19f88eb59f3ffd9650746f7cfc0dc15cc3252a34d6f15528fed1eb5c",
+      "support_hash": "7beeeec74a0c53e133532aee0d73c2803137cff815d3783b5507bedc1014f670",
+      "directory": "experiments/b2_vpt_active_20261002/grid/facility_camera/draw2_seed42",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 100,
+            "mAP": 67.53645539283752,
+            "rank1": 59.20000076293945,
+            "rank5": 78.39999794960022,
+            "gain": 6.3027262687683105
+          },
+          {
+            "step": 300,
+            "mAP": 65.68602919578552,
+            "rank1": 56.80000185966492,
+            "rank5": 76.80000066757202,
+            "gain": 4.452300071716309
+          },
+          {
+            "step": 1000,
+            "mAP": 60.1560115814209,
+            "rank1": 51.99999809265137,
+            "rank5": 68.80000233650208,
+            "gain": -1.0777175426483154
+          },
+          {
+            "step": 3000,
+            "mAP": 56.335294246673584,
+            "rank1": 47.200000286102295,
+            "rank5": 67.1999990940094,
+            "gain": -4.89843487739563
+          },
+          {
+            "step": 5000,
+            "mAP": 58.91163349151611,
+            "rank1": 51.20000243186951,
+            "rank5": 66.39999747276306,
+            "gain": -2.3220956325531006
+          }
+        ],
+        "actual_updates": 5000,
+        "attempts": 5000,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 840,
+        "support_loss_before": 0.032613545656204224,
+        "support_loss_after": 0.0,
+        "frozen_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5",
+        "saved_prompt_exact": true,
+        "prompt_hash": "39d51739d7f4b13fdbd7199bfa29dc578ddcef98c4272b216a082e42462fd8ba",
+        "train_seconds": 516.7267407432664,
+        "evaluation_seconds": 14.438852887833491,
+        "elapsed_seconds": 531.7119075469673,
+        "milliseconds_per_update": 103.34534814865329
+      }
+    },
+    {
+      "domain": "grid",
+      "method": "facility_camera",
+      "draw": 2,
+      "seed": 43,
+      "effective_identities": 16,
+      "annotation": {
+        "k": 16,
+        "n_pairs": 16,
+        "n_dup": 0,
+        "n_fail": 0,
+        "outcomes": [
+          {
+            "anchor": 58,
+            "result": "pair",
+            "partner": 183
+          },
+          {
+            "anchor": 142,
+            "result": "pair",
+            "partner": 17
+          },
+          {
+            "anchor": 135,
+            "result": "pair",
+            "partner": 10
+          },
+          {
+            "anchor": 52,
+            "result": "pair",
+            "partner": 177
+          },
+          {
+            "anchor": 122,
+            "result": "pair",
+            "partner": 247
+          },
+          {
+            "anchor": 16,
+            "result": "pair",
+            "partner": 141
+          },
+          {
+            "anchor": 191,
+            "result": "pair",
+            "partner": 66
+          },
+          {
+            "anchor": 200,
+            "result": "pair",
+            "partner": 75
+          },
+          {
+            "anchor": 108,
+            "result": "pair",
+            "partner": 233
+          },
+          {
+            "anchor": 86,
+            "result": "pair",
+            "partner": 211
+          },
+          {
+            "anchor": 238,
+            "result": "pair",
+            "partner": 113
+          },
+          {
+            "anchor": 182,
+            "result": "pair",
+            "partner": 57
+          },
+          {
+            "anchor": 152,
+            "result": "pair",
+            "partner": 27
+          },
+          {
+            "anchor": 64,
+            "result": "pair",
+            "partner": 189
+          },
+          {
+            "anchor": 1,
+            "result": "pair",
+            "partner": 126
+          },
+          {
+            "anchor": 88,
+            "result": "pair",
+            "partner": 213
+          }
+        ],
+        "pair_indices": [
+          [
+            58,
+            183
+          ],
+          [
+            142,
+            17
+          ],
+          [
+            135,
+            10
+          ],
+          [
+            52,
+            177
+          ],
+          [
+            122,
+            247
+          ],
+          [
+            16,
+            141
+          ],
+          [
+            191,
+            66
+          ],
+          [
+            200,
+            75
+          ],
+          [
+            108,
+            233
+          ],
+          [
+            86,
+            211
+          ],
+          [
+            238,
+            113
+          ],
+          [
+            182,
+            57
+          ],
+          [
+            152,
+            27
+          ],
+          [
+            64,
+            189
+          ],
+          [
+            1,
+            126
+          ],
+          [
+            88,
+            213
+          ]
+        ]
+      },
+      "anchor_set_hash": "6909351a19f88eb59f3ffd9650746f7cfc0dc15cc3252a34d6f15528fed1eb5c",
+      "support_hash": "7beeeec74a0c53e133532aee0d73c2803137cff815d3783b5507bedc1014f670",
+      "directory": "experiments/b2_vpt_active_20261002/grid/facility_camera/draw2_seed43",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 100,
+            "mAP": 68.1778073310852,
+            "rank1": 60.79999804496765,
+            "rank5": 80.0000011920929,
+            "gain": 6.944078207015991
+          },
+          {
+            "step": 300,
+            "mAP": 64.80607986450195,
+            "rank1": 57.59999752044678,
+            "rank5": 75.19999742507935,
+            "gain": 3.5723507404327393
+          },
+          {
+            "step": 1000,
+            "mAP": 63.64400386810303,
+            "rank1": 56.00000023841858,
+            "rank5": 72.79999852180481,
+            "gain": 2.4102747440338135
+          },
+          {
+            "step": 3000,
+            "mAP": 58.25015306472778,
+            "rank1": 47.999998927116394,
+            "rank5": 71.20000123977661,
+            "gain": -2.9835760593414307
+          },
+          {
+            "step": 5000,
+            "mAP": 59.05153155326843,
+            "rank1": 50.40000081062317,
+            "rank5": 67.1999990940094,
+            "gain": -2.1821975708007812
+          }
+        ],
+        "actual_updates": 5000,
+        "attempts": 5000,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 864,
+        "support_loss_before": 0.032613545656204224,
+        "support_loss_after": 0.0,
+        "frozen_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5",
+        "saved_prompt_exact": true,
+        "prompt_hash": "ae6d23fd45fac6fae91ce68f2a64dbd0285eddce24351535e6f8afc49b893c15",
+        "train_seconds": 554.6824449030682,
+        "evaluation_seconds": 14.438106630230322,
+        "elapsed_seconds": 569.6653381648939,
+        "milliseconds_per_update": 110.93648898061365
+      }
+    }
+  ],
+  "elapsed_seconds": 3311.490268382011
+}

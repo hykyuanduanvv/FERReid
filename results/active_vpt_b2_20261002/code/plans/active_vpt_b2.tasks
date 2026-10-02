@@ -1,0 +1,29 @@
+# B2 only. Frozen VPT, 5000 actual prompt updates; 3 draws x 2 optimizer seeds per task.
+# iLIDS facility_camera is exactly equivalent to facility; analysis reuses its results.
+b2_grid_random | "$PY" scripts/active_vpt_b2.py --domain grid --method random
+b2_viper_random | "$PY" scripts/active_vpt_b2.py --domain viper --method random
+b2_ilids_random | "$PY" scripts/active_vpt_b2.py --domain ilids --method random
+b2_cuhk03_random | "$PY" scripts/active_vpt_b2.py --domain cuhk03 --method random
+b2_grid_facility | "$PY" scripts/active_vpt_b2.py --domain grid --method facility
+b2_viper_facility | "$PY" scripts/active_vpt_b2.py --domain viper --method facility
+b2_ilids_facility | "$PY" scripts/active_vpt_b2.py --domain ilids --method facility
+b2_cuhk03_facility | "$PY" scripts/active_vpt_b2.py --domain cuhk03 --method facility
+b2_grid_dedup | "$PY" scripts/active_vpt_b2.py --domain grid --method dedup
+b2_viper_dedup | "$PY" scripts/active_vpt_b2.py --domain viper --method dedup
+b2_ilids_dedup | "$PY" scripts/active_vpt_b2.py --domain ilids --method dedup
+b2_cuhk03_dedup | "$PY" scripts/active_vpt_b2.py --domain cuhk03 --method dedup
+b2_grid_kcenter | "$PY" scripts/active_vpt_b2.py --domain grid --method kcenter
+b2_viper_kcenter | "$PY" scripts/active_vpt_b2.py --domain viper --method kcenter
+b2_ilids_kcenter | "$PY" scripts/active_vpt_b2.py --domain ilids --method kcenter
+b2_cuhk03_kcenter | "$PY" scripts/active_vpt_b2.py --domain cuhk03 --method kcenter
+b2_grid_typical | "$PY" scripts/active_vpt_b2.py --domain grid --method typical
+b2_viper_typical | "$PY" scripts/active_vpt_b2.py --domain viper --method typical
+b2_ilids_typical | "$PY" scripts/active_vpt_b2.py --domain ilids --method typical
+b2_cuhk03_typical | "$PY" scripts/active_vpt_b2.py --domain cuhk03 --method typical
+b2_grid_hard_negative | "$PY" scripts/active_vpt_b2.py --domain grid --method hard_negative
+b2_viper_hard_negative | "$PY" scripts/active_vpt_b2.py --domain viper --method hard_negative
+b2_ilids_hard_negative | "$PY" scripts/active_vpt_b2.py --domain ilids --method hard_negative
+b2_cuhk03_hard_negative | "$PY" scripts/active_vpt_b2.py --domain cuhk03 --method hard_negative
+b2_grid_facility_camera | "$PY" scripts/active_vpt_b2.py --domain grid --method facility_camera
+b2_viper_facility_camera | "$PY" scripts/active_vpt_b2.py --domain viper --method facility_camera
+b2_cuhk03_facility_camera | "$PY" scripts/active_vpt_b2.py --domain cuhk03 --method facility_camera

@@ -1,0 +1,55 @@
+[16:30:04] start b2_grid_random on GPU 0
+[16:30:04] start b2_viper_random on GPU 1
+[16:30:04] start b2_ilids_random on GPU 2
+[16:30:04] start b2_cuhk03_random on GPU 7
+[17:20:14] b2_ilids_random done (GPU 2)
+[17:20:14] start b2_grid_facility on GPU 2
+[17:24:49] b2_grid_random done (GPU 0)
+[17:24:49] start b2_viper_facility on GPU 0
+[17:25:34] b2_viper_random done (GPU 1)
+[17:25:34] start b2_ilids_facility on GPU 1
+[17:27:09] b2_cuhk03_random done (GPU 7)
+[17:27:09] start b2_cuhk03_facility on GPU 7
+[18:16:49] b2_grid_facility done (GPU 2)
+[18:16:49] start b2_grid_dedup on GPU 2
+[18:21:04] b2_ilids_facility done (GPU 1)
+[18:21:04] start b2_viper_dedup on GPU 1
+[18:22:14] b2_viper_facility done (GPU 0)
+[18:22:14] start b2_ilids_dedup on GPU 0
+[18:24:19] b2_cuhk03_facility done (GPU 7)
+[18:24:19] start b2_cuhk03_dedup on GPU 7
+[19:12:09] b2_grid_dedup done (GPU 2)
+[19:12:09] start b2_grid_kcenter on GPU 2
+[19:15:34] b2_ilids_dedup done (GPU 0)
+[19:15:34] start b2_viper_kcenter on GPU 0
+[19:17:04] b2_viper_dedup done (GPU 1)
+[19:17:04] start b2_ilids_kcenter on GPU 1
+[19:21:39] b2_cuhk03_dedup done (GPU 7)
+[19:21:39] start b2_cuhk03_kcenter on GPU 7
+[20:07:04] b2_grid_kcenter done (GPU 2)
+[20:07:04] start b2_grid_typical on GPU 2
+[20:11:34] b2_viper_kcenter done (GPU 0)
+[20:11:34] start b2_viper_typical on GPU 0
+[20:11:49] b2_ilids_kcenter done (GPU 1)
+[20:11:49] start b2_ilids_typical on GPU 1
+[20:19:19] b2_cuhk03_kcenter done (GPU 7)
+[20:19:19] start b2_cuhk03_typical on GPU 7
+[21:03:29] b2_grid_typical done (GPU 2)
+[21:03:29] start b2_grid_hard_negative on GPU 2
+[21:04:19] b2_ilids_typical done (GPU 1)
+[21:04:19] start b2_viper_hard_negative on GPU 1
+[21:07:24] b2_viper_typical done (GPU 0)
+[21:07:24] start b2_ilids_hard_negative on GPU 0
+[21:16:54] b2_cuhk03_typical done (GPU 7)
+[21:16:54] start b2_cuhk03_hard_negative on GPU 7
+[21:53:30] b2_ilids_hard_negative done (GPU 0)
+[21:53:30] start b2_grid_facility_camera on GPU 0
+[21:59:15] b2_grid_hard_negative done (GPU 2)
+[21:59:15] b2_viper_hard_negative done (GPU 1)
+[21:59:15] start b2_viper_facility_camera on GPU 2
+[21:59:15] start b2_cuhk03_facility_camera on GPU 1
+[22:14:00] b2_cuhk03_hard_negative done (GPU 7)
+[22:48:55] b2_grid_facility_camera done (GPU 0)
+[22:55:00] b2_viper_facility_camera done (GPU 2)
+[22:56:20] b2_cuhk03_facility_camera done (GPU 1)
+all task groups finished

@@ -1,0 +1,19 @@
+{
+  "stage": "b2",
+  "source_sha256": {
+    "scripts/active_vpt_b1.py": "7ac3aab36919ba6a4b11464b2ef2642294f3081d2c28bb51f48180b269405885",
+    "scripts/active_vpt_b2.py": "02d8a34fdf747210df335e0d1393bab1b89cf78f8faef9604d27a85982ba63a2",
+    "scripts/analyze_active_vpt.py": "4138a475c46449a6ce06829b88d474efd052abdd4ef67953f4f504242fa234f5",
+    "adapters/active_vpt_selection.py": "fdc05b8834e11550d3350e14e98aa7717f60b579cbfa99540f5d418cadc08574",
+    "adapters/selectors.py": "0a106943006a9a9d39e32af21fd34e474c39135b68f249099c8c33fe960a47df",
+    "scripts/tune_vpt_fewshot.py": "8a47a15bc74e0b0e38dae4dd651d4d86e55503250e475a00168221cfb8ec3b49",
+    "scripts/oracle_prompt.py": "3a1b895e5fa5d6e48f367ae824ef737f52eb13b532d3fc2be68d05248e68dc0e",
+    "adapters/warm_start_reid.py": "bb2f9a19625afa429d5d298d7349510b4039d638cdb89c4667a64a1f48d52043",
+    "adapters/baseline_model.py": "beb8c6b5e8370026eb9ab6134805c2572e49dd6560f95b9d2175f3877bcf3bd4",
+    "plans/active_vpt_b1.tasks": "8e0d58fe1fef5164448cd8d778c303d0647deb912f4c1a88ecf4293c4b8f9add",
+    "plans/active_vpt_b2.tasks": "1b32223f0ea48c80f90552c2294914657a3e02188ff825fa407df46b32f0f502",
+    "scripts/run_active_vpt_b2.py": "dfb6c8df0fdd3e70631a2eee84dbcbda195c8b070e973bdcc3d46d78f27ce1d0"
+  },
+  "weights": "server only",
+  "commit_status": "uncommitted; no GitHub push"
+}

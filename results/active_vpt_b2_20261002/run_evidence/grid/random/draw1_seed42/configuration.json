@@ -1,0 +1,275 @@
+{
+  "steps": 5000,
+  "eval_steps": [
+    100,
+    300,
+    1000,
+    3000,
+    5000
+  ],
+  "seed": 42,
+  "lr": 0.0001,
+  "selection": {
+    "anchors": [
+      0,
+      190,
+      184,
+      92,
+      238,
+      223,
+      34,
+      220,
+      225,
+      98,
+      192,
+      185,
+      215,
+      195,
+      242,
+      74
+    ],
+    "pairs": [
+      [
+        "/root/hyk/reid-data/grid/underground_reid/probe/0002_1_25008_169_19_94_224.jpeg",
+        "/root/hyk/reid-data/grid/underground_reid/gallery/0002_2_25027_160_75_118_274.jpeg"
+      ],
+      [
+        "/root/hyk/reid-data/grid/underground_reid/gallery/0137_5_28720_232_19_46_150.jpeg",
+        "/root/hyk/reid-data/grid/underground_reid/probe/0137_6_28704_123_150_127_290.jpeg"
+      ],
+      [
+        "/root/hyk/reid-data/grid/underground_reid/gallery/0127_2_28064_120_75_77_256.jpeg",
+        "/root/hyk/reid-data/grid/underground_reid/probe/0127_1_28046_104_4_59_177.jpeg"
+      ],
+      [
+        "/root/hyk/reid-data/grid/underground_reid/probe/0194_4_38378_372_94_124_327.jpeg",
+        "/root/hyk/reid-data/grid/underground_reid/gallery/0194_5_38395_163_81_100_287.jpeg"
+      ],
+      [
+        "/root/hyk/reid-data/grid/underground_reid/gallery/0230_2_30547_95_75_137_318.jpeg",
+        "/root/hyk/reid-data/grid/underground_reid/probe/0230_1_30530_104_69_168_346.jpeg"
+      ],
+      [
+        "/root/hyk/reid-data/grid/underground_reid/gallery/0202_2_38416_191_88_81_252.jpeg",
+        "/root/hyk/reid-data/grid/underground_reid/probe/0202_1_38395_185_32_68_221.jpeg"
+      ],
+      [
+        "/root/hyk/reid-data/grid/underground_reid/probe/0082_2_26359_32_91_100_249.jpeg",
+        "/root/hyk/reid-data/grid/underground_reid/gallery/0082_1_26379_116_13_85_196.jpeg"
+      ],
+      [
+        "/root/hyk/reid-data/grid/underground_reid/gallery/0199_5_38407_4_97_109_277.jpeg",
+        "/root/hyk/reid-data/grid/underground_reid/probe/0199_4_38390_515_125_125_327.jpeg"
+      ],
+      [
+        "/root/hyk/reid-data/grid/underground_reid/gallery/0204_2_38407_101_103_75_259.jpeg",
+        "/root/hyk/reid-data/grid/underground_reid/probe/0204_1_38391_144_19_47_165.jpeg"
+      ],
+      [
+        "/root/hyk/reid-data/grid/underground_reid/gallery/0140_1_29362_116_28_72_206.jpeg",
+        "/root/hyk/reid-data/grid/underground_reid/probe/0140_2_29346_132_91_84_246.jpeg"
+      ],
+      [
+        "/root/hyk/reid-data/grid/underground_reid/gallery/0128_2_28058_197_153_128_313.jpeg",
+        "/root/hyk/reid-data/grid/underground_reid/probe/0128_1_28040_45_22_103_221.jpeg"
+      ],
+      [
+        "/root/hyk/reid-data/grid/underground_reid/gallery/0190_5_38397_154_156_131_310.jpeg",
+        "/root/hyk/reid-data/grid/underground_reid/probe/0190_4_38375_381_72_69_265.jpeg"
+      ],
+      [
+        "/root/hyk/reid-data/grid/underground_reid/gallery/0149_5_29890_48_69_72_243.jpeg",
+        "/root/hyk/reid-data/grid/underground_reid/probe/0149_4_29873_512_97_112_299.jpeg"
+      ],
+      [
+        "/root/hyk/reid-data/grid/underground_reid/gallery/0238_5_32838_154_153_118_311.jpeg",
+        "/root/hyk/reid-data/grid/underground_reid/probe/0238_4_32821_428_85_96_289.jpeg"
+      ],
+      [
+        "/root/hyk/reid-data/grid/underground_reid/probe/0158_1_29876_48_25_78_209.jpeg",
+        "/root/hyk/reid-data/grid/underground_reid/gallery/0158_2_29895_151_88_90_295.jpeg"
+      ]
+    ],
+    "annotation": {
+      "k": 16,
+      "n_pairs": 15,
+      "n_dup": 1,
+      "n_fail": 0,
+      "outcomes": [
+        {
+          "anchor": 0,
+          "result": "pair",
+          "partner": 125
+        },
+        {
+          "anchor": 190,
+          "result": "pair",
+          "partner": 65
+        },
+        {
+          "anchor": 184,
+          "result": "pair",
+          "partner": 59
+        },
+        {
+          "anchor": 92,
+          "result": "pair",
+          "partner": 217
+        },
+        {
+          "anchor": 238,
+          "result": "pair",
+          "partner": 113
+        },
+        {
+          "anchor": 223,
+          "result": "pair",
+          "partner": 98
+        },
+        {
+          "anchor": 34,
+          "result": "pair",
+          "partner": 159
+        },
+        {
+          "anchor": 220,
+          "result": "pair",
+          "partner": 95
+        },
+        {
+          "anchor": 225,
+          "result": "pair",
+          "partner": 100
+        },
+        {
+          "anchor": 98,
+          "result": "duplicate"
+        },
+        {
+          "anchor": 192,
+          "result": "pair",
+          "partner": 67
+        },
+        {
+          "anchor": 185,
+          "result": "pair",
+          "partner": 60
+        },
+        {
+          "anchor": 215,
+          "result": "pair",
+          "partner": 90
+        },
+        {
+          "anchor": 195,
+          "result": "pair",
+          "partner": 70
+        },
+        {
+          "anchor": 242,
+          "result": "pair",
+          "partner": 117
+        },
+        {
+          "anchor": 74,
+          "result": "pair",
+          "partner": 199
+        }
+      ],
+      "pair_indices": [
+        [
+          0,
+          125
+        ],
+        [
+          190,
+          65
+        ],
+        [
+          184,
+          59
+        ],
+        [
+          92,
+          217
+        ],
+        [
+          238,
+          113
+        ],
+        [
+          223,
+          98
+        ],
+        [
+          34,
+          159
+        ],
+        [
+          220,
+          95
+        ],
+        [
+          225,
+          100
+        ],
+        [
+          192,
+          67
+        ],
+        [
+          185,
+          60
+        ],
+        [
+          215,
+          90
+        ],
+        [
+          195,
+          70
+        ],
+        [
+          242,
+          117
+        ],
+        [
+          74,
+          199
+        ]
+      ]
+    },
+    "effective_identities": 15,
+    "revealed_ids": [
+      0,
+      65,
+      59,
+      92,
+      113,
+      98,
+      34,
+      95,
+      100,
+      67,
+      60,
+      90,
+      70,
+      117,
+      74
+    ],
+    "method": "random",
+    "draw": 1,
+    "selection_seed": 1601,
+    "annotation_seed": 2601,
+    "metrics": {
+      "cameras": 4,
+      "mean_pairwise_distance": 0.6769474148750305,
+      "typicality": 2.2393271923065186,
+      "pairability": 0.7280879020690918
+    },
+    "ordered_support_hash": "faad77eee93546259b425929d74e62bb82f2aa6aa4e7269e601afe829f45ee71",
+    "anchor_set_hash": "c0ccc667a71d0f348e287efac4fa9f7d4d4d4b576dbccc1f1d7683b6c8ed0bae"
+  },
+  "initial_prompt_hash": "36f18739dabc92486b311dd80c255311ea6603739dbfa3beac503ee35dcb9279",
+  "frozen_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5"
+}

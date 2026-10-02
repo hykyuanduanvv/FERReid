@@ -1,0 +1,1299 @@
+{
+  "domain": "viper",
+  "method": "random",
+  "baseline": {
+    "mAP": 81.31827712059021,
+    "rank1": 73.41772317886353,
+    "rank5": 89.87341523170471
+  },
+  "final_baseline": {
+    "mAP": 81.31827712059021,
+    "rank1": 73.41772317886353,
+    "rank5": 89.87341523170471
+  },
+  "trials": [
+    {
+      "domain": "viper",
+      "method": "random",
+      "draw": 0,
+      "seed": 42,
+      "effective_identities": 15,
+      "annotation": {
+        "k": 16,
+        "n_pairs": 15,
+        "n_dup": 1,
+        "n_fail": 0,
+        "outcomes": [
+          {
+            "anchor": 462,
+            "result": "pair",
+            "partner": 463
+          },
+          {
+            "anchor": 537,
+            "result": "pair",
+            "partner": 536
+          },
+          {
+            "anchor": 258,
+            "result": "pair",
+            "partner": 259
+          },
+          {
+            "anchor": 62,
+            "result": "pair",
+            "partner": 63
+          },
+          {
+            "anchor": 254,
+            "result": "pair",
+            "partner": 255
+          },
+          {
+            "anchor": 418,
+            "result": "pair",
+            "partner": 419
+          },
+          {
+            "anchor": 112,
+            "result": "pair",
+            "partner": 113
+          },
+          {
+            "anchor": 467,
+            "result": "pair",
+            "partner": 466
+          },
+          {
+            "anchor": 36,
+            "result": "pair",
+            "partner": 37
+          },
+          {
+            "anchor": 628,
+            "result": "pair",
+            "partner": 629
+          },
+          {
+            "anchor": 164,
+            "result": "pair",
+            "partner": 165
+          },
+          {
+            "anchor": 111,
+            "result": "pair",
+            "partner": 110
+          },
+          {
+            "anchor": 34,
+            "result": "pair",
+            "partner": 35
+          },
+          {
+            "anchor": 464,
+            "result": "pair",
+            "partner": 465
+          },
+          {
+            "anchor": 63,
+            "result": "duplicate"
+          },
+          {
+            "anchor": 248,
+            "result": "pair",
+            "partner": 249
+          }
+        ],
+        "pair_indices": [
+          [
+            462,
+            463
+          ],
+          [
+            537,
+            536
+          ],
+          [
+            258,
+            259
+          ],
+          [
+            62,
+            63
+          ],
+          [
+            254,
+            255
+          ],
+          [
+            418,
+            419
+          ],
+          [
+            112,
+            113
+          ],
+          [
+            467,
+            466
+          ],
+          [
+            36,
+            37
+          ],
+          [
+            628,
+            629
+          ],
+          [
+            164,
+            165
+          ],
+          [
+            111,
+            110
+          ],
+          [
+            34,
+            35
+          ],
+          [
+            464,
+            465
+          ],
+          [
+            248,
+            249
+          ]
+        ]
+      },
+      "anchor_set_hash": "a561b6d040801d85e70a6a17ef8a965d4e3813c635f987dc8e81f3a4037850de",
+      "support_hash": "b72fbd378acff9f8c663b67994dfe11feb2a1bf8c784254b2dcbee2bc034b6af",
+      "directory": "experiments/b2_vpt_active_20261002/viper/random/draw0_seed42",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 100,
+            "mAP": 82.7397108078003,
+            "rank1": 75.63291192054749,
+            "rank5": 91.77215099334717,
+            "gain": 1.421433687210083
+          },
+          {
+            "step": 300,
+            "mAP": 80.7959258556366,
+            "rank1": 73.10126423835754,
+            "rank5": 90.1898741722107,
+            "gain": -0.5223512649536133
+          },
+          {
+            "step": 1000,
+            "mAP": 77.82134413719177,
+            "rank1": 70.88607549667358,
+            "rank5": 85.7594907283783,
+            "gain": -3.4969329833984375
+          },
+          {
+            "step": 3000,
+            "mAP": 75.3300130367279,
+            "rank1": 68.03797483444214,
+            "rank5": 84.4936728477478,
+            "gain": -5.988264083862305
+          },
+          {
+            "step": 5000,
+            "mAP": 75.29504299163818,
+            "rank1": 67.72152185440063,
+            "rank5": 85.44303774833679,
+            "gain": -6.023234128952026
+          }
+        ],
+        "actual_updates": 5000,
+        "attempts": 5000,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 574,
+        "support_loss_before": 0.01868346892297268,
+        "support_loss_after": 0.0,
+        "frozen_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5",
+        "saved_prompt_exact": true,
+        "prompt_hash": "443320e4acc706ba3acf0810d486b1f4179107528e5ab99b50574efe8b34ae42",
+        "train_seconds": 550.940180398291,
+        "evaluation_seconds": 11.08330569183454,
+        "elapsed_seconds": 562.5813798378222,
+        "milliseconds_per_update": 110.18803607965819
+      }
+    },
+    {
+      "domain": "viper",
+      "method": "random",
+      "draw": 0,
+      "seed": 43,
+      "effective_identities": 15,
+      "annotation": {
+        "k": 16,
+        "n_pairs": 15,
+        "n_dup": 1,
+        "n_fail": 0,
+        "outcomes": [
+          {
+            "anchor": 462,
+            "result": "pair",
+            "partner": 463
+          },
+          {
+            "anchor": 537,
+            "result": "pair",
+            "partner": 536
+          },
+          {
+            "anchor": 258,
+            "result": "pair",
+            "partner": 259
+          },
+          {
+            "anchor": 62,
+            "result": "pair",
+            "partner": 63
+          },
+          {
+            "anchor": 254,
+            "result": "pair",
+            "partner": 255
+          },
+          {
+            "anchor": 418,
+            "result": "pair",
+            "partner": 419
+          },
+          {
+            "anchor": 112,
+            "result": "pair",
+            "partner": 113
+          },
+          {
+            "anchor": 467,
+            "result": "pair",
+            "partner": 466
+          },
+          {
+            "anchor": 36,
+            "result": "pair",
+            "partner": 37
+          },
+          {
+            "anchor": 628,
+            "result": "pair",
+            "partner": 629
+          },
+          {
+            "anchor": 164,
+            "result": "pair",
+            "partner": 165
+          },
+          {
+            "anchor": 111,
+            "result": "pair",
+            "partner": 110
+          },
+          {
+            "anchor": 34,
+            "result": "pair",
+            "partner": 35
+          },
+          {
+            "anchor": 464,
+            "result": "pair",
+            "partner": 465
+          },
+          {
+            "anchor": 63,
+            "result": "duplicate"
+          },
+          {
+            "anchor": 248,
+            "result": "pair",
+            "partner": 249
+          }
+        ],
+        "pair_indices": [
+          [
+            462,
+            463
+          ],
+          [
+            537,
+            536
+          ],
+          [
+            258,
+            259
+          ],
+          [
+            62,
+            63
+          ],
+          [
+            254,
+            255
+          ],
+          [
+            418,
+            419
+          ],
+          [
+            112,
+            113
+          ],
+          [
+            467,
+            466
+          ],
+          [
+            36,
+            37
+          ],
+          [
+            628,
+            629
+          ],
+          [
+            164,
+            165
+          ],
+          [
+            111,
+            110
+          ],
+          [
+            34,
+            35
+          ],
+          [
+            464,
+            465
+          ],
+          [
+            248,
+            249
+          ]
+        ]
+      },
+      "anchor_set_hash": "a561b6d040801d85e70a6a17ef8a965d4e3813c635f987dc8e81f3a4037850de",
+      "support_hash": "b72fbd378acff9f8c663b67994dfe11feb2a1bf8c784254b2dcbee2bc034b6af",
+      "directory": "experiments/b2_vpt_active_20261002/viper/random/draw0_seed43",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 100,
+            "mAP": 83.15773606300354,
+            "rank1": 76.89873576164246,
+            "rank5": 91.13923907279968,
+            "gain": 1.83945894241333
+          },
+          {
+            "step": 300,
+            "mAP": 82.22397565841675,
+            "rank1": 75.63291192054749,
+            "rank5": 91.45569801330566,
+            "gain": 0.9056985378265381
+          },
+          {
+            "step": 1000,
+            "mAP": 79.97352480888367,
+            "rank1": 71.83544039726257,
+            "rank5": 90.1898741722107,
+            "gain": -1.344752311706543
+          },
+          {
+            "step": 3000,
+            "mAP": 76.1612057685852,
+            "rank1": 68.67088675498962,
+            "rank5": 83.54430198669434,
+            "gain": -5.157071352005005
+          },
+          {
+            "step": 5000,
+            "mAP": 76.43672823905945,
+            "rank1": 68.35442781448364,
+            "rank5": 87.65822649002075,
+            "gain": -4.881548881530762
+          }
+        ],
+        "actual_updates": 5000,
+        "attempts": 5000,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 599,
+        "support_loss_before": 0.01868346892297268,
+        "support_loss_after": 0.0,
+        "frozen_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5",
+        "saved_prompt_exact": true,
+        "prompt_hash": "e9070339326bc4187ebde6664419a8de24bf10e6c2d24b92f3579698d64a1cff",
+        "train_seconds": 551.1591211471241,
+        "evaluation_seconds": 11.127258746884763,
+        "elapsed_seconds": 562.850015562959,
+        "milliseconds_per_update": 110.23182422942482
+      }
+    },
+    {
+      "domain": "viper",
+      "method": "random",
+      "draw": 1,
+      "seed": 42,
+      "effective_identities": 15,
+      "annotation": {
+        "k": 16,
+        "n_pairs": 15,
+        "n_dup": 1,
+        "n_fail": 0,
+        "outcomes": [
+          {
+            "anchor": 7,
+            "result": "pair",
+            "partner": 6
+          },
+          {
+            "anchor": 164,
+            "result": "pair",
+            "partner": 165
+          },
+          {
+            "anchor": 81,
+            "result": "pair",
+            "partner": 80
+          },
+          {
+            "anchor": 71,
+            "result": "pair",
+            "partner": 70
+          },
+          {
+            "anchor": 341,
+            "result": "pair",
+            "partner": 340
+          },
+          {
+            "anchor": 411,
+            "result": "pair",
+            "partner": 410
+          },
+          {
+            "anchor": 476,
+            "result": "pair",
+            "partner": 477
+          },
+          {
+            "anchor": 13,
+            "result": "pair",
+            "partner": 12
+          },
+          {
+            "anchor": 398,
+            "result": "pair",
+            "partner": 399
+          },
+          {
+            "anchor": 185,
+            "result": "pair",
+            "partner": 184
+          },
+          {
+            "anchor": 14,
+            "result": "pair",
+            "partner": 15
+          },
+          {
+            "anchor": 365,
+            "result": "pair",
+            "partner": 364
+          },
+          {
+            "anchor": 153,
+            "result": "pair",
+            "partner": 152
+          },
+          {
+            "anchor": 12,
+            "result": "duplicate"
+          },
+          {
+            "anchor": 228,
+            "result": "pair",
+            "partner": 229
+          },
+          {
+            "anchor": 186,
+            "result": "pair",
+            "partner": 187
+          }
+        ],
+        "pair_indices": [
+          [
+            7,
+            6
+          ],
+          [
+            164,
+            165
+          ],
+          [
+            81,
+            80
+          ],
+          [
+            71,
+            70
+          ],
+          [
+            341,
+            340
+          ],
+          [
+            411,
+            410
+          ],
+          [
+            476,
+            477
+          ],
+          [
+            13,
+            12
+          ],
+          [
+            398,
+            399
+          ],
+          [
+            185,
+            184
+          ],
+          [
+            14,
+            15
+          ],
+          [
+            365,
+            364
+          ],
+          [
+            153,
+            152
+          ],
+          [
+            228,
+            229
+          ],
+          [
+            186,
+            187
+          ]
+        ]
+      },
+      "anchor_set_hash": "c9c8d3ed173323ac5a3b6e40a617071af514b01e2b62fe434af8d32601db8e89",
+      "support_hash": "20ad1104498cd90e63a9dc5b6e52a28b888130205c59e06a2e95465d4c776a1b",
+      "directory": "experiments/b2_vpt_active_20261002/viper/random/draw1_seed42",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 100,
+            "mAP": 85.02150177955627,
+            "rank1": 78.79746556282043,
+            "rank5": 92.08860993385315,
+            "gain": 3.7032246589660645
+          },
+          {
+            "step": 300,
+            "mAP": 82.51985907554626,
+            "rank1": 75.63291192054749,
+            "rank5": 89.87341523170471,
+            "gain": 1.2015819549560547
+          },
+          {
+            "step": 1000,
+            "mAP": 82.2289764881134,
+            "rank1": 75.94936490058899,
+            "rank5": 90.1898741722107,
+            "gain": 0.9106993675231934
+          },
+          {
+            "step": 3000,
+            "mAP": 81.44685626029968,
+            "rank1": 75.0,
+            "rank5": 89.87341523170471,
+            "gain": 0.12857913970947266
+          },
+          {
+            "step": 5000,
+            "mAP": 81.82463645935059,
+            "rank1": 74.05063509941101,
+            "rank5": 91.77215099334717,
+            "gain": 0.506359338760376
+          }
+        ],
+        "actual_updates": 5000,
+        "attempts": 5000,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 606,
+        "support_loss_before": 0.01696634665131569,
+        "support_loss_after": 0.0,
+        "frozen_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5",
+        "saved_prompt_exact": true,
+        "prompt_hash": "8dd9ff085d8ad223d02fb89743faeb65dc6d0e2ee8fa6d8ee9e5bb4d42b43aba",
+        "train_seconds": 525.8191770778503,
+        "evaluation_seconds": 11.31540448195301,
+        "elapsed_seconds": 537.6838747521397,
+        "milliseconds_per_update": 105.16383541557006
+      }
+    },
+    {
+      "domain": "viper",
+      "method": "random",
+      "draw": 1,
+      "seed": 43,
+      "effective_identities": 15,
+      "annotation": {
+        "k": 16,
+        "n_pairs": 15,
+        "n_dup": 1,
+        "n_fail": 0,
+        "outcomes": [
+          {
+            "anchor": 7,
+            "result": "pair",
+            "partner": 6
+          },
+          {
+            "anchor": 164,
+            "result": "pair",
+            "partner": 165
+          },
+          {
+            "anchor": 81,
+            "result": "pair",
+            "partner": 80
+          },
+          {
+            "anchor": 71,
+            "result": "pair",
+            "partner": 70
+          },
+          {
+            "anchor": 341,
+            "result": "pair",
+            "partner": 340
+          },
+          {
+            "anchor": 411,
+            "result": "pair",
+            "partner": 410
+          },
+          {
+            "anchor": 476,
+            "result": "pair",
+            "partner": 477
+          },
+          {
+            "anchor": 13,
+            "result": "pair",
+            "partner": 12
+          },
+          {
+            "anchor": 398,
+            "result": "pair",
+            "partner": 399
+          },
+          {
+            "anchor": 185,
+            "result": "pair",
+            "partner": 184
+          },
+          {
+            "anchor": 14,
+            "result": "pair",
+            "partner": 15
+          },
+          {
+            "anchor": 365,
+            "result": "pair",
+            "partner": 364
+          },
+          {
+            "anchor": 153,
+            "result": "pair",
+            "partner": 152
+          },
+          {
+            "anchor": 12,
+            "result": "duplicate"
+          },
+          {
+            "anchor": 228,
+            "result": "pair",
+            "partner": 229
+          },
+          {
+            "anchor": 186,
+            "result": "pair",
+            "partner": 187
+          }
+        ],
+        "pair_indices": [
+          [
+            7,
+            6
+          ],
+          [
+            164,
+            165
+          ],
+          [
+            81,
+            80
+          ],
+          [
+            71,
+            70
+          ],
+          [
+            341,
+            340
+          ],
+          [
+            411,
+            410
+          ],
+          [
+            476,
+            477
+          ],
+          [
+            13,
+            12
+          ],
+          [
+            398,
+            399
+          ],
+          [
+            185,
+            184
+          ],
+          [
+            14,
+            15
+          ],
+          [
+            365,
+            364
+          ],
+          [
+            153,
+            152
+          ],
+          [
+            228,
+            229
+          ],
+          [
+            186,
+            187
+          ]
+        ]
+      },
+      "anchor_set_hash": "c9c8d3ed173323ac5a3b6e40a617071af514b01e2b62fe434af8d32601db8e89",
+      "support_hash": "20ad1104498cd90e63a9dc5b6e52a28b888130205c59e06a2e95465d4c776a1b",
+      "directory": "experiments/b2_vpt_active_20261002/viper/random/draw1_seed43",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 100,
+            "mAP": 84.66200828552246,
+            "rank1": 78.16455960273743,
+            "rank5": 93.35442781448364,
+            "gain": 3.343731164932251
+          },
+          {
+            "step": 300,
+            "mAP": 85.06701588630676,
+            "rank1": 79.11392450332642,
+            "rank5": 92.40506291389465,
+            "gain": 3.7487387657165527
+          },
+          {
+            "step": 1000,
+            "mAP": 80.78201413154602,
+            "rank1": 73.73417615890503,
+            "rank5": 89.55696225166321,
+            "gain": -0.5362629890441895
+          },
+          {
+            "step": 3000,
+            "mAP": 80.65581917762756,
+            "rank1": 73.41772317886353,
+            "rank5": 89.87341523170471,
+            "gain": -0.6624579429626465
+          },
+          {
+            "step": 5000,
+            "mAP": 82.65711069107056,
+            "rank1": 75.63291192054749,
+            "rank5": 91.77215099334717,
+            "gain": 1.3388335704803467
+          }
+        ],
+        "actual_updates": 5000,
+        "attempts": 5000,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 586,
+        "support_loss_before": 0.01696634665131569,
+        "support_loss_after": 0.0,
+        "frozen_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5",
+        "saved_prompt_exact": true,
+        "prompt_hash": "b81da00c828d043d264e69ab7e9dca8a3adb6fe824d7848a81cb7e6e875852d4",
+        "train_seconds": 511.9729101960547,
+        "evaluation_seconds": 11.35447317105718,
+        "elapsed_seconds": 523.8894238797948,
+        "milliseconds_per_update": 102.39458203921095
+      }
+    },
+    {
+      "domain": "viper",
+      "method": "random",
+      "draw": 2,
+      "seed": 42,
+      "effective_identities": 16,
+      "annotation": {
+        "k": 16,
+        "n_pairs": 16,
+        "n_dup": 0,
+        "n_fail": 0,
+        "outcomes": [
+          {
+            "anchor": 267,
+            "result": "pair",
+            "partner": 266
+          },
+          {
+            "anchor": 366,
+            "result": "pair",
+            "partner": 367
+          },
+          {
+            "anchor": 242,
+            "result": "pair",
+            "partner": 243
+          },
+          {
+            "anchor": 224,
+            "result": "pair",
+            "partner": 225
+          },
+          {
+            "anchor": 66,
+            "result": "pair",
+            "partner": 67
+          },
+          {
+            "anchor": 170,
+            "result": "pair",
+            "partner": 171
+          },
+          {
+            "anchor": 359,
+            "result": "pair",
+            "partner": 358
+          },
+          {
+            "anchor": 98,
+            "result": "pair",
+            "partner": 99
+          },
+          {
+            "anchor": 59,
+            "result": "pair",
+            "partner": 58
+          },
+          {
+            "anchor": 432,
+            "result": "pair",
+            "partner": 433
+          },
+          {
+            "anchor": 440,
+            "result": "pair",
+            "partner": 441
+          },
+          {
+            "anchor": 61,
+            "result": "pair",
+            "partner": 60
+          },
+          {
+            "anchor": 424,
+            "result": "pair",
+            "partner": 425
+          },
+          {
+            "anchor": 112,
+            "result": "pair",
+            "partner": 113
+          },
+          {
+            "anchor": 231,
+            "result": "pair",
+            "partner": 230
+          },
+          {
+            "anchor": 302,
+            "result": "pair",
+            "partner": 303
+          }
+        ],
+        "pair_indices": [
+          [
+            267,
+            266
+          ],
+          [
+            366,
+            367
+          ],
+          [
+            242,
+            243
+          ],
+          [
+            224,
+            225
+          ],
+          [
+            66,
+            67
+          ],
+          [
+            170,
+            171
+          ],
+          [
+            359,
+            358
+          ],
+          [
+            98,
+            99
+          ],
+          [
+            59,
+            58
+          ],
+          [
+            432,
+            433
+          ],
+          [
+            440,
+            441
+          ],
+          [
+            61,
+            60
+          ],
+          [
+            424,
+            425
+          ],
+          [
+            112,
+            113
+          ],
+          [
+            231,
+            230
+          ],
+          [
+            302,
+            303
+          ]
+        ]
+      },
+      "anchor_set_hash": "5d1af8a89e9a3769e2a44584f9bd479da4ff864267ec0357e8fd4eeb37030b70",
+      "support_hash": "221ce80b336fd5e9b8ef4286796a5946739ce83e69fcf44009966223ab5a43ca",
+      "directory": "experiments/b2_vpt_active_20261002/viper/random/draw2_seed42",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 100,
+            "mAP": 81.30147457122803,
+            "rank1": 73.41772317886353,
+            "rank5": 89.87341523170471,
+            "gain": -0.016802549362182617
+          },
+          {
+            "step": 300,
+            "mAP": 81.30121231079102,
+            "rank1": 74.36708807945251,
+            "rank5": 89.55696225166321,
+            "gain": -0.017064809799194336
+          },
+          {
+            "step": 1000,
+            "mAP": 81.6291332244873,
+            "rank1": 75.63291192054749,
+            "rank5": 89.55696225166321,
+            "gain": 0.3108561038970947
+          },
+          {
+            "step": 3000,
+            "mAP": 80.63372373580933,
+            "rank1": 74.05063509941101,
+            "rank5": 88.60759735107422,
+            "gain": -0.6845533847808838
+          },
+          {
+            "step": 5000,
+            "mAP": 79.96044158935547,
+            "rank1": 73.41772317886353,
+            "rank5": 89.55696225166321,
+            "gain": -1.3578355312347412
+          }
+        ],
+        "actual_updates": 5000,
+        "attempts": 5000,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 426,
+        "support_loss_before": 0.011430677026510239,
+        "support_loss_after": 0.0,
+        "frozen_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5",
+        "saved_prompt_exact": true,
+        "prompt_hash": "68aed5cbcd4053d356afb752cb47b9fba68ac91673add28fbe6ec57a5c1e972f",
+        "train_seconds": 565.902265067678,
+        "evaluation_seconds": 11.48469957895577,
+        "elapsed_seconds": 577.95008619898,
+        "milliseconds_per_update": 113.18045301353558
+      }
+    },
+    {
+      "domain": "viper",
+      "method": "random",
+      "draw": 2,
+      "seed": 43,
+      "effective_identities": 16,
+      "annotation": {
+        "k": 16,
+        "n_pairs": 16,
+        "n_dup": 0,
+        "n_fail": 0,
+        "outcomes": [
+          {
+            "anchor": 267,
+            "result": "pair",
+            "partner": 266
+          },
+          {
+            "anchor": 366,
+            "result": "pair",
+            "partner": 367
+          },
+          {
+            "anchor": 242,
+            "result": "pair",
+            "partner": 243
+          },
+          {
+            "anchor": 224,
+            "result": "pair",
+            "partner": 225
+          },
+          {
+            "anchor": 66,
+            "result": "pair",
+            "partner": 67
+          },
+          {
+            "anchor": 170,
+            "result": "pair",
+            "partner": 171
+          },
+          {
+            "anchor": 359,
+            "result": "pair",
+            "partner": 358
+          },
+          {
+            "anchor": 98,
+            "result": "pair",
+            "partner": 99
+          },
+          {
+            "anchor": 59,
+            "result": "pair",
+            "partner": 58
+          },
+          {
+            "anchor": 432,
+            "result": "pair",
+            "partner": 433
+          },
+          {
+            "anchor": 440,
+            "result": "pair",
+            "partner": 441
+          },
+          {
+            "anchor": 61,
+            "result": "pair",
+            "partner": 60
+          },
+          {
+            "anchor": 424,
+            "result": "pair",
+            "partner": 425
+          },
+          {
+            "anchor": 112,
+            "result": "pair",
+            "partner": 113
+          },
+          {
+            "anchor": 231,
+            "result": "pair",
+            "partner": 230
+          },
+          {
+            "anchor": 302,
+            "result": "pair",
+            "partner": 303
+          }
+        ],
+        "pair_indices": [
+          [
+            267,
+            266
+          ],
+          [
+            366,
+            367
+          ],
+          [
+            242,
+            243
+          ],
+          [
+            224,
+            225
+          ],
+          [
+            66,
+            67
+          ],
+          [
+            170,
+            171
+          ],
+          [
+            359,
+            358
+          ],
+          [
+            98,
+            99
+          ],
+          [
+            59,
+            58
+          ],
+          [
+            432,
+            433
+          ],
+          [
+            440,
+            441
+          ],
+          [
+            61,
+            60
+          ],
+          [
+            424,
+            425
+          ],
+          [
+            112,
+            113
+          ],
+          [
+            231,
+            230
+          ],
+          [
+            302,
+            303
+          ]
+        ]
+      },
+      "anchor_set_hash": "5d1af8a89e9a3769e2a44584f9bd479da4ff864267ec0357e8fd4eeb37030b70",
+      "support_hash": "221ce80b336fd5e9b8ef4286796a5946739ce83e69fcf44009966223ab5a43ca",
+      "directory": "experiments/b2_vpt_active_20261002/viper/random/draw2_seed43",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 100,
+            "mAP": 82.82732367515564,
+            "rank1": 76.26582384109497,
+            "rank5": 90.5063271522522,
+            "gain": 1.5090465545654297
+          },
+          {
+            "step": 300,
+            "mAP": 82.05575942993164,
+            "rank1": 75.3164529800415,
+            "rank5": 90.5063271522522,
+            "gain": 0.7374823093414307
+          },
+          {
+            "step": 1000,
+            "mAP": 82.59775638580322,
+            "rank1": 76.58227682113647,
+            "rank5": 90.82278609275818,
+            "gain": 1.2794792652130127
+          },
+          {
+            "step": 3000,
+            "mAP": 82.81859159469604,
+            "rank1": 77.21518874168396,
+            "rank5": 90.5063271522522,
+            "gain": 1.500314474105835
+          },
+          {
+            "step": 5000,
+            "mAP": 82.82945156097412,
+            "rank1": 76.26582384109497,
+            "rank5": 91.77215099334717,
+            "gain": 1.5111744403839111
+          }
+        ],
+        "actual_updates": 5000,
+        "attempts": 5000,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 416,
+        "support_loss_before": 0.011430677026510239,
+        "support_loss_after": 0.0,
+        "frozen_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5",
+        "saved_prompt_exact": true,
+        "prompt_hash": "ddf046117ea97e7f341f4a42aaea203c4150e085718a590faea787ea65c0c312",
+        "train_seconds": 536.7760263604578,
+        "evaluation_seconds": 11.434975655050948,
+        "elapsed_seconds": 548.7728319240268,
+        "milliseconds_per_update": 107.35520527209155
+      }
+    }
+  ],
+  "elapsed_seconds": 3316.934923173161
+}

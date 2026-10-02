@@ -1,0 +1,9 @@
+[22:56:20] start b2_verify_grid on GPU 0
+[22:56:20] start b2_verify_viper on GPU 1
+[22:56:20] start b2_verify_ilids on GPU 2
+[22:56:20] start b2_verify_cuhk03 on GPU 7
+[22:56:35] b2_verify_ilids done (GPU 2)
+[22:56:40] b2_verify_grid done (GPU 0)
+[22:56:40] b2_verify_viper done (GPU 1)
+[22:57:00] b2_verify_cuhk03 done (GPU 7)
+all task groups finished

@@ -1,0 +1,5 @@
+# Independent process replay of predeclared random/facility draw0 seed42.
+b2_verify_grid | "$PY" scripts/active_vpt_b2.py --domain grid --verify
+b2_verify_viper | "$PY" scripts/active_vpt_b2.py --domain viper --verify
+b2_verify_ilids | "$PY" scripts/active_vpt_b2.py --domain ilids --verify
+b2_verify_cuhk03 | "$PY" scripts/active_vpt_b2.py --domain cuhk03 --verify

@@ -1,0 +1,2 @@
+# Preserve exact CSV bytes for the result checksum manifest.
+*.csv -text

@@ -1,0 +1,70 @@
+{
+  "baseline_exact": true,
+  "trials": [
+    {
+      "directory": "smoke_random",
+      "exact": true,
+      "metrics": {
+        "mAP": 89.65151309967041,
+        "rank1": 85.00000238418579,
+        "rank5": 96.66666388511658
+      }
+    },
+    {
+      "directory": "smoke_dedup",
+      "exact": true,
+      "metrics": {
+        "mAP": 87.87893056869507,
+        "rank1": 83.33333134651184,
+        "rank5": 91.66666865348816
+      }
+    },
+    {
+      "directory": "smoke_kcenter",
+      "exact": true,
+      "metrics": {
+        "mAP": 93.44444274902344,
+        "rank1": 89.99999761581421,
+        "rank5": 96.66666388511658
+      }
+    },
+    {
+      "directory": "smoke_typical",
+      "exact": true,
+      "metrics": {
+        "mAP": 92.36111044883728,
+        "rank1": 88.33333253860474,
+        "rank5": 96.66666388511658
+      }
+    },
+    {
+      "directory": "smoke_hard_negative",
+      "exact": true,
+      "metrics": {
+        "mAP": 88.86829018592834,
+        "rank1": 85.00000238418579,
+        "rank5": 91.66666865348816
+      }
+    },
+    {
+      "directory": "smoke_facility",
+      "exact": true,
+      "metrics": {
+        "mAP": 90.54487943649292,
+        "rank1": 86.66666746139526,
+        "rank5": 94.9999988079071
+      }
+    },
+    {
+      "directory": "legacy_random_replay",
+      "exact": true,
+      "metrics": {
+        "mAP": 90.85813760757446,
+        "rank1": 86.66666746139526,
+        "rank5": 94.9999988079071
+      }
+    }
+  ],
+  "frozen_hash_exact": true,
+  "independent_process": true
+}

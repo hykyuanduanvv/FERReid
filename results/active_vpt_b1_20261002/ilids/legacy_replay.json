@@ -1,0 +1,7 @@
+{
+  "exact_prompt": true,
+  "exact_metrics": true,
+  "all_300_input_and_gradient_logs_exact": true,
+  "reference": "experiments/step5_ilids/draw0_seed42_lr0.0001",
+  "note": "Historical annotation stream used ONLY here; formal methods use isolated annotation RNG."
+}

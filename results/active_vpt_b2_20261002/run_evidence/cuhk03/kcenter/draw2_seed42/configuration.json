@@ -1,0 +1,285 @@
+{
+  "steps": 5000,
+  "eval_steps": [
+    100,
+    300,
+    1000,
+    3000,
+    5000
+  ],
+  "seed": 42,
+  "lr": 0.0001,
+  "selection": {
+    "anchors": [
+      528,
+      6447,
+      6179,
+      973,
+      4805,
+      1182,
+      4421,
+      6333,
+      6210,
+      2326,
+      2341,
+      239,
+      2467,
+      3085,
+      4783,
+      4279
+    ],
+    "pairs": [
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1085/2_242_2_07.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1085/2_242_1_05.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/819/1_819_2_10.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/819/1_819_1_01.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/775/1_775_1_05.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/775/1_775_2_09.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1163/2_320_2_07.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1163/2_320_1_02.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/524/1_524_2_10.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/524/1_524_1_01.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1196/2_353_2_07.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1196/2_353_1_02.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/46/1_046_2_09.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/46/1_046_1_01.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/799/1_799_2_10.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/799/1_799_1_02.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/778/1_778_2_06.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/778/1_778_1_03.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1391/4_031_2_09.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1391/4_031_1_03.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1395/4_035_2_06.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1395/4_035_1_01.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/104/1_104_1_04.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/104/1_104_2_07.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1414/4_054_1_03.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1414/4_054_2_10.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/207/1_207_2_06.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/207/1_207_1_04.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/516/1_516_2_08.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/516/1_516_1_03.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/433/1_433_1_04.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/433/1_433_2_06.jpg"
+      ]
+    ],
+    "annotation": {
+      "k": 16,
+      "n_pairs": 16,
+      "n_dup": 0,
+      "n_fail": 0,
+      "outcomes": [
+        {
+          "anchor": 528,
+          "result": "pair",
+          "partner": 526
+        },
+        {
+          "anchor": 6447,
+          "result": "pair",
+          "partner": 6438
+        },
+        {
+          "anchor": 6179,
+          "result": "pair",
+          "partner": 6183
+        },
+        {
+          "anchor": 973,
+          "result": "pair",
+          "partner": 968
+        },
+        {
+          "anchor": 4805,
+          "result": "pair",
+          "partner": 4796
+        },
+        {
+          "anchor": 1182,
+          "result": "pair",
+          "partner": 1177
+        },
+        {
+          "anchor": 4421,
+          "result": "pair",
+          "partner": 4413
+        },
+        {
+          "anchor": 6333,
+          "result": "pair",
+          "partner": 6325
+        },
+        {
+          "anchor": 6210,
+          "result": "pair",
+          "partner": 6207
+        },
+        {
+          "anchor": 2326,
+          "result": "pair",
+          "partner": 2320
+        },
+        {
+          "anchor": 2341,
+          "result": "pair",
+          "partner": 2340
+        },
+        {
+          "anchor": 239,
+          "result": "pair",
+          "partner": 242
+        },
+        {
+          "anchor": 2467,
+          "result": "pair",
+          "partner": 2473
+        },
+        {
+          "anchor": 3085,
+          "result": "pair",
+          "partner": 3083
+        },
+        {
+          "anchor": 4783,
+          "result": "pair",
+          "partner": 4778
+        },
+        {
+          "anchor": 4279,
+          "result": "pair",
+          "partner": 4280
+        }
+      ],
+      "pair_indices": [
+        [
+          528,
+          526
+        ],
+        [
+          6447,
+          6438
+        ],
+        [
+          6179,
+          6183
+        ],
+        [
+          973,
+          968
+        ],
+        [
+          4805,
+          4796
+        ],
+        [
+          1182,
+          1177
+        ],
+        [
+          4421,
+          4413
+        ],
+        [
+          6333,
+          6325
+        ],
+        [
+          6210,
+          6207
+        ],
+        [
+          2326,
+          2320
+        ],
+        [
+          2341,
+          2340
+        ],
+        [
+          239,
+          242
+        ],
+        [
+          2467,
+          2473
+        ],
+        [
+          3085,
+          3083
+        ],
+        [
+          4783,
+          4778
+        ],
+        [
+          4279,
+          4280
+        ]
+      ]
+    },
+    "effective_identities": 16,
+    "revealed_ids": [
+      547,
+      418,
+      392,
+      588,
+      263,
+      607,
+      27,
+      406,
+      395,
+      720,
+      723,
+      59,
+      736,
+      107,
+      262,
+      217
+    ],
+    "method": "kcenter",
+    "draw": 2,
+    "selection_seed": 1602,
+    "annotation_seed": 2602,
+    "metrics": {
+      "cameras": 5,
+      "mean_pairwise_distance": 0.8652378916740417,
+      "typicality": 3.287510871887207,
+      "pairability": 0.7704845666885376
+    },
+    "ordered_support_hash": "346e12b68c80bfe05c73eae1163dd5a3a33d53514fa9eec2906341d6cb78f7eb",
+    "anchor_set_hash": "fb01f4a884e8a4ee6e21a070dcd8e612a3d95a24cc2a2ab95f7111f04279e323"
+  },
+  "initial_prompt_hash": "36f18739dabc92486b311dd80c255311ea6603739dbfa3beac503ee35dcb9279",
+  "frozen_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5"
+}

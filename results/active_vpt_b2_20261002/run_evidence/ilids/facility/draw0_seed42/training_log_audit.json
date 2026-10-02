@@ -1,0 +1,12 @@
+{
+  "original": "experiments/b2_vpt_active_20261002/ilids/facility/draw0_seed42/training.jsonl",
+  "original_sha256": "2823424e25a7f93b52d7d4ad8b49125efd25f7a8007f50319cc32550c20d5987",
+  "original_bytes": 1673643,
+  "original_rows": 5000,
+  "sampled_rows": 56,
+  "sampling_rule": "steps 1,2,3,10,20,50 and every 100th update; full log retained on server",
+  "actual_updates": 5000,
+  "nonfinite_gradient_rows": 0,
+  "skipped_rows": 0,
+  "mean_loss_last100": 7.106406381353736e-05
+}

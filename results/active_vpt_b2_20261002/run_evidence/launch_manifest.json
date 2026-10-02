@@ -1,0 +1,27 @@
+{
+  "started_at": "2026-10-02T00:30:04.412277+08:00",
+  "gpus": [
+    0,
+    1,
+    2,
+    7
+  ],
+  "steps": 5000,
+  "nominal_conditions": 168,
+  "independent_trials": 162,
+  "aliases": {
+    "ilids/facility_camera": "ilids/facility"
+  },
+  "git_branch": "Direction_B",
+  "git_head": "e237cb2b709c3ae7e2d1481829facd9580f08cfa",
+  "source_sha256": {
+    "adapters/active_vpt_selection.py": "fdc05b8834e11550d3350e14e98aa7717f60b579cbfa99540f5d418cadc08574",
+    "scripts/active_vpt_b1.py": "7ac3aab36919ba6a4b11464b2ef2642294f3081d2c28bb51f48180b269405885",
+    "scripts/active_vpt_b2.py": "02d8a34fdf747210df335e0d1393bab1b89cf78f8faef9604d27a85982ba63a2",
+    "scripts/analyze_active_vpt.py": "4138a475c46449a6ce06829b88d474efd052abdd4ef67953f4f504242fa234f5",
+    "scripts/run_active_vpt_b2.py": "dfb6c8df0fdd3e70631a2eee84dbcbda195c8b070e973bdcc3d46d78f27ce1d0",
+    "plans/active_vpt_b2.tasks": "1b32223f0ea48c80f90552c2294914657a3e02188ff825fa407df46b32f0f502",
+    "plans/active_vpt_b2_verify.tasks": "18927d10285d7e9a1e4d2695e8b0b6721c9fdee9745a408dc24c8673f39a9fec"
+  },
+  "authorization": "User explicitly requested B2 after B1; no commit/push, no B3/B4."
+}

@@ -1,0 +1,242 @@
+{
+  "domain": "grid",
+  "baseline": {
+    "mAP": 61.233729124069214,
+    "rank1": 51.99999809265137,
+    "rank5": 72.79999852180481
+  },
+  "final_baseline": {
+    "mAP": 61.233729124069214,
+    "rank1": 51.99999809265137,
+    "rank5": 72.79999852180481
+  },
+  "trials": [
+    {
+      "directory": "smoke_random",
+      "steps": 20,
+      "method": "random",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 20,
+            "mAP": 66.41249060630798,
+            "rank1": 57.59999752044678,
+            "rank5": 79.19999957084656,
+            "gain": 5.1787614822387695
+          }
+        ],
+        "actual_updates": 20,
+        "attempts": 20,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 20,
+        "support_loss_before": 0.018745990470051765,
+        "support_loss_after": 0.0,
+        "frozen_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5",
+        "saved_prompt_exact": true,
+        "prompt_hash": "f4d824a889cbc326d170e9c7400ff0f07031ce94284ae3476554c6875b4649fc",
+        "train_seconds": 2.60798820015043,
+        "evaluation_seconds": 2.928128255996853,
+        "elapsed_seconds": 6.071124844951555,
+        "milliseconds_per_update": 130.3994100075215
+      }
+    },
+    {
+      "directory": "smoke_kcenter",
+      "steps": 20,
+      "method": "kcenter",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 20,
+            "mAP": 66.9940173625946,
+            "rank1": 58.399999141693115,
+            "rank5": 80.0000011920929,
+            "gain": 5.760288238525391
+          }
+        ],
+        "actual_updates": 20,
+        "attempts": 20,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 18,
+        "support_loss_before": 0.009776975959539413,
+        "support_loss_after": 0.0,
+        "frozen_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5",
+        "saved_prompt_exact": true,
+        "prompt_hash": "4d784d2b17598f468cfd26afb80578834ac8504feec7b127dbbc7096f4c22ec1",
+        "train_seconds": 2.286071750568226,
+        "evaluation_seconds": 2.8714469969272614,
+        "elapsed_seconds": 5.676236008061096,
+        "milliseconds_per_update": 114.3035875284113
+      }
+    },
+    {
+      "directory": "smoke_typical",
+      "steps": 20,
+      "method": "typical",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 20,
+            "mAP": 69.39751505851746,
+            "rank1": 59.20000076293945,
+            "rank5": 81.5999984741211,
+            "gain": 8.163785934448242
+          }
+        ],
+        "actual_updates": 20,
+        "attempts": 20,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 20,
+        "support_loss_before": 0.029834141954779625,
+        "support_loss_after": 0.00022192415781319141,
+        "frozen_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5",
+        "saved_prompt_exact": true,
+        "prompt_hash": "4d5485fe87c6c6ea1fe7d4057d33ec9bf7e5ab7ca5112a62dafd60378f9499fb",
+        "train_seconds": 2.331220739753917,
+        "evaluation_seconds": 2.8534850960131735,
+        "elapsed_seconds": 5.704686481039971,
+        "milliseconds_per_update": 116.56103698769584
+      }
+    },
+    {
+      "directory": "smoke_hard_negative",
+      "steps": 20,
+      "method": "hard_negative",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 20,
+            "mAP": 67.08232164382935,
+            "rank1": 58.399999141693115,
+            "rank5": 80.0000011920929,
+            "gain": 5.848592519760132
+          }
+        ],
+        "actual_updates": 20,
+        "attempts": 20,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 20,
+        "support_loss_before": 0.02562578022480011,
+        "support_loss_after": 0.0,
+        "frozen_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5",
+        "saved_prompt_exact": true,
+        "prompt_hash": "19bbddd4fd1c58626cf2541e1d27aa2ac856777dce3f56f68719e087fe1c055c",
+        "train_seconds": 2.2868291398044676,
+        "evaluation_seconds": 2.8658001581206918,
+        "elapsed_seconds": 5.655161798931658,
+        "milliseconds_per_update": 114.34145699022338
+      }
+    },
+    {
+      "directory": "smoke_facility",
+      "steps": 20,
+      "method": "facility",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 20,
+            "mAP": 62.68231272697449,
+            "rank1": 52.799999713897705,
+            "rank5": 75.99999904632568,
+            "gain": 1.4485836029052734
+          }
+        ],
+        "actual_updates": 20,
+        "attempts": 20,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 20,
+        "support_loss_before": 0.02502257563173771,
+        "support_loss_after": 0.004237481392920017,
+        "frozen_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5",
+        "saved_prompt_exact": true,
+        "prompt_hash": "1993148eb998497d09428af75b357a53a1304d236f50173d000a6b184cadcf05",
+        "train_seconds": 2.1428679483942688,
+        "evaluation_seconds": 2.8707929849624634,
+        "elapsed_seconds": 5.530227464158088,
+        "milliseconds_per_update": 107.14339741971344
+      }
+    },
+    {
+      "directory": "smoke_facility_camera",
+      "steps": 20,
+      "method": "facility_camera",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 20,
+            "mAP": 67.05065965652466,
+            "rank1": 59.20000076293945,
+            "rank5": 75.99999904632568,
+            "gain": 5.816930532455444
+          }
+        ],
+        "actual_updates": 20,
+        "attempts": 20,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 20,
+        "support_loss_before": 0.032613545656204224,
+        "support_loss_after": 0.0054436177015304565,
+        "frozen_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5",
+        "saved_prompt_exact": true,
+        "prompt_hash": "fddc21795d5aa1d1165dec01c2686c5626b301362f5901edac11ba5ed8f374ca",
+        "train_seconds": 2.2163854383397847,
+        "evaluation_seconds": 2.925300140865147,
+        "elapsed_seconds": 5.6490745220799,
+        "milliseconds_per_update": 110.81927191698924
+      }
+    },
+    {
+      "directory": "legacy_random_replay",
+      "steps": 300,
+      "method": "historical_random",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 100,
+            "mAP": 68.03483366966248,
+            "rank1": 59.20000076293945,
+            "rank5": 80.80000281333923,
+            "gain": 6.801104545593262
+          },
+          {
+            "step": 300,
+            "mAP": 67.9481029510498,
+            "rank1": 59.20000076293945,
+            "rank5": 80.0000011920929,
+            "gain": 6.714373826980591
+          }
+        ],
+        "actual_updates": 300,
+        "attempts": 300,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 191,
+        "support_loss_before": 0.018745990470051765,
+        "support_loss_after": 0.0,
+        "frozen_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5",
+        "saved_prompt_exact": true,
+        "prompt_hash": "0ec01c263bfaec399d350a31f3463435be31c519f0a6b44e320e2e4471985882",
+        "train_seconds": 30.952395281987265,
+        "evaluation_seconds": 5.759624163154513,
+        "elapsed_seconds": 37.22849705489352,
+        "milliseconds_per_update": 103.17465093995754
+      }
+    }
+  ],
+  "equivalences": [
+    {
+      "method": "dedup",
+      "same_as": "random"
+    }
+  ],
+  "random_repeat_exact": true,
+  "formal_steps": 5000,
+  "formal_training_launched": false,
+  "note": "20-step scores test integration only; not selector performance evidence."
+}

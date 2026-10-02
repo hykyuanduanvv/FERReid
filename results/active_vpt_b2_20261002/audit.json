@@ -1,0 +1,28 @@
+{
+  "complete": true,
+  "missing": [],
+  "verification": [
+    {
+      "domain": "grid",
+      "passed": true
+    },
+    {
+      "domain": "viper",
+      "passed": true
+    },
+    {
+      "domain": "ilids",
+      "passed": true
+    },
+    {
+      "domain": "cuhk03",
+      "passed": true
+    }
+  ],
+  "nominal_conditions": 168,
+  "independent_training_trials": 162,
+  "primary_step": 5000,
+  "primary_comparison": "facility vs random",
+  "source_protocol": "Market+MSMT train; development experiment, not formal P3",
+  "scope": "No B3/B4; all methods reported; iLIDS facility_camera reuses identical facility selections."
+}

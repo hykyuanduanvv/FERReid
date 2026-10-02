@@ -1,0 +1,12 @@
+{
+  "original": "experiments/b2_vpt_active_20261002/grid/kcenter/draw2_seed43/training.jsonl",
+  "original_sha256": "e55bb8318d88c59299fc8334ac3a573b0dd26b351f321f06a139023d9ce2204a",
+  "original_bytes": 1674425,
+  "original_rows": 5000,
+  "sampled_rows": 56,
+  "sampling_rule": "steps 1,2,3,10,20,50 and every 100th update; full log retained on server",
+  "actual_updates": 5000,
+  "nonfinite_gradient_rows": 0,
+  "skipped_rows": 0,
+  "mean_loss_last100": 1.2541101314127446e-05
+}

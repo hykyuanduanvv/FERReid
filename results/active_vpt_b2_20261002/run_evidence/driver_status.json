@@ -1,0 +1,10 @@
+{
+  "state": "complete",
+  "time": "2026-10-02T06:57:02.506858+08:00",
+  "pid": 177847,
+  "training_exit": 0,
+  "verify_exit": 0,
+  "analysis_exit": 0,
+  "report": "/root/hyk/FERReid/results/active_vpt_b2_20261002",
+  "further_stages_launched": false
+}

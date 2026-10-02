@@ -1,0 +1,19 @@
+{
+  "domain": "grid",
+  "split": 0,
+  "frozen_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5",
+  "initial_prompt_hash": "36f18739dabc92486b311dd80c255311ea6603739dbfa3beac503ee35dcb9279",
+  "records_hash": "b4a9abff5189e411667897d166646a641802db1e7f827426911fb231f3feb6a1",
+  "preprocess": "frozen VPT prompt; flip-summed retrieval features re-normalized in FP32 for selector cosine",
+  "shape": [
+    250,
+    768
+  ],
+  "dtype": "float32",
+  "sha256": "d2f2f1cf92c75534a8c6ffcaa448ee6f8e462c24b45be027ceadcf39e8295386",
+  "extraction_seconds": 2.123804855858907,
+  "raw_retrieval_norm_max_error": 0.00029671192169189453,
+  "selector_fp32_normalization": true,
+  "cache_roundtrip_exact": true,
+  "repeated_first_batch_exact": true
+}

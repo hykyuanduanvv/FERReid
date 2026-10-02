@@ -1,0 +1,12 @@
+{
+  "original": "experiments/b2_vpt_active_20261002/cuhk03/facility_camera/draw1_seed43/training.jsonl",
+  "original_sha256": "3c6cc6271106647e19fcf1f931568f3c2196945bb6fc06f7c864204feacd0ce4",
+  "original_bytes": 1685745,
+  "original_rows": 5000,
+  "sampled_rows": 56,
+  "sampling_rule": "steps 1,2,3,10,20,50 and every 100th update; full log retained on server",
+  "actual_updates": 5000,
+  "nonfinite_gradient_rows": 0,
+  "skipped_rows": 0,
+  "mean_loss_last100": 0.00022405215306207539
+}

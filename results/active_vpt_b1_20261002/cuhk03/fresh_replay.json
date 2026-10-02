@@ -1,0 +1,79 @@
+{
+  "baseline_exact": true,
+  "trials": [
+    {
+      "directory": "smoke_random",
+      "exact": true,
+      "metrics": {
+        "mAP": 55.05717396736145,
+        "rank1": 56.40000104904175,
+        "rank5": 77.30000019073486
+      }
+    },
+    {
+      "directory": "smoke_dedup",
+      "exact": true,
+      "metrics": {
+        "mAP": 57.96462297439575,
+        "rank1": 59.60000157356262,
+        "rank5": 78.1000018119812
+      }
+    },
+    {
+      "directory": "smoke_kcenter",
+      "exact": true,
+      "metrics": {
+        "mAP": 56.19966387748718,
+        "rank1": 56.09999895095825,
+        "rank5": 76.99999809265137
+      }
+    },
+    {
+      "directory": "smoke_typical",
+      "exact": true,
+      "metrics": {
+        "mAP": 55.690592527389526,
+        "rank1": 56.300002336502075,
+        "rank5": 75.19999742507935
+      }
+    },
+    {
+      "directory": "smoke_hard_negative",
+      "exact": true,
+      "metrics": {
+        "mAP": 55.071425437927246,
+        "rank1": 56.09999895095825,
+        "rank5": 76.70000195503235
+      }
+    },
+    {
+      "directory": "smoke_facility",
+      "exact": true,
+      "metrics": {
+        "mAP": 54.535067081451416,
+        "rank1": 55.09999990463257,
+        "rank5": 74.40000176429749
+      }
+    },
+    {
+      "directory": "smoke_facility_camera",
+      "exact": true,
+      "metrics": {
+        "mAP": 55.92746138572693,
+        "rank1": 56.99999928474426,
+        "rank5": 76.30000114440918
+      }
+    },
+    {
+      "directory": "legacy_random_replay",
+      "exact": true,
+      "metrics": {
+        "mAP": 52.3295521736145,
+        "rank1": 52.99999713897705,
+        "rank5": 76.49999856948853
+      }
+    }
+  ],
+  "frozen_hash_exact": true,
+  "independent_process": true
+}

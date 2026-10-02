@@ -1,0 +1,11 @@
+B1接入核验已通过。此报告中的20步结果仅检查接口，不用于判断选样性能。
+所有域冻结VPT与历史基准一致；300步旧随机实验逐步输入、梯度、prompt及成绩精确复现。
+新选择器使用带基础prompt的VPT特征，并在FP32重新归一化。选择/标注/优化随机数隔离。
+所有选择器完成三次k=16预算审核；每域短程训练及独立进程重载检查通过。
+iLIDS的facility_camera与facility等价，B2复用结果；168个表格条件对应162个独立训练。
+按300步拆分计时估算：总GPU小时23.52，四卡理想均衡5.88小时；另计调度/重载/运行波动。
+B2主终点5000次实际更新，评测100/300/1000/3000/5000；不按测试成绩选终点。
+grid: mAP=61.23373; 103.17 ms/update; pairs={'random': [16, 15, 16], 'dedup': [16, 16, 16], 'kcenter': [16, 16, 16], 'typical': [16, 16, 16], 'hard_negative': [16, 16, 16], 'facility': [16, 16, 16], 'facility_camera': [16, 16, 16]}
+viper: mAP=81.31828; 99.17 ms/update; pairs={'random': [15, 15, 16], 'dedup': [16, 16, 16], 'kcenter': [16, 16, 16], 'typical': [16, 16, 16], 'hard_negative': [16, 15, 16], 'facility': [16, 16, 16], 'facility_camera': [16, 16, 16]}
+ilids: mAP=92.73333; 96.11 ms/update; pairs={'random': [14, 14, 14], 'dedup': [15, 16, 15], 'kcenter': [15, 16, 16], 'typical': [16, 16, 15], 'hard_negative': [15, 13, 12], 'facility': [16, 16, 16], 'facility_camera': [16, 16, 16]}
+cuhk03: mAP=57.07257; 103.06 ms/update; pairs={'random': [16, 16, 16], 'dedup': [16, 16, 16], 'kcenter': [16, 16, 16], 'typical': [16, 16, 16], 'hard_negative': [16, 16, 16], 'facility': [16, 16, 16], 'facility_camera': [16, 16, 16]}

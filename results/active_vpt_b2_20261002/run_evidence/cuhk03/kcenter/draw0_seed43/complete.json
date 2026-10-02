@@ -1,0 +1,53 @@
+{
+  "status": "complete",
+  "rows": [
+    {
+      "step": 100,
+      "mAP": 57.982659339904785,
+      "rank1": 58.89999866485596,
+      "rank5": 79.00000214576721,
+      "gain": 0.9100914001464844
+    },
+    {
+      "step": 300,
+      "mAP": 54.36738133430481,
+      "rank1": 54.79999780654907,
+      "rank5": 75.80000162124634,
+      "gain": -2.705186605453491
+    },
+    {
+      "step": 1000,
+      "mAP": 57.93830752372742,
+      "rank1": 60.100001096725464,
+      "rank5": 79.29999828338623,
+      "gain": 0.8657395839691162
+    },
+    {
+      "step": 3000,
+      "mAP": 55.60831427574158,
+      "rank1": 58.60000252723694,
+      "rank5": 78.70000004768372,
+      "gain": -1.4642536640167236
+    },
+    {
+      "step": 5000,
+      "mAP": 54.25291657447815,
+      "rank1": 56.300002336502075,
+      "rank5": 77.60000228881836,
+      "gain": -2.8196513652801514
+    }
+  ],
+  "actual_updates": 5000,
+  "attempts": 5000,
+  "skipped_attempts": [],
+  "nonzero_gradient_steps": 599,
+  "support_loss_before": 0.020515508949756622,
+  "support_loss_after": 0.0,
+  "frozen_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5",
+  "saved_prompt_exact": true,
+  "prompt_hash": "045d93c7eac12edec8c682e8e8343198867d6de45c18e166c443de60afd006d0",
+  "train_seconds": 522.421606421005,
+  "evaluation_seconds": 48.62747601023875,
+  "elapsed_seconds": 571.6022689880338,
+  "milliseconds_per_update": 104.484321284201
+}

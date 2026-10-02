@@ -1,0 +1,285 @@
+{
+  "steps": 5000,
+  "eval_steps": [
+    100,
+    300,
+    1000,
+    3000,
+    5000
+  ],
+  "seed": 42,
+  "lr": 0.0001,
+  "selection": {
+    "anchors": [
+      7,
+      164,
+      81,
+      71,
+      341,
+      411,
+      476,
+      13,
+      398,
+      185,
+      14,
+      365,
+      228,
+      186,
+      167,
+      150
+    ],
+    "pairs": [
+      [
+        "/root/hyk/reid-data/viper/VIPeR/cam_b/072_90.bmp",
+        "/root/hyk/reid-data/viper/VIPeR/cam_a/072_0.bmp"
+      ],
+      [
+        "/root/hyk/reid-data/viper/VIPeR/cam_a/713_45.bmp",
+        "/root/hyk/reid-data/viper/VIPeR/cam_b/713_180.bmp"
+      ],
+      [
+        "/root/hyk/reid-data/viper/VIPeR/cam_b/234_90.bmp",
+        "/root/hyk/reid-data/viper/VIPeR/cam_a/234_45.bmp"
+      ],
+      [
+        "/root/hyk/reid-data/viper/VIPeR/cam_b/580_180.bmp",
+        "/root/hyk/reid-data/viper/VIPeR/cam_a/580_0.bmp"
+      ],
+      [
+        "/root/hyk/reid-data/viper/VIPeR/cam_b/168_90.bmp",
+        "/root/hyk/reid-data/viper/VIPeR/cam_a/168_0.bmp"
+      ],
+      [
+        "/root/hyk/reid-data/viper/VIPeR/cam_b/187_180.bmp",
+        "/root/hyk/reid-data/viper/VIPeR/cam_a/187_0.bmp"
+      ],
+      [
+        "/root/hyk/reid-data/viper/VIPeR/cam_a/608_45.bmp",
+        "/root/hyk/reid-data/viper/VIPeR/cam_b/608_135.bmp"
+      ],
+      [
+        "/root/hyk/reid-data/viper/VIPeR/cam_b/541_90.bmp",
+        "/root/hyk/reid-data/viper/VIPeR/cam_a/541_0.bmp"
+      ],
+      [
+        "/root/hyk/reid-data/viper/VIPeR/cam_a/819_0.bmp",
+        "/root/hyk/reid-data/viper/VIPeR/cam_b/819_135.bmp"
+      ],
+      [
+        "/root/hyk/reid-data/viper/VIPeR/cam_b/574_135.bmp",
+        "/root/hyk/reid-data/viper/VIPeR/cam_a/574_0.bmp"
+      ],
+      [
+        "/root/hyk/reid-data/viper/VIPeR/cam_a/087_0.bmp",
+        "/root/hyk/reid-data/viper/VIPeR/cam_b/087_90.bmp"
+      ],
+      [
+        "/root/hyk/reid-data/viper/VIPeR/cam_b/557_90.bmp",
+        "/root/hyk/reid-data/viper/VIPeR/cam_a/557_0.bmp"
+      ],
+      [
+        "/root/hyk/reid-data/viper/VIPeR/cam_a/324_90.bmp",
+        "/root/hyk/reid-data/viper/VIPeR/cam_b/324_180.bmp"
+      ],
+      [
+        "/root/hyk/reid-data/viper/VIPeR/cam_a/036_45.bmp",
+        "/root/hyk/reid-data/viper/VIPeR/cam_b/036_90.bmp"
+      ],
+      [
+        "/root/hyk/reid-data/viper/VIPeR/cam_b/515_90.bmp",
+        "/root/hyk/reid-data/viper/VIPeR/cam_a/515_0.bmp"
+      ],
+      [
+        "/root/hyk/reid-data/viper/VIPeR/cam_a/232_0.bmp",
+        "/root/hyk/reid-data/viper/VIPeR/cam_b/232_90.bmp"
+      ]
+    ],
+    "annotation": {
+      "k": 16,
+      "n_pairs": 16,
+      "n_dup": 0,
+      "n_fail": 0,
+      "outcomes": [
+        {
+          "anchor": 7,
+          "result": "pair",
+          "partner": 6
+        },
+        {
+          "anchor": 164,
+          "result": "pair",
+          "partner": 165
+        },
+        {
+          "anchor": 81,
+          "result": "pair",
+          "partner": 80
+        },
+        {
+          "anchor": 71,
+          "result": "pair",
+          "partner": 70
+        },
+        {
+          "anchor": 341,
+          "result": "pair",
+          "partner": 340
+        },
+        {
+          "anchor": 411,
+          "result": "pair",
+          "partner": 410
+        },
+        {
+          "anchor": 476,
+          "result": "pair",
+          "partner": 477
+        },
+        {
+          "anchor": 13,
+          "result": "pair",
+          "partner": 12
+        },
+        {
+          "anchor": 398,
+          "result": "pair",
+          "partner": 399
+        },
+        {
+          "anchor": 185,
+          "result": "pair",
+          "partner": 184
+        },
+        {
+          "anchor": 14,
+          "result": "pair",
+          "partner": 15
+        },
+        {
+          "anchor": 365,
+          "result": "pair",
+          "partner": 364
+        },
+        {
+          "anchor": 228,
+          "result": "pair",
+          "partner": 229
+        },
+        {
+          "anchor": 186,
+          "result": "pair",
+          "partner": 187
+        },
+        {
+          "anchor": 167,
+          "result": "pair",
+          "partner": 166
+        },
+        {
+          "anchor": 150,
+          "result": "pair",
+          "partner": 151
+        }
+      ],
+      "pair_indices": [
+        [
+          7,
+          6
+        ],
+        [
+          164,
+          165
+        ],
+        [
+          81,
+          80
+        ],
+        [
+          71,
+          70
+        ],
+        [
+          341,
+          340
+        ],
+        [
+          411,
+          410
+        ],
+        [
+          476,
+          477
+        ],
+        [
+          13,
+          12
+        ],
+        [
+          398,
+          399
+        ],
+        [
+          185,
+          184
+        ],
+        [
+          14,
+          15
+        ],
+        [
+          365,
+          364
+        ],
+        [
+          228,
+          229
+        ],
+        [
+          186,
+          187
+        ],
+        [
+          167,
+          166
+        ],
+        [
+          150,
+          151
+        ]
+      ]
+    },
+    "effective_identities": 16,
+    "revealed_ids": [
+      3,
+      82,
+      40,
+      35,
+      170,
+      205,
+      238,
+      6,
+      199,
+      92,
+      7,
+      182,
+      114,
+      93,
+      83,
+      75
+    ],
+    "method": "dedup",
+    "draw": 1,
+    "selection_seed": 1601,
+    "annotation_seed": 2601,
+    "metrics": {
+      "cameras": 2,
+      "mean_pairwise_distance": 0.7296594381332397,
+      "typicality": 2.1461338996887207,
+      "pairability": 0.6466629505157471
+    },
+    "ordered_support_hash": "6799978deb0ea6760caa2bcc529bff6ee58d50b26184c125602e29810f68ccf7",
+    "anchor_set_hash": "a12ba8b28403be75144c0d763ec965972255664a07ec70d2b8f060cfab6df6e5"
+  },
+  "initial_prompt_hash": "36f18739dabc92486b311dd80c255311ea6603739dbfa3beac503ee35dcb9279",
+  "frozen_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5"
+}

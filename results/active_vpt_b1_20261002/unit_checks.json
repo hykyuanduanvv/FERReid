@@ -1,0 +1,9 @@
+{
+  "all_methods_unique_reproducible": true,
+  "anonymous_interface": true,
+  "duplicate_feature_kcenter": true,
+  "empty_cluster_fill": true,
+  "budget_failure_accounting": true,
+  "annotation_order_independent": true,
+  "no_camera_equivalence": true
+}

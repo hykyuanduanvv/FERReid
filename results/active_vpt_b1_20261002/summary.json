@@ -1,0 +1,268 @@
+{
+  "domains": [
+    {
+      "domain": "grid",
+      "baseline": {
+        "mAP": 61.233729124069214,
+        "rank1": 51.99999809265137,
+        "rank5": 72.79999852180481
+      },
+      "pool_images": 250,
+      "selector_counts": {
+        "random": [
+          16,
+          15,
+          16
+        ],
+        "dedup": [
+          16,
+          16,
+          16
+        ],
+        "kcenter": [
+          16,
+          16,
+          16
+        ],
+        "typical": [
+          16,
+          16,
+          16
+        ],
+        "hard_negative": [
+          16,
+          16,
+          16
+        ],
+        "facility": [
+          16,
+          16,
+          16
+        ],
+        "facility_camera": [
+          16,
+          16,
+          16
+        ]
+      },
+      "unique_sets": {
+        "random": 3,
+        "dedup": 3,
+        "kcenter": 3,
+        "typical": 3,
+        "hard_negative": 3,
+        "facility": 1,
+        "facility_camera": 1
+      },
+      "all_checks_pass": true,
+      "smoke_trials": 6,
+      "equivalences": [
+        {
+          "method": "dedup",
+          "same_as": "random"
+        }
+      ],
+      "train_ms_per_update": 103.17465093995754,
+      "evaluation_seconds_2": 5.759624163154513,
+      "projected_5000_seconds": 530.272315107674,
+      "raw_retrieval_norm_error": 0.00029671192169189453
+    },
+    {
+      "domain": "viper",
+      "baseline": {
+        "mAP": 81.31827712059021,
+        "rank1": 73.41772317886353,
+        "rank5": 89.87341523170471
+      },
+      "pool_images": 632,
+      "selector_counts": {
+        "random": [
+          15,
+          15,
+          16
+        ],
+        "dedup": [
+          16,
+          16,
+          16
+        ],
+        "kcenter": [
+          16,
+          16,
+          16
+        ],
+        "typical": [
+          16,
+          16,
+          16
+        ],
+        "hard_negative": [
+          16,
+          15,
+          16
+        ],
+        "facility": [
+          16,
+          16,
+          16
+        ],
+        "facility_camera": [
+          16,
+          16,
+          16
+        ]
+      },
+      "unique_sets": {
+        "random": 3,
+        "dedup": 3,
+        "kcenter": 3,
+        "typical": 3,
+        "hard_negative": 3,
+        "facility": 1,
+        "facility_camera": 1
+      },
+      "all_checks_pass": true,
+      "smoke_trials": 7,
+      "equivalences": [],
+      "train_ms_per_update": 99.17325159379591,
+      "evaluation_seconds_2": 4.499676448991522,
+      "projected_5000_seconds": 507.1154490914584,
+      "raw_retrieval_norm_error": 0.00027167797088623047
+    },
+    {
+      "domain": "ilids",
+      "baseline": {
+        "mAP": 92.73332953453064,
+        "rank1": 89.99999761581421,
+        "rank5": 94.9999988079071
+      },
+      "pool_images": 232,
+      "selector_counts": {
+        "random": [
+          14,
+          14,
+          14
+        ],
+        "dedup": [
+          15,
+          16,
+          15
+        ],
+        "kcenter": [
+          15,
+          16,
+          16
+        ],
+        "typical": [
+          16,
+          16,
+          15
+        ],
+        "hard_negative": [
+          15,
+          13,
+          12
+        ],
+        "facility": [
+          16,
+          16,
+          16
+        ],
+        "facility_camera": [
+          16,
+          16,
+          16
+        ]
+      },
+      "unique_sets": {
+        "random": 3,
+        "dedup": 3,
+        "kcenter": 3,
+        "typical": 3,
+        "hard_negative": 3,
+        "facility": 1,
+        "facility_camera": 1
+      },
+      "all_checks_pass": true,
+      "smoke_trials": 6,
+      "equivalences": [
+        {
+          "method": "facility_camera",
+          "same_as": "facility"
+        }
+      ],
+      "train_ms_per_update": 96.10764776589349,
+      "evaluation_seconds_2": 1.6510236700996757,
+      "projected_5000_seconds": 484.66579800471663,
+      "raw_retrieval_norm_error": 0.00030100345611572266
+    },
+    {
+      "domain": "cuhk03",
+      "baseline": {
+        "mAP": 57.0725679397583,
+        "rank1": 58.399999141693115,
+        "rank5": 76.8999993801117
+      },
+      "pool_images": 7368,
+      "selector_counts": {
+        "random": [
+          16,
+          16,
+          16
+        ],
+        "dedup": [
+          16,
+          16,
+          16
+        ],
+        "kcenter": [
+          16,
+          16,
+          16
+        ],
+        "typical": [
+          16,
+          16,
+          16
+        ],
+        "hard_negative": [
+          16,
+          16,
+          16
+        ],
+        "facility": [
+          16,
+          16,
+          16
+        ],
+        "facility_camera": [
+          16,
+          16,
+          16
+        ]
+      },
+      "unique_sets": {
+        "random": 3,
+        "dedup": 3,
+        "kcenter": 3,
+        "typical": 3,
+        "hard_negative": 3,
+        "facility": 3,
+        "facility_camera": 3
+      },
+      "all_checks_pass": true,
+      "smoke_trials": 7,
+      "equivalences": [],
+      "train_ms_per_update": 103.05696222931147,
+      "evaluation_seconds_2": 19.327904749894515,
+      "projected_5000_seconds": 563.6045730212936,
+      "raw_retrieval_norm_error": 0.0002982616424560547
+    }
+  ],
+  "nominal_trials": 168,
+  "unique_trials": 162,
+  "projected_gpu_hours": 23.524901914285472,
+  "ideal_four_gpu_hours": 5.881225478571368,
+  "all_b1_checks_pass": true,
+  "b2_not_in_b1": true
+}

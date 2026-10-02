@@ -1,0 +1,275 @@
+{
+  "steps": 5000,
+  "eval_steps": [
+    100,
+    300,
+    1000,
+    3000,
+    5000
+  ],
+  "seed": 43,
+  "lr": 0.0001,
+  "selection": {
+    "anchors": [
+      189,
+      53,
+      184,
+      25,
+      99,
+      199,
+      49,
+      151,
+      18,
+      74,
+      209,
+      44,
+      71,
+      193,
+      147,
+      64
+    ],
+    "pairs": [
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0012004.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0012003.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0083004.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0083002.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0030003.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0030002.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0055004.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0055003.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0045004.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0045001.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0025002.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0025008.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0097002.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0097001.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0081005.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0081002.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0036002.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0036007.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0065002.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0065004.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0109002.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0109003.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0033002.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0033001.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0106001.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0106003.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0118004.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0118003.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0038006.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0038005.jpg"
+      ]
+    ],
+    "annotation": {
+      "k": 16,
+      "n_pairs": 15,
+      "n_dup": 1,
+      "n_fail": 0,
+      "outcomes": [
+        {
+          "anchor": 189,
+          "result": "pair",
+          "partner": 193
+        },
+        {
+          "anchor": 53,
+          "result": "pair",
+          "partner": 52
+        },
+        {
+          "anchor": 184,
+          "result": "pair",
+          "partner": 182
+        },
+        {
+          "anchor": 25,
+          "result": "pair",
+          "partner": 24
+        },
+        {
+          "anchor": 99,
+          "result": "pair",
+          "partner": 101
+        },
+        {
+          "anchor": 199,
+          "result": "pair",
+          "partner": 198
+        },
+        {
+          "anchor": 49,
+          "result": "pair",
+          "partner": 48
+        },
+        {
+          "anchor": 151,
+          "result": "pair",
+          "partner": 152
+        },
+        {
+          "anchor": 18,
+          "result": "pair",
+          "partner": 17
+        },
+        {
+          "anchor": 74,
+          "result": "pair",
+          "partner": 73
+        },
+        {
+          "anchor": 209,
+          "result": "pair",
+          "partner": 210
+        },
+        {
+          "anchor": 44,
+          "result": "pair",
+          "partner": 46
+        },
+        {
+          "anchor": 71,
+          "result": "pair",
+          "partner": 69
+        },
+        {
+          "anchor": 193,
+          "result": "duplicate"
+        },
+        {
+          "anchor": 147,
+          "result": "pair",
+          "partner": 146
+        },
+        {
+          "anchor": 64,
+          "result": "pair",
+          "partner": 60
+        }
+      ],
+      "pair_indices": [
+        [
+          189,
+          193
+        ],
+        [
+          53,
+          52
+        ],
+        [
+          184,
+          182
+        ],
+        [
+          25,
+          24
+        ],
+        [
+          99,
+          101
+        ],
+        [
+          199,
+          198
+        ],
+        [
+          49,
+          48
+        ],
+        [
+          151,
+          152
+        ],
+        [
+          18,
+          17
+        ],
+        [
+          74,
+          73
+        ],
+        [
+          209,
+          210
+        ],
+        [
+          44,
+          46
+        ],
+        [
+          71,
+          69
+        ],
+        [
+          147,
+          146
+        ],
+        [
+          64,
+          60
+        ]
+      ]
+    },
+    "effective_identities": 15,
+    "revealed_ids": [
+      7,
+      41,
+      16,
+      28,
+      24,
+      13,
+      48,
+      39,
+      20,
+      33,
+      55,
+      18,
+      52,
+      58,
+      21
+    ],
+    "method": "typical",
+    "draw": 2,
+    "selection_seed": 1602,
+    "annotation_seed": 2602,
+    "metrics": {
+      "cameras": null,
+      "mean_pairwise_distance": 0.5859737396240234,
+      "typicality": 2.62807559967041,
+      "pairability": 0.8230533599853516
+    },
+    "ordered_support_hash": "d3ccba720484d4523fd4fd23bf643d3c822abd2dc772b6a53dd915fedce2c61b",
+    "anchor_set_hash": "61a1b7b4a504aab12698dda3311f5fd2a3d3d7e204c4238c82fc7223610b4693"
+  },
+  "initial_prompt_hash": "36f18739dabc92486b311dd80c255311ea6603739dbfa3beac503ee35dcb9279",
+  "frozen_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5"
+}

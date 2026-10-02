@@ -1,0 +1,12 @@
+{
+  "original": "experiments/b2_vpt_active_20261002/cuhk03/hard_negative/draw0_seed43/training.jsonl",
+  "original_sha256": "d27a1b62055a8c705ed9a1fa8d6efd084608483d9ed4175e11cfd7dd08305cd1",
+  "original_bytes": 1691256,
+  "original_rows": 5000,
+  "sampled_rows": 56,
+  "sampling_rule": "steps 1,2,3,10,20,50 and every 100th update; full log retained on server",
+  "actual_updates": 5000,
+  "nonfinite_gradient_rows": 0,
+  "skipped_rows": 0,
+  "mean_loss_last100": 0.0001969458465464413
+}

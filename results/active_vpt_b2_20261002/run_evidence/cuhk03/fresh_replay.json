@@ -1,0 +1,24 @@
+{
+  "baseline_exact": true,
+  "trials": [
+    {
+      "method": "random",
+      "metrics": {
+        "mAP": 48.716261982917786,
+        "rank1": 50.49999952316284,
+        "rank5": 73.1000006198883
+      },
+      "exact": true
+    },
+    {
+      "method": "facility",
+      "metrics": {
+        "mAP": 44.47820484638214,
+        "rank1": 46.70000076293945,
+        "rank5": 66.69999957084656
+      },
+      "exact": true
+    }
+  ],
+  "frozen_exact": true
+}

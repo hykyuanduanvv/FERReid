@@ -1,0 +1,10 @@
+# B1 only: 20-step selector checks, one legacy 300-step replay per domain.
+b1_grid_v2 | "$PY" scripts/active_vpt_b1.py --domain grid --output-dir experiments/b1_grid_20261002_v2
+b1_viper_v2 | "$PY" scripts/active_vpt_b1.py --domain viper --output-dir experiments/b1_viper_20261002_v2
+b1_ilids_v2 | "$PY" scripts/active_vpt_b1.py --domain ilids --output-dir experiments/b1_ilids_20261002_v2
+b1_cuhk03_v2 | "$PY" scripts/active_vpt_b1.py --domain cuhk03 --output-dir experiments/b1_cuhk03_20261002_v2
+@wait
+b1_replay_grid_v2 | "$PY" scripts/active_vpt_b1.py --replay --output-dir experiments/b1_grid_20261002_v2
+b1_replay_viper_v2 | "$PY" scripts/active_vpt_b1.py --replay --output-dir experiments/b1_viper_20261002_v2
+b1_replay_ilids_v2 | "$PY" scripts/active_vpt_b1.py --replay --output-dir experiments/b1_ilids_20261002_v2
+b1_replay_cuhk03_v2 | "$PY" scripts/active_vpt_b1.py --replay --output-dir experiments/b1_cuhk03_20261002_v2

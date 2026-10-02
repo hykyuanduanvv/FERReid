@@ -1,0 +1,275 @@
+{
+  "steps": 5000,
+  "eval_steps": [
+    100,
+    300,
+    1000,
+    3000,
+    5000
+  ],
+  "seed": 42,
+  "lr": 0.0001,
+  "selection": {
+    "anchors": [
+      7,
+      164,
+      81,
+      71,
+      341,
+      411,
+      476,
+      13,
+      398,
+      185,
+      14,
+      365,
+      153,
+      12,
+      228,
+      186
+    ],
+    "pairs": [
+      [
+        "/root/hyk/reid-data/viper/VIPeR/cam_b/072_90.bmp",
+        "/root/hyk/reid-data/viper/VIPeR/cam_a/072_0.bmp"
+      ],
+      [
+        "/root/hyk/reid-data/viper/VIPeR/cam_a/713_45.bmp",
+        "/root/hyk/reid-data/viper/VIPeR/cam_b/713_180.bmp"
+      ],
+      [
+        "/root/hyk/reid-data/viper/VIPeR/cam_b/234_90.bmp",
+        "/root/hyk/reid-data/viper/VIPeR/cam_a/234_45.bmp"
+      ],
+      [
+        "/root/hyk/reid-data/viper/VIPeR/cam_b/580_180.bmp",
+        "/root/hyk/reid-data/viper/VIPeR/cam_a/580_0.bmp"
+      ],
+      [
+        "/root/hyk/reid-data/viper/VIPeR/cam_b/168_90.bmp",
+        "/root/hyk/reid-data/viper/VIPeR/cam_a/168_0.bmp"
+      ],
+      [
+        "/root/hyk/reid-data/viper/VIPeR/cam_b/187_180.bmp",
+        "/root/hyk/reid-data/viper/VIPeR/cam_a/187_0.bmp"
+      ],
+      [
+        "/root/hyk/reid-data/viper/VIPeR/cam_a/608_45.bmp",
+        "/root/hyk/reid-data/viper/VIPeR/cam_b/608_135.bmp"
+      ],
+      [
+        "/root/hyk/reid-data/viper/VIPeR/cam_b/541_90.bmp",
+        "/root/hyk/reid-data/viper/VIPeR/cam_a/541_0.bmp"
+      ],
+      [
+        "/root/hyk/reid-data/viper/VIPeR/cam_a/819_0.bmp",
+        "/root/hyk/reid-data/viper/VIPeR/cam_b/819_135.bmp"
+      ],
+      [
+        "/root/hyk/reid-data/viper/VIPeR/cam_b/574_135.bmp",
+        "/root/hyk/reid-data/viper/VIPeR/cam_a/574_0.bmp"
+      ],
+      [
+        "/root/hyk/reid-data/viper/VIPeR/cam_a/087_0.bmp",
+        "/root/hyk/reid-data/viper/VIPeR/cam_b/087_90.bmp"
+      ],
+      [
+        "/root/hyk/reid-data/viper/VIPeR/cam_b/557_90.bmp",
+        "/root/hyk/reid-data/viper/VIPeR/cam_a/557_0.bmp"
+      ],
+      [
+        "/root/hyk/reid-data/viper/VIPeR/cam_b/305_180.bmp",
+        "/root/hyk/reid-data/viper/VIPeR/cam_a/305_90.bmp"
+      ],
+      [
+        "/root/hyk/reid-data/viper/VIPeR/cam_a/324_90.bmp",
+        "/root/hyk/reid-data/viper/VIPeR/cam_b/324_180.bmp"
+      ],
+      [
+        "/root/hyk/reid-data/viper/VIPeR/cam_a/036_45.bmp",
+        "/root/hyk/reid-data/viper/VIPeR/cam_b/036_90.bmp"
+      ]
+    ],
+    "annotation": {
+      "k": 16,
+      "n_pairs": 15,
+      "n_dup": 1,
+      "n_fail": 0,
+      "outcomes": [
+        {
+          "anchor": 7,
+          "result": "pair",
+          "partner": 6
+        },
+        {
+          "anchor": 164,
+          "result": "pair",
+          "partner": 165
+        },
+        {
+          "anchor": 81,
+          "result": "pair",
+          "partner": 80
+        },
+        {
+          "anchor": 71,
+          "result": "pair",
+          "partner": 70
+        },
+        {
+          "anchor": 341,
+          "result": "pair",
+          "partner": 340
+        },
+        {
+          "anchor": 411,
+          "result": "pair",
+          "partner": 410
+        },
+        {
+          "anchor": 476,
+          "result": "pair",
+          "partner": 477
+        },
+        {
+          "anchor": 13,
+          "result": "pair",
+          "partner": 12
+        },
+        {
+          "anchor": 398,
+          "result": "pair",
+          "partner": 399
+        },
+        {
+          "anchor": 185,
+          "result": "pair",
+          "partner": 184
+        },
+        {
+          "anchor": 14,
+          "result": "pair",
+          "partner": 15
+        },
+        {
+          "anchor": 365,
+          "result": "pair",
+          "partner": 364
+        },
+        {
+          "anchor": 153,
+          "result": "pair",
+          "partner": 152
+        },
+        {
+          "anchor": 12,
+          "result": "duplicate"
+        },
+        {
+          "anchor": 228,
+          "result": "pair",
+          "partner": 229
+        },
+        {
+          "anchor": 186,
+          "result": "pair",
+          "partner": 187
+        }
+      ],
+      "pair_indices": [
+        [
+          7,
+          6
+        ],
+        [
+          164,
+          165
+        ],
+        [
+          81,
+          80
+        ],
+        [
+          71,
+          70
+        ],
+        [
+          341,
+          340
+        ],
+        [
+          411,
+          410
+        ],
+        [
+          476,
+          477
+        ],
+        [
+          13,
+          12
+        ],
+        [
+          398,
+          399
+        ],
+        [
+          185,
+          184
+        ],
+        [
+          14,
+          15
+        ],
+        [
+          365,
+          364
+        ],
+        [
+          153,
+          152
+        ],
+        [
+          228,
+          229
+        ],
+        [
+          186,
+          187
+        ]
+      ]
+    },
+    "effective_identities": 15,
+    "revealed_ids": [
+      3,
+      82,
+      40,
+      35,
+      170,
+      205,
+      238,
+      6,
+      199,
+      92,
+      7,
+      182,
+      76,
+      114,
+      93
+    ],
+    "method": "random",
+    "draw": 1,
+    "selection_seed": 1601,
+    "annotation_seed": 2601,
+    "metrics": {
+      "cameras": 2,
+      "mean_pairwise_distance": 0.7114953398704529,
+      "typicality": 2.14996337890625,
+      "pairability": 0.6464271545410156
+    },
+    "ordered_support_hash": "20ad1104498cd90e63a9dc5b6e52a28b888130205c59e06a2e95465d4c776a1b",
+    "anchor_set_hash": "c9c8d3ed173323ac5a3b6e40a617071af514b01e2b62fe434af8d32601db8e89"
+  },
+  "initial_prompt_hash": "36f18739dabc92486b311dd80c255311ea6603739dbfa3beac503ee35dcb9279",
+  "frozen_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5"
+}
