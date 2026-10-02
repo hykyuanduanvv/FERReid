@@ -1,0 +1,16 @@
+{
+  "domain": "cuhk03",
+  "primary_trial": "draw0_seed42_lr0.0001",
+  "metrics": {
+    "mAP": 52.3295521736145,
+    "rank1": 52.99999713897705,
+    "rank5": 76.49999856948853
+  },
+  "baseline": {
+    "mAP": 57.0725679397583,
+    "rank1": 58.399999141693115,
+    "rank5": 76.8999993801117
+  },
+  "exact_reproduction": true,
+  "frozen_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5"
+}

@@ -1,0 +1,109 @@
+{
+  "domain": "step5_cuhk03",
+  "selection": {
+    "draw": 0,
+    "selection_seed": 1600,
+    "pairs": [
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/507/1_507_1_04.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/507/1_507_2_06.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/502/1_502_2_09.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/502/1_502_1_01.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/700/1_700_2_09.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/700/1_700_1_02.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/432/1_432_1_03.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/432/1_432_2_08.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/777/1_777_1_05.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/777/1_777_2_09.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/952/2_109_1_03.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/952/2_109_2_10.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/598/1_598_1_04.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/598/1_598_2_06.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1056/2_213_1_03.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1056/2_213_2_07.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/571/1_571_2_09.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/571/1_571_1_02.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/588/1_588_2_10.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/588/1_588_1_01.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/436/1_436_2_10.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/436/1_436_1_04.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1284/3_001_2_10.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1284/3_001_1_04.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/874/2_031_1_05.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/874/2_031_2_08.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/391/1_391_1_04.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/391/1_391_2_08.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1110/2_267_2_10.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1110/2_267_1_01.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/510/1_510_1_05.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/510/1_510_2_08.jpg"
+      ]
+    ],
+    "annotation": {
+      "k": 16,
+      "n_pairs": 16,
+      "n_fail": 0,
+      "n_dup": 0,
+      "selected": "4701 4686 5848 4268 6199 7075 5212 328 5054 5158 4303 1722 6694 4062 688 4722"
+    },
+    "effective_identities": 16,
+    "original_ids": [
+      "507",
+      "502",
+      "700",
+      "432",
+      "777",
+      "952",
+      "598",
+      "1056",
+      "571",
+      "588",
+      "436",
+      "1284",
+      "874",
+      "391",
+      "1110",
+      "510"
+    ],
+    "support_sha256": "69269dd70f0fde3b25bc940604b81d0dc8290c0425ff4f32ff2080b868916300"
+  },
+  "seed": 43,
+  "lr": 0.0001,
+  "steps": 300,
+  "initial_prompt_hash": "36f18739dabc92486b311dd80c255311ea6603739dbfa3beac503ee35dcb9279",
+  "frozen_model_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5",
+  "objective": "FP32 hardest Triplet margin 0.1 only",
+  "optimizer": "Adam; only external prompt",
+  "augmentation": "flip, pad/crop +-10, random erasing; no colour jitter",
+  "note": "No evaluation feedback, checkpoint selection, or support-set replacement."
+}

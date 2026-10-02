@@ -1,0 +1,154 @@
+{
+  "control": [
+    {
+      "event": "parameter_gradient",
+      "variant": "control",
+      "step": 100,
+      "group": "prompt_mlp",
+      "zero_fraction": 1.0,
+      "finite": true,
+      "note": "total-loss gradient; may be AMP-scaled; magnitudes deliberately omitted"
+    },
+    {
+      "event": "parameter_gradient",
+      "variant": "control",
+      "step": 100,
+      "group": "query_embeddings",
+      "zero_fraction": 1.0,
+      "finite": true,
+      "note": "total-loss gradient; may be AMP-scaled; magnitudes deliberately omitted"
+    },
+    {
+      "event": "parameter_gradient",
+      "variant": "control",
+      "step": 100,
+      "group": "mm_projector",
+      "zero_fraction": 6.072824615430391e-06,
+      "finite": true,
+      "note": "total-loss gradient; may be AMP-scaled; magnitudes deliberately omitted"
+    },
+    {
+      "event": "parameter_gradient",
+      "variant": "control",
+      "step": 100,
+      "group": "encoder.",
+      "zero_fraction": 1.0,
+      "finite": true,
+      "note": "total-loss gradient; may be AMP-scaled; magnitudes deliberately omitted"
+    }
+  ],
+  "fp32": [
+    {
+      "event": "parameter_gradient",
+      "variant": "fp32",
+      "step": 100,
+      "group": "prompt_mlp",
+      "zero_fraction": 1.3987223307291666e-05,
+      "finite": true,
+      "note": "total-loss gradient; may be AMP-scaled; magnitudes deliberately omitted"
+    },
+    {
+      "event": "parameter_gradient",
+      "variant": "fp32",
+      "step": 100,
+      "group": "query_embeddings",
+      "zero_fraction": 0.004987080891927083,
+      "finite": true,
+      "note": "total-loss gradient; may be AMP-scaled; magnitudes deliberately omitted"
+    },
+    {
+      "event": "parameter_gradient",
+      "variant": "fp32",
+      "step": 100,
+      "group": "mm_projector",
+      "zero_fraction": 3.980751063703175e-06,
+      "finite": true,
+      "note": "total-loss gradient; may be AMP-scaled; magnitudes deliberately omitted"
+    },
+    {
+      "event": "parameter_gradient",
+      "variant": "fp32",
+      "step": 100,
+      "group": "encoder.",
+      "zero_fraction": 0.004600101047092014,
+      "finite": true,
+      "note": "total-loss gradient; may be AMP-scaled; magnitudes deliberately omitted"
+    }
+  ],
+  "ln": [
+    {
+      "event": "parameter_gradient",
+      "variant": "ln",
+      "step": 100,
+      "group": "prompt_mlp",
+      "zero_fraction": 0.0,
+      "finite": true,
+      "note": "total-loss gradient; may be AMP-scaled; magnitudes deliberately omitted"
+    },
+    {
+      "event": "parameter_gradient",
+      "variant": "ln",
+      "step": 100,
+      "group": "query_embeddings",
+      "zero_fraction": 1.52587890625e-05,
+      "finite": true,
+      "note": "total-loss gradient; may be AMP-scaled; magnitudes deliberately omitted"
+    },
+    {
+      "event": "parameter_gradient",
+      "variant": "ln",
+      "step": 100,
+      "group": "mm_projector",
+      "zero_fraction": 4.3584865660983664e-07,
+      "finite": true,
+      "note": "total-loss gradient; may be AMP-scaled; magnitudes deliberately omitted"
+    },
+    {
+      "event": "parameter_gradient",
+      "variant": "ln",
+      "step": 100,
+      "group": "encoder.",
+      "zero_fraction": 1.7801920572916668e-05,
+      "finite": true,
+      "note": "total-loss gradient; may be AMP-scaled; magnitudes deliberately omitted"
+    }
+  ],
+  "ln_fp32": [
+    {
+      "event": "parameter_gradient",
+      "variant": "ln_fp32",
+      "step": 100,
+      "group": "prompt_mlp",
+      "zero_fraction": 3.814697265625e-06,
+      "finite": true,
+      "note": "total-loss gradient; may be AMP-scaled; magnitudes deliberately omitted"
+    },
+    {
+      "event": "parameter_gradient",
+      "variant": "ln_fp32",
+      "step": 100,
+      "group": "query_embeddings",
+      "zero_fraction": 3.0517578125e-05,
+      "finite": true,
+      "note": "total-loss gradient; may be AMP-scaled; magnitudes deliberately omitted"
+    },
+    {
+      "event": "parameter_gradient",
+      "variant": "ln_fp32",
+      "step": 100,
+      "group": "mm_projector",
+      "zero_fraction": 3.1962234818054687e-07,
+      "finite": true,
+      "note": "total-loss gradient; may be AMP-scaled; magnitudes deliberately omitted"
+    },
+    {
+      "event": "parameter_gradient",
+      "variant": "ln_fp32",
+      "step": 100,
+      "group": "encoder.",
+      "zero_fraction": 0.0004039340549045139,
+      "finite": true,
+      "note": "total-loss gradient; may be AMP-scaled; magnitudes deliberately omitted"
+    }
+  ]
+}

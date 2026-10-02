@@ -1,0 +1,8 @@
+{
+  "prompt_max_difference": 0.0,
+  "mAP": 54.12646532058716,
+  "rank1": 55.900001525878906,
+  "expected_mAP": 54.12646532058716,
+  "expected_rank1": 55.900001525878906,
+  "frozen_hash": "c69415e64db0b2da360ff4219f85fb063f9df5b67f265e73cc95721b52059bae"
+}

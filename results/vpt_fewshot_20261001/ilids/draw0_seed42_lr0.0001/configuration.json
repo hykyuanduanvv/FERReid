@@ -1,0 +1,99 @@
+{
+  "domain": "step5_ilids",
+  "selection": {
+    "draw": 0,
+    "selection_seed": 1600,
+    "pairs": [
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0034003.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0034004.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0032002.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0032003.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0007002.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0007001.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0055004.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0055001.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0048002.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0048001.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0081003.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0081001.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0074004.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0074002.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0030002.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0030001.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0011003.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0011002.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0080005.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0080006.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0003003.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0003002.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0012004.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0012001.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0060001.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0060003.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0068002.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0068001.jpg"
+      ]
+    ],
+    "annotation": {
+      "k": 16,
+      "n_pairs": 14,
+      "n_fail": 0,
+      "n_dup": 2,
+      "selected": "219 175 67 25 224 150 77 182 33 176 78 28 189 132 84 151"
+    },
+    "effective_identities": 14,
+    "original_ids": [
+      "34",
+      "32",
+      "7",
+      "55",
+      "48",
+      "81",
+      "74",
+      "30",
+      "11",
+      "80",
+      "3",
+      "12",
+      "60",
+      "68"
+    ],
+    "support_sha256": "c3fc5ae9680432f5da79ecdb064eaffcd640bb5bfd87c813a7a35de7f15b2906"
+  },
+  "seed": 42,
+  "lr": 0.0001,
+  "steps": 300,
+  "initial_prompt_hash": "36f18739dabc92486b311dd80c255311ea6603739dbfa3beac503ee35dcb9279",
+  "frozen_model_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5",
+  "objective": "FP32 hardest Triplet margin 0.1 only",
+  "optimizer": "Adam; only external prompt",
+  "augmentation": "flip, pad/crop +-10, random erasing; no colour jitter",
+  "note": "No evaluation feedback, checkpoint selection, or support-set replacement."
+}

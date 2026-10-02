@@ -1,0 +1,136 @@
+[
+  {
+    "run": "step4_context_s42",
+    "seed": 42,
+    "variant": "context",
+    "validation": {
+      "100": 52.73977518081665,
+      "200": 54.09190058708191,
+      "300": 53.88975739479065
+    },
+    "baseline": 57.0725679397583,
+    "own_mean": 53.86237899462382,
+    "own_min": 53.81394028663635,
+    "own_max": 53.89356017112732,
+    "own_std": 0.042522914955101986,
+    "gain_vs_vpt": -3.210188945134483,
+    "cross_mean": 53.73926262060801,
+    "specificity": 0.1231163740158081,
+    "mean_source_prompt": 53.76104116439819,
+    "geometry": {
+      "context_repeat_max": 0.0,
+      "variation_rms": 0.002873642835766077,
+      "own_cross_cosine": 0.9908421039581299,
+      "frozen_hash": "c69415e64db0b2da360ff4219f85fb063f9df5b67f265e73cc95721b52059bae",
+      "delta_rms": 0.031879298835368525,
+      "context_variation_rms": 0.002873642903678279,
+      "context_variation_fraction_of_delta_energy": 0.008125462242415745,
+      "geometry_note": "Energy fraction measures variation, not useful information."
+    },
+    "successful_updates": 300,
+    "skipped_steps": [],
+    "actual_context_draws": 3,
+    "note": "",
+    "gain_vs_shared": -2.124049266179405
+  },
+  {
+    "run": "step4_shared_s42",
+    "seed": 42,
+    "variant": "shared",
+    "validation": {
+      "100": 57.40032196044922,
+      "200": 56.42934441566467,
+      "300": 55.9974730014801
+    },
+    "baseline": 57.0725679397583,
+    "own_mean": 55.98642826080322,
+    "own_min": 55.98642826080322,
+    "own_max": 55.98642826080322,
+    "own_std": 0.0,
+    "gain_vs_vpt": -1.0861396789550781,
+    "cross_mean": null,
+    "specificity": null,
+    "mean_source_prompt": null,
+    "geometry": {
+      "context_repeat_max": 0.0,
+      "variation_rms": 0.0,
+      "own_cross_cosine": 1.0000029802322388,
+      "frozen_hash": "c69415e64db0b2da360ff4219f85fb063f9df5b67f265e73cc95721b52059bae",
+      "delta_rms": 0.001114081626190445,
+      "context_variation_rms": 0.0,
+      "context_variation_fraction_of_delta_energy": 0.0,
+      "geometry_note": "Energy fraction measures variation, not useful information."
+    },
+    "successful_updates": 300,
+    "skipped_steps": [],
+    "actual_context_draws": 3,
+    "note": "Shared output is invariant across all nine generated contexts; scored once."
+  },
+  {
+    "run": "step4_context_s43",
+    "seed": 43,
+    "variant": "context",
+    "validation": {
+      "100": 52.537018060684204,
+      "200": 54.893577098846436,
+      "300": 54.13886308670044
+    },
+    "baseline": 57.0725679397583,
+    "own_mean": 54.10661300023397,
+    "own_min": 54.06242609024048,
+    "own_max": 54.13094758987427,
+    "own_std": 0.038332557253203225,
+    "gain_vs_vpt": -2.9659549395243303,
+    "cross_mean": 54.04002070426941,
+    "specificity": 0.06659229596456129,
+    "mean_source_prompt": 54.03751730918884,
+    "geometry": {
+      "context_repeat_max": 0.0,
+      "variation_rms": 0.0015066771302372217,
+      "own_cross_cosine": 0.9978860020637512,
+      "frozen_hash": "c69415e64db0b2da360ff4219f85fb063f9df5b67f265e73cc95721b52059bae",
+      "delta_rms": 0.03603621244821035,
+      "context_variation_rms": 0.0015066770758473793,
+      "context_variation_fraction_of_delta_energy": 0.0017480831388122938,
+      "geometry_note": "Energy fraction measures variation, not useful information."
+    },
+    "successful_updates": 300,
+    "skipped_steps": [],
+    "actual_context_draws": 3,
+    "note": "",
+    "gain_vs_shared": -1.706449190775551
+  },
+  {
+    "run": "step4_shared_s43",
+    "seed": 43,
+    "variant": "shared",
+    "validation": {
+      "100": 55.79509735107422,
+      "200": 55.795860290527344,
+      "300": 55.815380811691284
+    },
+    "baseline": 57.0725679397583,
+    "own_mean": 55.81306219100952,
+    "own_min": 55.81306219100952,
+    "own_max": 55.81306219100952,
+    "own_std": 0.0,
+    "gain_vs_vpt": -1.2595057487487793,
+    "cross_mean": null,
+    "specificity": null,
+    "mean_source_prompt": null,
+    "geometry": {
+      "context_repeat_max": 0.0,
+      "variation_rms": 0.0,
+      "own_cross_cosine": 0.9999912977218628,
+      "frozen_hash": "c69415e64db0b2da360ff4219f85fb063f9df5b67f265e73cc95721b52059bae",
+      "delta_rms": 0.0010994032635190608,
+      "context_variation_rms": 0.0,
+      "context_variation_fraction_of_delta_energy": 0.0,
+      "geometry_note": "Energy fraction measures variation, not useful information."
+    },
+    "successful_updates": 300,
+    "skipped_steps": [],
+    "actual_context_draws": 3,
+    "note": "Shared output is invariant across all nine generated contexts; scored once."
+  }
+]

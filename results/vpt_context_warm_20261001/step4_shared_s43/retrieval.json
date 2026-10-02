@@ -1,0 +1,26 @@
+[
+  {
+    "condition": "frozen_vpt",
+    "source": "",
+    "draw": -1,
+    "mAP": 57.0725679397583,
+    "rank1": 58.399999141693115,
+    "prompt_delta_rms": 0.0,
+    "query_feature_change": 0.0,
+    "positive_distance": 0.33861222863197327,
+    "negative_distance": 0.7259677052497864,
+    "top1_changed": 0.0
+  },
+  {
+    "condition": "own",
+    "source": "cuhk03",
+    "draw": 0,
+    "mAP": 55.81306219100952,
+    "rank1": 56.300002336502075,
+    "prompt_delta_rms": 0.0010993905598297715,
+    "query_feature_change": 0.18702752888202667,
+    "positive_distance": 0.35255134105682373,
+    "negative_distance": 0.7481203079223633,
+    "top1_changed": 0.197
+  }
+]

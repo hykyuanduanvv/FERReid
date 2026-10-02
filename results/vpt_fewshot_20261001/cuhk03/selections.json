@@ -1,0 +1,293 @@
+[
+  {
+    "draw": 0,
+    "selection_seed": 1600,
+    "pairs": [
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/507/1_507_1_04.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/507/1_507_2_06.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/502/1_502_2_09.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/502/1_502_1_01.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/700/1_700_2_09.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/700/1_700_1_02.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/432/1_432_1_03.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/432/1_432_2_08.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/777/1_777_1_05.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/777/1_777_2_09.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/952/2_109_1_03.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/952/2_109_2_10.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/598/1_598_1_04.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/598/1_598_2_06.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1056/2_213_1_03.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1056/2_213_2_07.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/571/1_571_2_09.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/571/1_571_1_02.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/588/1_588_2_10.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/588/1_588_1_01.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/436/1_436_2_10.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/436/1_436_1_04.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1284/3_001_2_10.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1284/3_001_1_04.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/874/2_031_1_05.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/874/2_031_2_08.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/391/1_391_1_04.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/391/1_391_2_08.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1110/2_267_2_10.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1110/2_267_1_01.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/510/1_510_1_05.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/510/1_510_2_08.jpg"
+      ]
+    ],
+    "annotation": {
+      "k": 16,
+      "n_pairs": 16,
+      "n_fail": 0,
+      "n_dup": 0,
+      "selected": "4701 4686 5848 4268 6199 7075 5212 328 5054 5158 4303 1722 6694 4062 688 4722"
+    },
+    "effective_identities": 16,
+    "original_ids": [
+      "507",
+      "502",
+      "700",
+      "432",
+      "777",
+      "952",
+      "598",
+      "1056",
+      "571",
+      "588",
+      "436",
+      "1284",
+      "874",
+      "391",
+      "1110",
+      "510"
+    ],
+    "support_sha256": "69269dd70f0fde3b25bc940604b81d0dc8290c0425ff4f32ff2080b868916300"
+  },
+  {
+    "draw": 1,
+    "selection_seed": 1601,
+    "pairs": [
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/910/2_067_1_04.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/910/2_067_2_07.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1072/2_229_1_05.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1072/2_229_2_10.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/118/1_118_1_01.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/118/1_118_2_06.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1120/2_277_2_09.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1120/2_277_1_03.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/821/1_821_2_06.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/821/1_821_1_02.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/868/2_025_1_02.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/868/2_025_2_10.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/737/1_737_1_03.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/737/1_737_2_10.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1413/4_053_2_08.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1413/4_053_1_02.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1146/2_303_1_01.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1146/2_303_2_08.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1262/2_419_1_02.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1262/2_419_2_06.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/724/1_724_1_05.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/724/1_724_2_08.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/844/2_001_1_02.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/844/2_001_2_08.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/4/1_004_1_01.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/4/1_004_2_06.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1363/4_003_1_03.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1363/4_003_2_06.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/955/2_112_1_02.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/955/2_112_2_07.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1039/2_196_1_03.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1039/2_196_2_07.jpg"
+      ]
+    ],
+    "annotation": {
+      "k": 16,
+      "n_pairs": 16,
+      "n_fail": 0,
+      "n_dup": 0,
+      "selected": "6863 426 1087 737 6471 6671 6039 2462 848 1575 5961 6551 4099 2173 7103 228"
+    },
+    "effective_identities": 16,
+    "original_ids": [
+      "910",
+      "1072",
+      "118",
+      "1120",
+      "821",
+      "868",
+      "737",
+      "1413",
+      "1146",
+      "1262",
+      "724",
+      "844",
+      "4",
+      "1363",
+      "955",
+      "1039"
+    ],
+    "support_sha256": "0da6aba9d5bf0bba0834271d5f61f32e005f8b7c1ad4462eae74d6d811d94d37"
+  },
+  {
+    "draw": 2,
+    "selection_seed": 1602,
+    "pairs": [
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1283/2_440_2_10.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1283/2_440_1_05.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/443/1_443_2_09.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/443/1_443_1_05.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/311/1_311_2_08.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/311/1_311_1_02.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/29/1_029_2_08.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/29/1_029_1_04.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/293/1_293_2_10.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/293/1_293_1_03.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/287/1_287_2_09.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/287/1_287_1_02.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/981/2_138_2_10.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/981/2_138_1_02.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1366/4_006_2_08.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1366/4_006_1_03.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/209/1_209_2_07.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/209/1_209_1_04.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/385/1_385_2_10.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/385/1_385_1_04.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/627/1_627_2_10.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/627/1_627_1_01.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/800/1_800_1_02.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/800/1_800_2_10.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/386/1_386_1_02.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/386/1_386_2_09.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/686/1_686_2_08.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/686/1_686_1_02.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/954/2_111_2_06.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/954/2_111_1_02.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1212/2_369_1_01.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1212/2_369_2_08.jpg"
+      ]
+    ],
+    "annotation": {
+      "k": 16,
+      "n_pairs": 16,
+      "n_fail": 0,
+      "n_dup": 0,
+      "selected": "1712 4342 3662 3535 3555 3508 7260 2196 3103 4018 5444 6345 4020 5798 7098 1285"
+    },
+    "effective_identities": 16,
+    "original_ids": [
+      "1283",
+      "443",
+      "311",
+      "29",
+      "293",
+      "287",
+      "981",
+      "1366",
+      "209",
+      "385",
+      "627",
+      "800",
+      "386",
+      "686",
+      "954",
+      "1212"
+    ],
+    "support_sha256": "960b16c83b215fff4215a2496c5f75da447c878880bb3000fa98a9d46fc36511"
+  }
+]

@@ -1,0 +1,11 @@
+{
+  "variant": "ln_fp32",
+  "head_input_layernorm": true,
+  "triplet_fp32": true,
+  "initial_loss_scale": 128,
+  "dynamic_scaling": true,
+  "seed": 43,
+  "global_step": 300,
+  "runner": "scripts/diagnose_a0_stability.py",
+  "warning": "Evaluation must install the same runtime intervention; production defaults do not encode it."
+}

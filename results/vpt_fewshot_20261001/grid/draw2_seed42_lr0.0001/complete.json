@@ -1,0 +1,37 @@
+{
+  "rows": [
+    {
+      "step": 100,
+      "mAP": 66.48383140563965,
+      "rank1": 55.19999861717224,
+      "rank5": 80.0000011920929,
+      "gain": 5.250102281570435,
+      "draw": 2,
+      "seed": 42,
+      "lr": 0.0001,
+      "effective_identities": 16
+    },
+    {
+      "step": 300,
+      "mAP": 66.66054725646973,
+      "rank1": 58.399999141693115,
+      "rank5": 78.39999794960022,
+      "gain": 5.426818132400513,
+      "draw": 2,
+      "seed": 42,
+      "lr": 0.0001,
+      "effective_identities": 16
+    }
+  ],
+  "support_loss_before": 0.010889187455177307,
+  "support_loss_after": 0.0,
+  "augmented_loss_first20": 0.009427673439495266,
+  "augmented_loss_last20": 0.00026494895573705437,
+  "successful_updates": 300,
+  "skipped_steps": [],
+  "nonzero_gradient_steps": 134,
+  "delta_rms": 0.0015998040325939655,
+  "frozen_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5",
+  "saved_prompt_exact": true,
+  "elapsed_seconds": 40.7459933757782
+}

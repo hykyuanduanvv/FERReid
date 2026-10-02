@@ -1,0 +1,20 @@
+{
+  "git_head": "e237cb2b709c3ae7e2d1481829facd9580f08cfa",
+  "files": {
+    "scripts/tune_vpt_fewshot.py": "8a47a15bc74e0b0e38dae4dd651d4d86e55503250e475a00168221cfb8ec3b49",
+    "scripts/verify_vpt_fewshot.py": "41791a5ece007630144ff57d3b7b26a28a0478a0e465ea4d9d64b47a0da611c5",
+    "scripts/analyze_vpt_fewshot.py": "2d26bc980c5a90af38304ef381ef548fb7ae0265bb10427deb6a702ee204e6d6",
+    "scripts/oracle_prompt.py": "3a1b895e5fa5d6e48f367ae824ef737f52eb13b532d3fc2be68d05248e68dc0e",
+    "adapters/warm_start_reid.py": "bb2f9a19625afa429d5d298d7349510b4039d638cdb89c4667a64a1f48d52043",
+    "scripts/package_vpt_fewshot_results.py": "570b9a5da43c1fe9b9266d82984a3147a1c66dc672dc44c58436b72827d081c7",
+    "plans/vpt_fewshot.tasks": "eec6d4519d70fabe42c2971e2fa7811a5f8e6224c0e202147b490bf843c9f608",
+    "plans/vpt_fewshot_verify.tasks": "529dd73e17a08d4fc82d22a207692958d60e75e0d756d2b469325c94cef6107f",
+    "plans/vpt_fewshot_verify_ready.tasks": "5c52c2555626e6e3a47876c8d6b241dbe7183fba67b662c36a666ad9ac3af735"
+  },
+  "notes": [
+    "All 48 predeclared trials are included; primary LR=1e-4, sensitivity LR=1e-3.",
+    "3 annotation selections x 2 optimization seeds x 2 LRs x 4 domains, 300 steps each.",
+    "No test-based choice of selection, seed, checkpoint, or LR.",
+    "Model weights and saved prompt tensors remain on the server."
+  ]
+}

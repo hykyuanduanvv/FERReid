@@ -1,0 +1,10 @@
+{
+  "42": {
+    "initial_parameters_equal": true,
+    "all_300_augmented_batches_labels_rng_equal": true
+  },
+  "43": {
+    "initial_parameters_equal": true,
+    "all_300_augmented_batches_labels_rng_equal": true
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "checkpoint": "experiments/s2_vpt_long/checkpoint-12000",
+  "checkpoint_sha256": "102824e966444ffb67c27e1fdb139b66be74b11e7e35aad49efe257928888584",
+  "frozen_hash": "c773dabd62aaf7200354da91685f8fb055f0f68341fd9ebd77b50b093eeed5d5",
+  "initial_prompt_hash": "36f18739dabc92486b311dd80c255311ea6603739dbfa3beac503ee35dcb9279",
+  "source_hashes": {
+    "scripts/tune_vpt_fewshot.py": "8a47a15bc74e0b0e38dae4dd651d4d86e55503250e475a00168221cfb8ec3b49",
+    "scripts/oracle_prompt.py": "3a1b895e5fa5d6e48f367ae824ef737f52eb13b532d3fc2be68d05248e68dc0e",
+    "adapters/warm_start_reid.py": "bb2f9a19625afa429d5d298d7349510b4039d638cdb89c4667a64a1f48d52043"
+  },
+  "torch": "2.6.0+cu124",
+  "predeclared": {
+    "selections": 3,
+    "optimization_seeds": [
+      42,
+      43
+    ],
+    "learning_rates": [
+      0.0001,
+      0.001
+    ],
+    "primary_lr": 0.0001,
+    "steps": 300,
+    "eval_steps": [
+      100,
+      300
+    ],
+    "k": 16,
+    "unit": "image",
+    "method": "random",
+    "split": 0
+  }
+}

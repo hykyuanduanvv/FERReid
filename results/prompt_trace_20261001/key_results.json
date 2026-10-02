@@ -1,0 +1,414 @@
+{
+  "retrieval": [
+    {
+      "domain": "viper",
+      "own_mAP": 83.81873965263367,
+      "cross_mean_mAP": 83.94068280855815,
+      "own_minus_cross": -0.1219431559244839,
+      "masked_mAP": 83.86422395706177,
+      "masked_minus_own": 0.045484304428100586,
+      "cross_top1_changed_min": 0.006329113924050633,
+      "cross_top1_changed_max": 0.022151898734177215,
+      "n_query": 316,
+      "n_gallery": 316
+    },
+    {
+      "domain": "grid",
+      "own_mAP": 61.15409731864929,
+      "cross_mean_mAP": 61.10895872116089,
+      "own_minus_cross": 0.04513859748840332,
+      "masked_mAP": 61.26900315284729,
+      "masked_minus_own": 0.11490583419799805,
+      "cross_top1_changed_min": 0.016,
+      "cross_top1_changed_max": 0.024,
+      "n_query": 125,
+      "n_gallery": 900
+    },
+    {
+      "domain": "ilids",
+      "own_mAP": 90.2164876461029,
+      "cross_mean_mAP": 89.93871212005615,
+      "own_minus_cross": 0.27777552604675293,
+      "masked_mAP": 90.21885991096497,
+      "masked_minus_own": 0.002372264862060547,
+      "cross_top1_changed_min": 0.0,
+      "cross_top1_changed_max": 0.0,
+      "n_query": 60,
+      "n_gallery": 60
+    },
+    {
+      "domain": "cuhk03",
+      "own_mAP": 47.09142744541168,
+      "cross_mean_mAP": 47.06521530946096,
+      "own_minus_cross": 0.026212135950721915,
+      "masked_mAP": 46.974316239356995,
+      "masked_minus_own": -0.1171112060546875,
+      "cross_top1_changed_min": 0.02142857142857143,
+      "cross_top1_changed_max": 0.035,
+      "n_query": 1400,
+      "n_gallery": 5328
+    }
+  ],
+  "mask_dimensions": [
+    27,
+    7,
+    1,
+    23
+  ],
+  "feature_repeatability": [
+    {
+      "domain": "viper",
+      "same_batch_repeat_max": 0.0,
+      "different_batch_size_max": 0.00025334954261779785
+    },
+    {
+      "domain": "grid",
+      "same_batch_repeat_max": 0.0,
+      "different_batch_size_max": 0.0001519918441772461
+    },
+    {
+      "domain": "ilids",
+      "same_batch_repeat_max": 0.0,
+      "different_batch_size_max": 0.0
+    },
+    {
+      "domain": "cuhk03",
+      "same_batch_repeat_max": 0.0,
+      "different_batch_size_max": 0.0002566426992416382
+    }
+  ],
+  "key_geometry": {
+    "context_28": {
+      "n": 120,
+      "total_energy": 592783.530939326,
+      "absolute_variation": 3674.4961997484106,
+      "within_variation": 1385.6856071920445,
+      "between_variation": 2288.8105925563664,
+      "rho": 0.00619871505864172,
+      "between_fraction_of_variation": 0.6228909946112011,
+      "top4_energy_fraction": 0.2438515281908217,
+      "top4_dimensions": [
+        277,
+        7,
+        1,
+        55
+      ],
+      "max_abs": 51.52783203125
+    },
+    "query_28": {
+      "n": 120,
+      "total_energy": 5380454.859448685,
+      "absolute_variation": 233750.97336774232,
+      "within_variation": 128235.61283982296,
+      "between_variation": 105515.36052791936,
+      "rho": 0.04344446324221999,
+      "between_fraction_of_variation": 0.4514007321882686,
+      "top4_energy_fraction": 0.19373175034666115,
+      "top4_dimensions": [
+        7,
+        27,
+        1,
+        106
+      ],
+      "max_abs": 124.1875
+    },
+    "prompt": {
+      "n": 120,
+      "total_energy": 132411.29060027434,
+      "absolute_variation": 528.2750271795084,
+      "within_variation": 292.57051470968094,
+      "between_variation": 235.70451246982745,
+      "rho": 0.003989652429068718,
+      "between_fraction_of_variation": 0.4461776543333267,
+      "top4_energy_fraction": 0.05829582995504239,
+      "top4_dimensions": [
+        12,
+        645,
+        18,
+        428
+      ],
+      "max_abs": 4.526320457458496
+    },
+    "prompt_masked": {
+      "n": 120,
+      "total_energy": 116190.28113002403,
+      "absolute_variation": 469.42017316552034,
+      "within_variation": 264.77457308082376,
+      "between_variation": 204.64560008469658,
+      "rho": 0.004040098436806521,
+      "between_fraction_of_variation": 0.43595399555301456,
+      "top4_energy_fraction": 0.05692986094872761,
+      "top4_dimensions": [
+        12,
+        645,
+        428,
+        18
+      ],
+      "max_abs": 4.051398277282715
+    },
+    "fixed_image_features": {
+      "n": 120,
+      "total_energy": 32.00000039209401,
+      "absolute_variation": 0.015160560290795383,
+      "within_variation": 0.007446040435153615,
+      "between_variation": 0.007714519855641768,
+      "rho": 0.000473767503282312,
+      "between_fraction_of_variation": 0.5088545349030127,
+      "top4_energy_fraction": 0.019212760591580884,
+      "top4_dimensions": [
+        584,
+        297,
+        218,
+        721
+      ],
+      "max_abs": 0.15671858191490173
+    }
+  },
+  "key_probes": {
+    "context_28": {
+      "mean_accuracy": 1.0,
+      "fold_accuracies": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "repeat_accuracy": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "shuffled_label_mean": 0.25222222222222224,
+      "shuffled_label_sd": 0.09321752073960939,
+      "shuffled_label_max": 0.47500000000000003,
+      "confusion_matrix": [
+        [
+          90,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          90,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          90,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          90
+        ]
+      ],
+      "note": "3 repeats x 3 grouped folds; contexts overlap within bucket only; repeats are correlated"
+    },
+    "query_00": {
+      "mean_accuracy": 0.25,
+      "fold_accuracies": [
+        0.25,
+        0.25,
+        0.25,
+        0.25,
+        0.25,
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "repeat_accuracy": [
+        0.25,
+        0.25,
+        0.25
+      ],
+      "shuffled_label_mean": 0.25,
+      "shuffled_label_sd": 0.0,
+      "shuffled_label_max": 0.25,
+      "confusion_matrix": [
+        [
+          90,
+          0,
+          0,
+          0
+        ],
+        [
+          90,
+          0,
+          0,
+          0
+        ],
+        [
+          90,
+          0,
+          0,
+          0
+        ],
+        [
+          90,
+          0,
+          0,
+          0
+        ]
+      ],
+      "note": "3 repeats x 3 grouped folds; contexts overlap within bucket only; repeats are correlated"
+    },
+    "query_28": {
+      "mean_accuracy": 1.0,
+      "fold_accuracies": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "repeat_accuracy": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "shuffled_label_mean": 0.22,
+      "shuffled_label_sd": 0.09553940431977677,
+      "shuffled_label_max": 0.39999999999999997,
+      "confusion_matrix": [
+        [
+          90,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          90,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          90,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          90
+        ]
+      ],
+      "note": "3 repeats x 3 grouped folds; contexts overlap within bucket only; repeats are correlated"
+    },
+    "prompt": {
+      "mean_accuracy": 0.9666666666666666,
+      "fold_accuracies": [
+        1.0,
+        0.95,
+        0.95,
+        0.95,
+        1.0,
+        0.95,
+        0.95,
+        1.0,
+        0.95
+      ],
+      "repeat_accuracy": [
+        0.9666666666666667,
+        0.9666666666666667,
+        0.9666666666666667
+      ],
+      "shuffled_label_mean": 0.2416666666666667,
+      "shuffled_label_sd": 0.107496769977314,
+      "shuffled_label_max": 0.525,
+      "confusion_matrix": [
+        [
+          90,
+          0,
+          0,
+          0
+        ],
+        [
+          3,
+          84,
+          0,
+          3
+        ],
+        [
+          0,
+          3,
+          84,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          90
+        ]
+      ],
+      "note": "3 repeats x 3 grouped folds; contexts overlap within bucket only; repeats are correlated"
+    },
+    "prompt_masked": {
+      "mean_accuracy": 0.9722222222222222,
+      "fold_accuracies": [
+        1.0,
+        0.95,
+        0.95,
+        0.95,
+        1.0,
+        0.95,
+        0.95,
+        1.0,
+        1.0
+      ],
+      "repeat_accuracy": [
+        0.9666666666666667,
+        0.9666666666666667,
+        0.9833333333333334
+      ],
+      "shuffled_label_mean": 0.23333333333333336,
+      "shuffled_label_sd": 0.09559753599799992,
+      "shuffled_label_max": 0.425,
+      "confusion_matrix": [
+        [
+          90,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          86,
+          0,
+          2
+        ],
+        [
+          0,
+          5,
+          84,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          90
+        ]
+      ],
+      "note": "3 repeats x 3 grouped folds; contexts overlap within bucket only; repeats are correlated"
+    }
+  }
+}

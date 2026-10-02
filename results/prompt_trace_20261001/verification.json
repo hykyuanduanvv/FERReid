@@ -1,0 +1,82 @@
+{
+  "split_audit": {
+    "viper": {
+      "identity_counts": [
+        106,
+        105,
+        105
+      ],
+      "observed_images": [
+        162,
+        174,
+        176
+      ],
+      "train_test_identity_overlap": 0,
+      "train_test_image_overlap": 0
+    },
+    "grid": {
+      "identity_counts": [
+        42,
+        42,
+        41
+      ],
+      "observed_images": [
+        82,
+        82,
+        82
+      ],
+      "train_test_identity_overlap": 0,
+      "train_test_image_overlap": 0
+    },
+    "ilids": {
+      "identity_counts": [
+        20,
+        20,
+        19
+      ],
+      "observed_images": [
+        81,
+        77,
+        70
+      ],
+      "train_test_identity_overlap": 0,
+      "train_test_image_overlap": 0
+    },
+    "cuhk03": {
+      "identity_counts": [
+        256,
+        256,
+        255
+      ],
+      "observed_images": [
+        304,
+        299,
+        304
+      ],
+      "train_test_identity_overlap": 0,
+      "train_test_image_overlap": 0
+    }
+  },
+  "moment_test": "passed against direct NumPy definition and variance decomposition",
+  "checkpoint_args": {
+    "source_domains": "market1501,msmt17",
+    "source_all_images": true,
+    "val_domains": "cuhk03",
+    "model_type": "vicp",
+    "backbone": "dinov2_b14",
+    "seed": 42,
+    "max_steps": 3000,
+    "num_icl_samples": 64,
+    "num_vpt_tokens": 32,
+    "lora_layers": 4,
+    "lora_rank": 128,
+    "fp16": true,
+    "weight_decay": 0.0
+  },
+  "checkpoint_sha256": "252e28a064c4bfa62fd112d6c9b3925bc174f1c52d1223e824b24d43ae73a12b",
+  "source_hashes": {
+    "scripts/prompt_trace.py": "208b1528fccd26e447465a57b8160b1e97ffb742139e883d8817f9a2394cd46b",
+    "scripts/analyze_prompt_trace.py": "33f20df847505d18899d51c81453e4aea92aeaa7c8189a62d90aac70d5a0ccaa",
+    "scripts/eval_trace_prompts.py": "e4a4d129e6d4653fa5af8a242f453e87af00f113cbc175a3377d6744bf265334"
+  }
+}

@@ -1,0 +1,263 @@
+[
+  {
+    "draw": 0,
+    "selection_seed": 1600,
+    "pairs": [
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0034003.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0034004.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0032002.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0032003.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0007002.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0007001.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0055004.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0055001.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0048002.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0048001.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0081003.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0081001.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0074004.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0074002.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0030002.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0030001.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0011003.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0011002.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0080005.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0080006.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0003003.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0003002.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0012004.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0012001.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0060001.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0060003.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0068002.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0068001.jpg"
+      ]
+    ],
+    "annotation": {
+      "k": 16,
+      "n_pairs": 14,
+      "n_fail": 0,
+      "n_dup": 2,
+      "selected": "219 175 67 25 224 150 77 182 33 176 78 28 189 132 84 151"
+    },
+    "effective_identities": 14,
+    "original_ids": [
+      "34",
+      "32",
+      "7",
+      "55",
+      "48",
+      "81",
+      "74",
+      "30",
+      "11",
+      "80",
+      "3",
+      "12",
+      "60",
+      "68"
+    ],
+    "support_sha256": "c3fc5ae9680432f5da79ecdb064eaffcd640bb5bfd87c813a7a35de7f15b2906"
+  },
+  {
+    "draw": 1,
+    "selection_seed": 1601,
+    "pairs": [
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0083004.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0083001.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0011001.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0011004.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0095002.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0095001.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0051003.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0051002.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0012002.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0012003.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0048002.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0048001.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0054002.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0054001.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0060001.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0060003.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0007002.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0007001.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0118003.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0118001.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0021003.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0021001.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0034005.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0034002.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0080004.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0080006.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0016001.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0016005.jpg"
+      ]
+    ],
+    "annotation": {
+      "k": 16,
+      "n_pairs": 14,
+      "n_fail": 0,
+      "n_dup": 2,
+      "selected": "53 34 83 23 190 224 163 50 132 67 146 231 217 180 202 192"
+    },
+    "effective_identities": 14,
+    "original_ids": [
+      "83",
+      "11",
+      "95",
+      "51",
+      "12",
+      "48",
+      "54",
+      "60",
+      "7",
+      "118",
+      "21",
+      "34",
+      "80",
+      "16"
+    ],
+    "support_sha256": "eb3df3616a4e9018dbd82c0ae9a3ea2ee59eee24fcc52340a47877e9fd7636a3"
+  },
+  {
+    "draw": 2,
+    "selection_seed": 1602,
+    "pairs": [
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0106004.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0106002.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0067001.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0067003.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0065001.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0065002.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0034004.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0034003.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0074003.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0074005.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0004001.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0004002.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0003003.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0003002.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0009003.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0009001.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0025007.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0025002.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0017002.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0017001.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0090002.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0090001.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0081004.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0081006.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0060002.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0060003.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0107004.jpg",
+        "/root/hyk/reid-data/ilids/i-LIDS_Pedestrian/Persons/0107003.jpg"
+      ]
+    ],
+    "annotation": {
+      "k": 16,
+      "n_pairs": 14,
+      "n_fail": 0,
+      "n_dup": 2,
+      "selected": "70 121 76 216 78 6 28 166 196 71 110 124 153 131 188 81"
+    },
+    "effective_identities": 14,
+    "original_ids": [
+      "106",
+      "67",
+      "65",
+      "34",
+      "74",
+      "4",
+      "3",
+      "9",
+      "25",
+      "17",
+      "90",
+      "81",
+      "60",
+      "107"
+    ],
+    "support_sha256": "61ad0532fb57acaaac633f772fe2086ff34a29e0a81b1966e2868e47664f2ce2"
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "scope": "Step 2 only; seed 42, 100 steps; no long-run or P3 claim",
+  "runtime_interventions": "LayerNorm before Head and/or FP32 Triplet, installed by diagnose_a0_factorial.py; production defaults unchanged",
+  "training": "Market1501+MSMT17 train only; CUHK03 fixed 500 validation identities",
+  "source_hashes": {
+    "scripts/diagnose_a0_factorial.py": "4f48ebdf39a4d17a530d04d875acc41580c907b883d7f57e71d9739582024e4a",
+    "plans/a0_factorial.tasks": "93fc788c008f49f23049cb45b25925d3d7f2f528218fa564c5b97729859377b2",
+    "scripts/analyze_a0_factorial.py": "906b26c4263a94ce22abfdb6d6b1953546917b9fa07a35a32df65617c8b04bc5"
+  },
+  "trace_points": "Steps 1-10 and every 5 through 100; features/generator measured before attempted optimizer update; validation after 100 global training steps, including AMP-skipped updates",
+  "limitations": [
+    "One seed and short horizon",
+    "Unscaled Triplet feature gradient excludes other loss terms",
+    "LayerNorm changes input scale/centering and optimization; does not prove improved context utility",
+    "Feature tensors already use visual-forward precision; FP32 Triplet does not make the whole model FP32"
+  ]
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "domain": "viper",
+    "same_batch_repeat_max": 0.0,
+    "different_batch_size_max": 0.00025334954261779785
+  },
+  {
+    "domain": "grid",
+    "same_batch_repeat_max": 0.0,
+    "different_batch_size_max": 0.0001519918441772461
+  },
+  {
+    "domain": "ilids",
+    "same_batch_repeat_max": 0.0,
+    "different_batch_size_max": 0.0
+  },
+  {
+    "domain": "cuhk03",
+    "same_batch_repeat_max": 0.0,
+    "different_batch_size_max": 0.0002566426992416382
+  }
+]
