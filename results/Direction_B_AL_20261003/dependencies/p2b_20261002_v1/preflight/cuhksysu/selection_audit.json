@@ -1,0 +1,23 @@
+{
+  "budget_identity": "k=n_pairs+n_dup+n_fail",
+  "reproducible": true,
+  "annotation_shared_across_methods": true,
+  "selector_fields": [
+    "feats",
+    "camids",
+    "has_cameras",
+    "style",
+    "_sel_stats"
+  ],
+  "no_labels_or_paths_in_selector": true,
+  "unique_anchor_sets": {
+    "random": 3,
+    "dedup": 3,
+    "kcenter": 3,
+    "typical": 3,
+    "hard_negative": 3,
+    "facility": 3,
+    "facility_camera": 3
+  },
+  "no_camera_equivalence_checked": true
+}

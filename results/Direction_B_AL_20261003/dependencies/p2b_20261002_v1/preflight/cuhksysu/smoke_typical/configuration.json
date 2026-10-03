@@ -1,0 +1,281 @@
+{
+  "steps": 20,
+  "eval_steps": [
+    20
+  ],
+  "seed": 42,
+  "lr": 0.0001,
+  "selection": {
+    "anchors": [
+      11142,
+      14183,
+      12788,
+      7760,
+      1090,
+      12439,
+      2567,
+      14945,
+      14944,
+      12767,
+      8042,
+      12934,
+      11121,
+      9895,
+      8029,
+      11112
+    ],
+    "pairs": [
+      [
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/08766_s17576_0001774_0.jpg",
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/08766_s17579_0001777_0.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/11066_s15564_0000913_0.jpg",
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/11066_s15565_0000914_0.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/10160_s14280_0000104_0.jpg",
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/10160_s14275_0000099_0.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/06086_s7892_0011909_0.jpg",
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/06086_s7893_0011910_0.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/00661_s1243_0008449_0.jpg",
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/00661_s1244_0008450_0.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/09950_s16807_0003643_1.jpg",
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/09950_s16813_0003648_1.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/01809_s1843_0007877_0.jpg",
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/01809_s1844_0007878_0.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/11842_s14112_0003634_1.jpg",
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/11842_s14118_0003632_0.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/11838_s14113_0000389_0.jpg",
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/11838_s14111_0000387_1.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/10158_s14265_0000413_0.jpg",
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/10158_s14268_0000416_0.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/06268_s8204_0014989_0.jpg",
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/06268_s8202_0014987_0.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/10255_s15263_0001923_0.jpg",
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/10255_s15261_0001921_0.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/08764_s17570_0002211_0.jpg",
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/08764_s17579_0002219_0.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/07605_s10257_0014970_0.jpg",
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/07605_s10256_0014969_0.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/06259_s8189_0011949_0.jpg",
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/06259_s8185_0011945_0.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/08763_s17572_0002253_0.jpg",
+        "/root/hyk/reid-data/cuhksysu/cuhksysu4reid/train/08763_s17571_0002252_0.jpg"
+      ]
+    ],
+    "annotation": {
+      "k": 16,
+      "n_pairs": 16,
+      "n_dup": 0,
+      "n_fail": 0,
+      "outcomes": [
+        {
+          "anchor": 11142,
+          "result": "pair",
+          "partner": 11145
+        },
+        {
+          "anchor": 14183,
+          "result": "pair",
+          "partner": 14184
+        },
+        {
+          "anchor": 12788,
+          "result": "pair",
+          "partner": 12783
+        },
+        {
+          "anchor": 7760,
+          "result": "pair",
+          "partner": 7761
+        },
+        {
+          "anchor": 1090,
+          "result": "pair",
+          "partner": 1091
+        },
+        {
+          "anchor": 12439,
+          "result": "pair",
+          "partner": 12444
+        },
+        {
+          "anchor": 2567,
+          "result": "pair",
+          "partner": 2568
+        },
+        {
+          "anchor": 14945,
+          "result": "pair",
+          "partner": 14947
+        },
+        {
+          "anchor": 14944,
+          "result": "pair",
+          "partner": 14942
+        },
+        {
+          "anchor": 12767,
+          "result": "pair",
+          "partner": 12770
+        },
+        {
+          "anchor": 8042,
+          "result": "pair",
+          "partner": 8040
+        },
+        {
+          "anchor": 12934,
+          "result": "pair",
+          "partner": 12932
+        },
+        {
+          "anchor": 11121,
+          "result": "pair",
+          "partner": 11129
+        },
+        {
+          "anchor": 9895,
+          "result": "pair",
+          "partner": 9894
+        },
+        {
+          "anchor": 8029,
+          "result": "pair",
+          "partner": 8025
+        },
+        {
+          "anchor": 11112,
+          "result": "pair",
+          "partner": 11111
+        }
+      ],
+      "pair_indices": [
+        [
+          11142,
+          11145
+        ],
+        [
+          14183,
+          14184
+        ],
+        [
+          12788,
+          12783
+        ],
+        [
+          7760,
+          7761
+        ],
+        [
+          1090,
+          1091
+        ],
+        [
+          12439,
+          12444
+        ],
+        [
+          2567,
+          2568
+        ],
+        [
+          14945,
+          14947
+        ],
+        [
+          14944,
+          14942
+        ],
+        [
+          12767,
+          12770
+        ],
+        [
+          8042,
+          8040
+        ],
+        [
+          12934,
+          12932
+        ],
+        [
+          11121,
+          11129
+        ],
+        [
+          9895,
+          9894
+        ],
+        [
+          8029,
+          8025
+        ],
+        [
+          11112,
+          11111
+        ]
+      ]
+    },
+    "effective_identities": 16,
+    "revealed_ids": [
+      4191,
+      5219,
+      4750,
+      2948,
+      390,
+      4637,
+      930,
+      5483,
+      5482,
+      4748,
+      3056,
+      4800,
+      4189,
+      3747,
+      3050,
+      4188
+    ],
+    "method": "typical",
+    "draw": 0,
+    "selection_seed": 1600,
+    "annotation_seed": 2600,
+    "metrics": {
+      "cameras": null,
+      "mean_pairwise_distance": 0.7745763063430786,
+      "typicality": 3.700387716293335,
+      "pairability": 0.9025025367736816
+    },
+    "ordered_support_hash": "de6267aa1f480046300d134166aa15067247d9f9cee04415832506ccb2621036",
+    "anchor_set_hash": "fd9550a340159871590c8ecbf8a0346f2a314f0b7d1f3667309c56a4d892d120"
+  },
+  "initial_prompt_hash": "c53e838e4d6aee8a294879a7c4e3f773374bd47339e048d63a04513cb5178eb7",
+  "frozen_hash": "a0bdfc486057844dc218822273965a51f0d6601ce1a1ab173705bfb86ea75f15"
+}

@@ -1,0 +1,45 @@
+{
+  "domain": "msmt17",
+  "decision": "retain_original_split_without_cross_split_deduplication",
+  "authorized_at": "2026-10-02T13:27:12.818984+08:00",
+  "authorized_by": "User instruction in this chat on 2026-10-02",
+  "user_instruction": "Search how papers using the dataset handle it; if they do not handle it, leave it unchanged. User supplied matching public-loader evidence.",
+  "evidence_scope": "The inspected public loaders do not deduplicate. This does not establish private preprocessing or identical dataset copies in those papers.",
+  "sources": [
+    {
+      "project": "OSNet / deep-person-reid",
+      "url": "https://github.com/KaiyangZhou/deep-person-reid/blob/master/torchreid/data/datasets/image/msmt17.py",
+      "observation": "Reads listed train/query/gallery records; val is added only with combineall. No cross-split content deduplication in this loader."
+    },
+    {
+      "project": "TransReID",
+      "url": "https://github.com/damo-cv/TransReID/blob/main/datasets/msmt17.py",
+      "observation": "Reads listed records; appends val to train. No cross-split content deduplication in this loader."
+    },
+    {
+      "project": "CLIP-ReID",
+      "url": "https://github.com/Syliz517/CLIP-ReID/blob/master/datasets/msmt17.py",
+      "observation": "Reads listed records; appends val to train. No cross-split content deduplication in this loader."
+    }
+  ],
+  "strict_content_isolation_passed": false,
+  "execution_authorized_with_disclosure": true,
+  "overlap_groups": 214,
+  "overlap_records": {
+    "train": 214,
+    "query": 27,
+    "gallery": 188
+  },
+  "no_data_modified": true,
+  "no_candidate_or_test_filtering": true,
+  "train_images": 30248,
+  "query_images": 11659,
+  "gallery_images": 82161,
+  "train_val_merge": false,
+  "source_all_images": false,
+  "note": "Keep this project train-only recipe; public repos merging val does not change our frozen protocol.",
+  "disclosure": "沿用 MSMT17 原有划分，未进行跨 train/test 图片去重；当前数据副本检测到 214 组完全相同的图片内容。",
+  "manifest_sha256": "e0958183049d58af5bb39279efeb130889a39734634a50b91702146205ce8eda",
+  "image_hash_manifest_sha256": "16e821de0e1b6d98ad2a610e2819b108a0b9fa38ad55e4ea8918b1a070210614",
+  "overlap_evidence_sha256": "789e77852a3a21bcaceaf92341cfa16fc1d072579caa76aa132b2c47fc4ad5e1"
+}

@@ -1,0 +1,9 @@
+{
+  "domain": "cuhk03",
+  "path_overlap": 0,
+  "content_overlap_train_test": 0,
+  "query_gallery_shared_content": 0,
+  "manifest_sha256": "6e6cf9b0ddb0541c2000eaa8debb42412d1ba87075f1d37eb0b1363170406afb",
+  "official_list_sha256": {},
+  "elapsed_seconds": 0.6934647508896887
+}

@@ -1,0 +1,10 @@
+{
+  "task": [
+    "adapt",
+    "msmt17",
+    "hard_negative"
+  ],
+  "gpu": 0,
+  "returncode": 0,
+  "time": "2026-10-03T03:03:01.472214+08:00"
+}

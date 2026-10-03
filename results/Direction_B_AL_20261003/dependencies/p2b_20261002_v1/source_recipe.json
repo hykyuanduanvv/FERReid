@@ -1,0 +1,11 @@
+{
+  "tag": "p2b_20261002_v1",
+  "source_steps": 12000,
+  "seed": 42,
+  "reference_checkpoint": "experiments/s2_vpt_long/checkpoint-12000",
+  "rationale": "Fixed historical strong recipe, no target metric feedback; source length selected for this run.",
+  "checkpoint_interval": 3000,
+  "retain_last": 2,
+  "loss": "hardest Triplet + 0.01 WPA; no ICL/CE",
+  "caveat": "CUHK03 influenced historical method development. One source seed only."
+}

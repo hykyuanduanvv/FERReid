@@ -1,0 +1,37 @@
+[ReIDModel] Loading DINOv2 dinov2_vitb14 from /root/hyk/weights/dinov2_vitb14_pretrain.pth (code /root/hyk/basic-models/dinov2), input (252, 126)
+/root/hyk/basic-models/dinov2/dinov2/layers/swiglu_ffn.py:51: UserWarning: xFormers is not available (SwiGLU)
+  warnings.warn("xFormers is not available (SwiGLU)")
+/root/hyk/basic-models/dinov2/dinov2/layers/attention.py:33: UserWarning: xFormers is not available (Attention)
+  warnings.warn("xFormers is not available (Attention)")
+/root/hyk/basic-models/dinov2/dinov2/layers/block.py:40: UserWarning: xFormers is not available (Block)
+  warnings.warn("xFormers is not available (Block)")
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 33.09304565493949, "rank_seconds": 1.6271490659564734, "mAP": 76.12106894937094, "rank1": 88.33135394755566, "rank5": 95.36817104969342}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/hard_negative/draw0_seed42 {"step": 30, "mAP": 76.12106894937094, "rank1": 88.33135394755566, "rank5": 95.36817104969342, "gain": 1.2382954996158873}
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 33.21240588487126, "rank_seconds": 1.720402134116739, "mAP": 76.55954309993572, "rank1": 88.56888361045131, "rank5": 95.6353919239905}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/hard_negative/draw0_seed42 {"step": 100, "mAP": 76.55954309993572, "rank1": 88.56888361045131, "rank5": 95.6353919239905, "gain": 1.676769650180674}
+SHORT_TRIAL_COMPLETE market1501 hard_negative 0 42
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 32.768233203096315, "rank_seconds": 1.6684734430164099, "mAP": 76.23161469672468, "rank1": 88.3907363703585, "rank5": 95.48693586698337}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/hard_negative/draw0_seed43 {"step": 30, "mAP": 76.23161469672468, "rank1": 88.3907363703585, "rank5": 95.48693586698337, "gain": 1.3488412469696272}
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 32.82883359398693, "rank_seconds": 1.6899768919683993, "mAP": 76.74589113215086, "rank1": 88.86579572446556, "rank5": 95.60570071258907}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/hard_negative/draw0_seed43 {"step": 100, "mAP": 76.74589113215086, "rank1": 88.86579572446556, "rank5": 95.60570071258907, "gain": 1.86311768239581}
+SHORT_TRIAL_COMPLETE market1501 hard_negative 0 43
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 32.80142145603895, "rank_seconds": 1.685030236840248, "mAP": 75.9292938363807, "rank1": 88.1532066791471, "rank5": 95.5166270783848}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/hard_negative/draw1_seed42 {"step": 30, "mAP": 75.9292938363807, "rank1": 88.1532066791471, "rank5": 95.5166270783848, "gain": 1.0465203866256445}
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 32.69238031608984, "rank_seconds": 1.6833325140178204, "mAP": 74.37699750030409, "rank1": 87.55938242280286, "rank5": 95.21971496437055}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/hard_negative/draw1_seed42 {"step": 100, "mAP": 74.37699750030409, "rank1": 87.55938242280286, "rank5": 95.21971496437055, "gain": -0.5057759494509639}
+SHORT_TRIAL_COMPLETE market1501 hard_negative 1 42
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 32.80682931514457, "rank_seconds": 1.71704205381684, "mAP": 76.12625955119552, "rank1": 88.36104513064133, "rank5": 95.6353919239905}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/hard_negative/draw1_seed43 {"step": 30, "mAP": 76.12625955119552, "rank1": 88.36104513064133, "rank5": 95.6353919239905, "gain": 1.2434861014404675}
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 32.81302550481632, "rank_seconds": 1.6901891219895333, "mAP": 74.53918852035903, "rank1": 87.79691211401425, "rank5": 95.13064133016627}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/hard_negative/draw1_seed43 {"step": 100, "mAP": 74.53918852035903, "rank1": 87.79691211401425, "rank5": 95.13064133016627, "gain": -0.34358492939601604}
+SHORT_TRIAL_COMPLETE market1501 hard_negative 1 43
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 33.06147868791595, "rank_seconds": 1.6945750971790403, "mAP": 75.46037625247112, "rank1": 87.94536819933712, "rank5": 95.27909741548915}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/hard_negative/draw2_seed42 {"step": 30, "mAP": 75.46037625247112, "rank1": 87.94536819933712, "rank5": 95.27909741548915, "gain": 0.577602802716072}
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 32.947171837091446, "rank_seconds": 1.6323685520328581, "mAP": 76.05163270957114, "rank1": 88.42042755344418, "rank5": 95.60570074090482}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/hard_negative/draw2_seed42 {"step": 100, "mAP": 76.05163270957114, "rank1": 88.42042755344418, "rank5": 95.60570074090482, "gain": 1.168859259816088}
+SHORT_TRIAL_COMPLETE market1501 hard_negative 2 42
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 32.940697686048225, "rank_seconds": 1.662126979092136, "mAP": 75.49741656083675, "rank1": 87.94536819933712, "rank5": 95.36817104969342}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/hard_negative/draw2_seed43 {"step": 30, "mAP": 75.49741656083675, "rank1": 87.94536819933712, "rank5": 95.36817104969342, "gain": 0.6146431110817048}
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 32.789330150932074, "rank_seconds": 1.7055899889674038, "mAP": 75.80277470964717, "rank1": 88.18289786223278, "rank5": 95.60570074090482}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/hard_negative/draw2_seed43 {"step": 100, "mAP": 75.80277470964717, "rank1": 88.18289786223278, "rank5": 95.60570074090482, "gain": 0.9200012598921177}
+SHORT_TRIAL_COMPLETE market1501 hard_negative 2 43

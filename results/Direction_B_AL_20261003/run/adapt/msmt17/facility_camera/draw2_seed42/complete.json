@@ -1,0 +1,38 @@
+{
+  "status": "complete",
+  "rows": [
+    {
+      "step": 30,
+      "mAP": 38.86718884556502,
+      "rank1": 65.69174028800767,
+      "rank5": 78.23140921074527,
+      "gain": 1.8749400046710392
+    },
+    {
+      "step": 100,
+      "mAP": 38.714700264232995,
+      "rank1": 65.42585127522784,
+      "rank5": 78.00840552260735,
+      "gain": 1.7224514233390167
+    }
+  ],
+  "actual_updates": 100,
+  "nonzero_gradient_steps": 100,
+  "support_loss_before": 0.07848943769931793,
+  "support_loss_after": 0.03549359366297722,
+  "projection_hits": 7,
+  "relative_prompt_delta": 0.10000000149011612,
+  "frozen_hash": "c08d7c7cf1932bb713955e5de67606b1b05ef4d6c1162d21c651f7a294c67fe7",
+  "prompt_hash": "1b377c1e9f2b95fe238ddfdd27db0ebd7071663932ee42f668834e1ce82d8079",
+  "checkpoint_hashes": {
+    "10": "c916c77de5eb0a281b4f68a6b115ade172cd2cbd1d5f8a5df524b08b8d5f4885",
+    "30": "afbf78f078e3410a5465671ea307b2af59de4f6fb34574bc3e52587c56844855",
+    "50": "fa9a0dca9ca0c559438295da93f6ac08d508e42733f2e5b894448e8298acb4cd",
+    "100": "1b377c1e9f2b95fe238ddfdd27db0ebd7071663932ee42f668834e1ce82d8079"
+  },
+  "saved_prompt_exact": true,
+  "feature_replay_exact": true,
+  "train_seconds": 10.470497589325532,
+  "evaluation_seconds": 397.0234183759894,
+  "elapsed_seconds": 408.093779736897
+}

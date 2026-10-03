@@ -1,0 +1,13 @@
+{
+  "domain": "msmt17",
+  "status": "accepted_original_split_with_known_content_overlap",
+  "path_overlap": 0,
+  "content_overlap_train_test": 214,
+  "strict_content_isolation_passed": false,
+  "execution_authorized_with_disclosure": true,
+  "manifest_sha256": "e0958183049d58af5bb39279efeb130889a39734634a50b91702146205ce8eda",
+  "query_gallery_shared_content": 88,
+  "accepted_policy": "experiments/p2b_20261002_v1/data/msmt17/accepted_original_split_policy.json",
+  "accepted_policy_sha256": "4e16cfebcb01dff89bc64609b7121dab4b320334a62e33331915a2b90af8d165",
+  "original_failure_evidence_retained": true
+}

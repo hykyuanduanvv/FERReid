@@ -1,0 +1,37 @@
+[ReIDModel] Loading DINOv2 dinov2_vitb14 from /root/hyk/weights/dinov2_vitb14_pretrain.pth (code /root/hyk/basic-models/dinov2), input (252, 126)
+/root/hyk/basic-models/dinov2/dinov2/layers/swiglu_ffn.py:51: UserWarning: xFormers is not available (SwiGLU)
+  warnings.warn("xFormers is not available (SwiGLU)")
+/root/hyk/basic-models/dinov2/dinov2/layers/attention.py:33: UserWarning: xFormers is not available (Attention)
+  warnings.warn("xFormers is not available (Attention)")
+/root/hyk/basic-models/dinov2/dinov2/layers/block.py:40: UserWarning: xFormers is not available (Block)
+  warnings.warn("xFormers is not available (Block)")
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 33.23681890615262, "rank_seconds": 1.675065637100488, "mAP": 75.29903038663706, "rank1": 87.85629456513284, "rank5": 95.24940617577197}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/facility_camera/draw0_seed42 {"step": 30, "mAP": 75.29903038663706, "rank1": 87.85629456513284, "rank5": 95.24940617577197, "gain": 0.41625693688200727}
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 33.409569749142975, "rank_seconds": 1.6894155549816787, "mAP": 73.66259862578113, "rank1": 87.49999997168426, "rank5": 94.95249406175772}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/facility_camera/draw0_seed42 {"step": 100, "mAP": 73.66259862578113, "rank1": 87.49999997168426, "rank5": 94.95249406175772, "gain": -1.2201748239739203}
+SHORT_TRIAL_COMPLETE market1501 facility_camera 0 42
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 33.38682552915998, "rank_seconds": 1.6181846370454878, "mAP": 75.19051163609974, "rank1": 87.64845608532288, "rank5": 95.33847980997625}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/facility_camera/draw0_seed43 {"step": 30, "mAP": 75.19051163609974, "rank1": 87.64845608532288, "rank5": 95.33847980997625, "gain": 0.3077381863446931}
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 33.48329475312494, "rank_seconds": 1.660629651043564, "mAP": 73.54459040521726, "rank1": 86.96555818061647, "rank5": 94.98218527315915}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/facility_camera/draw0_seed43 {"step": 100, "mAP": 73.54459040521726, "rank1": 86.96555818061647, "rank5": 94.98218527315915, "gain": -1.3381830445377858}
+SHORT_TRIAL_COMPLETE market1501 facility_camera 0 43
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 33.34959011292085, "rank_seconds": 1.6205639820545912, "mAP": 76.4761549276864, "rank1": 88.45011876484561, "rank5": 95.66508313539192}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/facility_camera/draw1_seed42 {"step": 30, "mAP": 76.4761549276864, "rank1": 88.45011876484561, "rank5": 95.66508313539192, "gain": 1.593381477931345}
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 33.46530093392357, "rank_seconds": 1.6706255360040814, "mAP": 77.18692758870522, "rank1": 89.51900234698117, "rank5": 96.11045133472905}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/facility_camera/draw1_seed42 {"step": 100, "mAP": 77.18692758870522, "rank1": 89.51900234698117, "rank5": 96.11045133472905, "gain": 2.3041541389501674}
+SHORT_TRIAL_COMPLETE market1501 facility_camera 1 42
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 33.58936458011158, "rank_seconds": 1.6051066550426185, "mAP": 76.53867197433163, "rank1": 88.50950118764845, "rank5": 95.66508313539192}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/facility_camera/draw1_seed43 {"step": 30, "mAP": 76.53867197433163, "rank1": 88.50950118764845, "rank5": 95.66508313539192, "gain": 1.6558985245765854}
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 33.37853503297083, "rank_seconds": 1.6655713820364326, "mAP": 77.2939459161917, "rank1": 89.60807600950119, "rank5": 96.14014251781472}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/facility_camera/draw1_seed43 {"step": 100, "mAP": 77.2939459161917, "rank1": 89.60807600950119, "rank5": 96.14014251781472, "gain": 2.4111724664366534}
+SHORT_TRIAL_COMPLETE market1501 facility_camera 1 43
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 33.3895333011169, "rank_seconds": 1.618045104900375, "mAP": 75.88916593662634, "rank1": 87.94536819933712, "rank5": 95.45724465558195}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/facility_camera/draw2_seed42 {"step": 30, "mAP": 75.88916593662634, "rank1": 87.94536819933712, "rank5": 95.45724465558195, "gain": 1.0063924868712917}
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 33.352256402838975, "rank_seconds": 1.6475619389675558, "mAP": 76.49150015056274, "rank1": 89.04394296455837, "rank5": 95.5166270783848}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/facility_camera/draw2_seed42 {"step": 100, "mAP": 76.49150015056274, "rank1": 89.04394296455837, "rank5": 95.5166270783848, "gain": 1.6087267008076935}
+SHORT_TRIAL_COMPLETE market1501 facility_camera 2 42
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 33.30770463193767, "rank_seconds": 1.60281159193255, "mAP": 75.96367276196241, "rank1": 88.0344418335414, "rank5": 95.42755344418052}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/facility_camera/draw2_seed43 {"step": 30, "mAP": 75.96367276196241, "rank1": 88.0344418335414, "rank5": 95.42755344418052, "gain": 1.0808993122073645}
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 33.3295627089683, "rank_seconds": 1.7972045950591564, "mAP": 76.85844969013242, "rank1": 89.13301659876264, "rank5": 95.6353919239905}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/facility_camera/draw2_seed43 {"step": 100, "mAP": 76.85844969013242, "rank1": 89.13301659876264, "rank5": 95.6353919239905, "gain": 1.9756762403773678}
+SHORT_TRIAL_COMPLETE market1501 facility_camera 2 43

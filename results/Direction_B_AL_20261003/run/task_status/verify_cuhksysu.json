@@ -1,0 +1,9 @@
+{
+  "task": [
+    "verify",
+    "cuhksysu"
+  ],
+  "gpu": 1,
+  "returncode": 0,
+  "time": "2026-10-03T03:04:57.722102+08:00"
+}

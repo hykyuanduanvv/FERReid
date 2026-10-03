@@ -1,0 +1,10 @@
+{
+  "task": [
+    "adapt",
+    "cuhksysu",
+    "typical"
+  ],
+  "gpu": 1,
+  "returncode": 0,
+  "time": "2026-10-03T01:34:03.802530+08:00"
+}

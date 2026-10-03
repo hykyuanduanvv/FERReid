@@ -1,0 +1,275 @@
+{
+  "trials": [
+    {
+      "domain": "market1501",
+      "method": "facility_camera",
+      "draw": 0,
+      "seed": 42,
+      "effective_identities": 16,
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 30,
+            "mAP": 75.29903038663706,
+            "rank1": 87.85629456513284,
+            "rank5": 95.24940617577197,
+            "gain": 0.41625693688200727
+          },
+          {
+            "step": 100,
+            "mAP": 73.66259862578113,
+            "rank1": 87.49999997168426,
+            "rank5": 94.95249406175772,
+            "gain": -1.2201748239739203
+          }
+        ],
+        "actual_updates": 100,
+        "nonzero_gradient_steps": 100,
+        "support_loss_before": 0.024542609229683876,
+        "support_loss_after": 0.005752766504883766,
+        "projection_hits": 0,
+        "relative_prompt_delta": 0.0944899469614029,
+        "frozen_hash": "6de1e64ddc8711886e8575c3b1cb39b62ccfaced06e50f1619a7285645e26be4",
+        "prompt_hash": "941715b700f076f860a27cead7d9206f6cb5f8b7f30a2bd86ce8614dc3e5b7c4",
+        "checkpoint_hashes": {
+          "10": "72e258be3cf526709344d38e994e4d72faf49850dec282bc4f4c4eea66f2e018",
+          "30": "89159df3b967a4a5d2fba3ede6f9d670ff471a6b057c0c6bb9e1f14a66cc040e",
+          "50": "e901be1ffdecd3ed3e1a74429213334aa3b000e8dd7fa57930f643a61f1dee7b",
+          "100": "941715b700f076f860a27cead7d9206f6cb5f8b7f30a2bd86ce8614dc3e5b7c4"
+        },
+        "saved_prompt_exact": true,
+        "feature_replay_exact": true,
+        "train_seconds": 11.389466828899458,
+        "evaluation_seconds": 70.0210966640152,
+        "elapsed_seconds": 82.00606518192217
+      }
+    },
+    {
+      "domain": "market1501",
+      "method": "facility_camera",
+      "draw": 0,
+      "seed": 43,
+      "effective_identities": 16,
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 30,
+            "mAP": 75.19051163609974,
+            "rank1": 87.64845608532288,
+            "rank5": 95.33847980997625,
+            "gain": 0.3077381863446931
+          },
+          {
+            "step": 100,
+            "mAP": 73.54459040521726,
+            "rank1": 86.96555818061647,
+            "rank5": 94.98218527315915,
+            "gain": -1.3381830445377858
+          }
+        ],
+        "actual_updates": 100,
+        "nonzero_gradient_steps": 100,
+        "support_loss_before": 0.024542609229683876,
+        "support_loss_after": 0.005841648206114769,
+        "projection_hits": 0,
+        "relative_prompt_delta": 0.09583517909049988,
+        "frozen_hash": "6de1e64ddc8711886e8575c3b1cb39b62ccfaced06e50f1619a7285645e26be4",
+        "prompt_hash": "16b9cff94a8a23d65c21552a77e1dd017a6ecf1821330a9ddacb024beedb5ed7",
+        "checkpoint_hashes": {
+          "10": "e6deb7a8bb54d21ce62a4ed29e1bc412dd614b99fb95c14353d5369d32eeb056",
+          "30": "ec00ee98edc93a2a519b48df1cc930f94430b9165f38489cd8402e2f71225cc6",
+          "50": "df54f081f43f5c20a6c8cf00ffe1a7ed191bc59052d78475b59dbb30fa0e5cae",
+          "100": "16b9cff94a8a23d65c21552a77e1dd017a6ecf1821330a9ddacb024beedb5ed7"
+        },
+        "saved_prompt_exact": true,
+        "feature_replay_exact": true,
+        "train_seconds": 10.522378165274858,
+        "evaluation_seconds": 70.1569431417156,
+        "elapsed_seconds": 81.27662385697477
+      }
+    },
+    {
+      "domain": "market1501",
+      "method": "facility_camera",
+      "draw": 1,
+      "seed": 42,
+      "effective_identities": 16,
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 30,
+            "mAP": 76.4761549276864,
+            "rank1": 88.45011876484561,
+            "rank5": 95.66508313539192,
+            "gain": 1.593381477931345
+          },
+          {
+            "step": 100,
+            "mAP": 77.18692758870522,
+            "rank1": 89.51900234698117,
+            "rank5": 96.11045133472905,
+            "gain": 2.3041541389501674
+          }
+        ],
+        "actual_updates": 100,
+        "nonzero_gradient_steps": 99,
+        "support_loss_before": 0.02904309146106243,
+        "support_loss_after": 0.00017741066403687,
+        "projection_hits": 11,
+        "relative_prompt_delta": 0.10000000149011612,
+        "frozen_hash": "6de1e64ddc8711886e8575c3b1cb39b62ccfaced06e50f1619a7285645e26be4",
+        "prompt_hash": "9f47758431ab200e963b460ea4acfa1d50ed02bb9f970727c939c601e3d7fac4",
+        "checkpoint_hashes": {
+          "10": "32064341194b306b16cd8aa3e37bc76da01bfe3be7cd2fc27b2cd63800e6e80e",
+          "30": "d7e9c59ddeed21bc2c8dcaa87a8f5ca825c4e20a7ab5cb12d019a6d12aed7779",
+          "50": "fb280f799851e9b6ede2c13ad7610d996c0f39990efbe81de74b3ac3b54435a5",
+          "100": "9f47758431ab200e963b460ea4acfa1d50ed02bb9f970727c939c601e3d7fac4"
+        },
+        "saved_prompt_exact": true,
+        "feature_replay_exact": true,
+        "train_seconds": 10.572293979348615,
+        "evaluation_seconds": 70.11337154218927,
+        "elapsed_seconds": 81.28661060798913
+      }
+    },
+    {
+      "domain": "market1501",
+      "method": "facility_camera",
+      "draw": 1,
+      "seed": 43,
+      "effective_identities": 16,
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 30,
+            "mAP": 76.53867197433163,
+            "rank1": 88.50950118764845,
+            "rank5": 95.66508313539192,
+            "gain": 1.6558985245765854
+          },
+          {
+            "step": 100,
+            "mAP": 77.2939459161917,
+            "rank1": 89.60807600950119,
+            "rank5": 96.14014251781472,
+            "gain": 2.4111724664366534
+          }
+        ],
+        "actual_updates": 100,
+        "nonzero_gradient_steps": 100,
+        "support_loss_before": 0.02904309146106243,
+        "support_loss_after": 1.222570426762104e-05,
+        "projection_hits": 11,
+        "relative_prompt_delta": 0.10000000149011612,
+        "frozen_hash": "6de1e64ddc8711886e8575c3b1cb39b62ccfaced06e50f1619a7285645e26be4",
+        "prompt_hash": "2e02be5c3bd90c4c8a654a5557f63a974124e8e96e5eaea1d6424be01e1aceb7",
+        "checkpoint_hashes": {
+          "10": "2736e1666a9881bedd52e26987ab5cf12831f4c459953960b45a3718e202b062",
+          "30": "5ede9abcb270d818c1eb3ecf7e864973256258b3f80a18889a1b87fba044ce20",
+          "50": "964642c4b985adcb86baa157a0cd63ff82d43faf7739071bef1968026eb8117e",
+          "100": "2e02be5c3bd90c4c8a654a5557f63a974124e8e96e5eaea1d6424be01e1aceb7"
+        },
+        "saved_prompt_exact": true,
+        "feature_replay_exact": true,
+        "train_seconds": 10.457744006300345,
+        "evaluation_seconds": 70.24603065778501,
+        "elapsed_seconds": 81.30872808187269
+      }
+    },
+    {
+      "domain": "market1501",
+      "method": "facility_camera",
+      "draw": 2,
+      "seed": 42,
+      "effective_identities": 16,
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 30,
+            "mAP": 75.88916593662634,
+            "rank1": 87.94536819933712,
+            "rank5": 95.45724465558195,
+            "gain": 1.0063924868712917
+          },
+          {
+            "step": 100,
+            "mAP": 76.49150015056274,
+            "rank1": 89.04394296455837,
+            "rank5": 95.5166270783848,
+            "gain": 1.6087267008076935
+          }
+        ],
+        "actual_updates": 100,
+        "nonzero_gradient_steps": 100,
+        "support_loss_before": 0.026014655828475952,
+        "support_loss_after": 0.0018250953871756792,
+        "projection_hits": 0,
+        "relative_prompt_delta": 0.09661982953548431,
+        "frozen_hash": "6de1e64ddc8711886e8575c3b1cb39b62ccfaced06e50f1619a7285645e26be4",
+        "prompt_hash": "b7a3e83066f724bad61c643fa34a96d6fee74771a303ce5ffa34770272c49390",
+        "checkpoint_hashes": {
+          "10": "e28a258c10926a4e0158dfba0f331507e30800baee0908b611017b4b05a722cb",
+          "30": "07e9ff38f923778b89800b5026a904f2e75bb83361cd52273a4bf6bbf1fda57d",
+          "50": "2bb0d6fc9eb16c618d96293a926fccabec13c3c9b87aac204eab96be1817dc98",
+          "100": "b7a3e83066f724bad61c643fa34a96d6fee74771a303ce5ffa34770272c49390"
+        },
+        "saved_prompt_exact": true,
+        "feature_replay_exact": true,
+        "train_seconds": 10.500600433675572,
+        "evaluation_seconds": 70.01487803901546,
+        "elapsed_seconds": 81.12211428908631
+      }
+    },
+    {
+      "domain": "market1501",
+      "method": "facility_camera",
+      "draw": 2,
+      "seed": 43,
+      "effective_identities": 16,
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 30,
+            "mAP": 75.96367276196241,
+            "rank1": 88.0344418335414,
+            "rank5": 95.42755344418052,
+            "gain": 1.0808993122073645
+          },
+          {
+            "step": 100,
+            "mAP": 76.85844969013242,
+            "rank1": 89.13301659876264,
+            "rank5": 95.6353919239905,
+            "gain": 1.9756762403773678
+          }
+        ],
+        "actual_updates": 100,
+        "nonzero_gradient_steps": 98,
+        "support_loss_before": 0.026014655828475952,
+        "support_loss_after": 0.0022726126480847597,
+        "projection_hits": 0,
+        "relative_prompt_delta": 0.09704426676034927,
+        "frozen_hash": "6de1e64ddc8711886e8575c3b1cb39b62ccfaced06e50f1619a7285645e26be4",
+        "prompt_hash": "8d2c894824eac132acf6fe8de545ccf929566782cb92d263099570052df4c8c2",
+        "checkpoint_hashes": {
+          "10": "a1fb3905648cc9dc3ce2b0cac7ca96f0b34fcfbff046365a3e8ebcc8e130e0a3",
+          "30": "3eebf8643d0beb552ba26d966e9fac9eef0ab00a30221825f75f87a6470c8a1f",
+          "50": "7a1de8669c23021406a5baa15ada5294a1ee725b534c9b55310336d409067e47",
+          "100": "8d2c894824eac132acf6fe8de545ccf929566782cb92d263099570052df4c8c2"
+        },
+        "saved_prompt_exact": true,
+        "feature_replay_exact": true,
+        "train_seconds": 10.468081130180508,
+        "evaluation_seconds": 70.04428874491714,
+        "elapsed_seconds": 81.09286763402633
+      }
+    }
+  ],
+  "time": "2026-10-03T01:29:26.479955+08:00"
+}

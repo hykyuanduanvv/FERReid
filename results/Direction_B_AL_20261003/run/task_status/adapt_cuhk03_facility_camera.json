@@ -1,0 +1,10 @@
+{
+  "task": [
+    "adapt",
+    "cuhk03",
+    "facility_camera"
+  ],
+  "gpu": 7,
+  "returncode": 0,
+  "time": "2026-10-03T01:43:00.644501+08:00"
+}

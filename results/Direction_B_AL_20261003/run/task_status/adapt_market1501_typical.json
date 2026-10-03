@@ -1,0 +1,10 @@
+{
+  "task": [
+    "adapt",
+    "market1501",
+    "typical"
+  ],
+  "gpu": 7,
+  "returncode": 0,
+  "time": "2026-10-03T01:21:13.082254+08:00"
+}

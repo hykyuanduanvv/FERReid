@@ -1,0 +1,9 @@
+{
+  "task": [
+    "preflight",
+    "market1501"
+  ],
+  "gpu": 0,
+  "returncode": 0,
+  "time": "2026-10-03T01:09:52.738469+08:00"
+}

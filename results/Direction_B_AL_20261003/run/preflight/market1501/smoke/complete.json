@@ -1,0 +1,20 @@
+{
+  "status": "complete",
+  "rows": [],
+  "actual_updates": 5,
+  "nonzero_gradient_steps": 5,
+  "support_loss_before": 0.004728320520371199,
+  "support_loss_after": 0.004309601616114378,
+  "projection_hits": 0,
+  "relative_prompt_delta": 0.00815469492226839,
+  "frozen_hash": "6de1e64ddc8711886e8575c3b1cb39b62ccfaced06e50f1619a7285645e26be4",
+  "prompt_hash": "c3c7cdb35aa31215c896a904a74c64b4d5c31de2f06f234d1062228800c011fd",
+  "checkpoint_hashes": {
+    "5": "c3c7cdb35aa31215c896a904a74c64b4d5c31de2f06f234d1062228800c011fd"
+  },
+  "saved_prompt_exact": true,
+  "feature_replay_exact": true,
+  "train_seconds": 0.7843424039892852,
+  "evaluation_seconds": 0.0,
+  "elapsed_seconds": 1.3313981990795583
+}

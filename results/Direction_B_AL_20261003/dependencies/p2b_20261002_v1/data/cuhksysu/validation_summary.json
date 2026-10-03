@@ -1,0 +1,8 @@
+{
+  "dataset_reader": "PASS",
+  "protocol3_selection_unit": "image",
+  "image_pair_checks": "PASS",
+  "seed_budget_cases": 150,
+  "legacy_identity_test": "FAILED: requires cross-camera identities; CUHK-SYSU has no camera IDs. Current Protocol-3 tasks explicitly use image, which passed.",
+  "official_annotation_duplicate_note": "5 repeated annotation groups retained, including one query/gallery identical crop. See annotation_duplicates.json."
+}

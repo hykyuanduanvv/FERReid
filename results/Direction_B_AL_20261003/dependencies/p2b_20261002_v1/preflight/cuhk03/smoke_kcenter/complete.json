@@ -1,0 +1,25 @@
+{
+  "status": "complete",
+  "rows": [
+    {
+      "step": 20,
+      "mAP": 52.448139565331594,
+      "rank1": 52.071428537368774,
+      "rank5": 73.64285707473755,
+      "gain": 0.366800240107942
+    }
+  ],
+  "actual_updates": 20,
+  "attempts": 20,
+  "skipped_attempts": [],
+  "nonzero_gradient_steps": 13,
+  "support_loss_before": 0.0020756577141582966,
+  "support_loss_after": 0.0,
+  "frozen_hash": "54d13673035a9067d7788bb46275fa16b1dae12e6bf861cb3eaabb3067dcfa47",
+  "saved_prompt_exact": true,
+  "prompt_hash": "33e1cafe6052002fc60040d973e031c6f405b30eaafdadca6d15b83d194f4d47",
+  "train_seconds": 2.09970035078004,
+  "evaluation_seconds": 12.71661942009814,
+  "elapsed_seconds": 15.329458204098046,
+  "milliseconds_per_update": 104.985017539002
+}

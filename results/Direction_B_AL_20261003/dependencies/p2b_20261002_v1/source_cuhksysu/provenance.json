@@ -1,0 +1,15 @@
+{
+  "target": "cuhksysu",
+  "config_sha256": "1e828ae6544c4158c3f2875bb9398e7187c371e4a87a262dfedb93362ef1462f",
+  "git_head": "20e05cdf968eff08d46f10b5af8fbcfa71363466",
+  "code_sha256": {
+    "scripts/p2b_source.py": "e7964c7f5c53569109c63fa1f445ad7a040921f583f3c3590239ee1e7a074032",
+    "scripts/train_reid.py": "393926a6baf6663ec398831ecbb205f700172697dc8f26054a33df4240093a30",
+    "adapters/trainer_reid.py": "3d0e84a7bad0c03cfcfd3374fc0039469d3f9073020ea1098c4db3a0495ee8aa",
+    "adapters/baseline_model.py": "beb8c6b5e8370026eb9ab6134805c2572e49dd6560f95b9d2175f3877bcf3bd4",
+    "adapters/reid_dataset.py": "d8606b65d12812609207c18bea61c731c412e7fe5ee8b19124ff2bd4ee791218",
+    "ops/losses.py": "38a7f82669d5931c9a485e960157fa804beaf5ab7b388ae131363d78f1ae1e59"
+  },
+  "torch": "2.6.0+cu124",
+  "cuda": "12.4"
+}

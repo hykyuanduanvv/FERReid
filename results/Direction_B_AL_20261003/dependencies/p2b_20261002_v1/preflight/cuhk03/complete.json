@@ -1,0 +1,193 @@
+{
+  "domain": "cuhk03",
+  "baseline": {
+    "mAP": 52.08133932522365,
+    "rank1": 51.78571430274418,
+    "rank5": 73.14285704067775
+  },
+  "trials": [
+    {
+      "method": "random",
+      "steps": 100,
+      "directory": "experiments/p2b_20261002_v1/preflight/cuhk03/smoke_random",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 100,
+            "mAP": 46.35923591681889,
+            "rank1": 46.857142891202656,
+            "rank5": 68.21428581646511,
+            "gain": -5.722103408404763
+          }
+        ],
+        "actual_updates": 100,
+        "attempts": 100,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 92,
+        "support_loss_before": 0.07259929925203323,
+        "support_loss_after": 0.0,
+        "frozen_hash": "54d13673035a9067d7788bb46275fa16b1dae12e6bf861cb3eaabb3067dcfa47",
+        "saved_prompt_exact": true,
+        "prompt_hash": "f124c11f8d031a7fbb75f5da8fc4aa40d86a619c702853ba03155beeaa067340",
+        "train_seconds": 10.586417297832668,
+        "evaluation_seconds": 12.649516616016626,
+        "elapsed_seconds": 23.753650394035503,
+        "milliseconds_per_update": 105.86417297832668
+      }
+    },
+    {
+      "method": "kcenter",
+      "steps": 20,
+      "directory": "experiments/p2b_20261002_v1/preflight/cuhk03/smoke_kcenter",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 20,
+            "mAP": 52.448139565331594,
+            "rank1": 52.071428537368774,
+            "rank5": 73.64285707473755,
+            "gain": 0.366800240107942
+          }
+        ],
+        "actual_updates": 20,
+        "attempts": 20,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 13,
+        "support_loss_before": 0.0020756577141582966,
+        "support_loss_after": 0.0,
+        "frozen_hash": "54d13673035a9067d7788bb46275fa16b1dae12e6bf861cb3eaabb3067dcfa47",
+        "saved_prompt_exact": true,
+        "prompt_hash": "33e1cafe6052002fc60040d973e031c6f405b30eaafdadca6d15b83d194f4d47",
+        "train_seconds": 2.09970035078004,
+        "evaluation_seconds": 12.71661942009814,
+        "elapsed_seconds": 15.329458204098046,
+        "milliseconds_per_update": 104.985017539002
+      }
+    },
+    {
+      "method": "typical",
+      "steps": 20,
+      "directory": "experiments/p2b_20261002_v1/preflight/cuhk03/smoke_typical",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 20,
+            "mAP": 49.1511127267565,
+            "rank1": 48.85714280605316,
+            "rank5": 72.14285717691693,
+            "gain": -2.9302265984671507
+          }
+        ],
+        "actual_updates": 20,
+        "attempts": 20,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 17,
+        "support_loss_before": 0.0017039452213793993,
+        "support_loss_after": 0.0,
+        "frozen_hash": "54d13673035a9067d7788bb46275fa16b1dae12e6bf861cb3eaabb3067dcfa47",
+        "saved_prompt_exact": true,
+        "prompt_hash": "5d9df6115beca0577a4ae7ec156d0571e836edb62b872173295c3c4648614117",
+        "train_seconds": 2.1485937058459967,
+        "evaluation_seconds": 13.080084637971595,
+        "elapsed_seconds": 15.73181692394428,
+        "milliseconds_per_update": 107.42968529229984
+      }
+    },
+    {
+      "method": "hard_negative",
+      "steps": 20,
+      "directory": "experiments/p2b_20261002_v1/preflight/cuhk03/smoke_hard_negative",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 20,
+            "mAP": 52.109977671078276,
+            "rank1": 52.642857108797344,
+            "rank5": 73.5,
+            "gain": 0.028638345854623992
+          }
+        ],
+        "actual_updates": 20,
+        "attempts": 20,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 20,
+        "support_loss_before": 0.05343379080295563,
+        "support_loss_after": 0.0041264696046710014,
+        "frozen_hash": "54d13673035a9067d7788bb46275fa16b1dae12e6bf861cb3eaabb3067dcfa47",
+        "saved_prompt_exact": true,
+        "prompt_hash": "69b3b1c00121d7dfbddf284479580fb3b72bbe5b954c11b8b16ec788937cc710",
+        "train_seconds": 2.1374298620503396,
+        "evaluation_seconds": 12.852579947095364,
+        "elapsed_seconds": 15.501804077997804,
+        "milliseconds_per_update": 106.87149310251698
+      }
+    },
+    {
+      "method": "facility",
+      "steps": 20,
+      "directory": "experiments/p2b_20261002_v1/preflight/cuhk03/smoke_facility",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 20,
+            "mAP": 50.61097856930324,
+            "rank1": 50.64285715988704,
+            "rank5": 71.64285704067775,
+            "gain": -1.4703607559204102
+          }
+        ],
+        "actual_updates": 20,
+        "attempts": 20,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 20,
+        "support_loss_before": 0.02096802182495594,
+        "support_loss_after": 0.0,
+        "frozen_hash": "54d13673035a9067d7788bb46275fa16b1dae12e6bf861cb3eaabb3067dcfa47",
+        "saved_prompt_exact": true,
+        "prompt_hash": "1b328586f4ca2c6ca4ff95c577e441d14143f92ca67098654dbbd85de28017ec",
+        "train_seconds": 2.0663039984647185,
+        "evaluation_seconds": 12.888582950923592,
+        "elapsed_seconds": 15.469734743004665,
+        "milliseconds_per_update": 103.31519992323592
+      }
+    },
+    {
+      "method": "facility_camera",
+      "steps": 20,
+      "directory": "experiments/p2b_20261002_v1/preflight/cuhk03/smoke_facility_camera",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 20,
+            "mAP": 51.184754201344084,
+            "rank1": 49.64285715988704,
+            "rank5": 73.49999993188041,
+            "gain": -0.8965851238795679
+          }
+        ],
+        "actual_updates": 20,
+        "attempts": 20,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 20,
+        "support_loss_before": 0.023786796256899834,
+        "support_loss_after": 0.0011250157840549946,
+        "frozen_hash": "54d13673035a9067d7788bb46275fa16b1dae12e6bf861cb3eaabb3067dcfa47",
+        "saved_prompt_exact": true,
+        "prompt_hash": "653e9e74dbd315ce701eefe0411d06cc12e85faf7564a2cdc90ce969b26ef659",
+        "train_seconds": 2.222758485004306,
+        "evaluation_seconds": 12.733456220012158,
+        "elapsed_seconds": 15.456185271963477,
+        "milliseconds_per_update": 111.13792425021529
+      }
+    }
+  ],
+  "baseline_seconds": 12.908940426073968,
+  "seconds_per_update": 0.10586417297832668,
+  "estimated_seconds_per_formal_trial": 593.8655670220032
+}

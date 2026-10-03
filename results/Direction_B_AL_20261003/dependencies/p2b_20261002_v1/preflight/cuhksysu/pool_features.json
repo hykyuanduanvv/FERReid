@@ -1,0 +1,19 @@
+{
+  "domain": "cuhksysu",
+  "checkpoint_sha256": "9b61aaed8db86cac80c070798f563b8f65f2559fe6f80730f28a2a57fd24cf8a",
+  "records_hash": "b44f063c978800bb1f4db7991f88b0740a8cf684a2b49a5db42cae172612046e",
+  "frozen_hash": "a0bdfc486057844dc218822273965a51f0d6601ce1a1ab173705bfb86ea75f15",
+  "initial_prompt_hash": "c53e838e4d6aee8a294879a7c4e3f773374bd47339e048d63a04513cb5178eb7",
+  "preprocess": "legacy flip-summed features then FP32 renormalization",
+  "shape": [
+    15088,
+    768
+  ],
+  "dtype": "float32",
+  "sha256": "240a37ba394ee59844318da9a3382c07ab7f723e4ec2ec5bd1b5968882c40277",
+  "extraction_seconds": 27.164653392042965,
+  "raw_retrieval_norm_max_error": 0.00030863285064697266,
+  "selector_fp32_normalization": true,
+  "cache_roundtrip_exact": true,
+  "repeated_first_batch_exact": true
+}

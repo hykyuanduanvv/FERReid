@@ -1,0 +1,9 @@
+{
+  "domain": "cuhksysu",
+  "path_overlap": 0,
+  "content_overlap_train_test": 0,
+  "query_gallery_shared_content": 1,
+  "manifest_sha256": "c04de3bfac21a1dc752971e2cdf338284ff0b498228d8aa360ffe5ee9dde0d34",
+  "official_list_sha256": {},
+  "elapsed_seconds": 1.6674185229931027
+}

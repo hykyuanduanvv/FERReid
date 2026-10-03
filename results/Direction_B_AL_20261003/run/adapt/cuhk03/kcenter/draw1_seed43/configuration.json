@@ -1,0 +1,350 @@
+{
+  "configuration": {
+    "version": 1,
+    "steps": 100,
+    "eval_steps": [
+      30,
+      100
+    ],
+    "save_steps": [
+      0,
+      10,
+      30,
+      50,
+      100
+    ],
+    "lr": 1e-05,
+    "optimizer": "Adam",
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 0.0,
+    "radius_ratio": 0.1,
+    "margin": 0.1,
+    "k": 16,
+    "draws": [
+      0,
+      1,
+      2
+    ],
+    "seeds": [
+      42,
+      43
+    ],
+    "methods": [
+      "random",
+      "dedup",
+      "kcenter",
+      "typical",
+      "hard_negative",
+      "facility",
+      "facility_camera"
+    ],
+    "domains": [
+      "market1501",
+      "cuhksysu",
+      "cuhk03",
+      "msmt17"
+    ],
+    "gpus": [
+      0,
+      1,
+      2,
+      7
+    ],
+    "planned_trials": 168,
+    "loss": "FP32 hardest Triplet only",
+    "trainable": "external prompt only",
+    "augmentation": "unchanged legacy flip/pad-crop/erasing; normalized zero padding",
+    "selection": "reuse frozen label-free selections and deterministic annotations",
+    "main_step": 100,
+    "secondary_step": 30,
+    "model_mode": "eval; autograd enabled for external prompt",
+    "symmetry": "retain existing token symmetry and all 32 tokens",
+    "interpretation": "revised exploratory protocol; no per-trial test-selected checkpoint",
+    "old_run": "experiments/p2b_20261002_v1",
+    "no_old_jobs_resumed": true
+  },
+  "steps": 100,
+  "eval_steps": [
+    30,
+    100
+  ],
+  "seed": 43,
+  "selection": {
+    "anchors": [
+      6908,
+      4742,
+      3079,
+      1907,
+      1411,
+      3802,
+      3940,
+      6678,
+      2267,
+      1813,
+      6069,
+      5880,
+      973,
+      62,
+      6174,
+      1013
+    ],
+    "pairs": [
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/919/2_076_2_09.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/919/2_076_1_05.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/512/1_512_1_05.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/512/1_512_2_10.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/206/1_206_2_10.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/206/1_206_1_01.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1315/3_032_1_05.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1315/3_032_2_10.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1239/2_396_2_08.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1239/2_396_1_05.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/342/1_342_2_08.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/342/1_342_1_05.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/364/1_364_2_06.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/364/1_364_1_03.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/868/2_025_2_09.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/868/2_025_1_02.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1381/4_021_2_06.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1381/4_021_1_04.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/13/1_013_1_03.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/13/1_013_2_08.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/75/1_075_1_04.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/75/1_075_2_08.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/709/1_709_1_01.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/709/1_709_2_10.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1163/2_320_2_07.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1163/2_320_1_05.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1006/2_163_1_04.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1006/2_163_2_08.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/774/1_774_2_10.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/774/1_774_1_02.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1169/2_326_2_07.jpg",
+        "/root/hyk/reid-data/cuhk03/CUHK03_pytorch/CUHK03_pytorch/train_all/1169/2_326_1_03.jpg"
+      ]
+    ],
+    "annotation": {
+      "k": 16,
+      "n_pairs": 16,
+      "n_dup": 0,
+      "n_fail": 0,
+      "outcomes": [
+        {
+          "anchor": 6908,
+          "result": "pair",
+          "partner": 6904
+        },
+        {
+          "anchor": 4742,
+          "result": "pair",
+          "partner": 4747
+        },
+        {
+          "anchor": 3079,
+          "result": "pair",
+          "partner": 3070
+        },
+        {
+          "anchor": 1907,
+          "result": "pair",
+          "partner": 1912
+        },
+        {
+          "anchor": 1411,
+          "result": "pair",
+          "partner": 1408
+        },
+        {
+          "anchor": 3802,
+          "result": "pair",
+          "partner": 3799
+        },
+        {
+          "anchor": 3940,
+          "result": "pair",
+          "partner": 3937
+        },
+        {
+          "anchor": 6678,
+          "result": "pair",
+          "partner": 6671
+        },
+        {
+          "anchor": 2267,
+          "result": "pair",
+          "partner": 2265
+        },
+        {
+          "anchor": 1813,
+          "result": "pair",
+          "partner": 1818
+        },
+        {
+          "anchor": 6069,
+          "result": "pair",
+          "partner": 6073
+        },
+        {
+          "anchor": 5880,
+          "result": "pair",
+          "partner": 5889
+        },
+        {
+          "anchor": 973,
+          "result": "pair",
+          "partner": 971
+        },
+        {
+          "anchor": 62,
+          "result": "pair",
+          "partner": 66
+        },
+        {
+          "anchor": 6174,
+          "result": "pair",
+          "partner": 6166
+        },
+        {
+          "anchor": 1013,
+          "result": "pair",
+          "partner": 1009
+        }
+      ],
+      "pair_indices": [
+        [
+          6908,
+          6904
+        ],
+        [
+          4742,
+          4747
+        ],
+        [
+          3079,
+          3070
+        ],
+        [
+          1907,
+          1912
+        ],
+        [
+          1411,
+          1408
+        ],
+        [
+          3802,
+          3799
+        ],
+        [
+          3940,
+          3937
+        ],
+        [
+          6678,
+          6671
+        ],
+        [
+          2267,
+          2265
+        ],
+        [
+          1813,
+          1818
+        ],
+        [
+          6069,
+          6073
+        ],
+        [
+          5880,
+          5889
+        ],
+        [
+          973,
+          971
+        ],
+        [
+          62,
+          66
+        ],
+        [
+          6174,
+          6166
+        ],
+        [
+          1013,
+          1009
+        ]
+      ]
+    },
+    "effective_identities": 16,
+    "revealed_ids": [
+      457,
+      258,
+      106,
+      676,
+      628,
+      173,
+      186,
+      438,
+      715,
+      8,
+      44,
+      365,
+      588,
+      504,
+      391,
+      592
+    ],
+    "method": "kcenter",
+    "draw": 1,
+    "selection_seed": 1601,
+    "annotation_seed": 2601,
+    "metrics": {
+      "cameras": 6,
+      "mean_pairwise_distance": 0.8567836284637451,
+      "typicality": 3.153512716293335,
+      "pairability": 0.7354464530944824
+    },
+    "ordered_support_hash": "8146e2a27eab8edf3b7030a123555e591bed1bd08a5fcd141a96a9408550c222",
+    "anchor_set_hash": "0cabbc6a565dc3cc04c74a736d7ba1e26f40bef10b4a5e1f0242c04c5d9313cb"
+  },
+  "initial_prompt_hash": "06ae5b2acba8dc270ce460f0bed8db71ed701a6eb54d72f0ae1bda87640c9746",
+  "frozen_hash": "54d13673035a9067d7788bb46275fa16b1dae12e6bf861cb3eaabb3067dcfa47",
+  "runner_sha256": "65bd1425bbb48591ba949e840b92ccb40813ff8353572a4b1d0f5c2abcaee52a"
+}

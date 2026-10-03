@@ -1,0 +1,223 @@
+{
+  "domain": "msmt17",
+  "baseline": {
+    "mAP": 36.99224884089398,
+    "rank1": 64.147868600899,
+    "rank5": 76.90196414684614
+  },
+  "trials": [
+    {
+      "method": "random",
+      "steps": 100,
+      "directory": "experiments/p2b_20261002_v1/preflight/msmt17/smoke_random",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 100,
+            "mAP": 32.790610219767885,
+            "rank1": 59.52483060424575,
+            "rank5": 72.81070417856432,
+            "gain": -4.201638621126094
+          }
+        ],
+        "actual_updates": 100,
+        "attempts": 100,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 73,
+        "support_loss_before": 0.04947990924119949,
+        "support_loss_after": 0.0,
+        "frozen_hash": "c08d7c7cf1932bb713955e5de67606b1b05ef4d6c1162d21c651f7a294c67fe7",
+        "saved_prompt_exact": true,
+        "prompt_hash": "546d43282138e5cccc95c1c7d3b3b9c11b2498950caa861bc12828dec7f6642a",
+        "train_seconds": 10.434624241897836,
+        "evaluation_seconds": 191.93846277007833,
+        "elapsed_seconds": 202.86992083792575,
+        "milliseconds_per_update": 104.34624241897836
+      }
+    },
+    {
+      "method": "dedup",
+      "steps": 20,
+      "directory": "experiments/p2b_20261002_v1/preflight/msmt17/smoke_dedup",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 20,
+            "mAP": 32.494870611433,
+            "rank1": 58.401235098372155,
+            "rank5": 72.24461789329114,
+            "gain": -4.497378229460978
+          }
+        ],
+        "actual_updates": 20,
+        "attempts": 20,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 20,
+        "support_loss_before": 0.03883104771375656,
+        "support_loss_after": 0.0015002109576016665,
+        "frozen_hash": "c08d7c7cf1932bb713955e5de67606b1b05ef4d6c1162d21c651f7a294c67fe7",
+        "saved_prompt_exact": true,
+        "prompt_hash": "cdd5b46dc7a1dbd990fb4480151e83beadd35fadb1eff78e61f40266a8395705",
+        "train_seconds": 2.0573792536742985,
+        "evaluation_seconds": 191.7740288199857,
+        "elapsed_seconds": 194.32397645222954,
+        "milliseconds_per_update": 102.86896268371493
+      }
+    },
+    {
+      "method": "kcenter",
+      "steps": 20,
+      "directory": "experiments/p2b_20261002_v1/preflight/msmt17/smoke_kcenter",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 20,
+            "mAP": 35.69101687053923,
+            "rank1": 62.80984647207148,
+            "rank5": 75.76979157885594,
+            "gain": -1.301231970354749
+          }
+        ],
+        "actual_updates": 20,
+        "attempts": 20,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 19,
+        "support_loss_before": 0.015775538980960846,
+        "support_loss_after": 0.0,
+        "frozen_hash": "c08d7c7cf1932bb713955e5de67606b1b05ef4d6c1162d21c651f7a294c67fe7",
+        "saved_prompt_exact": true,
+        "prompt_hash": "77e4b0979b021042f979d9caa5825d5a75d78038b5b153251d2319db23015f64",
+        "train_seconds": 2.0348790660500526,
+        "evaluation_seconds": 193.20126228197478,
+        "elapsed_seconds": 195.7309983149171,
+        "milliseconds_per_update": 101.74395330250263
+      }
+    },
+    {
+      "method": "typical",
+      "steps": 20,
+      "directory": "experiments/p2b_20261002_v1/preflight/msmt17/smoke_typical",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 20,
+            "mAP": 37.55866092441933,
+            "rank1": 64.82545672768497,
+            "rank5": 77.51093575676121,
+            "gain": 0.5664120835253499
+          }
+        ],
+        "actual_updates": 20,
+        "attempts": 20,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 18,
+        "support_loss_before": 0.020337285473942757,
+        "support_loss_after": 0.00035443645901978016,
+        "frozen_hash": "c08d7c7cf1932bb713955e5de67606b1b05ef4d6c1162d21c651f7a294c67fe7",
+        "saved_prompt_exact": true,
+        "prompt_hash": "b2faf0de08127eaac88a84b60c3b420a98efa13988aa0aa9046f38295f61a57c",
+        "train_seconds": 2.052352962316945,
+        "evaluation_seconds": 191.75875893095508,
+        "elapsed_seconds": 194.30564455594867,
+        "milliseconds_per_update": 102.61764811584726
+      }
+    },
+    {
+      "method": "hard_negative",
+      "steps": 20,
+      "directory": "experiments/p2b_20261002_v1/preflight/msmt17/smoke_hard_negative",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 20,
+            "mAP": 33.235829787793584,
+            "rank1": 60.40826829212466,
+            "rank5": 73.57406295463412,
+            "gain": -3.7564190531003945
+          }
+        ],
+        "actual_updates": 20,
+        "attempts": 20,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 20,
+        "support_loss_before": 0.06317465007305145,
+        "support_loss_after": 0.003217630321159959,
+        "frozen_hash": "c08d7c7cf1932bb713955e5de67606b1b05ef4d6c1162d21c651f7a294c67fe7",
+        "saved_prompt_exact": true,
+        "prompt_hash": "95c1b14246a09703ef0af2771f344919b244ac65b9514949ca005fa645f9d370",
+        "train_seconds": 1.9735797769390047,
+        "evaluation_seconds": 191.76078249607235,
+        "elapsed_seconds": 194.2294426530134,
+        "milliseconds_per_update": 98.67898884695023
+      }
+    },
+    {
+      "method": "facility",
+      "steps": 20,
+      "directory": "experiments/p2b_20261002_v1/preflight/msmt17/smoke_facility",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 20,
+            "mAP": 40.31450922569532,
+            "rank1": 67.33853675425692,
+            "rank5": 79.18346341779561,
+            "gain": 3.3222603848013392
+          }
+        ],
+        "actual_updates": 20,
+        "attempts": 20,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 20,
+        "support_loss_before": 0.060675740242004395,
+        "support_loss_after": 0.003673471976071596,
+        "frozen_hash": "c08d7c7cf1932bb713955e5de67606b1b05ef4d6c1162d21c651f7a294c67fe7",
+        "saved_prompt_exact": true,
+        "prompt_hash": "062ae001814218efc1d467756db216a93379297b77663748ea14cd50a90ec1a9",
+        "train_seconds": 2.0377383462619036,
+        "evaluation_seconds": 191.90814828919247,
+        "elapsed_seconds": 194.43516491702758,
+        "milliseconds_per_update": 101.88691731309518
+      }
+    },
+    {
+      "method": "facility_camera",
+      "steps": 20,
+      "directory": "experiments/p2b_20261002_v1/preflight/msmt17/smoke_facility_camera",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 20,
+            "mAP": 37.55773748339465,
+            "rank1": 64.44806587339235,
+            "rank5": 77.1935843544111,
+            "gain": 0.565488642500668
+          }
+        ],
+        "actual_updates": 20,
+        "attempts": 20,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 20,
+        "support_loss_before": 0.051649145781993866,
+        "support_loss_after": 0.0007753127720206976,
+        "frozen_hash": "c08d7c7cf1932bb713955e5de67606b1b05ef4d6c1162d21c651f7a294c67fe7",
+        "saved_prompt_exact": true,
+        "prompt_hash": "e71297209ad95d5f73b45789a01ad65b1dfcaa7928695e0db12e526de3480437",
+        "train_seconds": 2.0424188466276973,
+        "evaluation_seconds": 192.42103392304853,
+        "elapsed_seconds": 194.9693957308773,
+        "milliseconds_per_update": 102.12094233138487
+      }
+    }
+  ],
+  "baseline_seconds": 193.06782069802284,
+  "seconds_per_update": 0.10434624241897836,
+  "estimated_seconds_per_formal_trial": 1487.070315585006
+}

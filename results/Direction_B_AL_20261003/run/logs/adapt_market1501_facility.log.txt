@@ -1,0 +1,37 @@
+[ReIDModel] Loading DINOv2 dinov2_vitb14 from /root/hyk/weights/dinov2_vitb14_pretrain.pth (code /root/hyk/basic-models/dinov2), input (252, 126)
+/root/hyk/basic-models/dinov2/dinov2/layers/swiglu_ffn.py:51: UserWarning: xFormers is not available (SwiGLU)
+  warnings.warn("xFormers is not available (SwiGLU)")
+/root/hyk/basic-models/dinov2/dinov2/layers/attention.py:33: UserWarning: xFormers is not available (Attention)
+  warnings.warn("xFormers is not available (Attention)")
+/root/hyk/basic-models/dinov2/dinov2/layers/block.py:40: UserWarning: xFormers is not available (Block)
+  warnings.warn("xFormers is not available (Block)")
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 33.34436352807097, "rank_seconds": 1.6353021569084376, "mAP": 75.89296583891482, "rank1": 87.94536819933712, "rank5": 95.5166270783848}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/facility/draw0_seed42 {"step": 30, "mAP": 75.89296583891482, "rank1": 87.94536819933712, "rank5": 95.5166270783848, "gain": 1.0101923891597693}
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 33.62156448699534, "rank_seconds": 1.6631073139142245, "mAP": 76.00082340263131, "rank1": 89.10332541567696, "rank5": 95.72446558651052}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/facility/draw0_seed42 {"step": 100, "mAP": 76.00082340263131, "rank1": 89.10332541567696, "rank5": 95.72446558651052, "gain": 1.1180499528762624}
+SHORT_TRIAL_COMPLETE market1501 facility 0 42
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 33.91548131406307, "rank_seconds": 1.6598816402256489, "mAP": 75.776015678664, "rank1": 88.06413304494282, "rank5": 95.54631828978623}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/facility/draw0_seed43 {"step": 30, "mAP": 75.776015678664, "rank1": 88.06413304494282, "rank5": 95.54631828978623, "gain": 0.8932422289089459}
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 33.87036125105806, "rank_seconds": 1.6355835781432688, "mAP": 75.91603096760367, "rank1": 88.68764848437276, "rank5": 95.66508313539192}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/facility/draw0_seed43 {"step": 100, "mAP": 75.91603096760367, "rank1": 88.68764848437276, "rank5": 95.66508313539192, "gain": 1.0332575178486252}
+SHORT_TRIAL_COMPLETE market1501 facility 0 43
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 33.730754130054265, "rank_seconds": 1.7231688150204718, "mAP": 75.81439809674605, "rank1": 88.39073634204276, "rank5": 95.51662710670054}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/facility/draw1_seed42 {"step": 30, "mAP": 75.81439809674605, "rank1": 88.39073634204276, "rank5": 95.51662710670054, "gain": 0.931624646990997}
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 33.71310196700506, "rank_seconds": 1.7623063798528165, "mAP": 76.13059977454414, "rank1": 88.8064133016627, "rank5": 95.63539195230625}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/facility/draw1_seed42 {"step": 100, "mAP": 76.13059977454414, "rank1": 88.8064133016627, "rank5": 95.63539195230625, "gain": 1.247826324789088}
+SHORT_TRIAL_COMPLETE market1501 facility 1 42
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 33.87094757985324, "rank_seconds": 1.6511272040661424, "mAP": 75.70182402173583, "rank1": 88.36104513064133, "rank5": 95.42755344418052}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/facility/draw1_seed43 {"step": 30, "mAP": 75.70182402173583, "rank1": 88.36104513064133, "rank5": 95.42755344418052, "gain": 0.8190505719807817}
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 33.82769341417588, "rank_seconds": 1.7618704659398645, "mAP": 76.33425170055762, "rank1": 88.8064133016627, "rank5": 95.5760095295034}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/facility/draw1_seed43 {"step": 100, "mAP": 76.33425170055762, "rank1": 88.8064133016627, "rank5": 95.5760095295034, "gain": 1.451478250802566}
+SHORT_TRIAL_COMPLETE market1501 facility 1 43
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 33.190180053934455, "rank_seconds": 1.5977784879505634, "mAP": 76.48728426165366, "rank1": 88.53919242736562, "rank5": 95.60570071258907}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/facility/draw2_seed42 {"step": 30, "mAP": 76.48728426165366, "rank1": 88.53919242736562, "rank5": 95.60570071258907, "gain": 1.6045108118986064}
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 33.32155384798534, "rank_seconds": 1.7100560839753598, "mAP": 77.18974060230754, "rank1": 89.48931117805336, "rank5": 95.84323040380048}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/facility/draw2_seed42 {"step": 100, "mAP": 77.18974060230754, "rank1": 89.48931117805336, "rank5": 95.84323040380048, "gain": 2.306967152552488}
+SHORT_TRIAL_COMPLETE market1501 facility 2 42
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 33.44930399185978, "rank_seconds": 1.6249747681431472, "mAP": 76.41251190541193, "rank1": 88.42042758175992, "rank5": 95.54631828978623}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/facility/draw2_seed43 {"step": 30, "mAP": 76.41251190541193, "rank1": 88.42042758175992, "rank5": 95.54631828978623, "gain": 1.529738455656883}
+FULL_EVAL {"query": 3368, "gallery": 15913, "extraction_seconds": 33.24465265288018, "rank_seconds": 1.6556189390830696, "mAP": 77.13693799428872, "rank1": 89.40023754384909, "rank5": 95.78384798099762}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/market1501/facility/draw2_seed43 {"step": 100, "mAP": 77.13693799428872, "rank1": 89.40023754384909, "rank5": 95.78384798099762, "gain": 2.2541645445336655}
+SHORT_TRIAL_COMPLETE market1501 facility 2 43

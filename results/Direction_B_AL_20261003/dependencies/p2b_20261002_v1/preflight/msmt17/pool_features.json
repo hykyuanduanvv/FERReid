@@ -1,0 +1,19 @@
+{
+  "domain": "msmt17",
+  "checkpoint_sha256": "88dd8dbb962671949198fee9725ca71a0e2705ae3471cd842c96c607ececf93c",
+  "records_hash": "d6b6d29ad6dc2e4683313278f25c8ea9914f233a701c83e45a825bf7d77e9da7",
+  "frozen_hash": "c08d7c7cf1932bb713955e5de67606b1b05ef4d6c1162d21c651f7a294c67fe7",
+  "initial_prompt_hash": "0975d01f3fea84ead5147599627ab2dafea5da608864c2d71de19a0716b60b4f",
+  "preprocess": "legacy flip-summed features then FP32 renormalization",
+  "shape": [
+    30248,
+    768
+  ],
+  "dtype": "float32",
+  "sha256": "b7d8d12867af752ce4adbc964c03c38109cabcdf18e23472b9a937e1a277189b",
+  "extraction_seconds": 51.82530781487003,
+  "raw_retrieval_norm_max_error": 0.0002982616424560547,
+  "selector_fp32_normalization": true,
+  "cache_roundtrip_exact": true,
+  "repeated_first_batch_exact": true
+}

@@ -1,0 +1,11 @@
+{
+  "target": "cuhk03",
+  "checkpoint": "/root/hyk/FERReid/experiments/p2b_20261002_v1/source_cuhk03/checkpoint-12000",
+  "checkpoint_sha256": "87cb34db1c55fc2eba364a36123eda7031c492eb93cf17ad20d97e0058fa0b9f",
+  "training_args_sha256": "02326f4f56cf32208ca39995b06de667d63946b5540b2d0b968c33057cf78269",
+  "trainer_steps": 12000,
+  "optimizer_step_counts": [
+    11997
+  ],
+  "elapsed_seconds": 3626.791223573964
+}

@@ -1,0 +1,1090 @@
+{
+  "configuration": {
+    "version": 1,
+    "steps": 100,
+    "eval_steps": [
+      30,
+      100
+    ],
+    "save_steps": [
+      0,
+      10,
+      30,
+      50,
+      100
+    ],
+    "lr": 0.00001,
+    "optimizer": "Adam",
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-8,
+    "weight_decay": 0,
+    "radius_ratio": 0.1,
+    "margin": 0.1,
+    "k": 16,
+    "draws": [
+      0,
+      1,
+      2
+    ],
+    "seeds": [
+      42,
+      43
+    ],
+    "methods": [
+      "random",
+      "dedup",
+      "kcenter",
+      "typical",
+      "hard_negative",
+      "facility",
+      "facility_camera"
+    ],
+    "domains": [
+      "market1501",
+      "cuhksysu",
+      "cuhk03",
+      "msmt17"
+    ],
+    "gpus": [
+      0,
+      1,
+      2,
+      7
+    ],
+    "planned_trials": 168,
+    "loss": "FP32 hardest Triplet only",
+    "trainable": "external prompt only",
+    "augmentation": "unchanged legacy flip/pad-crop/erasing; normalized zero padding",
+    "selection": "reuse frozen label-free selections and deterministic annotations",
+    "main_step": 100,
+    "secondary_step": 30,
+    "model_mode": "eval; autograd enabled for external prompt",
+    "symmetry": "retain existing token symmetry and all 32 tokens",
+    "interpretation": "revised exploratory protocol; no per-trial test-selected checkpoint",
+    "old_run": "experiments/p2b_20261002_v1",
+    "no_old_jobs_resumed": true
+  },
+  "completed_at": "2026-10-03T03:14:16.781195+08:00",
+  "msmt17_original_split_policy": {
+    "domain": "msmt17",
+    "decision": "retain_original_split_without_cross_split_deduplication",
+    "authorized_at": "2026-10-02T13:27:12.818984+08:00",
+    "authorized_by": "User instruction in this chat on 2026-10-02",
+    "user_instruction": "Search how papers using the dataset handle it; if they do not handle it, leave it unchanged. User supplied matching public-loader evidence.",
+    "evidence_scope": "The inspected public loaders do not deduplicate. This does not establish private preprocessing or identical dataset copies in those papers.",
+    "sources": [
+      {
+        "project": "OSNet / deep-person-reid",
+        "url": "https://github.com/KaiyangZhou/deep-person-reid/blob/master/torchreid/data/datasets/image/msmt17.py",
+        "observation": "Reads listed train/query/gallery records; val is added only with combineall. No cross-split content deduplication in this loader."
+      },
+      {
+        "project": "TransReID",
+        "url": "https://github.com/damo-cv/TransReID/blob/main/datasets/msmt17.py",
+        "observation": "Reads listed records; appends val to train. No cross-split content deduplication in this loader."
+      },
+      {
+        "project": "CLIP-ReID",
+        "url": "https://github.com/Syliz517/CLIP-ReID/blob/master/datasets/msmt17.py",
+        "observation": "Reads listed records; appends val to train. No cross-split content deduplication in this loader."
+      }
+    ],
+    "strict_content_isolation_passed": false,
+    "execution_authorized_with_disclosure": true,
+    "overlap_groups": 214,
+    "overlap_records": {
+      "train": 214,
+      "query": 27,
+      "gallery": 188
+    },
+    "no_data_modified": true,
+    "no_candidate_or_test_filtering": true,
+    "train_images": 30248,
+    "query_images": 11659,
+    "gallery_images": 82161,
+    "train_val_merge": false,
+    "source_all_images": false,
+    "note": "Keep this project train-only recipe; public repos merging val does not change our frozen protocol.",
+    "disclosure": "沿用 MSMT17 原有划分，未进行跨 train/test 图片去重；当前数据副本检测到 214 组完全相同的图片内容。",
+    "manifest_sha256": "e0958183049d58af5bb39279efeb130889a39734634a50b91702146205ce8eda",
+    "image_hash_manifest_sha256": "16e821de0e1b6d98ad2a610e2819b108a0b9fa38ad55e4ea8918b1a070210614",
+    "overlap_evidence_sha256": "789e77852a3a21bcaceaf92341cfa16fc1d072579caa76aa132b2c47fc4ad5e1"
+  },
+  "four_fold_macro": {
+    "random": {
+      "30": 65.08382373004872,
+      "100": 64.68746234785561
+    },
+    "dedup": {
+      "30": 65.06520053981106,
+      "100": 64.67909303064562
+    },
+    "kcenter": {
+      "30": 65.04114942305961,
+      "100": 64.910681837018
+    },
+    "typical": {
+      "30": 65.06850979247581,
+      "100": 65.02619992572734
+    },
+    "hard_negative": {
+      "30": 65.4689358366681,
+      "100": 65.42270264977289
+    },
+    "facility": {
+      "30": 65.29997574461696,
+      "100": 65.16649513275266
+    },
+    "facility_camera": {
+      "30": 65.27049826722578,
+      "100": 65.13091472749817
+    }
+  },
+  "domains": {
+    "market1501": {
+      "baseline": {
+        "mAP": 74.88277344975505,
+        "rank1": 87.47030881691433,
+        "rank5": 95.24940620408772
+      },
+      "methods": {
+        "random": {
+          "30": {
+            "mAP_mean": 75.2656993418578,
+            "mAP_std_across_draws": 0.3967094751767943,
+            "rank1_mean": 87.81670627382569,
+            "gain_vs_source": 0.3829258921027474,
+            "draw_means": [
+              75.7155108480159,
+              74.96575616884118,
+              75.11583100871633
+            ],
+            "gain_vs_random": 0
+          },
+          "100": {
+            "mAP_mean": 74.33240931136025,
+            "mAP_std_across_draws": 2.515991534318384,
+            "rank1_mean": 87.33669832313429,
+            "gain_vs_source": -0.5503641383947979,
+            "draw_means": [
+              75.97475295395296,
+              71.43584742540418,
+              75.5866275547236
+            ],
+            "gain_vs_random": 0
+          }
+        },
+        "dedup": {
+          "30": {
+            "mAP_mean": 75.33240589421605,
+            "mAP_std_across_draws": 0.41930955652013957,
+            "rank1_mean": 87.8216547949014,
+            "gain_vs_source": 0.4496324444610025,
+            "draw_means": [
+              75.78893790901981,
+              74.96448175499388,
+              75.24379801863446
+            ],
+            "gain_vs_random": 0.06670655235825507
+          },
+          "100": {
+            "mAP_mean": 74.6576709116817,
+            "mAP_std_across_draws": 2.1155307142804927,
+            "rank1_mean": 87.79196357170174,
+            "gain_vs_source": -0.2251025380733438,
+            "draw_means": [
+              75.95868160209292,
+              72.21663531243377,
+              75.79769582051846
+            ],
+            "gain_vs_random": 0.3252616003214541
+          }
+        },
+        "kcenter": {
+          "30": {
+            "mAP_mean": 75.66708180041701,
+            "mAP_std_across_draws": 0.45255163078912747,
+            "rank1_mean": 88.03444181938353,
+            "gain_vs_source": 0.7843083506619593,
+            "draw_means": [
+              75.80433800781141,
+              75.16179189546091,
+              76.03511549797874
+            ],
+            "gain_vs_random": 0.40138245855921184
+          },
+          "100": {
+            "mAP_mean": 75.822263875842,
+            "mAP_std_across_draws": 0.5514547999974398,
+            "rank1_mean": 88.12846397938279,
+            "gain_vs_source": 0.9394904260869481,
+            "draw_means": [
+              75.60583501700268,
+              75.41185386673573,
+              76.4491027437876
+            ],
+            "gain_vs_random": 1.489854564481746
+          }
+        },
+        "typical": {
+          "30": {
+            "mAP_mean": 74.93397841732934,
+            "mAP_std_across_draws": 0.42965344955486434,
+            "rank1_mean": 87.53958829602645,
+            "gain_vs_source": 0.05120496757429294,
+            "draw_means": [
+              74.49674711799395,
+              74.94955791288771,
+              75.35563022110637
+            ],
+            "gain_vs_random": -0.3317209245284545
+          },
+          "100": {
+            "mAP_mean": 74.88072439497272,
+            "mAP_std_across_draws": 1.2413749843054231,
+            "rank1_mean": 87.53958829602645,
+            "gain_vs_source": -0.0020490547823328598,
+            "draw_means": [
+              73.52483193976296,
+              75.15595659365846,
+              75.96138465149669
+            ],
+            "gain_vs_random": 0.5483150836124651
+          }
+        },
+        "hard_negative": {
+          "30": {
+            "mAP_mean": 75.89433830782995,
+            "mAP_std_across_draws": 0.36737158211753207,
+            "rank1_mean": 88.18784642106282,
+            "gain_vs_source": 1.0115648580749053,
+            "draw_means": [
+              76.1763418230478,
+              76.0277766937881,
+              75.47889640665394
+            ],
+            "gain_vs_random": 0.6286389659721578
+          },
+          "100": {
+            "mAP_mean": 75.67933794532802,
+            "mAP_std_across_draws": 1.1181108259782468,
+            "rank1_mean": 88.23238321456849,
+            "gain_vs_source": 0.7965644955729658,
+            "draw_means": [
+              76.65271711604329,
+              74.45809301033157,
+              75.92720370960916
+            ],
+            "gain_vs_random": 1.3469286339677637
+          }
+        },
+        "facility": {
+          "30": {
+            "mAP_mean": 76.01416663385437,
+            "mAP_std_across_draws": 0.37928206760261446,
+            "rank1_mean": 88.28681712101495,
+            "gain_vs_source": 1.1313931840993234,
+            "draw_means": [
+              75.8344907587894,
+              75.75811105924095,
+              76.44989808353279
+            ],
+            "gain_vs_random": 0.748467291996576
+          },
+          "100": {
+            "mAP_mean": 76.45139740698883,
+            "mAP_std_across_draws": 0.6315969792000962,
+            "rank1_mean": 89.04889153754625,
+            "gain_vs_source": 1.5686239572337826,
+            "draw_means": [
+              75.9584271851175,
+              76.23242573755087,
+              77.16333929829813
+            ],
+            "gain_vs_random": 2.1189880956285805
+          }
+        },
+        "facility_camera": {
+          "30": {
+            "mAP_mean": 75.89286793722393,
+            "mAP_std_across_draws": 0.6319895216966352,
+            "rank1_mean": 88.07403010597137,
+            "gain_vs_source": 1.0100944874688764,
+            "draw_means": [
+              75.2447710113684,
+              76.50741345100901,
+              75.92641934929438
+            ],
+            "gain_vs_random": 0.627168595366129
+          },
+          "100": {
+            "mAP_mean": 75.83966872943175,
+            "mAP_std_across_draws": 1.9570277689780673,
+            "rank1_mean": 88.62826601201736,
+            "gain_vs_source": 0.9568952796767007,
+            "draw_means": [
+              73.6035945154992,
+              77.24043675244846,
+              76.67497492034758
+            ],
+            "gain_vs_random": 1.5072594180714987
+          }
+        }
+      }
+    },
+    "cuhksysu": {
+      "baseline": {
+        "mAP": 94.35083601392549,
+        "rank1": 94.82758622333921,
+        "rank5": 97.93103446631596
+      },
+      "methods": {
+        "random": {
+          "30": {
+            "mAP_mean": 94.38713289129323,
+            "mAP_std_across_draws": 0.03981181369937151,
+            "rank1_mean": 94.91954022988506,
+            "gain_vs_source": 0.03629687736774656,
+            "draw_means": [
+              94.3709215994539,
+              94.4324927453337,
+              94.35798432909209
+            ],
+            "gain_vs_random": 0
+          },
+          "100": {
+            "mAP_mean": 94.32946438350898,
+            "mAP_std_across_draws": 0.05382818639831798,
+            "rank1_mean": 94.83333333333333,
+            "gain_vs_source": -0.021371630416510357,
+            "draw_means": [
+              94.27649663645646,
+              94.38411360773547,
+              94.32778290633497
+            ],
+            "gain_vs_random": 0
+          }
+        },
+        "dedup": {
+          "30": {
+            "mAP_mean": 94.3559437387291,
+            "mAP_std_across_draws": 0.03130549955132335,
+            "rank1_mean": 94.87931035030847,
+            "gain_vs_source": 0.005107724803607994,
+            "draw_means": [
+              94.32366786331966,
+              94.38617902377555,
+              94.35798432909209
+            ],
+            "gain_vs_random": -0.031189152564138567
+          },
+          "100": {
+            "mAP_mean": 94.34870500126105,
+            "mAP_std_across_draws": 0.03067953150536138,
+            "rank1_mean": 94.8735632238717,
+            "gain_vs_source": -0.0021310126644351612,
+            "draw_means": [
+              94.33440856275888,
+              94.38392353468927,
+              94.32778290633497
+            ],
+            "gain_vs_random": 0.019240617752075195
+          }
+        },
+        "kcenter": {
+          "30": {
+            "mAP_mean": 94.39304103796509,
+            "mAP_std_across_draws": 0.06908049077949228,
+            "rank1_mean": 94.88505747126436,
+            "gain_vs_source": 0.042205024039603245,
+            "draw_means": [
+              94.31488342531796,
+              94.4183120604219,
+              94.44592762815542
+            ],
+            "gain_vs_random": 0.005908146671856684
+          },
+          "100": {
+            "mAP_mean": 94.3987469056557,
+            "mAP_std_across_draws": 0.09246694954652492,
+            "rank1_mean": 94.9367816091954,
+            "gain_vs_source": 0.04791089173021135,
+            "draw_means": [
+              94.31250788425578,
+              94.38734797773691,
+              94.49638485497442
+            ],
+            "gain_vs_random": 0.0692825221467217
+          }
+        },
+        "typical": {
+          "30": {
+            "mAP_mean": 94.365860908881,
+            "mAP_std_across_draws": 0.04097631938267119,
+            "rank1_mean": 94.90229885057472,
+            "gain_vs_source": 0.015024894955516288,
+            "draw_means": [
+              94.35263133460077,
+              94.4118176904218,
+              94.33313370162043
+            ],
+            "gain_vs_random": -0.021271982412230273
+          },
+          "100": {
+            "mAP_mean": 94.35850012850487,
+            "mAP_std_across_draws": 0.04473980671311691,
+            "rank1_mean": 94.86781608647313,
+            "gain_vs_source": 0.007664114579384318,
+            "draw_means": [
+              94.3243669641429,
+              94.40915012359619,
+              94.34198329777553
+            ],
+            "gain_vs_random": 0.029035744995894675
+          }
+        },
+        "hard_negative": {
+          "30": {
+            "mAP_mean": 94.38227470852864,
+            "mAP_std_across_draws": 0.037286952896775465,
+            "rank1_mean": 94.93103447727772,
+            "gain_vs_source": 0.031438694603153294,
+            "draw_means": [
+              94.38165725510696,
+              94.41986655366833,
+              94.34530031681061
+            ],
+            "gain_vs_random": -0.004858182764593266
+          },
+          "100": {
+            "mAP_mean": 94.31901117165883,
+            "mAP_std_across_draws": 0.08476813920573165,
+            "rank1_mean": 94.83908044880833,
+            "gain_vs_source": -0.03182484226665849,
+            "draw_means": [
+              94.24963222700974,
+              94.41349662172382,
+              94.29390466624292
+            ],
+            "gain_vs_random": -0.010453211850148136
+          }
+        },
+        "facility": {
+          "30": {
+            "mAP_mean": 94.3936684104218,
+            "mAP_std_across_draws": 0.004690831245887656,
+            "rank1_mean": 94.9310344882395,
+            "gain_vs_source": 0.042832396496308434,
+            "draw_means": [
+              94.39140669230758,
+              94.39053694955234,
+              94.39906158940545
+            ],
+            "gain_vs_random": 0.006535519128561873
+          },
+          "100": {
+            "mAP_mean": 94.26557314258882,
+            "mAP_std_across_draws": 0.11641991183118566,
+            "rank1_mean": 94.8103448330671,
+            "gain_vs_source": -0.08526287133666699,
+            "draw_means": [
+              94.37424912123845,
+              94.27976065668565,
+              94.14270964984236
+            ],
+            "gain_vs_random": -0.06389124092015663
+          }
+        },
+        "facility_camera": {
+          "30": {
+            "mAP_mean": 94.3936684104218,
+            "mAP_std_across_draws": 0.004690831245887656,
+            "rank1_mean": 94.9310344882395,
+            "gain_vs_source": 0.042832396496308434,
+            "draw_means": [
+              94.39140669230758,
+              94.39053694955234,
+              94.39906158940545
+            ],
+            "gain_vs_random": 0.006535519128561873
+          },
+          "100": {
+            "mAP_mean": 94.26557314258882,
+            "mAP_std_across_draws": 0.11641991183118566,
+            "rank1_mean": 94.8103448330671,
+            "gain_vs_source": -0.08526287133666699,
+            "draw_means": [
+              94.37424912123845,
+              94.27976065668565,
+              94.14270964984236
+            ],
+            "gain_vs_random": -0.06389124092015663
+          }
+        }
+      }
+    },
+    "cuhk03": {
+      "baseline": {
+        "mAP": 52.08133932522365,
+        "rank1": 51.78571430274418,
+        "rank5": 73.14285704067775
+      },
+      "methods": {
+        "random": {
+          "30": {
+            "mAP_mean": 52.255958264782315,
+            "mAP_std_across_draws": 0.06922672458046823,
+            "rank1_mean": 51.60714287984939,
+            "gain_vs_source": 0.1746189395586626,
+            "draw_means": [
+              52.31436524220875,
+              52.17949159656252,
+              52.27401795557567
+            ],
+            "gain_vs_random": 0
+          },
+          "100": {
+            "mAP_mean": 51.52127491576331,
+            "mAP_std_across_draws": 0.4658086255494637,
+            "rank1_mean": 51.202380941027684,
+            "gain_vs_source": -0.5600644094603453,
+            "draw_means": [
+              52.00311517715454,
+              51.487357556819916,
+              51.07335201331547
+            ],
+            "gain_vs_random": 0
+          }
+        },
+        "dedup": {
+          "30": {
+            "mAP_mean": 52.29499105896269,
+            "mAP_std_across_draws": 0.1575885583247969,
+            "rank1_mean": 51.75000001135326,
+            "gain_vs_source": 0.21365173373903446,
+            "draw_means": [
+              52.31436524220875,
+              52.12861116443362,
+              52.44199677024569
+            ],
+            "gain_vs_random": 0.039032794180371866
+          },
+          "100": {
+            "mAP_mean": 51.736206891990854,
+            "mAP_std_across_draws": 0.5756029138653644,
+            "rank1_mean": 51.59523808956146,
+            "gain_vs_source": -0.3451324332327985,
+            "draw_means": [
+              52.00311517715454,
+              51.07560126270567,
+              52.129904236112324
+            ],
+            "gain_vs_random": 0.21493197622754678
+          }
+        },
+        "kcenter": {
+          "30": {
+            "mAP_mean": 52.374608465603416,
+            "mAP_std_across_draws": 0.21763136282992873,
+            "rank1_mean": 51.64285717407862,
+            "gain_vs_source": 0.29326914037976337,
+            "draw_means": [
+              52.498708145959036,
+              52.12331576006753,
+              52.50180149078369
+            ],
+            "gain_vs_random": 0.11865020082110078
+          },
+          "100": {
+            "mAP_mean": 52.60360491275787,
+            "mAP_std_across_draws": 0.408312899207827,
+            "rank1_mean": 51.89285717124031,
+            "gain_vs_source": 0.5222655875342213,
+            "draw_means": [
+              52.86972417150225,
+              52.133492129189634,
+              52.807598437581746
+            ],
+            "gain_vs_random": 1.0823299969945666
+          }
+        },
+        "typical": {
+          "30": {
+            "mAP_mean": 52.485571319148654,
+            "mAP_std_across_draws": 0.09425398974154522,
+            "rank1_mean": 52.01190477325803,
+            "gain_vs_source": 0.4042319939250021,
+            "draw_means": [
+              52.59356300319944,
+              52.44328708308083,
+              52.41986387116569
+            ],
+            "gain_vs_random": 0.2296130543663395
+          },
+          "100": {
+            "mAP_mean": 52.70507427340462,
+            "mAP_std_across_draws": 0.26938286138950096,
+            "rank1_mean": 52.40476188773201,
+            "gain_vs_source": 0.6237349481809673,
+            "draw_means": [
+              52.89595458337239,
+              52.82233262913567,
+              52.3969356077058
+            ],
+            "gain_vs_random": 1.1837993576413126
+          }
+        },
+        "hard_negative": {
+          "30": {
+            "mAP_mean": 52.53051106986546,
+            "mAP_std_across_draws": 0.10937024801076083,
+            "rank1_mean": 52.36904760201772,
+            "gain_vs_source": 0.4491717446418093,
+            "draw_means": [
+              52.649843684264596,
+              52.43504467180797,
+              52.506644853523795
+            ],
+            "gain_vs_random": 0.2745528050831467
+          },
+          "100": {
+            "mAP_mean": 52.8637057571184,
+            "mAP_std_across_draws": 0.7665805687794591,
+            "rank1_mean": 53.11904760769435,
+            "gain_vs_source": 0.7823664318947507,
+            "draw_means": [
+              53.6546642099108,
+              52.12408366373607,
+              52.81236939770835
+            ],
+            "gain_vs_random": 1.342430841355096
+          }
+        },
+        "facility": {
+          "30": {
+            "mAP_mean": 52.46524510497139,
+            "mAP_std_across_draws": 0.13742581414749916,
+            "rank1_mean": 51.75000002270653,
+            "gain_vs_source": 0.3839057797477352,
+            "draw_means": [
+              52.309761779648916,
+              52.51551758391516,
+              52.57045595135008
+            ],
+            "gain_vs_random": 0.20928684018907262
+          },
+          "100": {
+            "mAP_mean": 52.17969615402675,
+            "mAP_std_across_draws": 0.46140063571681045,
+            "rank1_mean": 51.48809524377187,
+            "gain_vs_source": 0.09835682880309804,
+            "draw_means": [
+              52.332718210560934,
+              51.66122502088547,
+              52.54514523063387
+            ],
+            "gain_vs_random": 0.6584212382634433
+          }
+        },
+        "facility_camera": {
+          "30": {
+            "mAP_mean": 52.370779622168776,
+            "mAP_std_across_draws": 0.06385448727832543,
+            "rank1_mean": 51.523809563545946,
+            "gain_vs_source": 0.2894402969451235,
+            "draw_means": [
+              52.35712185076305,
+              52.31485904966082,
+              52.44035796608243
+            ],
+            "gain_vs_random": 0.11482135738646093
+          },
+          "100": {
+            "mAP_mean": 52.57007703326997,
+            "mAP_std_across_draws": 0.1725516932910188,
+            "rank1_mean": 51.73809523241861,
+            "gain_vs_source": 0.48873770804631533,
+            "draw_means": [
+              52.757929197379525,
+              52.53366408177784,
+              52.41863782065255
+            ],
+            "gain_vs_random": 1.0488021175066606
+          }
+        }
+      }
+    },
+    "msmt17": {
+      "baseline": {
+        "mAP": 36.99224884089398,
+        "rank1": 64.147868600899,
+        "rank5": 76.90196414684614
+      },
+      "methods": {
+        "random": {
+          "30": {
+            "mAP_mean": 38.42650442226154,
+            "mAP_std_across_draws": 0.7300191282707096,
+            "rank1_mean": 65.49589730547629,
+            "gain_vs_source": 1.4342555813675588,
+            "draw_means": [
+              37.6139453261035,
+              38.638519423705695,
+              39.02704851697542
+            ],
+            "gain_vs_random": 0
+          },
+          "100": {
+            "mAP_mean": 38.566700780789944,
+            "mAP_std_across_draws": 2.0289631199401414,
+            "rank1_mean": 65.56022529243914,
+            "gain_vs_source": 1.5744519398959653,
+            "draw_means": [
+              36.28654697164989,
+              39.24055317176668,
+              40.17300219895327
+            ],
+            "gain_vs_random": 0
+          }
+        },
+        "dedup": {
+          "30": {
+            "mAP_mean": 38.2774614673364,
+            "mAP_std_across_draws": 1.0811117329379347,
+            "rank1_mean": 65.28718872555234,
+            "gain_vs_source": 1.2852126264424228,
+            "draw_means": [
+              37.03814956772306,
+              38.767186317310724,
+              39.02704851697542
+            ],
+            "gain_vs_random": -0.14904295492513597
+          },
+          "100": {
+            "mAP_mean": 37.97378931764888,
+            "mAP_std_across_draws": 3.561900716067503,
+            "rank1_mean": 64.6639220074233,
+            "gain_vs_source": 0.9815404767549012,
+            "draw_means": [
+              33.86424371845032,
+              39.88412203554306,
+              40.17300219895327
+            ],
+            "gain_vs_random": -0.5929114631410641
+          }
+        },
+        "kcenter": {
+          "30": {
+            "mAP_mean": 37.72986638825294,
+            "mAP_std_across_draws": 0.5543653957045049,
+            "rank1_mean": 64.89264373884679,
+            "gain_vs_source": 0.7376175473589583,
+            "draw_means": [
+              37.29289535879424,
+              38.353460816134,
+              37.54324298983056
+            ],
+            "gain_vs_random": -0.6966380340086005
+          },
+          "100": {
+            "mAP_mean": 36.818111653816445,
+            "mAP_std_across_draws": 0.6724035412193535,
+            "rank1_mean": 63.770477744050204,
+            "gain_vs_source": -0.1741371870775339,
+            "draw_means": [
+              36.20593061216782,
+              36.710617477838724,
+              37.53778687144279
+            ],
+            "gain_vs_random": -1.7485891269734992
+          }
+        },
+        "typical": {
+          "30": {
+            "mAP_mean": 38.48862852454424,
+            "mAP_std_across_draws": 0.635645139062678,
+            "rank1_mean": 65.53878263011819,
+            "gain_vs_source": 1.496379683650261,
+            "draw_means": [
+              38.60971590273836,
+              39.055020340858675,
+              37.801149330035685
+            ],
+            "gain_vs_random": 0.062124102282702154
+          },
+          "100": {
+            "mAP_mean": 38.160500906027174,
+            "mAP_std_across_draws": 1.8725575854169085,
+            "rank1_mean": 64.91980444445333,
+            "gain_vs_source": 1.1682520651331956,
+            "draw_means": [
+              39.02927219627426,
+              39.440874498999236,
+              36.01135602280803
+            ],
+            "gain_vs_random": -0.40619987476276975
+          }
+        },
+        "hard_negative": {
+          "30": {
+            "mAP_mean": 39.0686192604483,
+            "mAP_std_across_draws": 0.5461290561745968,
+            "rank1_mean": 66.04768848253549,
+            "gain_vs_source": 2.0763704195543227,
+            "draw_means": [
+              38.657870697636724,
+              38.859601023087976,
+              39.6883860606202
+            ],
+            "gain_vs_random": 0.6421148381867638
+          },
+          "100": {
+            "mAP_mean": 38.8287557249863,
+            "mAP_std_across_draws": 0.9337178866356752,
+            "rank1_mean": 65.74463218839935,
+            "gain_vs_source": 1.8365068840923229,
+            "draw_means": [
+              38.37506093211981,
+              38.208578996605056,
+              39.90262724623405
+            ],
+            "gain_vs_random": 0.26205494419635755
+          }
+        },
+        "facility": {
+          "30": {
+            "mAP_mean": 38.326822829220276,
+            "mAP_std_across_draws": 1.0254597787870061,
+            "rank1_mean": 65.27718214980256,
+            "gain_vs_source": 1.334573988326298,
+            "draw_means": [
+              39.40783403797863,
+              37.36783325523892,
+              38.204801194443284
+            ],
+            "gain_vs_random": -0.0996815930412609
+          },
+          "100": {
+            "mAP_mean": 37.76931382740625,
+            "mAP_std_across_draws": 2.315480276142236,
+            "rank1_mean": 64.5238299469264,
+            "gain_vs_source": 0.7770649865122721,
+            "draw_means": [
+              40.44284299111855,
+              36.45765437029711,
+              36.407444120803085
+            ],
+            "gain_vs_random": -0.7973869533836933
+          }
+        },
+        "facility_camera": {
+          "30": {
+            "mAP_mean": 38.4246770990886,
+            "mAP_std_across_draws": 0.8804366370846273,
+            "rank1_mean": 65.33436258265843,
+            "gain_vs_source": 1.4324282581946193,
+            "draw_means": [
+              39.078948977615426,
+              37.42366067810189,
+              38.77142164154848
+            ],
+            "gain_vs_random": -0.0018273231729395434
+          },
+          "100": {
+            "mAP_mean": 37.84834000470214,
+            "mAP_std_across_draws": 1.7122052387344986,
+            "rank1_mean": 64.78400091642062,
+            "gain_vs_source": 0.8560911638081592,
+            "draw_means": [
+              39.0780614452068,
+              35.892775863248005,
+              38.57418270565161
+            ],
+            "gain_vs_random": -0.7183607760878061
+          }
+        }
+      }
+    }
+  },
+  "audit": {
+    "trials": 168,
+    "updates": [
+      100
+    ],
+    "max_relative_delta": 0.10000001639127731,
+    "all_replay_exact": true
+  },
+  "verification": {
+    "market1501": {
+      "domain": "market1501",
+      "baseline_pass": true,
+      "independent_process": true,
+      "trials": [
+        {
+          "method": "random",
+          "step": 100,
+          "actual": {
+            "mAP": 76.00086894850833,
+            "rank1": 88.24228025671988,
+            "rank5": 95.3978622327791
+          },
+          "expected": {
+            "step": 100,
+            "mAP": 76.00086894850833,
+            "rank1": 88.24228025671988,
+            "rank5": 95.3978622327791,
+            "gain": 1.1180954987532772
+          },
+          "passed": true
+        },
+        {
+          "method": "facility",
+          "step": 100,
+          "actual": {
+            "mAP": 76.00082340263131,
+            "rank1": 89.10332541567696,
+            "rank5": 95.72446558651052
+          },
+          "expected": {
+            "step": 100,
+            "mAP": 76.00082340263131,
+            "rank1": 89.10332541567696,
+            "rank5": 95.72446558651052,
+            "gain": 1.1180499528762624
+          },
+          "passed": true
+        }
+      ],
+      "time": "2026-10-03T03:05:52.252517+08:00"
+    },
+    "cuhk03": {
+      "domain": "cuhk03",
+      "baseline_pass": true,
+      "independent_process": true,
+      "trials": [
+        {
+          "method": "random",
+          "step": 100,
+          "actual": {
+            "mAP": 51.99229686600821,
+            "rank1": 51.9999999829701,
+            "rank5": 73.71428578240531
+          },
+          "expected": {
+            "step": 100,
+            "mAP": 51.99229686600821,
+            "rank1": 51.9999999829701,
+            "rank5": 73.71428578240531,
+            "gain": -0.08904245921544174
+          },
+          "passed": true
+        },
+        {
+          "method": "facility",
+          "step": 100,
+          "actual": {
+            "mAP": 52.3426548242569,
+            "rank1": 51.64285719394684,
+            "rank5": 73.78571438789368
+          },
+          "expected": {
+            "step": 100,
+            "mAP": 52.3426548242569,
+            "rank1": 51.64285719394684,
+            "rank5": 73.78571438789368,
+            "gain": 0.2613154990332447
+          },
+          "passed": true
+        }
+      ],
+      "time": "2026-10-03T03:04:44.219808+08:00"
+    },
+    "msmt17": {
+      "domain": "msmt17",
+      "baseline_pass": true,
+      "independent_process": true,
+      "trials": [
+        {
+          "method": "random",
+          "step": 100,
+          "actual": {
+            "mAP": 36.0499473101576,
+            "rank1": 62.63830517350385,
+            "rank5": 75.72690625165787
+          },
+          "expected": {
+            "step": 100,
+            "mAP": 36.0499473101576,
+            "rank1": 62.63830517350385,
+            "rank5": 75.72690625165787,
+            "gain": -0.9423015307363798
+          },
+          "passed": true
+        },
+        {
+          "method": "facility",
+          "step": 100,
+          "actual": {
+            "mAP": 40.43074147105575,
+            "rank1": 67.17557252061766,
+            "rank5": 79.37215884622
+          },
+          "expected": {
+            "step": 100,
+            "mAP": 40.43074147105575,
+            "rank1": 67.17557252061766,
+            "rank5": 79.37215884622,
+            "gain": 3.438492630161768
+          },
+          "passed": true
+        }
+      ],
+      "time": "2026-10-03T03:14:12.318381+08:00"
+    },
+    "cuhksysu": {
+      "domain": "cuhksysu",
+      "baseline_pass": true,
+      "independent_process": true,
+      "trials": [
+        {
+          "method": "random",
+          "step": 100,
+          "actual": {
+            "mAP": 94.26374113970789,
+            "rank1": 94.82758622333921,
+            "rank5": 97.7931034318332
+          },
+          "expected": {
+            "step": 100,
+            "mAP": 94.26374113970789,
+            "rank1": 94.82758622333921,
+            "rank5": 97.7931034318332,
+            "gain": -0.08709487421759832
+          },
+          "passed": true
+        },
+        {
+          "method": "facility",
+          "step": 100,
+          "actual": {
+            "mAP": 94.38975899795005,
+            "rank1": 94.96551722493665,
+            "rank5": 97.82758619045389
+          },
+          "expected": {
+            "step": 100,
+            "mAP": 94.38975899795005,
+            "rank1": 94.96551722493665,
+            "rank5": 97.82758619045389,
+            "gain": 0.038922984024566176
+          },
+          "passed": true
+        }
+      ],
+      "time": "2026-10-03T03:04:55.752760+08:00"
+    }
+  }
+}

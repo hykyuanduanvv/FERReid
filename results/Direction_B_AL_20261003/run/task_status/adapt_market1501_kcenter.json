@@ -1,0 +1,10 @@
+{
+  "task": [
+    "adapt",
+    "market1501",
+    "kcenter"
+  ],
+  "gpu": 2,
+  "returncode": 0,
+  "time": "2026-10-03T01:21:05.074949+08:00"
+}

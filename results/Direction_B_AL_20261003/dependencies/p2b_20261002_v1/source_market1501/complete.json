@@ -1,0 +1,11 @@
+{
+  "target": "market1501",
+  "checkpoint": "/root/hyk/FERReid/experiments/p2b_20261002_v1/source_market1501/checkpoint-12000",
+  "checkpoint_sha256": "5239d9eae7f220f5445a5968494f6a2f1ec6a7ed4099108dfbdc1d95d9d4724a",
+  "training_args_sha256": "b590bd64bc5a25d0523b7540a90bbc5f89ce6af232a09f6476cf334baf78ce5a",
+  "trainer_steps": 12000,
+  "optimizer_step_counts": [
+    11997
+  ],
+  "elapsed_seconds": 3579.617999600945
+}

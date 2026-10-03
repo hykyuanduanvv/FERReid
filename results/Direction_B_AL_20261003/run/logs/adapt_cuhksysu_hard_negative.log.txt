@@ -1,0 +1,37 @@
+[ReIDModel] Loading DINOv2 dinov2_vitb14 from /root/hyk/weights/dinov2_vitb14_pretrain.pth (code /root/hyk/basic-models/dinov2), input (252, 126)
+/root/hyk/basic-models/dinov2/dinov2/layers/swiglu_ffn.py:51: UserWarning: xFormers is not available (SwiGLU)
+  warnings.warn("xFormers is not available (SwiGLU)")
+/root/hyk/basic-models/dinov2/dinov2/layers/attention.py:33: UserWarning: xFormers is not available (Attention)
+  warnings.warn("xFormers is not available (Attention)")
+/root/hyk/basic-models/dinov2/dinov2/layers/block.py:40: UserWarning: xFormers is not available (Block)
+  warnings.warn("xFormers is not available (Block)")
+FULL_EVAL {"query": 2900, "gallery": 5447, "extraction_seconds": 15.16064358688891, "rank_seconds": 0.4698990441393107, "mAP": 94.41135973765932, "rank1": 95.03448274217803, "rank5": 97.86206894907458}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhksysu/hard_negative/draw0_seed42 {"step": 30, "mAP": 94.41135973765932, "rank1": 95.03448274217803, "rank5": 97.86206894907458, "gain": 0.06052372373383719}
+FULL_EVAL {"query": 2900, "gallery": 5447, "extraction_seconds": 15.314357060939074, "rank_seconds": 0.4677062379196286, "mAP": 94.28271604406423, "rank1": 94.86206894907458, "rank5": 97.62068963872976}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhksysu/hard_negative/draw0_seed42 {"step": 100, "mAP": 94.28271604406423, "rank1": 94.86206894907458, "rank5": 97.62068963872976, "gain": -0.06811996986125735}
+SHORT_TRIAL_COMPLETE cuhksysu hard_negative 0 42
+FULL_EVAL {"query": 2900, "gallery": 5447, "extraction_seconds": 15.444469320820644, "rank_seconds": 0.474395961035043, "mAP": 94.35195477255459, "rank1": 94.89655170769527, "rank5": 97.7586206732125}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhksysu/hard_negative/draw0_seed43 {"step": 30, "mAP": 94.35195477255459, "rank1": 94.89655170769527, "rank5": 97.7586206732125, "gain": 0.0011187586291043772}
+FULL_EVAL {"query": 2900, "gallery": 5447, "extraction_seconds": 15.28751972480677, "rank_seconds": 0.4704277799464762, "mAP": 94.21654840995525, "rank1": 94.62068963872976, "rank5": 97.65517239735044}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhksysu/hard_negative/draw0_seed43 {"step": 100, "mAP": 94.21654840995525, "rank1": 94.62068963872976, "rank5": 97.65517239735044, "gain": -0.1342876039702361}
+SHORT_TRIAL_COMPLETE cuhksysu hard_negative 0 43
+FULL_EVAL {"query": 2900, "gallery": 5447, "extraction_seconds": 15.274541492108256, "rank_seconds": 0.45962055097334087, "mAP": 94.43252818337803, "rank1": 95.03448274217803, "rank5": 97.86206894907458}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhksysu/hard_negative/draw1_seed42 {"step": 30, "mAP": 94.43252818337803, "rank1": 95.03448274217803, "rank5": 97.86206894907458, "gain": 0.08169216945253766}
+FULL_EVAL {"query": 2900, "gallery": 5447, "extraction_seconds": 15.271036501042545, "rank_seconds": 0.4704420131165534, "mAP": 94.43343085256116, "rank1": 95.03448274217803, "rank5": 97.72413791459182}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhksysu/hard_negative/draw1_seed42 {"step": 100, "mAP": 94.43343085256116, "rank1": 95.03448274217803, "rank5": 97.72413791459182, "gain": 0.08259483863567141}
+SHORT_TRIAL_COMPLETE cuhksysu hard_negative 1 42
+FULL_EVAL {"query": 2900, "gallery": 5447, "extraction_seconds": 15.319099935004488, "rank_seconds": 0.4748768068384379, "mAP": 94.40720492395862, "rank1": 94.93103446631596, "rank5": 97.7586206732125}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhksysu/hard_negative/draw1_seed43 {"step": 30, "mAP": 94.40720492395862, "rank1": 94.93103446631596, "rank5": 97.7586206732125, "gain": 0.05636891003312883}
+FULL_EVAL {"query": 2900, "gallery": 5447, "extraction_seconds": 15.316938895033672, "rank_seconds": 0.47568635595962405, "mAP": 94.3935623908865, "rank1": 94.89655170769527, "rank5": 97.72413791459182}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhksysu/hard_negative/draw1_seed43 {"step": 100, "mAP": 94.3935623908865, "rank1": 94.89655170769527, "rank5": 97.72413791459182, "gain": 0.04272637696101356}
+SHORT_TRIAL_COMPLETE cuhksysu hard_negative 1 43
+FULL_EVAL {"query": 2900, "gallery": 5447, "extraction_seconds": 15.32782847294584, "rank_seconds": 0.46887970995157957, "mAP": 94.30780655762246, "rank1": 94.82758622333921, "rank5": 97.7586206732125}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhksysu/hard_negative/draw2_seed42 {"step": 30, "mAP": 94.30780655762246, "rank1": 94.82758622333921, "rank5": 97.7586206732125, "gain": -0.043029456303031566}
+FULL_EVAL {"query": 2900, "gallery": 5447, "extraction_seconds": 15.442517844028771, "rank_seconds": 0.5035901649389416, "mAP": 94.17091883462051, "rank1": 94.65517243023577, "rank5": 97.62068963872976}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhksysu/hard_negative/draw2_seed42 {"step": 100, "mAP": 94.17091883462051, "rank1": 94.65517243023577, "rank5": 97.62068963872976, "gain": -0.1799171793049794}
+SHORT_TRIAL_COMPLETE cuhksysu hard_negative 2 42
+FULL_EVAL {"query": 2900, "gallery": 5447, "extraction_seconds": 15.316952194087207, "rank_seconds": 0.4577878809068352, "mAP": 94.38279407599876, "rank1": 94.86206898195991, "rank5": 97.7931034318332}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhksysu/hard_negative/draw2_seed43 {"step": 30, "mAP": 94.38279407599876, "rank1": 94.86206898195991, "rank5": 97.7931034318332, "gain": 0.03195806207327223}
+FULL_EVAL {"query": 2900, "gallery": 5447, "extraction_seconds": 15.457874837098643, "rank_seconds": 0.4730993427801877, "mAP": 94.41689049786535, "rank1": 94.96551722493665, "rank5": 97.72413791459182}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhksysu/hard_negative/draw2_seed43 {"step": 100, "mAP": 94.41689049786535, "rank1": 94.96551722493665, "rank5": 97.72413791459182, "gain": 0.06605448393986535}
+SHORT_TRIAL_COMPLETE cuhksysu hard_negative 2 43

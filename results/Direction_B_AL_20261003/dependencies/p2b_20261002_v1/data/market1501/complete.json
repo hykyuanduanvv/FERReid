@@ -1,0 +1,9 @@
+{
+  "domain": "market1501",
+  "path_overlap": 0,
+  "content_overlap_train_test": 0,
+  "query_gallery_shared_content": 0,
+  "manifest_sha256": "2b515180351ec845bb61e4bf18502da3bfc8aaf2c77df169121532d54a414345",
+  "official_list_sha256": {},
+  "elapsed_seconds": 2.440563214942813
+}

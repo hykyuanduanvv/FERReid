@@ -1,0 +1,12 @@
+{
+  "stage": "complete",
+  "time": "2026-10-03T03:14:16.803325+08:00",
+  "complete": true,
+  "completed": {
+    "market1501": 42,
+    "cuhksysu": 42,
+    "cuhk03": 42,
+    "msmt17": 42
+  },
+  "report": "/root/hyk/FERReid/experiments/p2b_short_20261003_v1/REPORT.md"
+}

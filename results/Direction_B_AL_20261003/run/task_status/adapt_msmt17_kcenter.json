@@ -1,0 +1,10 @@
+{
+  "task": [
+    "adapt",
+    "msmt17",
+    "kcenter"
+  ],
+  "gpu": 0,
+  "returncode": 0,
+  "time": "2026-10-03T02:22:57.655970+08:00"
+}

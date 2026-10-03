@@ -1,0 +1,102 @@
+[
+  {
+    "source_image": "s4573.jpg",
+    "xywh": [
+      284,
+      197,
+      75,
+      201
+    ],
+    "pid": 3598,
+    "occurrences": [
+      {
+        "split": "train",
+        "output": "train/03598_s4573_0006447_0.jpg"
+      },
+      {
+        "split": "train",
+        "output": "train/03598_s4573_0006448_0.jpg"
+      }
+    ]
+  },
+  {
+    "source_image": "s1453.jpg",
+    "xywh": [
+      181,
+      45,
+      133,
+      356
+    ],
+    "pid": 785,
+    "occurrences": [
+      {
+        "split": "train",
+        "output": "train/00785_s1453_0008257_0.jpg"
+      },
+      {
+        "split": "train",
+        "output": "train/00785_s1453_0008258_0.jpg"
+      }
+    ]
+  },
+  {
+    "source_image": "s1590.jpg",
+    "xywh": [
+      278,
+      270,
+      33,
+      102
+    ],
+    "pid": 872,
+    "occurrences": [
+      {
+        "split": "train",
+        "output": "train/00872_s1590_0012094_0.jpg"
+      },
+      {
+        "split": "train",
+        "output": "train/00872_s1590_0012095_0.jpg"
+      }
+    ]
+  },
+  {
+    "source_image": "s3981.jpg",
+    "xywh": [
+      392,
+      128,
+      84,
+      225
+    ],
+    "pid": 3091,
+    "occurrences": [
+      {
+        "split": "gallery",
+        "output": "gallery/03091_s3981_0002549_0.jpg"
+      },
+      {
+        "split": "gallery",
+        "output": "gallery/03091_s3981_0002550_0.jpg"
+      }
+    ]
+  },
+  {
+    "source_image": "s888.jpg",
+    "xywh": [
+      78,
+      101,
+      186,
+      496
+    ],
+    "pid": 484,
+    "occurrences": [
+      {
+        "split": "query",
+        "output": "query/00484_s888_0002132_0.jpg"
+      },
+      {
+        "split": "gallery",
+        "output": "gallery/00484_s888_0004087_0.jpg"
+      }
+    ]
+  }
+]

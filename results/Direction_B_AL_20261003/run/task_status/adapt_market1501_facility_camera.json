@@ -1,0 +1,10 @@
+{
+  "task": [
+    "adapt",
+    "market1501",
+    "facility_camera"
+  ],
+  "gpu": 2,
+  "returncode": 0,
+  "time": "2026-10-03T01:29:29.506089+08:00"
+}

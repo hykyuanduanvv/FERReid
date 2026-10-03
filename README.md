@@ -1,5 +1,7 @@
 # FERReID：少样本上下文行人重识别
 
+> **Direction_B_AL**: completed 168-trial short active-selection Prompt adaptation (100 target updates). [Design](docs/DIRECTION_B_AL_20261003.md) - [Results and archive](results/Direction_B_AL_20261003/README.md). This branch adds the completed short-run archive; the general VICP overview below describes the shared base repository.
+
 **Few-shot Exemplar Recruitment for In-Context Person Re-Identification**
 
 基于 VICP 的行人 ReID 研究代码：在源数据集训练模型，在新数据集中提供少量已标注的跨摄像头图像对，生成视觉 prompt；测试时冻结参数，完成 query-to-gallery 检索。研究目标是分析上下文信息的作用，并探索如何选择更有价值的支持样例。

@@ -1,0 +1,11 @@
+[ReIDModel] Loading DINOv2 dinov2_vitb14 from /root/hyk/weights/dinov2_vitb14_pretrain.pth (code /root/hyk/basic-models/dinov2), input (252, 126)
+/root/hyk/basic-models/dinov2/dinov2/layers/swiglu_ffn.py:51: UserWarning: xFormers is not available (SwiGLU)
+  warnings.warn("xFormers is not available (SwiGLU)")
+/root/hyk/basic-models/dinov2/dinov2/layers/attention.py:33: UserWarning: xFormers is not available (Attention)
+  warnings.warn("xFormers is not available (Attention)")
+/root/hyk/basic-models/dinov2/dinov2/layers/block.py:40: UserWarning: xFormers is not available (Block)
+  warnings.warn("xFormers is not available (Block)")
+FULL_EVAL {"query": 2900, "gallery": 5447, "extraction_seconds": 16.2784070300404, "rank_seconds": 0.4762000599876046, "mAP": 94.35083601392549, "rank1": 94.82758622333921, "rank5": 97.93103446631596}
+FULL_EVAL {"query": 2900, "gallery": 5447, "extraction_seconds": 15.202916526934132, "rank_seconds": 0.47065418399870396, "mAP": 94.26374113970789, "rank1": 94.82758622333921, "rank5": 97.7931034318332}
+FULL_EVAL {"query": 2900, "gallery": 5447, "extraction_seconds": 15.363549441099167, "rank_seconds": 0.4771071779541671, "mAP": 94.38975899795005, "rank1": 94.96551722493665, "rank5": 97.82758619045389}
+SHORT_VERIFY_PASS cuhksysu

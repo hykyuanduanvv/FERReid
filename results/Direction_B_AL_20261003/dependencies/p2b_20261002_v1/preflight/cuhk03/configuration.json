@@ -1,0 +1,54 @@
+{
+  "steps": 5000,
+  "eval_steps": [
+    100,
+    300,
+    1000,
+    3000,
+    5000
+  ],
+  "lr": 0.0001,
+  "k": 16,
+  "selection_seeds": [
+    1600,
+    1601,
+    1602
+  ],
+  "annotation_seeds": [
+    2600,
+    2601,
+    2602
+  ],
+  "optimization_seeds": [
+    42,
+    43
+  ],
+  "methods": [
+    "random",
+    "dedup",
+    "kcenter",
+    "typical",
+    "hard_negative",
+    "facility",
+    "facility_camera"
+  ],
+  "split": 0,
+  "feature_source": "frozen VPT prompt; flip-summed retrieval features re-normalized in FP32 for selector cosine",
+  "adaptation": "external prompt only; FP32 hardest triplet; Adam",
+  "status": "P2 frozen",
+  "source_steps": 12000,
+  "source_seed": 42,
+  "selector_facility_existing_limits": {
+    "n_eval": 4000,
+    "n_cand": 8000
+  },
+  "rank_chunk": 64,
+  "rank_tolerance_percentage_points": 0.0002,
+  "full_target_test": true,
+  "no_camera_domain": "cuhksysu",
+  "source_domains": "market1501,msmt17,cuhksysu",
+  "checkpoint": "/root/hyk/FERReid/experiments/p2b_20261002_v1/source_cuhk03/checkpoint-12000",
+  "checkpoint_sha256": "87cb34db1c55fc2eba364a36123eda7031c492eb93cf17ad20d97e0058fa0b9f",
+  "frozen_hash": "54d13673035a9067d7788bb46275fa16b1dae12e6bf861cb3eaabb3067dcfa47",
+  "initial_prompt_hash": "06ae5b2acba8dc270ce460f0bed8db71ed701a6eb54d72f0ae1bda87640c9746"
+}

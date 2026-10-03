@@ -1,0 +1,19 @@
+{
+  "domain": "market1501",
+  "checkpoint_sha256": "5239d9eae7f220f5445a5968494f6a2f1ec6a7ed4099108dfbdc1d95d9d4724a",
+  "records_hash": "816e02e5452d9d316416ed94151cdd1f8ec621282e213a78c6c4e5c00cc47be8",
+  "frozen_hash": "6de1e64ddc8711886e8575c3b1cb39b62ccfaced06e50f1619a7285645e26be4",
+  "initial_prompt_hash": "215e234a102272e0fa4861ebb061988696dc36828f36dd8a275a1e670a2eefb1",
+  "preprocess": "legacy flip-summed features then FP32 renormalization",
+  "shape": [
+    12936,
+    768
+  ],
+  "dtype": "float32",
+  "sha256": "d35aa1ba53b8294678b8d832166f628c6e186095b3df49bb5035c4aa405090be",
+  "extraction_seconds": 23.1932676830329,
+  "raw_retrieval_norm_max_error": 0.0003120899200439453,
+  "selector_fp32_normalization": true,
+  "cache_roundtrip_exact": true,
+  "repeated_first_batch_exact": true
+}

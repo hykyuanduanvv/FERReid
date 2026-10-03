@@ -1,0 +1,43 @@
+{
+  "status": "complete",
+  "raw_root": "/root/hyk/reid-data/dataset",
+  "output": "/root/hyk/reid-data/cuhksysu/cuhksysu4reid",
+  "statistics": {
+    "train": {
+      "identities": 5532,
+      "images": 15088
+    },
+    "query": {
+      "identities": 2900,
+      "images": 2900
+    },
+    "gallery": {
+      "identities": 2900,
+      "images": 5447
+    }
+  },
+  "source_scenes": 16694,
+  "annotation_sha256": {
+    "train": "4a5942f57a7b188f8f18d39ebbaed4ca56fde13f2f2a26c5d361f026ca5bf141",
+    "test": "bab5292ee188e1feffb85d167bc54a0a045c21952c3c1024b404fbf3fb47724f",
+    "persons": "88abfbd6139b08d50d32ebce0b27b31c062ee9c944daf74b03e9a86e17a61dc0"
+  },
+  "script_sha256": "10a9e1c892c0cf68b688d9f58d6d8d7670ac35ffa2e039233402c1782ce99161",
+  "crop_manifest_sha256": "6f75c4b7da0ebb82db8947da20be71f9dd89a3487fb2a3fa952349542eee7021",
+  "crop_convention": "PIL crop(x, y, x+w, y+h), unscaled; no coordinate offset; JPEG quality=75, subsampling=2",
+  "reference_implementation": "https://github.com/zhoujiahuan1991/AAAI2025-LReID-DASK/blob/main/lreid_dataset/datasets/cuhksysu.py",
+  "pillow_version": "11.0.0",
+  "scipy_version": "1.18.0",
+  "out_of_bounds_crops": 0,
+  "train_test_person_overlap": 0,
+  "train_test_scene_overlap": 0,
+  "duplicate_annotation_groups": 5,
+  "duplicate_policy": "Preserve official Train.mat/TestG50.mat entries, including duplicates; do not silently alter evaluation protocol",
+  "query_gallery_same_annotated_crop": 1,
+  "cross_split_jpeg_hash_overlap": {
+    "train_query": 0,
+    "train_gallery": 0,
+    "query_gallery": 1
+  },
+  "finished_unix": 1790833338.6880167
+}

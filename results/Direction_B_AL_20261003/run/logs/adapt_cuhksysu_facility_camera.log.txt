@@ -1,0 +1,37 @@
+[ReIDModel] Loading DINOv2 dinov2_vitb14 from /root/hyk/weights/dinov2_vitb14_pretrain.pth (code /root/hyk/basic-models/dinov2), input (252, 126)
+/root/hyk/basic-models/dinov2/dinov2/layers/swiglu_ffn.py:51: UserWarning: xFormers is not available (SwiGLU)
+  warnings.warn("xFormers is not available (SwiGLU)")
+/root/hyk/basic-models/dinov2/dinov2/layers/attention.py:33: UserWarning: xFormers is not available (Attention)
+  warnings.warn("xFormers is not available (Attention)")
+/root/hyk/basic-models/dinov2/dinov2/layers/block.py:40: UserWarning: xFormers is not available (Block)
+  warnings.warn("xFormers is not available (Block)")
+FULL_EVAL {"query": 2900, "gallery": 5447, "extraction_seconds": 15.228720321087167, "rank_seconds": 0.5186900589615107, "mAP": 94.42466933151772, "rank1": 95.03448274217803, "rank5": 97.82758619045389}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhksysu/facility_camera/draw0_seed42 {"step": 30, "mAP": 94.42466933151772, "rank1": 95.03448274217803, "rank5": 97.82758619045389, "gain": 0.0738333175922321}
+FULL_EVAL {"query": 2900, "gallery": 5447, "extraction_seconds": 15.424273685086519, "rank_seconds": 0.49043279187753797, "mAP": 94.38975899795005, "rank1": 94.96551722493665, "rank5": 97.82758619045389}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhksysu/facility_camera/draw0_seed42 {"step": 100, "mAP": 94.38975899795005, "rank1": 94.96551722493665, "rank5": 97.82758619045389, "gain": 0.038922984024566176}
+SHORT_TRIAL_COMPLETE cuhksysu facility_camera 0 42
+FULL_EVAL {"query": 2900, "gallery": 5447, "extraction_seconds": 15.372952701989561, "rank_seconds": 0.4806195681449026, "mAP": 94.35814405309743, "rank1": 94.89655170769527, "rank5": 97.86206894907458}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhksysu/facility_camera/draw0_seed43 {"step": 30, "mAP": 94.35814405309743, "rank1": 94.89655170769527, "rank5": 97.86206894907458, "gain": 0.007308039171945779}
+FULL_EVAL {"query": 2900, "gallery": 5447, "extraction_seconds": 15.391320420894772, "rank_seconds": 0.46773995109833777, "mAP": 94.35873924452683, "rank1": 94.93103446631596, "rank5": 97.58620688010906}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhksysu/facility_camera/draw0_seed43 {"step": 100, "mAP": 94.35873924452683, "rank1": 94.93103446631596, "rank5": 97.58620688010906, "gain": 0.007903230601343125}
+SHORT_TRIAL_COMPLETE cuhksysu facility_camera 0 43
+FULL_EVAL {"query": 2900, "gallery": 5447, "extraction_seconds": 15.263912470079958, "rank_seconds": 0.5155938807874918, "mAP": 94.40679446582136, "rank1": 94.96551725782197, "rank5": 97.72413791459182}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhksysu/facility_camera/draw1_seed42 {"step": 30, "mAP": 94.40679446582136, "rank1": 94.96551725782197, "rank5": 97.72413791459182, "gain": 0.05595845189587578}
+FULL_EVAL {"query": 2900, "gallery": 5447, "extraction_seconds": 15.420759150059894, "rank_seconds": 0.4699646041262895, "mAP": 94.24659164198513, "rank1": 94.75862070609783, "rank5": 97.82758619045389}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhksysu/facility_camera/draw1_seed42 {"step": 100, "mAP": 94.24659164198513, "rank1": 94.75862070609783, "rank5": 97.82758619045389, "gain": -0.10424437194035363}
+SHORT_TRIAL_COMPLETE cuhksysu facility_camera 1 42
+FULL_EVAL {"query": 2900, "gallery": 5447, "extraction_seconds": 15.324472115840763, "rank_seconds": 0.4872190549504012, "mAP": 94.3742794332833, "rank1": 94.86206898195991, "rank5": 97.82758619045389}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhksysu/facility_camera/draw1_seed43 {"step": 30, "mAP": 94.3742794332833, "rank1": 94.86206898195991, "rank5": 97.82758619045389, "gain": 0.02344341935781813}
+FULL_EVAL {"query": 2900, "gallery": 5447, "extraction_seconds": 15.395111815072596, "rank_seconds": 0.5265012090094388, "mAP": 94.31292967138619, "rank1": 94.89655174058059, "rank5": 97.7931034318332}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhksysu/facility_camera/draw1_seed43 {"step": 100, "mAP": 94.31292967138619, "rank1": 94.89655174058059, "rank5": 97.7931034318332, "gain": -0.03790634253930136}
+SHORT_TRIAL_COMPLETE cuhksysu facility_camera 1 43
+FULL_EVAL {"query": 2900, "gallery": 5447, "extraction_seconds": 15.463430633069947, "rank_seconds": 0.5089270821772516, "mAP": 94.4004210028155, "rank1": 94.93103449920127, "rank5": 97.82758619045389}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhksysu/facility_camera/draw2_seed42 {"step": 30, "mAP": 94.4004210028155, "rank1": 94.93103449920127, "rank5": 97.82758619045389, "gain": 0.04958498889001817}
+FULL_EVAL {"query": 2900, "gallery": 5447, "extraction_seconds": 15.443162926007062, "rank_seconds": 0.48680744995363057, "mAP": 94.20011058346978, "rank1": 94.72413794747715, "rank5": 97.7586206732125}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhksysu/facility_camera/draw2_seed42 {"step": 100, "mAP": 94.20011058346978, "rank1": 94.72413794747715, "rank5": 97.7586206732125, "gain": -0.15072543045570796}
+SHORT_TRIAL_COMPLETE cuhksysu facility_camera 2 42
+FULL_EVAL {"query": 2900, "gallery": 5447, "extraction_seconds": 15.386094350134954, "rank_seconds": 0.46589182293973863, "mAP": 94.3977021759954, "rank1": 94.89655174058059, "rank5": 97.72413791459182}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhksysu/facility_camera/draw2_seed43 {"step": 30, "mAP": 94.3977021759954, "rank1": 94.89655174058059, "rank5": 97.72413791459182, "gain": 0.046866162069918005}
+FULL_EVAL {"query": 2900, "gallery": 5447, "extraction_seconds": 15.435591105837375, "rank_seconds": 0.4902832799125463, "mAP": 94.08530871621494, "rank1": 94.58620691299438, "rank5": 97.7586206732125}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhksysu/facility_camera/draw2_seed43 {"step": 100, "mAP": 94.08530871621494, "rank1": 94.58620691299438, "rank5": 97.7586206732125, "gain": -0.2655272977105483}
+SHORT_TRIAL_COMPLETE cuhksysu facility_camera 2 43

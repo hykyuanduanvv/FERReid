@@ -1,0 +1,37 @@
+[ReIDModel] Loading DINOv2 dinov2_vitb14 from /root/hyk/weights/dinov2_vitb14_pretrain.pth (code /root/hyk/basic-models/dinov2), input (252, 126)
+/root/hyk/basic-models/dinov2/dinov2/layers/swiglu_ffn.py:51: UserWarning: xFormers is not available (SwiGLU)
+  warnings.warn("xFormers is not available (SwiGLU)")
+/root/hyk/basic-models/dinov2/dinov2/layers/attention.py:33: UserWarning: xFormers is not available (Attention)
+  warnings.warn("xFormers is not available (Attention)")
+/root/hyk/basic-models/dinov2/dinov2/layers/block.py:40: UserWarning: xFormers is not available (Block)
+  warnings.warn("xFormers is not available (Block)")
+FULL_EVAL {"query": 11659, "gallery": 82161, "extraction_seconds": 158.58298392803408, "rank_seconds": 42.30368405603804, "mAP": 37.67911589774988, "rank1": 64.77399434067084, "rank5": 77.27935500369492}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/msmt17/random/draw0_seed42 {"step": 30, "mAP": 37.67911589774988, "rank1": 64.77399434067084, "rank5": 77.27935500369492, "gain": 0.6868670568559025}
+FULL_EVAL {"query": 11659, "gallery": 82161, "extraction_seconds": 158.23843116103671, "rank_seconds": 48.22545290202834, "mAP": 36.0499473101576, "rank1": 62.63830517350385, "rank5": 75.72690625165787}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/msmt17/random/draw0_seed42 {"step": 100, "mAP": 36.0499473101576, "rank1": 62.63830517350385, "rank5": 75.72690625165787, "gain": -0.9423015307363798}
+SHORT_TRIAL_COMPLETE msmt17 random 0 42
+FULL_EVAL {"query": 11659, "gallery": 82161, "extraction_seconds": 158.14504174795002, "rank_seconds": 41.49600245198235, "mAP": 37.54877475445711, "rank1": 64.5595677174613, "rank5": 77.24504674398139}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/msmt17/random/draw0_seed43 {"step": 30, "mAP": 37.54877475445711, "rank1": 64.5595677174613, "rank5": 77.24504674398139, "gain": 0.5565259135631351}
+FULL_EVAL {"query": 11659, "gallery": 82161, "extraction_seconds": 159.55258903000504, "rank_seconds": 36.12533966707997, "mAP": 36.52314663314218, "rank1": 63.15292906920674, "rank5": 76.0356805890796}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/msmt17/random/draw0_seed43 {"step": 100, "mAP": 36.52314663314218, "rank1": 63.15292906920674, "rank5": 76.0356805890796, "gain": -0.4691022077517957}
+SHORT_TRIAL_COMPLETE msmt17 random 0 43
+FULL_EVAL {"query": 11659, "gallery": 82161, "extraction_seconds": 159.10734399594367, "rank_seconds": 36.43673259601928, "mAP": 38.66470239437284, "rank1": 65.81181919700501, "rank5": 78.4458358339548}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/msmt17/random/draw1_seed42 {"step": 30, "mAP": 38.66470239437284, "rank1": 65.81181919700501, "rank5": 78.4458358339548, "gain": 1.67245355347886}
+FULL_EVAL {"query": 11659, "gallery": 82161, "extraction_seconds": 158.25519641209394, "rank_seconds": 37.743108245078474, "mAP": 39.24250943803983, "rank1": 66.57517797563096, "rank5": 78.91757440757195}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/msmt17/random/draw1_seed42 {"step": 100, "mAP": 39.24250943803983, "rank1": 66.57517797563096, "rank5": 78.91757440757195, "gain": 2.2502605971458536}
+SHORT_TRIAL_COMPLETE msmt17 random 1 42
+FULL_EVAL {"query": 11659, "gallery": 82161, "extraction_seconds": 158.1310979661066, "rank_seconds": 36.92153821908869, "mAP": 38.61233645303855, "rank1": 65.78608800221987, "rank5": 78.4029505093129}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/msmt17/random/draw1_seed43 {"step": 30, "mAP": 38.61233645303855, "rank1": 65.78608800221987, "rank5": 78.4029505093129, "gain": 1.620087612144573}
+FULL_EVAL {"query": 11659, "gallery": 82161, "extraction_seconds": 158.45288832788356, "rank_seconds": 36.282030415022746, "mAP": 39.238596905493516, "rank1": 66.63521743012963, "rank5": 78.96045973221386}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/msmt17/random/draw1_seed43 {"step": 100, "mAP": 39.238596905493516, "rank1": 66.63521743012963, "rank5": 78.96045973221386, "gain": 2.2463480645995375}
+SHORT_TRIAL_COMPLETE msmt17 random 1 43
+FULL_EVAL {"query": 11659, "gallery": 82161, "extraction_seconds": 159.6505257540848, "rank_seconds": 42.165710238041356, "mAP": 39.0847857119708, "rank1": 66.06055407992807, "rank5": 78.33433398988585}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/msmt17/random/draw2_seed42 {"step": 30, "mAP": 39.0847857119708, "rank1": 66.06055407992807, "rank5": 78.33433398988585, "gain": 2.092536871076824}
+FULL_EVAL {"query": 11659, "gallery": 82161, "extraction_seconds": 159.24486899911426, "rank_seconds": 42.747757168952376, "mAP": 40.30239163055276, "rank1": 67.32138262440016, "rank5": 79.3292735215781}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/msmt17/random/draw2_seed42 {"step": 100, "mAP": 40.30239163055276, "rank1": 67.32138262440016, "rank5": 79.3292735215781, "gain": 3.3101427896587836}
+SHORT_TRIAL_COMPLETE msmt17 random 2 42
+FULL_EVAL {"query": 11659, "gallery": 82161, "extraction_seconds": 159.4853256030474, "rank_seconds": 41.57581692398526, "mAP": 38.96931132198004, "rank1": 65.98336049557264, "rank5": 78.35148811974261}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/msmt17/random/draw2_seed43 {"step": 30, "mAP": 38.96931132198004, "rank1": 65.98336049557264, "rank5": 78.35148811974261, "gain": 1.9770624810860582}
+FULL_EVAL {"query": 11659, "gallery": 82161, "extraction_seconds": 159.1215031449683, "rank_seconds": 38.80009372695349, "mAP": 40.04361276735377, "rank1": 67.03833948176356, "rank5": 79.16630928793886}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/msmt17/random/draw2_seed43 {"step": 100, "mAP": 40.04361276735377, "rank1": 67.03833948176356, "rank5": 79.16630928793886, "gain": 3.0513639264597927}
+SHORT_TRIAL_COMPLETE msmt17 random 2 43

@@ -1,0 +1,37 @@
+[ReIDModel] Loading DINOv2 dinov2_vitb14 from /root/hyk/weights/dinov2_vitb14_pretrain.pth (code /root/hyk/basic-models/dinov2), input (252, 126)
+/root/hyk/basic-models/dinov2/dinov2/layers/swiglu_ffn.py:51: UserWarning: xFormers is not available (SwiGLU)
+  warnings.warn("xFormers is not available (SwiGLU)")
+/root/hyk/basic-models/dinov2/dinov2/layers/attention.py:33: UserWarning: xFormers is not available (Attention)
+  warnings.warn("xFormers is not available (Attention)")
+/root/hyk/basic-models/dinov2/dinov2/layers/block.py:40: UserWarning: xFormers is not available (Block)
+  warnings.warn("xFormers is not available (Block)")
+FULL_EVAL {"query": 1400, "gallery": 5328, "extraction_seconds": 12.961056315107271, "rank_seconds": 0.23747912817634642, "mAP": 52.30940435613905, "rank1": 51.285714336803984, "rank5": 73.64285707473755}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhk03/facility_camera/draw0_seed42 {"step": 30, "mAP": 52.30940435613905, "rank1": 51.285714336803984, "rank5": 73.64285707473755, "gain": 0.22806503091539554}
+FULL_EVAL {"query": 1400, "gallery": 5328, "extraction_seconds": 13.146777566988021, "rank_seconds": 0.44404600583948195, "mAP": 52.67010291985103, "rank1": 51.42857141154153, "rank5": 74.07142846924918}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhk03/facility_camera/draw0_seed42 {"step": 100, "mAP": 52.67010291985103, "rank1": 51.42857141154153, "rank5": 74.07142846924918, "gain": 0.5887635946273804}
+SHORT_TRIAL_COMPLETE cuhk03 facility_camera 0 42
+FULL_EVAL {"query": 1400, "gallery": 5328, "extraction_seconds": 12.798432906158268, "rank_seconds": 0.21965604810975492, "mAP": 52.40483934538705, "rank1": 51.57142862251827, "rank5": 73.57142850330898}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhk03/facility_camera/draw0_seed43 {"step": 30, "mAP": 52.40483934538705, "rank1": 51.57142862251827, "rank5": 73.57142850330898, "gain": 0.32350002016340085}
+FULL_EVAL {"query": 1400, "gallery": 5328, "extraction_seconds": 12.872634360101074, "rank_seconds": 0.225060858996585, "mAP": 52.84575547490801, "rank1": 51.78571426868439, "rank5": 73.71428568022591}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhk03/facility_camera/draw0_seed43 {"step": 100, "mAP": 52.84575547490801, "rank1": 51.78571426868439, "rank5": 73.71428568022591, "gain": 0.764416149684358}
+SHORT_TRIAL_COMPLETE cuhk03 facility_camera 0 43
+FULL_EVAL {"query": 1400, "gallery": 5328, "extraction_seconds": 12.828365513123572, "rank_seconds": 0.22453646804206073, "mAP": 52.37455723966871, "rank1": 51.57142862251827, "rank5": 73.92857132639203}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhk03/facility_camera/draw1_seed42 {"step": 30, "mAP": 52.37455723966871, "rank1": 51.57142862251827, "rank5": 73.92857132639203, "gain": 0.2932179144450586}
+FULL_EVAL {"query": 1400, "gallery": 5328, "extraction_seconds": 12.775633404962718, "rank_seconds": 0.22046026913449168, "mAP": 52.5091917855399, "rank1": 50.92857144560133, "rank5": 74.21428561210632}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhk03/facility_camera/draw1_seed42 {"step": 100, "mAP": 52.5091917855399, "rank1": 50.92857144560133, "rank5": 74.21428561210632, "gain": 0.42785246031624524}
+SHORT_TRIAL_COMPLETE cuhk03 facility_camera 1 42
+FULL_EVAL {"query": 1400, "gallery": 5328, "extraction_seconds": 12.6992151690647, "rank_seconds": 0.22170987399294972, "mAP": 52.255160859652925, "rank1": 51.50000005108969, "rank5": 73.49999993188041}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhk03/facility_camera/draw1_seed43 {"step": 30, "mAP": 52.255160859652925, "rank1": 51.50000005108969, "rank5": 73.49999993188041, "gain": 0.17382153442927262}
+FULL_EVAL {"query": 1400, "gallery": 5328, "extraction_seconds": 12.777113626012579, "rank_seconds": 0.2232994930818677, "mAP": 52.55813637801579, "rank1": 51.5000000170299, "rank5": 73.78571421759469}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhk03/facility_camera/draw1_seed43 {"step": 100, "mAP": 52.55813637801579, "rank1": 51.5000000170299, "rank5": 73.78571421759469, "gain": 0.47679705279213636}
+SHORT_TRIAL_COMPLETE cuhk03 facility_camera 1 43
+FULL_EVAL {"query": 1400, "gallery": 5328, "extraction_seconds": 12.730413435958326, "rank_seconds": 0.2232192021328956, "mAP": 52.446350489343914, "rank1": 51.71428573131561, "rank5": 73.49999989782062}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhk03/facility_camera/draw2_seed42 {"step": 30, "mAP": 52.446350489343914, "rank1": 51.71428573131561, "rank5": 73.49999989782062, "gain": 0.36501116412026136}
+FULL_EVAL {"query": 1400, "gallery": 5328, "extraction_seconds": 12.7912180761341, "rank_seconds": 0.22629596595652401, "mAP": 52.52148583957127, "rank1": 52.42857141154153, "rank5": 74.07142867360797}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhk03/facility_camera/draw2_seed42 {"step": 100, "mAP": 52.52148583957127, "rank1": 52.42857141154153, "rank5": 74.07142867360797, "gain": 0.4401465143476173}
+SHORT_TRIAL_COMPLETE cuhk03 facility_camera 2 42
+FULL_EVAL {"query": 1400, "gallery": 5328, "extraction_seconds": 12.871534368023276, "rank_seconds": 0.22670635511167347, "mAP": 52.434365442820955, "rank1": 51.5000000170299, "rank5": 73.42857136045184}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhk03/facility_camera/draw2_seed43 {"step": 30, "mAP": 52.434365442820955, "rank1": 51.5000000170299, "rank5": 73.42857136045184, "gain": 0.3530261175973024}
+FULL_EVAL {"query": 1400, "gallery": 5328, "extraction_seconds": 12.97013400006108, "rank_seconds": 0.2280306920874864, "mAP": 52.315789801733835, "rank1": 52.35714284011296, "rank5": 73.78571438789368}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/cuhk03/facility_camera/draw2_seed43 {"step": 100, "mAP": 52.315789801733835, "rank1": 52.35714284011296, "rank5": 73.78571438789368, "gain": 0.23445047651018314}
+SHORT_TRIAL_COMPLETE cuhk03 facility_camera 2 43

@@ -1,0 +1,185 @@
+{
+  "created_at": "2026-10-03T01:08:56.822099+08:00",
+  "configuration": {
+    "version": 1,
+    "steps": 100,
+    "eval_steps": [
+      30,
+      100
+    ],
+    "save_steps": [
+      0,
+      10,
+      30,
+      50,
+      100
+    ],
+    "lr": 1e-05,
+    "optimizer": "Adam",
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 0.0,
+    "radius_ratio": 0.1,
+    "margin": 0.1,
+    "k": 16,
+    "draws": [
+      0,
+      1,
+      2
+    ],
+    "seeds": [
+      42,
+      43
+    ],
+    "methods": [
+      "random",
+      "dedup",
+      "kcenter",
+      "typical",
+      "hard_negative",
+      "facility",
+      "facility_camera"
+    ],
+    "domains": [
+      "market1501",
+      "cuhksysu",
+      "cuhk03",
+      "msmt17"
+    ],
+    "gpus": [
+      0,
+      1,
+      2,
+      7
+    ],
+    "planned_trials": 168,
+    "loss": "FP32 hardest Triplet only",
+    "trainable": "external prompt only",
+    "augmentation": "unchanged legacy flip/pad-crop/erasing; normalized zero padding",
+    "selection": "reuse frozen label-free selections and deterministic annotations",
+    "main_step": 100,
+    "secondary_step": 30,
+    "model_mode": "eval; autograd enabled for external prompt",
+    "symmetry": "retain existing token symmetry and all 32 tokens",
+    "interpretation": "revised exploratory protocol; no per-trial test-selected checkpoint",
+    "old_run": "experiments/p2b_20261002_v1",
+    "no_old_jobs_resumed": true
+  },
+  "runner_sha256": "65bd1425bbb48591ba949e840b92ccb40813ff8353572a4b1d0f5c2abcaee52a",
+  "folds": {
+    "market1501": {
+      "checkpoint": "/root/hyk/FERReid/experiments/p2b_20261002_v1/source_market1501/checkpoint-12000",
+      "checkpoint_sha256": "5239d9eae7f220f5445a5968494f6a2f1ec6a7ed4099108dfbdc1d95d9d4724a",
+      "frozen_hash": "6de1e64ddc8711886e8575c3b1cb39b62ccfaced06e50f1619a7285645e26be4",
+      "initial_prompt_hash": "215e234a102272e0fa4861ebb061988696dc36828f36dd8a275a1e670a2eefb1",
+      "selection_sha256": "9ca7daa8ee546c4798723e5a9b86bfafc749e552b1362239819e33f589c1be7f",
+      "baseline_sha256": "5ad00a746c414bd6cf50edb73dc1d57e3ffd6076cc85a9e39dc8fbaa4a68d7c3",
+      "data_manifest_sha256": "2b515180351ec845bb61e4bf18502da3bfc8aaf2c77df169121532d54a414345",
+      "baseline": {
+        "mAP": 74.88277344975505,
+        "rank1": 87.47030881691433,
+        "rank5": 95.24940620408772
+      }
+    },
+    "cuhksysu": {
+      "checkpoint": "/root/hyk/FERReid/experiments/p2b_20261002_v1/source_cuhksysu/checkpoint-12000",
+      "checkpoint_sha256": "9b61aaed8db86cac80c070798f563b8f65f2559fe6f80730f28a2a57fd24cf8a",
+      "frozen_hash": "a0bdfc486057844dc218822273965a51f0d6601ce1a1ab173705bfb86ea75f15",
+      "initial_prompt_hash": "c53e838e4d6aee8a294879a7c4e3f773374bd47339e048d63a04513cb5178eb7",
+      "selection_sha256": "178378876def1ea8e84e12051a68ee1d98116703c94362fdc8e74b8cf8b78d5a",
+      "baseline_sha256": "3b0b93a0199557e3e45a6ee88d99370f27bd932034f0390d61123d9e64feae6b",
+      "data_manifest_sha256": "c04de3bfac21a1dc752971e2cdf338284ff0b498228d8aa360ffe5ee9dde0d34",
+      "baseline": {
+        "mAP": 94.35083601392549,
+        "rank1": 94.82758622333921,
+        "rank5": 97.93103446631596
+      }
+    },
+    "cuhk03": {
+      "checkpoint": "/root/hyk/FERReid/experiments/p2b_20261002_v1/source_cuhk03/checkpoint-12000",
+      "checkpoint_sha256": "87cb34db1c55fc2eba364a36123eda7031c492eb93cf17ad20d97e0058fa0b9f",
+      "frozen_hash": "54d13673035a9067d7788bb46275fa16b1dae12e6bf861cb3eaabb3067dcfa47",
+      "initial_prompt_hash": "06ae5b2acba8dc270ce460f0bed8db71ed701a6eb54d72f0ae1bda87640c9746",
+      "selection_sha256": "903e540d575dc9540047bcd80d451ce8c168e151d19435ace82f5e23ad779ab2",
+      "baseline_sha256": "7d9cedfd5b8ea237ab3e468a25638eb9b7f9c1447cc2c8451d7be41aa86b2307",
+      "data_manifest_sha256": "6e6cf9b0ddb0541c2000eaa8debb42412d1ba87075f1d37eb0b1363170406afb",
+      "baseline": {
+        "mAP": 52.08133932522365,
+        "rank1": 51.78571430274418,
+        "rank5": 73.14285704067775
+      }
+    },
+    "msmt17": {
+      "checkpoint": "/root/hyk/FERReid/experiments/p2b_20261002_v1/source_msmt17/checkpoint-12000",
+      "checkpoint_sha256": "88dd8dbb962671949198fee9725ca71a0e2705ae3471cd842c96c607ececf93c",
+      "frozen_hash": "c08d7c7cf1932bb713955e5de67606b1b05ef4d6c1162d21c651f7a294c67fe7",
+      "initial_prompt_hash": "0975d01f3fea84ead5147599627ab2dafea5da608864c2d71de19a0716b60b4f",
+      "selection_sha256": "3363dea7b4f863e027c2af11341cff63107291db30fa20f698bfc6e771f8df07",
+      "baseline_sha256": "563ff2d82e99433fe077fd57143bd780a2bf2d150e1cb59504f5180b2511d5dc",
+      "data_manifest_sha256": "e0958183049d58af5bb39279efeb130889a39734634a50b91702146205ce8eda",
+      "baseline": {
+        "mAP": 36.99224884089398,
+        "rank1": 64.147868600899,
+        "rank5": 76.90196414684614
+      }
+    }
+  },
+  "cpu_checks": {
+    "projection_direction": true,
+    "bounded_adam_steps": 100,
+    "boundary_hits": 79,
+    "idempotence": true,
+    "final_relative_delta": 0.09999997168779373
+  },
+  "git_head": "20e05cdf968eff08d46f10b5af8fbcfa71363466",
+  "msmt17_original_split_policy": {
+    "domain": "msmt17",
+    "decision": "retain_original_split_without_cross_split_deduplication",
+    "authorized_at": "2026-10-02T13:27:12.818984+08:00",
+    "authorized_by": "User instruction in this chat on 2026-10-02",
+    "user_instruction": "Search how papers using the dataset handle it; if they do not handle it, leave it unchanged. User supplied matching public-loader evidence.",
+    "evidence_scope": "The inspected public loaders do not deduplicate. This does not establish private preprocessing or identical dataset copies in those papers.",
+    "sources": [
+      {
+        "project": "OSNet / deep-person-reid",
+        "url": "https://github.com/KaiyangZhou/deep-person-reid/blob/master/torchreid/data/datasets/image/msmt17.py",
+        "observation": "Reads listed train/query/gallery records; val is added only with combineall. No cross-split content deduplication in this loader."
+      },
+      {
+        "project": "TransReID",
+        "url": "https://github.com/damo-cv/TransReID/blob/main/datasets/msmt17.py",
+        "observation": "Reads listed records; appends val to train. No cross-split content deduplication in this loader."
+      },
+      {
+        "project": "CLIP-ReID",
+        "url": "https://github.com/Syliz517/CLIP-ReID/blob/master/datasets/msmt17.py",
+        "observation": "Reads listed records; appends val to train. No cross-split content deduplication in this loader."
+      }
+    ],
+    "strict_content_isolation_passed": false,
+    "execution_authorized_with_disclosure": true,
+    "overlap_groups": 214,
+    "overlap_records": {
+      "train": 214,
+      "query": 27,
+      "gallery": 188
+    },
+    "no_data_modified": true,
+    "no_candidate_or_test_filtering": true,
+    "train_images": 30248,
+    "query_images": 11659,
+    "gallery_images": 82161,
+    "train_val_merge": false,
+    "source_all_images": false,
+    "note": "Keep this project train-only recipe; public repos merging val does not change our frozen protocol.",
+    "disclosure": "沿用 MSMT17 原有划分，未进行跨 train/test 图片去重；当前数据副本检测到 214 组完全相同的图片内容。",
+    "manifest_sha256": "e0958183049d58af5bb39279efeb130889a39734634a50b91702146205ce8eda",
+    "image_hash_manifest_sha256": "16e821de0e1b6d98ad2a610e2819b108a0b9fa38ad55e4ea8918b1a070210614",
+    "overlap_evidence_sha256": "789e77852a3a21bcaceaf92341cfa16fc1d072579caa76aa132b2c47fc4ad5e1"
+  },
+  "strict_all_fold_content_isolation": false,
+  "approval": "User authorized GPUs 0,1,2,7 and the reviewed 168-trial short protocol on 2026-10-03"
+}

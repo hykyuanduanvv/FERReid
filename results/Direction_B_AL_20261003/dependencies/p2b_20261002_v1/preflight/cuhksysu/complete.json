@@ -1,0 +1,193 @@
+{
+  "domain": "cuhksysu",
+  "baseline": {
+    "mAP": 94.35083601392549,
+    "rank1": 94.82758622333921,
+    "rank5": 97.93103446631596
+  },
+  "trials": [
+    {
+      "method": "random",
+      "steps": 100,
+      "directory": "experiments/p2b_20261002_v1/preflight/cuhksysu/smoke_random",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 100,
+            "mAP": 93.00476967877356,
+            "rank1": 93.82758622333921,
+            "rank5": 97.06896553368404,
+            "gain": -1.3460663351519315
+          }
+        ],
+        "actual_updates": 100,
+        "attempts": 100,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 27,
+        "support_loss_before": 0.0,
+        "support_loss_after": 0.0,
+        "frozen_hash": "a0bdfc486057844dc218822273965a51f0d6601ce1a1ab173705bfb86ea75f15",
+        "saved_prompt_exact": true,
+        "prompt_hash": "1111393d291a27970f54fde037f58c10e2967aaf5c50932592785b3cae40e05f",
+        "train_seconds": 10.666500150226057,
+        "evaluation_seconds": 15.79180239001289,
+        "elapsed_seconds": 26.944844007026404,
+        "milliseconds_per_update": 106.66500150226057
+      }
+    },
+    {
+      "method": "dedup",
+      "steps": 20,
+      "directory": "experiments/p2b_20261002_v1/preflight/cuhksysu/smoke_dedup",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 20,
+            "mAP": 94.2128239335685,
+            "rank1": 94.75862070609783,
+            "rank5": 97.482758604247,
+            "gain": -0.13801208035698664
+          }
+        ],
+        "actual_updates": 20,
+        "attempts": 20,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 6,
+        "support_loss_before": 0.0,
+        "support_loss_after": 0.0,
+        "frozen_hash": "a0bdfc486057844dc218822273965a51f0d6601ce1a1ab173705bfb86ea75f15",
+        "saved_prompt_exact": true,
+        "prompt_hash": "d3661431402bcca3015b37759fdb2a037d574ba05998f605f622c311e86c0e20",
+        "train_seconds": 2.109619215130806,
+        "evaluation_seconds": 15.870909593068063,
+        "elapsed_seconds": 18.49468989809975,
+        "milliseconds_per_update": 105.4809607565403
+      }
+    },
+    {
+      "method": "kcenter",
+      "steps": 20,
+      "directory": "experiments/p2b_20261002_v1/preflight/cuhksysu/smoke_kcenter",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 20,
+            "mAP": 94.31872589834805,
+            "rank1": 94.75862070609783,
+            "rank5": 97.7931034318332,
+            "gain": -0.03211011557743859
+          }
+        ],
+        "actual_updates": 20,
+        "attempts": 20,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 1,
+        "support_loss_before": 0.0,
+        "support_loss_after": 0.0,
+        "frozen_hash": "a0bdfc486057844dc218822273965a51f0d6601ce1a1ab173705bfb86ea75f15",
+        "saved_prompt_exact": true,
+        "prompt_hash": "efc8118351c96b0a86ced3eb0c2f53434d45d8a02aa3734a171452e890071ab6",
+        "train_seconds": 2.062928093597293,
+        "evaluation_seconds": 15.993299806956202,
+        "elapsed_seconds": 18.549349796026945,
+        "milliseconds_per_update": 103.14640467986465
+      }
+    },
+    {
+      "method": "typical",
+      "steps": 20,
+      "directory": "experiments/p2b_20261002_v1/preflight/cuhksysu/smoke_typical",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 20,
+            "mAP": 94.33886218893117,
+            "rank1": 94.89655174058059,
+            "rank5": 97.86206894907458,
+            "gain": -0.011973824994313986
+          }
+        ],
+        "actual_updates": 20,
+        "attempts": 20,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 2,
+        "support_loss_before": 0.0,
+        "support_loss_after": 0.0,
+        "frozen_hash": "a0bdfc486057844dc218822273965a51f0d6601ce1a1ab173705bfb86ea75f15",
+        "saved_prompt_exact": true,
+        "prompt_hash": "369452a1e7d7840f5d7796a55d167a169475e41648f2da4fd412f8bf1feb6862",
+        "train_seconds": 2.0908861407078803,
+        "evaluation_seconds": 15.975251582916826,
+        "elapsed_seconds": 18.568354254122823,
+        "milliseconds_per_update": 104.54430703539401
+      }
+    },
+    {
+      "method": "hard_negative",
+      "steps": 20,
+      "directory": "experiments/p2b_20261002_v1/preflight/cuhksysu/smoke_hard_negative",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 20,
+            "mAP": 94.17712713110036,
+            "rank1": 94.65517243023577,
+            "rank5": 97.72413791459182,
+            "gain": -0.17370888282512453
+          }
+        ],
+        "actual_updates": 20,
+        "attempts": 20,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 10,
+        "support_loss_before": 0.0016915809828788042,
+        "support_loss_after": 0.0,
+        "frozen_hash": "a0bdfc486057844dc218822273965a51f0d6601ce1a1ab173705bfb86ea75f15",
+        "saved_prompt_exact": true,
+        "prompt_hash": "d896f37462079edb44782864bc6d89f37bb0eb00f423e3137f22814d82331816",
+        "train_seconds": 2.0767124199774116,
+        "evaluation_seconds": 16.036533039994538,
+        "elapsed_seconds": 18.592118466971442,
+        "milliseconds_per_update": 103.83562099887058
+      }
+    },
+    {
+      "method": "facility",
+      "steps": 20,
+      "directory": "experiments/p2b_20261002_v1/preflight/cuhksysu/smoke_facility",
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 20,
+            "mAP": 94.04936797043374,
+            "rank1": 94.58620691299438,
+            "rank5": 97.55172412148838,
+            "gain": -0.30146804349175227
+          }
+        ],
+        "actual_updates": 20,
+        "attempts": 20,
+        "skipped_attempts": [],
+        "nonzero_gradient_steps": 17,
+        "support_loss_before": 0.0,
+        "support_loss_after": 0.0,
+        "frozen_hash": "a0bdfc486057844dc218822273965a51f0d6601ce1a1ab173705bfb86ea75f15",
+        "saved_prompt_exact": true,
+        "prompt_hash": "e365aaa9a775867616a6623ce7393aba4f61d013f27f54f8ecaea5cf099fe94a",
+        "train_seconds": 2.0439222378190607,
+        "evaluation_seconds": 15.920921158976853,
+        "elapsed_seconds": 18.44958846294321,
+        "milliseconds_per_update": 102.19611189095303
+      }
+    }
+  ],
+  "baseline_seconds": 16.05426229094155,
+  "seconds_per_update": 0.10666500150226056,
+  "estimated_seconds_per_formal_trial": 613.5963189660106
+}

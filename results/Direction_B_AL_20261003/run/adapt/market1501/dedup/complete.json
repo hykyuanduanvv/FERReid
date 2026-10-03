@@ -1,0 +1,275 @@
+{
+  "trials": [
+    {
+      "domain": "market1501",
+      "method": "dedup",
+      "draw": 0,
+      "seed": 42,
+      "effective_identities": 16,
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 30,
+            "mAP": 75.78200489778133,
+            "rank1": 88.1532066791471,
+            "rank5": 95.19002375296913,
+            "gain": 0.8992314480262849
+          },
+          {
+            "step": 100,
+            "mAP": 75.92624142730604,
+            "rank1": 88.33135389092416,
+            "rank5": 95.42755344418052,
+            "gain": 1.0434679775509892
+          }
+        ],
+        "actual_updates": 100,
+        "nonzero_gradient_steps": 91,
+        "support_loss_before": 0.004432803951203823,
+        "support_loss_after": 0.0,
+        "projection_hits": 0,
+        "relative_prompt_delta": 0.07822983711957932,
+        "frozen_hash": "6de1e64ddc8711886e8575c3b1cb39b62ccfaced06e50f1619a7285645e26be4",
+        "prompt_hash": "eb7c4cd72d04fb41ca8a1abeb11a0b3264946b1d6d6730808551db15c5276009",
+        "checkpoint_hashes": {
+          "10": "6e5255a5a4a9247b50ca3dbb0c3b29b72772ad7e98a52f54de6ef97959c4110c",
+          "30": "e04cafc646cf52b6f0490c5c83182a183115923e765bbb1d66c401b832082920",
+          "50": "da3ddd2be2557bcb67e3f6012802425bfa7832255c3188a2b15048d637d33ed1",
+          "100": "eb7c4cd72d04fb41ca8a1abeb11a0b3264946b1d6d6730808551db15c5276009"
+        },
+        "saved_prompt_exact": true,
+        "feature_replay_exact": true,
+        "train_seconds": 11.072335369884968,
+        "evaluation_seconds": 68.57955310493708,
+        "elapsed_seconds": 80.24664081819355
+      }
+    },
+    {
+      "domain": "market1501",
+      "method": "dedup",
+      "draw": 0,
+      "seed": 43,
+      "effective_identities": 16,
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 30,
+            "mAP": 75.7958709202583,
+            "rank1": 88.06413304494282,
+            "rank5": 95.30878859857482,
+            "gain": 0.9130974705032457
+          },
+          {
+            "step": 100,
+            "mAP": 75.99112177687982,
+            "rank1": 88.30166267952274,
+            "rank5": 95.48693586698337,
+            "gain": 1.108348327124773
+          }
+        ],
+        "actual_updates": 100,
+        "nonzero_gradient_steps": 87,
+        "support_loss_before": 0.004432803951203823,
+        "support_loss_after": 0.0,
+        "projection_hits": 0,
+        "relative_prompt_delta": 0.07614357769489288,
+        "frozen_hash": "6de1e64ddc8711886e8575c3b1cb39b62ccfaced06e50f1619a7285645e26be4",
+        "prompt_hash": "3ade3ef6dad1829e3c7bdfb447f911cd944fdb0d3144636da5579342206d06e0",
+        "checkpoint_hashes": {
+          "10": "4a3365a090773bdc28100aeddac82c03faf93c3ec2def5b73d7d83049fe3bd5e",
+          "30": "a99fb568cbbc277b0ca0af661b249f44161c95228fe33dfac215aa6611ff3223",
+          "50": "0be32a327787d4b5b4fc92cd2d6fb83030950a69a4b16bc93fa9fb1e85562352",
+          "100": "3ade3ef6dad1829e3c7bdfb447f911cd944fdb0d3144636da5579342206d06e0"
+        },
+        "saved_prompt_exact": true,
+        "feature_replay_exact": true,
+        "train_seconds": 11.081190745346248,
+        "evaluation_seconds": 69.34929844806902,
+        "elapsed_seconds": 81.02337873307988
+      }
+    },
+    {
+      "domain": "market1501",
+      "method": "dedup",
+      "draw": 1,
+      "seed": 42,
+      "effective_identities": 16,
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 30,
+            "mAP": 75.07065732801895,
+            "rank1": 87.67814725425067,
+            "rank5": 95.2790973871734,
+            "gain": 0.18788387826390363
+          },
+          {
+            "step": 100,
+            "mAP": 72.39989493918249,
+            "rank1": 86.72802853187869,
+            "rank5": 94.95249409007347,
+            "gain": -2.4828785105725615
+          }
+        ],
+        "actual_updates": 100,
+        "nonzero_gradient_steps": 100,
+        "support_loss_before": 0.034475505352020264,
+        "support_loss_after": 0.016834627836942673,
+        "projection_hits": 17,
+        "relative_prompt_delta": 0.10000000149011612,
+        "frozen_hash": "6de1e64ddc8711886e8575c3b1cb39b62ccfaced06e50f1619a7285645e26be4",
+        "prompt_hash": "9f7ea84025953074abdb708817b96f7106a42e94ba4c5b13fe4eacb8b6604394",
+        "checkpoint_hashes": {
+          "10": "7f8b918a0e5b0570dc1714a22e8e208405d5b21ede9194c4eabc07da2708c347",
+          "30": "0c510cb566ade6953942e0817225e902718e5835abb3408f3f0e5fa3477fe710",
+          "50": "345d6c8d2c67b60395f3e84b3d663f5c64af7ace3d61ac2b9001ecc77622499a",
+          "100": "9f7ea84025953074abdb708817b96f7106a42e94ba4c5b13fe4eacb8b6604394"
+        },
+        "saved_prompt_exact": true,
+        "feature_replay_exact": true,
+        "train_seconds": 10.459971602540463,
+        "evaluation_seconds": 69.2974407018628,
+        "elapsed_seconds": 80.37182838190347
+      }
+    },
+    {
+      "domain": "market1501",
+      "method": "dedup",
+      "draw": 1,
+      "seed": 43,
+      "effective_identities": 16,
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 30,
+            "mAP": 74.85830618196881,
+            "rank1": 87.49999998584212,
+            "rank5": 95.24940617577197,
+            "gain": -0.024467267786235425
+          },
+          {
+            "step": 100,
+            "mAP": 72.03337568568504,
+            "rank1": 86.4014251639894,
+            "rank5": 94.71496439886207,
+            "gain": -2.8493977640700052
+          }
+        ],
+        "actual_updates": 100,
+        "nonzero_gradient_steps": 100,
+        "support_loss_before": 0.034475505352020264,
+        "support_loss_after": 0.016456162557005882,
+        "projection_hits": 21,
+        "relative_prompt_delta": 0.10000000149011612,
+        "frozen_hash": "6de1e64ddc8711886e8575c3b1cb39b62ccfaced06e50f1619a7285645e26be4",
+        "prompt_hash": "5a66e34d3b3abce5e9701d8a18d2061b2bcca0b3093501f00f969f17d8345ffc",
+        "checkpoint_hashes": {
+          "10": "cdfa68bc4b884c280c5d948018eeb316e467ae6dd0a8d3222015495009e184b8",
+          "30": "a84b8edb5ba7f6b171488f82d4e8ef494d2a2403db6517df389c70a9e4127f29",
+          "50": "0960471572d04b035c3db36021113c394e2263d1e2604ae7d5486efd9fcff445",
+          "100": "5a66e34d3b3abce5e9701d8a18d2061b2bcca0b3093501f00f969f17d8345ffc"
+        },
+        "saved_prompt_exact": true,
+        "feature_replay_exact": true,
+        "train_seconds": 10.535976779880002,
+        "evaluation_seconds": 69.07202493981458,
+        "elapsed_seconds": 80.20080081396736
+      }
+    },
+    {
+      "domain": "market1501",
+      "method": "dedup",
+      "draw": 2,
+      "seed": 42,
+      "effective_identities": 16,
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 30,
+            "mAP": 75.19853692723,
+            "rank1": 87.70783847980998,
+            "rank5": 95.27909741548915,
+            "gain": 0.3157634774749454
+          },
+          {
+            "step": 100,
+            "mAP": 75.75296526000506,
+            "rank1": 88.42042755344418,
+            "rank5": 95.39786226109484,
+            "gain": 0.8701918102500059
+          }
+        ],
+        "actual_updates": 100,
+        "nonzero_gradient_steps": 100,
+        "support_loss_before": 0.013757575303316116,
+        "support_loss_after": 0.0,
+        "projection_hits": 0,
+        "relative_prompt_delta": 0.09109387546777725,
+        "frozen_hash": "6de1e64ddc8711886e8575c3b1cb39b62ccfaced06e50f1619a7285645e26be4",
+        "prompt_hash": "4b0c11914eddca05a29c56373a6d450e00322e8c9798722adae05a80a80d9ee0",
+        "checkpoint_hashes": {
+          "10": "b8b94c44f3b6fdaeab34e2fb33b7983fe709c418bd4c989cc4ab94d686025312",
+          "30": "e53fcd01fa6843fcdb2ea00ee2a0af849da58d7a4a9049068c659a4655554679",
+          "50": "fae24c1af471a1f913a5d2fe09993835be21522eba90f8eac3cb313045b537ec",
+          "100": "4b0c11914eddca05a29c56373a6d450e00322e8c9798722adae05a80a80d9ee0"
+        },
+        "saved_prompt_exact": true,
+        "feature_replay_exact": true,
+        "train_seconds": 10.474337991094217,
+        "evaluation_seconds": 69.28293027891777,
+        "elapsed_seconds": 80.36120374314487
+      }
+    },
+    {
+      "domain": "market1501",
+      "method": "dedup",
+      "draw": 2,
+      "seed": 43,
+      "effective_identities": 16,
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 30,
+            "mAP": 75.28905911003892,
+            "rank1": 87.82660332541568,
+            "rank5": 95.24940620408772,
+            "gain": 0.4062856602838707
+          },
+          {
+            "step": 100,
+            "mAP": 75.84242638103186,
+            "rank1": 88.56888361045131,
+            "rank5": 95.39786226109484,
+            "gain": 0.959652931276807
+          }
+        ],
+        "actual_updates": 100,
+        "nonzero_gradient_steps": 100,
+        "support_loss_before": 0.013757575303316116,
+        "support_loss_after": 0.00042486866004765034,
+        "projection_hits": 0,
+        "relative_prompt_delta": 0.09087983518838882,
+        "frozen_hash": "6de1e64ddc8711886e8575c3b1cb39b62ccfaced06e50f1619a7285645e26be4",
+        "prompt_hash": "2e6353a7601dce20267b68f0e3702250fc95cc115dddf03fc925739982dc5d2e",
+        "checkpoint_hashes": {
+          "10": "5b0af22dcf78fc2f8bcfc341baf62a1540ac9a8f5facfa9d5bde85eb78cf48e7",
+          "30": "56e8037ad553c27b054789bda986d8ca08a4a8be1d83c260d10ca2c73413c93d",
+          "50": "b2bb3b281895cccc394f1ff5a74fa4909c653d0215ec7aa0134238eead06a139",
+          "100": "2e6353a7601dce20267b68f0e3702250fc95cc115dddf03fc925739982dc5d2e"
+        },
+        "saved_prompt_exact": true,
+        "feature_replay_exact": true,
+        "train_seconds": 10.578111689537764,
+        "evaluation_seconds": 69.83297774987295,
+        "elapsed_seconds": 80.98966904683039
+      }
+    }
+  ],
+  "time": "2026-10-03T01:21:00.305276+08:00"
+}

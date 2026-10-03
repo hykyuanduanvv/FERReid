@@ -1,0 +1,42 @@
+{
+  "baseline_pass": true,
+  "independent_process": true,
+  "frozen_hash_exact": true,
+  "tolerance_percentage_points": 0.0002,
+  "trials": [
+    {
+      "method": "random",
+      "actual": {
+        "mAP": 32.790610219767885,
+        "rank1": 59.52483060424575,
+        "rank5": 72.81070417856432
+      },
+      "expected": {
+        "step": 100,
+        "mAP": 32.790610219767885,
+        "rank1": 59.52483060424575,
+        "rank5": 72.81070417856432,
+        "gain": -4.201638621126094
+      },
+      "prompt_sha256": "769957ab067587f1c4dddf1a0c90f00a23ab72d9b72cada6d6ecb6c02004efe1",
+      "passed": true
+    },
+    {
+      "method": "facility",
+      "actual": {
+        "mAP": 40.31450922569532,
+        "rank1": 67.33853675425692,
+        "rank5": 79.18346341779561
+      },
+      "expected": {
+        "step": 20,
+        "mAP": 40.31450922569532,
+        "rank1": 67.33853675425692,
+        "rank5": 79.18346341779561,
+        "gain": 3.3222603848013392
+      },
+      "prompt_sha256": "feb240f37fb3ca9f3ef976cecc6db93c902337500b89a98d8263c8896f05601c",
+      "passed": true
+    }
+  ]
+}

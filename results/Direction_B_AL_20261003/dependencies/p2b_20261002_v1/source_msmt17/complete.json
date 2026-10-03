@@ -1,0 +1,11 @@
+{
+  "target": "msmt17",
+  "checkpoint": "/root/hyk/FERReid/experiments/p2b_20261002_v1/source_msmt17/checkpoint-12000",
+  "checkpoint_sha256": "88dd8dbb962671949198fee9725ca71a0e2705ae3471cd842c96c607ececf93c",
+  "training_args_sha256": "ee6c7a0ae24013e6d747cb9d7161fccfc358f3adc1d2c82f185dc04b0c4e605d",
+  "trainer_steps": 12000,
+  "optimizer_step_counts": [
+    11996
+  ],
+  "elapsed_seconds": 3607.843796879053
+}

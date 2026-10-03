@@ -1,0 +1,9 @@
+{
+  "task": [
+    "preflight",
+    "cuhksysu"
+  ],
+  "gpu": 1,
+  "returncode": 0,
+  "time": "2026-10-03T01:09:34.730915+08:00"
+}

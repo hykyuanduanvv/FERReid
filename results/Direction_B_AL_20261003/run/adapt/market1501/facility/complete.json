@@ -1,0 +1,275 @@
+{
+  "trials": [
+    {
+      "domain": "market1501",
+      "method": "facility",
+      "draw": 0,
+      "seed": 42,
+      "effective_identities": 16,
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 30,
+            "mAP": 75.89296583891482,
+            "rank1": 87.94536819933712,
+            "rank5": 95.5166270783848,
+            "gain": 1.0101923891597693
+          },
+          {
+            "step": 100,
+            "mAP": 76.00082340263131,
+            "rank1": 89.10332541567696,
+            "rank5": 95.72446558651052,
+            "gain": 1.1180499528762624
+          }
+        ],
+        "actual_updates": 100,
+        "nonzero_gradient_steps": 100,
+        "support_loss_before": 0.028755418956279755,
+        "support_loss_after": 0.005667414981871843,
+        "projection_hits": 0,
+        "relative_prompt_delta": 0.09561866521835327,
+        "frozen_hash": "6de1e64ddc8711886e8575c3b1cb39b62ccfaced06e50f1619a7285645e26be4",
+        "prompt_hash": "3ef24335ed392ff2bd4ead8d128849d4e327ddedc3d906ced17c4c3cde0febef",
+        "checkpoint_hashes": {
+          "10": "1e185880f1aecf42081e00089f4b46b14ecfb4b73a4a633c115df214b7b3b01f",
+          "30": "50320797c176379585e2f86f6220c31166b17d3b84670163aa827c0dd9eb3309",
+          "50": "3774b2c708f9018f112996ebadfa6c3864405864857e895b33f0924230417b8d",
+          "100": "3ef24335ed392ff2bd4ead8d128849d4e327ddedc3d906ced17c4c3cde0febef"
+        },
+        "saved_prompt_exact": true,
+        "feature_replay_exact": true,
+        "train_seconds": 11.714873123215511,
+        "evaluation_seconds": 70.27761593088508,
+        "elapsed_seconds": 82.58520687604323
+      }
+    },
+    {
+      "domain": "market1501",
+      "method": "facility",
+      "draw": 0,
+      "seed": 43,
+      "effective_identities": 16,
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 30,
+            "mAP": 75.776015678664,
+            "rank1": 88.06413304494282,
+            "rank5": 95.54631828978623,
+            "gain": 0.8932422289089459
+          },
+          {
+            "step": 100,
+            "mAP": 75.91603096760367,
+            "rank1": 88.68764848437276,
+            "rank5": 95.66508313539192,
+            "gain": 1.0332575178486252
+          }
+        ],
+        "actual_updates": 100,
+        "nonzero_gradient_steps": 100,
+        "support_loss_before": 0.028755418956279755,
+        "support_loss_after": 0.005745236296206713,
+        "projection_hits": 0,
+        "relative_prompt_delta": 0.09490048885345459,
+        "frozen_hash": "6de1e64ddc8711886e8575c3b1cb39b62ccfaced06e50f1619a7285645e26be4",
+        "prompt_hash": "ac1f5245fa0a1fd33d78928c27ae3b74b194a775b6b078310a98002a42f540fc",
+        "checkpoint_hashes": {
+          "10": "5fab52efead5ae5bab5b78f8997e52dca0ef9db936b7ad5464bf385c8c37860c",
+          "30": "b3bed6bcb33157f248a407ddc3076d438ec87401f491f00a7ceb9a501f5a0596",
+          "50": "07a41a4de70882224181326a679af2dcfefd76020db7ff6526239170ae2aa564",
+          "100": "ac1f5245fa0a1fd33d78928c27ae3b74b194a775b6b078310a98002a42f540fc"
+        },
+        "saved_prompt_exact": true,
+        "feature_replay_exact": true,
+        "train_seconds": 10.728855770314112,
+        "evaluation_seconds": 71.08981382590719,
+        "elapsed_seconds": 82.40477707399987
+      }
+    },
+    {
+      "domain": "market1501",
+      "method": "facility",
+      "draw": 1,
+      "seed": 42,
+      "effective_identities": 16,
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 30,
+            "mAP": 75.81439809674605,
+            "rank1": 88.39073634204276,
+            "rank5": 95.51662710670054,
+            "gain": 0.931624646990997
+          },
+          {
+            "step": 100,
+            "mAP": 76.13059977454414,
+            "rank1": 88.8064133016627,
+            "rank5": 95.63539195230625,
+            "gain": 1.247826324789088
+          }
+        ],
+        "actual_updates": 100,
+        "nonzero_gradient_steps": 99,
+        "support_loss_before": 0.0183977410197258,
+        "support_loss_after": 0.0,
+        "projection_hits": 0,
+        "relative_prompt_delta": 0.08757524937391281,
+        "frozen_hash": "6de1e64ddc8711886e8575c3b1cb39b62ccfaced06e50f1619a7285645e26be4",
+        "prompt_hash": "55c36cd6669ef7f47bfedb4186be20497cf0f2c8aefe4d825b6713da0ab09487",
+        "checkpoint_hashes": {
+          "10": "5301e70066077e5d9f72378928ed2e830606917cc0648066c3bc631fc8a0d0dc",
+          "30": "5b2bed57694102b39311d3abacbe7771c5bbf175da060b468be0ac537e4a62d6",
+          "50": "1dfb292ce3ea77e2f3b3532042a12ae7af9dc14c1326c542393f31254bac466e",
+          "100": "55c36cd6669ef7f47bfedb4186be20497cf0f2c8aefe4d825b6713da0ab09487"
+        },
+        "saved_prompt_exact": true,
+        "feature_replay_exact": true,
+        "train_seconds": 10.622449512593448,
+        "evaluation_seconds": 70.9390278449282,
+        "elapsed_seconds": 82.15057519217953
+      }
+    },
+    {
+      "domain": "market1501",
+      "method": "facility",
+      "draw": 1,
+      "seed": 43,
+      "effective_identities": 16,
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 30,
+            "mAP": 75.70182402173583,
+            "rank1": 88.36104513064133,
+            "rank5": 95.42755344418052,
+            "gain": 0.8190505719807817
+          },
+          {
+            "step": 100,
+            "mAP": 76.33425170055762,
+            "rank1": 88.8064133016627,
+            "rank5": 95.5760095295034,
+            "gain": 1.451478250802566
+          }
+        ],
+        "actual_updates": 100,
+        "nonzero_gradient_steps": 100,
+        "support_loss_before": 0.0183977410197258,
+        "support_loss_after": 0.0,
+        "projection_hits": 0,
+        "relative_prompt_delta": 0.08920509368181229,
+        "frozen_hash": "6de1e64ddc8711886e8575c3b1cb39b62ccfaced06e50f1619a7285645e26be4",
+        "prompt_hash": "bd8ec9f9cb279a24824a159bb8d8b2c5fb64213392e0ca31f3cb099ad644c132",
+        "checkpoint_hashes": {
+          "10": "323facab278d3645ed95b86386034cfd90847f19e3c27c617790175046525e89",
+          "30": "e744afe786ab83debe43a9eca8cfa79d88ae935f781720f74ba8ab7dcdad06e4",
+          "50": "4984304a38e13855945e26aae9caf27d3891b79468153bec1d7a57d311b05cae",
+          "100": "bd8ec9f9cb279a24824a159bb8d8b2c5fb64213392e0ca31f3cb099ad644c132"
+        },
+        "saved_prompt_exact": true,
+        "feature_replay_exact": true,
+        "train_seconds": 10.409596196142957,
+        "evaluation_seconds": 71.12039103289135,
+        "elapsed_seconds": 82.13270697998814
+      }
+    },
+    {
+      "domain": "market1501",
+      "method": "facility",
+      "draw": 2,
+      "seed": 42,
+      "effective_identities": 16,
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 30,
+            "mAP": 76.48728426165366,
+            "rank1": 88.53919242736562,
+            "rank5": 95.60570071258907,
+            "gain": 1.6045108118986064
+          },
+          {
+            "step": 100,
+            "mAP": 77.18974060230754,
+            "rank1": 89.48931117805336,
+            "rank5": 95.84323040380048,
+            "gain": 2.306967152552488
+          }
+        ],
+        "actual_updates": 100,
+        "nonzero_gradient_steps": 100,
+        "support_loss_before": 0.02302950993180275,
+        "support_loss_after": 0.0017766461241990328,
+        "projection_hits": 0,
+        "relative_prompt_delta": 0.09369083493947983,
+        "frozen_hash": "6de1e64ddc8711886e8575c3b1cb39b62ccfaced06e50f1619a7285645e26be4",
+        "prompt_hash": "f9af9425a5697c89c5ec0c69f4640e5b84efb29c6f9bc58c831315fd278ebd76",
+        "checkpoint_hashes": {
+          "10": "07ea18aa729da733cc78c0131853c1d4d81e42ae95475d3100333bdd74915d93",
+          "30": "780305bc400605a01cf62b005e4edbe548934dd91c19931b900cf6b30d35a8c1",
+          "50": "554f6443968416f1106aed736f6e516e4b27878c0831651757c4b4ee6527deb5",
+          "100": "f9af9425a5697c89c5ec0c69f4640e5b84efb29c6f9bc58c831315fd278ebd76"
+        },
+        "saved_prompt_exact": true,
+        "feature_replay_exact": true,
+        "train_seconds": 10.591428918298334,
+        "evaluation_seconds": 69.82739877700806,
+        "elapsed_seconds": 81.03038282808848
+      }
+    },
+    {
+      "domain": "market1501",
+      "method": "facility",
+      "draw": 2,
+      "seed": 43,
+      "effective_identities": 16,
+      "result": {
+        "status": "complete",
+        "rows": [
+          {
+            "step": 30,
+            "mAP": 76.41251190541193,
+            "rank1": 88.42042758175992,
+            "rank5": 95.54631828978623,
+            "gain": 1.529738455656883
+          },
+          {
+            "step": 100,
+            "mAP": 77.13693799428872,
+            "rank1": 89.40023754384909,
+            "rank5": 95.78384798099762,
+            "gain": 2.2541645445336655
+          }
+        ],
+        "actual_updates": 100,
+        "nonzero_gradient_steps": 100,
+        "support_loss_before": 0.02302950993180275,
+        "support_loss_after": 0.0019045278895646334,
+        "projection_hits": 0,
+        "relative_prompt_delta": 0.09613222628831863,
+        "frozen_hash": "6de1e64ddc8711886e8575c3b1cb39b62ccfaced06e50f1619a7285645e26be4",
+        "prompt_hash": "654baffdb5903fe3803b55a4ce5494907fe70e639515041c90e53443bd73defc",
+        "checkpoint_hashes": {
+          "10": "163545a2f3c565693e2bf0289ff63ab46eb1b99b43cc3898da25406af8a486bf",
+          "30": "85e9ce10500f99fe5840116deec7d482da081227ed44ae16ec96bd7d7d692192",
+          "50": "89a08a0ec9547bbe8b5b575465e3ecedca13f929e7b2f087b4a855393306f1c5",
+          "100": "654baffdb5903fe3803b55a4ce5494907fe70e639515041c90e53443bd73defc"
+        },
+        "saved_prompt_exact": true,
+        "feature_replay_exact": true,
+        "train_seconds": 10.620923669775948,
+        "evaluation_seconds": 69.98265619412996,
+        "elapsed_seconds": 81.20665968302637
+      }
+    }
+  ],
+  "time": "2026-10-03T01:29:27.936830+08:00"
+}

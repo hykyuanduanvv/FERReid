@@ -9,3 +9,9 @@
 results/archive_20260929/** -text
 results/archive_20260930/** -text
 *.tasks text eol=lf
+
+# Immutable Direction_B_AL artifacts: preserve historical bytes and recorded SHA256.
+# Historical whitespace is evidence, not a formatting change to repair.
+results/Direction_B_AL_20261003/** -text -whitespace
+scripts/active_vpt_p2.py -text -whitespace
+scripts/p2b_source.py -text -whitespace

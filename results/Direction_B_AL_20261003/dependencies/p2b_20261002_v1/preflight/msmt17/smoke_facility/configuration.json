@@ -1,0 +1,281 @@
+{
+  "steps": 20,
+  "eval_steps": [
+    20
+  ],
+  "seed": 42,
+  "lr": 0.0001,
+  "selection": {
+    "anchors": [
+      16710,
+      13785,
+      9368,
+      3416,
+      21,
+      13546,
+      16876,
+      10090,
+      9654,
+      15797,
+      5119,
+      27548,
+      1831,
+      21054,
+      13139,
+      25476
+    ],
+    "pairs": [
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0586/0586_000_01_0302morning_0265_0.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0586/0586_031_14_0302morning_0176_1.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0512/0512_015_11_0113noon_1117_0.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0512/0512_006_13_0113noon_1267_0.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0310/0310_001_01_0113morning_0401_3.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0310/0310_018_14_0113morning_0263_0.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0124/0124_015_08_0303noon_0676_0.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0124/0124_007_13_0303noon_0512_0.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0000/0000_012_07_0303morning_0010_0.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0000/0000_003_01_0303morning_0009_0_ex.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0509/0509_036_04_0113noon_1051_2_ex.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0509/0509_010_13_0113noon_1112_6_ex.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0594/0594_003_01_0302morning_0339_2.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0594/0594_044_05_0302morning_0705_3.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0349/0349_014_14_0113morning_0785_1_ex.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0349/0349_009_05_0113morning_0791_0.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0324/0324_001_01_0113morning_0606_0.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0324/0324_021_15_0113morning_0457_0.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0561/0561_012_13_0113afternoon_1655_3_ex.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0561/0561_014_11_0113afternoon_1415_2.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0186/0186_014_01_0303afternoon_0860_0.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0186/0186_006_14_0303afternoon_0873_1.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0953/0953_100_11_0114afternoon_1073_1_ex.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0953/0953_113_06_0114afternoon_1074_0_ex.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0073/0073_018_14_0303morning_1442_2_ex.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0073/0073_013_05_0303morning_1235_0.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0712/0712_019_07_0302afternoon_1224_0.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0712/0712_010_05_0302afternoon_1231_1.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0496/0496_059_10_0113noon_0897_0_ex.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0496/0496_009_13_0113noon_0808_2_ex.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0895/0895_019_15_0114noon_1203_2_ex.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0895/0895_001_01_0114noon_0542_2_ex.jpg"
+      ]
+    ],
+    "annotation": {
+      "k": 16,
+      "n_pairs": 16,
+      "n_dup": 0,
+      "n_fail": 0,
+      "outcomes": [
+        {
+          "anchor": 16710,
+          "result": "pair",
+          "partner": 16730
+        },
+        {
+          "anchor": 13785,
+          "result": "pair",
+          "partner": 13787
+        },
+        {
+          "anchor": 9368,
+          "result": "pair",
+          "partner": 9366
+        },
+        {
+          "anchor": 3416,
+          "result": "pair",
+          "partner": 3426
+        },
+        {
+          "anchor": 21,
+          "result": "pair",
+          "partner": 6
+        },
+        {
+          "anchor": 13546,
+          "result": "pair",
+          "partner": 13572
+        },
+        {
+          "anchor": 16876,
+          "result": "pair",
+          "partner": 16874
+        },
+        {
+          "anchor": 10090,
+          "result": "pair",
+          "partner": 10094
+        },
+        {
+          "anchor": 9654,
+          "result": "pair",
+          "partner": 9644
+        },
+        {
+          "anchor": 15797,
+          "result": "pair",
+          "partner": 15823
+        },
+        {
+          "anchor": 5119,
+          "result": "pair",
+          "partner": 5109
+        },
+        {
+          "anchor": 27548,
+          "result": "pair",
+          "partner": 27619
+        },
+        {
+          "anchor": 1831,
+          "result": "pair",
+          "partner": 1833
+        },
+        {
+          "anchor": 21054,
+          "result": "pair",
+          "partner": 21056
+        },
+        {
+          "anchor": 13139,
+          "result": "pair",
+          "partner": 13168
+        },
+        {
+          "anchor": 25476,
+          "result": "pair",
+          "partner": 25460
+        }
+      ],
+      "pair_indices": [
+        [
+          16710,
+          16730
+        ],
+        [
+          13785,
+          13787
+        ],
+        [
+          9368,
+          9366
+        ],
+        [
+          3416,
+          3426
+        ],
+        [
+          21,
+          6
+        ],
+        [
+          13546,
+          13572
+        ],
+        [
+          16876,
+          16874
+        ],
+        [
+          10090,
+          10094
+        ],
+        [
+          9654,
+          9644
+        ],
+        [
+          15797,
+          15823
+        ],
+        [
+          5119,
+          5109
+        ],
+        [
+          27548,
+          27619
+        ],
+        [
+          1831,
+          1833
+        ],
+        [
+          21054,
+          21056
+        ],
+        [
+          13139,
+          13168
+        ],
+        [
+          25476,
+          25460
+        ]
+      ]
+    },
+    "effective_identities": 16,
+    "revealed_ids": [
+      586,
+      512,
+      310,
+      124,
+      0,
+      509,
+      594,
+      349,
+      324,
+      561,
+      186,
+      953,
+      73,
+      712,
+      496,
+      895
+    ],
+    "method": "facility",
+    "draw": 0,
+    "selection_seed": 1600,
+    "annotation_seed": 2600,
+    "metrics": {
+      "cameras": 9,
+      "mean_pairwise_distance": 0.6012256741523743,
+      "typicality": 4.532039165496826,
+      "pairability": 0.7892978191375732
+    },
+    "ordered_support_hash": "8c9973b6c90bfa7c7a9fa4d398cb9cfda7f2e63699b945592fd8f61c7ed4b7f1",
+    "anchor_set_hash": "3a0c09ef60fecfbe99d91cd4a28db2bf3b2522fd6c5e5f43ddf7a2683f1f5acb"
+  },
+  "initial_prompt_hash": "0975d01f3fea84ead5147599627ab2dafea5da608864c2d71de19a0716b60b4f",
+  "frozen_hash": "c08d7c7cf1932bb713955e5de67606b1b05ef4d6c1162d21c651f7a294c67fe7"
+}

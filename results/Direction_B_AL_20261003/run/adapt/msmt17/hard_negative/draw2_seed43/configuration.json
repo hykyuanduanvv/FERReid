@@ -1,0 +1,330 @@
+{
+  "configuration": {
+    "version": 1,
+    "steps": 100,
+    "eval_steps": [
+      30,
+      100
+    ],
+    "save_steps": [
+      0,
+      10,
+      30,
+      50,
+      100
+    ],
+    "lr": 1e-05,
+    "optimizer": "Adam",
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 0.0,
+    "radius_ratio": 0.1,
+    "margin": 0.1,
+    "k": 16,
+    "draws": [
+      0,
+      1,
+      2
+    ],
+    "seeds": [
+      42,
+      43
+    ],
+    "methods": [
+      "random",
+      "dedup",
+      "kcenter",
+      "typical",
+      "hard_negative",
+      "facility",
+      "facility_camera"
+    ],
+    "domains": [
+      "market1501",
+      "cuhksysu",
+      "cuhk03",
+      "msmt17"
+    ],
+    "gpus": [
+      0,
+      1,
+      2,
+      7
+    ],
+    "planned_trials": 168,
+    "loss": "FP32 hardest Triplet only",
+    "trainable": "external prompt only",
+    "augmentation": "unchanged legacy flip/pad-crop/erasing; normalized zero padding",
+    "selection": "reuse frozen label-free selections and deterministic annotations",
+    "main_step": 100,
+    "secondary_step": 30,
+    "model_mode": "eval; autograd enabled for external prompt",
+    "symmetry": "retain existing token symmetry and all 32 tokens",
+    "interpretation": "revised exploratory protocol; no per-trial test-selected checkpoint",
+    "old_run": "experiments/p2b_20261002_v1",
+    "no_old_jobs_resumed": true
+  },
+  "steps": 100,
+  "eval_steps": [
+    30,
+    100
+  ],
+  "seed": 43,
+  "selection": {
+    "anchors": [
+      15188,
+      25672,
+      11111,
+      11054,
+      21635,
+      4969,
+      16532,
+      16530,
+      11822,
+      25854,
+      22365,
+      8658,
+      14655,
+      6916,
+      28968,
+      24705
+    ],
+    "pairs": [
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0544/0544_037_08_0113afternoon_1030_0.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0544/0544_012_11_0113afternoon_0761_1.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0907/0907_006_05_0114noon_1438_0.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0907/0907_002_01_0114noon_0826_2.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0389/0389_016_11_0113morning_0775_0.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0389/0389_022_08_0113morning_0768_1.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0739/0739_005_07_0302afternoon_0241_0.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0739/0739_013_14_0302afternoon_0288_1.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0179/0179_013_05_0303afternoon_0759_4_ex.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0179/0179_004_14_0303afternoon_0778_1.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0578/0578_019_07_0302morning_0276_4.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0578/0578_035_15_0302morning_0329_0.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0419/0419_001_01_0113noon_0362_4_ex.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0419/0419_009_05_0113noon_0376_0.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0916/0916_002_01_0114noon_1075_1.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0916/0916_011_05_0114noon_1694_1.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0771/0771_043_05_0302afternoon_1110_0_ex.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0771/0771_016_11_0302afternoon_1015_1.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0287/0287_032_04_0303afternoon_1562_1_ex.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0287/0287_012_11_0303afternoon_1551_1.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0532/0532_004_13_0113afternoon_0463_0.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0532/0532_053_07_0113afternoon_0445_0_ex.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0245/0245_003_13_0303afternoon_0812_3.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0245/0245_066_07_0303afternoon_0850_3.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/1014/1014_020_05_0114afternoon_1652_2.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/1014/1014_033_07_0114afternoon_1646_2.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0859/0859_036_14_0114morning_1616_0_ex.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0859/0859_050_15_0114morning_1581_2.jpg"
+      ]
+    ],
+    "annotation": {
+      "k": 16,
+      "n_pairs": 14,
+      "n_dup": 2,
+      "n_fail": 0,
+      "outcomes": [
+        {
+          "anchor": 15188,
+          "result": "pair",
+          "partner": 15166
+        },
+        {
+          "anchor": 25672,
+          "result": "pair",
+          "partner": 25668
+        },
+        {
+          "anchor": 11111,
+          "result": "pair",
+          "partner": 11115
+        },
+        {
+          "anchor": 11054,
+          "result": "duplicate"
+        },
+        {
+          "anchor": 21635,
+          "result": "pair",
+          "partner": 21640
+        },
+        {
+          "anchor": 4969,
+          "result": "pair",
+          "partner": 4960
+        },
+        {
+          "anchor": 16532,
+          "result": "pair",
+          "partner": 16540
+        },
+        {
+          "anchor": 16530,
+          "result": "duplicate"
+        },
+        {
+          "anchor": 11822,
+          "result": "pair",
+          "partner": 11835
+        },
+        {
+          "anchor": 25854,
+          "result": "pair",
+          "partner": 25852
+        },
+        {
+          "anchor": 22365,
+          "result": "pair",
+          "partner": 22318
+        },
+        {
+          "anchor": 8658,
+          "result": "pair",
+          "partner": 8699
+        },
+        {
+          "anchor": 14655,
+          "result": "pair",
+          "partner": 14640
+        },
+        {
+          "anchor": 6916,
+          "result": "pair",
+          "partner": 6924
+        },
+        {
+          "anchor": 28968,
+          "result": "pair",
+          "partner": 28991
+        },
+        {
+          "anchor": 24705,
+          "result": "pair",
+          "partner": 24698
+        }
+      ],
+      "pair_indices": [
+        [
+          15188,
+          15166
+        ],
+        [
+          25672,
+          25668
+        ],
+        [
+          11111,
+          11115
+        ],
+        [
+          21635,
+          21640
+        ],
+        [
+          4969,
+          4960
+        ],
+        [
+          16532,
+          16540
+        ],
+        [
+          11822,
+          11835
+        ],
+        [
+          25854,
+          25852
+        ],
+        [
+          22365,
+          22318
+        ],
+        [
+          8658,
+          8699
+        ],
+        [
+          14655,
+          14640
+        ],
+        [
+          6916,
+          6924
+        ],
+        [
+          28968,
+          28991
+        ],
+        [
+          24705,
+          24698
+        ]
+      ]
+    },
+    "effective_identities": 14,
+    "revealed_ids": [
+      544,
+      907,
+      389,
+      739,
+      179,
+      578,
+      419,
+      916,
+      771,
+      287,
+      532,
+      245,
+      1014,
+      859
+    ],
+    "method": "hard_negative",
+    "draw": 2,
+    "selection_seed": 1602,
+    "annotation_seed": 2602,
+    "metrics": {
+      "cameras": 9,
+      "mean_pairwise_distance": 0.7057927846908569,
+      "typicality": 4.131643772125244,
+      "pairability": 0.7736631035804749
+    },
+    "ordered_support_hash": "9dbd10f77605f98f5a652d386c62a12a54eff14225c090a9f339904519263f05",
+    "anchor_set_hash": "b0f769784f14ef803102c83f6de8bcf4104ef154eb8a9c1e8813fa988d313b2a"
+  },
+  "initial_prompt_hash": "0975d01f3fea84ead5147599627ab2dafea5da608864c2d71de19a0716b60b4f",
+  "frozen_hash": "c08d7c7cf1932bb713955e5de67606b1b05ef4d6c1162d21c651f7a294c67fe7",
+  "runner_sha256": "65bd1425bbb48591ba949e840b92ccb40813ff8353572a4b1d0f5c2abcaee52a"
+}

@@ -1,0 +1,107 @@
+[
+  {
+    "method": "random",
+    "draw": 0,
+    "seconds": 0.0006281400565057993
+  },
+  {
+    "method": "dedup",
+    "draw": 0,
+    "seconds": 0.0006956160068511963
+  },
+  {
+    "method": "kcenter",
+    "draw": 0,
+    "seconds": 0.01302462094463408
+  },
+  {
+    "method": "typical",
+    "draw": 0,
+    "seconds": 1.5072660550940782
+  },
+  {
+    "method": "hard_negative",
+    "draw": 0,
+    "seconds": 0.009359996998682618
+  },
+  {
+    "method": "facility",
+    "draw": 0,
+    "seconds": 1.9956724899820983
+  },
+  {
+    "method": "facility_camera",
+    "draw": 0,
+    "seconds": 2.0315051930956542
+  },
+  {
+    "method": "random",
+    "draw": 1,
+    "seconds": 0.00041791494004428387
+  },
+  {
+    "method": "dedup",
+    "draw": 1,
+    "seconds": 0.0006515469867736101
+  },
+  {
+    "method": "kcenter",
+    "draw": 1,
+    "seconds": 0.010178607888519764
+  },
+  {
+    "method": "typical",
+    "draw": 1,
+    "seconds": 1.5439254371449351
+  },
+  {
+    "method": "hard_negative",
+    "draw": 1,
+    "seconds": 0.008125238120555878
+  },
+  {
+    "method": "facility",
+    "draw": 1,
+    "seconds": 1.929080227855593
+  },
+  {
+    "method": "facility_camera",
+    "draw": 1,
+    "seconds": 1.9518848771695048
+  },
+  {
+    "method": "random",
+    "draw": 2,
+    "seconds": 0.00042853085324168205
+  },
+  {
+    "method": "dedup",
+    "draw": 2,
+    "seconds": 0.000836443156003952
+  },
+  {
+    "method": "kcenter",
+    "draw": 2,
+    "seconds": 0.012289560865610838
+  },
+  {
+    "method": "typical",
+    "draw": 2,
+    "seconds": 1.4016670628916472
+  },
+  {
+    "method": "hard_negative",
+    "draw": 2,
+    "seconds": 0.00786987692117691
+  },
+  {
+    "method": "facility",
+    "draw": 2,
+    "seconds": 1.910710136871785
+  },
+  {
+    "method": "facility_camera",
+    "draw": 2,
+    "seconds": 1.9429087361786515
+  }
+]

@@ -1,0 +1,350 @@
+{
+  "configuration": {
+    "version": 1,
+    "steps": 100,
+    "eval_steps": [
+      30,
+      100
+    ],
+    "save_steps": [
+      0,
+      10,
+      30,
+      50,
+      100
+    ],
+    "lr": 1e-05,
+    "optimizer": "Adam",
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 0.0,
+    "radius_ratio": 0.1,
+    "margin": 0.1,
+    "k": 16,
+    "draws": [
+      0,
+      1,
+      2
+    ],
+    "seeds": [
+      42,
+      43
+    ],
+    "methods": [
+      "random",
+      "dedup",
+      "kcenter",
+      "typical",
+      "hard_negative",
+      "facility",
+      "facility_camera"
+    ],
+    "domains": [
+      "market1501",
+      "cuhksysu",
+      "cuhk03",
+      "msmt17"
+    ],
+    "gpus": [
+      0,
+      1,
+      2,
+      7
+    ],
+    "planned_trials": 168,
+    "loss": "FP32 hardest Triplet only",
+    "trainable": "external prompt only",
+    "augmentation": "unchanged legacy flip/pad-crop/erasing; normalized zero padding",
+    "selection": "reuse frozen label-free selections and deterministic annotations",
+    "main_step": 100,
+    "secondary_step": 30,
+    "model_mode": "eval; autograd enabled for external prompt",
+    "symmetry": "retain existing token symmetry and all 32 tokens",
+    "interpretation": "revised exploratory protocol; no per-trial test-selected checkpoint",
+    "old_run": "experiments/p2b_20261002_v1",
+    "no_old_jobs_resumed": true
+  },
+  "steps": 100,
+  "eval_steps": [
+    30,
+    100
+  ],
+  "seed": 43,
+  "selection": {
+    "anchors": [
+      16710,
+      13785,
+      3416,
+      1930,
+      21,
+      15797,
+      11250,
+      12232,
+      18483,
+      13139,
+      4609,
+      25476,
+      14317,
+      13630,
+      471,
+      1831
+    ],
+    "pairs": [
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0586/0586_000_01_0302morning_0265_0.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0586/0586_031_14_0302morning_0176_1.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0512/0512_015_11_0113noon_1117_0.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0512/0512_006_13_0113noon_1267_0.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0124/0124_015_08_0303noon_0676_0.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0124/0124_007_13_0303noon_0512_0.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0077/0077_017_05_0303morning_1327_1.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0077/0077_004_01_0303morning_1313_4.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0000/0000_012_07_0303morning_0010_0.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0000/0000_003_01_0303morning_0009_0_ex.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0561/0561_012_13_0113afternoon_1655_3_ex.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0561/0561_014_11_0113afternoon_1415_2.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0392/0392_031_04_0113morning_1261_2_ex.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0392/0392_027_07_0113morning_1316_1.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0448/0448_003_14_0113noon_0667_2.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0448/0448_000_01_0113noon_0671_0.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0636/0636_027_09_0302noon_0155_1_ex.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0636/0636_007_12_0302noon_0145_0_ex.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0496/0496_059_10_0113noon_0897_0_ex.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0496/0496_009_13_0113noon_0808_2_ex.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0165/0165_022_03_0303afternoon_0461_2.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0165/0165_002_14_0303afternoon_0454_1.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0895/0895_019_15_0114noon_1203_2_ex.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0895/0895_001_01_0114noon_0542_2_ex.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0528/0528_131_06_0113afternoon_0244_0_ex.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0528/0528_068_04_0113afternoon_0300_0_ex.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0510/0510_013_12_0113noon_1022_0_ex.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0510/0510_051_03_0113noon_1405_0.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0019/0019_001_01_0303morning_0238_4_ex.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0019/0019_012_14_0303morning_0472_2_ex.jpg"
+      ],
+      [
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0073/0073_018_14_0303morning_1442_2_ex.jpg",
+        "/root/hyk/reid-data/msmt17/MSMT17_V1/train/0073/0073_013_05_0303morning_1235_0.jpg"
+      ]
+    ],
+    "annotation": {
+      "k": 16,
+      "n_pairs": 16,
+      "n_dup": 0,
+      "n_fail": 0,
+      "outcomes": [
+        {
+          "anchor": 16710,
+          "result": "pair",
+          "partner": 16730
+        },
+        {
+          "anchor": 13785,
+          "result": "pair",
+          "partner": 13787
+        },
+        {
+          "anchor": 3416,
+          "result": "pair",
+          "partner": 3426
+        },
+        {
+          "anchor": 1930,
+          "result": "pair",
+          "partner": 1935
+        },
+        {
+          "anchor": 21,
+          "result": "pair",
+          "partner": 6
+        },
+        {
+          "anchor": 15797,
+          "result": "pair",
+          "partner": 15823
+        },
+        {
+          "anchor": 11250,
+          "result": "pair",
+          "partner": 11228
+        },
+        {
+          "anchor": 12232,
+          "result": "pair",
+          "partner": 12235
+        },
+        {
+          "anchor": 18483,
+          "result": "pair",
+          "partner": 18463
+        },
+        {
+          "anchor": 13139,
+          "result": "pair",
+          "partner": 13168
+        },
+        {
+          "anchor": 4609,
+          "result": "pair",
+          "partner": 4593
+        },
+        {
+          "anchor": 25476,
+          "result": "pair",
+          "partner": 25460
+        },
+        {
+          "anchor": 14317,
+          "result": "pair",
+          "partner": 14384
+        },
+        {
+          "anchor": 13630,
+          "result": "pair",
+          "partner": 13652
+        },
+        {
+          "anchor": 471,
+          "result": "pair",
+          "partner": 458
+        },
+        {
+          "anchor": 1831,
+          "result": "pair",
+          "partner": 1833
+        }
+      ],
+      "pair_indices": [
+        [
+          16710,
+          16730
+        ],
+        [
+          13785,
+          13787
+        ],
+        [
+          3416,
+          3426
+        ],
+        [
+          1930,
+          1935
+        ],
+        [
+          21,
+          6
+        ],
+        [
+          15797,
+          15823
+        ],
+        [
+          11250,
+          11228
+        ],
+        [
+          12232,
+          12235
+        ],
+        [
+          18483,
+          18463
+        ],
+        [
+          13139,
+          13168
+        ],
+        [
+          4609,
+          4593
+        ],
+        [
+          25476,
+          25460
+        ],
+        [
+          14317,
+          14384
+        ],
+        [
+          13630,
+          13652
+        ],
+        [
+          471,
+          458
+        ],
+        [
+          1831,
+          1833
+        ]
+      ]
+    },
+    "effective_identities": 16,
+    "revealed_ids": [
+      586,
+      512,
+      124,
+      77,
+      0,
+      561,
+      392,
+      448,
+      636,
+      496,
+      165,
+      895,
+      528,
+      510,
+      19,
+      73
+    ],
+    "method": "facility_camera",
+    "draw": 0,
+    "selection_seed": 1600,
+    "annotation_seed": 2600,
+    "metrics": {
+      "cameras": 14,
+      "mean_pairwise_distance": 0.6082290410995483,
+      "typicality": 4.316018581390381,
+      "pairability": 0.7693853378295898
+    },
+    "ordered_support_hash": "9c732a329931adb3367045ba6191221337391d9325c70b9e248207294e25192c",
+    "anchor_set_hash": "e77c2aec6e7f48f849f81cbbd2f3d74d319b32c5c482838ab1481991baa7362b"
+  },
+  "initial_prompt_hash": "0975d01f3fea84ead5147599627ab2dafea5da608864c2d71de19a0716b60b4f",
+  "frozen_hash": "c08d7c7cf1932bb713955e5de67606b1b05ef4d6c1162d21c651f7a294c67fe7",
+  "runner_sha256": "65bd1425bbb48591ba949e840b92ccb40813ff8353572a4b1d0f5c2abcaee52a"
+}

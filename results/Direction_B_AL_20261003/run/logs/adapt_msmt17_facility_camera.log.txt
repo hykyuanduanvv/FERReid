@@ -1,0 +1,37 @@
+[ReIDModel] Loading DINOv2 dinov2_vitb14 from /root/hyk/weights/dinov2_vitb14_pretrain.pth (code /root/hyk/basic-models/dinov2), input (252, 126)
+/root/hyk/basic-models/dinov2/dinov2/layers/swiglu_ffn.py:51: UserWarning: xFormers is not available (SwiGLU)
+  warnings.warn("xFormers is not available (SwiGLU)")
+/root/hyk/basic-models/dinov2/dinov2/layers/attention.py:33: UserWarning: xFormers is not available (Attention)
+  warnings.warn("xFormers is not available (Attention)")
+/root/hyk/basic-models/dinov2/dinov2/layers/block.py:40: UserWarning: xFormers is not available (Block)
+  warnings.warn("xFormers is not available (Block)")
+FULL_EVAL {"query": 11659, "gallery": 82161, "extraction_seconds": 158.59415205707774, "rank_seconds": 37.48130815895274, "mAP": 39.0872632943906, "rank1": 65.89758984628882, "rank5": 78.60022300266567}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/msmt17/facility_camera/draw0_seed42 {"step": 30, "mAP": 39.0872632943906, "rank1": 65.89758984628882, "rank5": 78.60022300266567, "gain": 2.095014453496624}
+FULL_EVAL {"query": 11659, "gallery": 82161, "extraction_seconds": 158.38764231209643, "rank_seconds": 40.21813816088252, "mAP": 39.05641847710348, "rank1": 65.87185865150367, "rank5": 78.06844497710601}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/msmt17/facility_camera/draw0_seed42 {"step": 100, "mAP": 39.05641847710348, "rank1": 65.87185865150367, "rank5": 78.06844497710601, "gain": 2.064169636209499}
+SHORT_TRIAL_COMPLETE msmt17 facility_camera 0 42
+FULL_EVAL {"query": 11659, "gallery": 82161, "extraction_seconds": 155.7611338950228, "rank_seconds": 38.266639691079035, "mAP": 39.07063466084025, "rank1": 65.88043571643206, "rank5": 78.60022300266567}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/msmt17/facility_camera/draw0_seed43 {"step": 30, "mAP": 39.07063466084025, "rank1": 65.88043571643206, "rank5": 78.60022300266567, "gain": 2.07838581994627}
+FULL_EVAL {"query": 11659, "gallery": 82161, "extraction_seconds": 155.73384991916828, "rank_seconds": 37.357966501964256, "mAP": 39.09970441331012, "rank1": 65.93189810600235, "rank5": 78.23140921074527}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/msmt17/facility_camera/draw0_seed43 {"step": 100, "mAP": 39.09970441331012, "rank1": 65.93189810600235, "rank5": 78.23140921074527, "gain": 2.107455572416143}
+SHORT_TRIAL_COMPLETE msmt17 facility_camera 0 43
+FULL_EVAL {"query": 11659, "gallery": 82161, "extraction_seconds": 155.83472767984495, "rank_seconds": 35.32120451889932, "mAP": 37.36632706710717, "rank1": 64.37087228903691, "rank5": 77.17643022455434}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/msmt17/facility_camera/draw1_seed42 {"step": 30, "mAP": 37.36632706710717, "rank1": 64.37087228903691, "rank5": 77.17643022455434, "gain": 0.374078226213193}
+FULL_EVAL {"query": 11659, "gallery": 82161, "extraction_seconds": 155.88503279397264, "rank_seconds": 37.92976631387137, "mAP": 35.91702931592288, "rank1": 63.14435200427836, "rank5": 76.00994939685062}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/msmt17/facility_camera/draw1_seed42 {"step": 100, "mAP": 35.91702931592288, "rank1": 63.14435200427836, "rank5": 76.00994939685062, "gain": -1.0752195249710965}
+SHORT_TRIAL_COMPLETE msmt17 facility_camera 1 42
+FULL_EVAL {"query": 11659, "gallery": 82161, "extraction_seconds": 155.7747709711548, "rank_seconds": 38.20166120212525, "mAP": 37.48099428909661, "rank1": 64.5681447823897, "rank5": 77.32224032833683}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/msmt17/facility_camera/draw1_seed43 {"step": 30, "mAP": 37.48099428909661, "rank1": 64.5681447823897, "rank5": 77.32224032833683, "gain": 0.48874544820262855}
+FULL_EVAL {"query": 11659, "gallery": 82161, "extraction_seconds": 159.37147167604417, "rank_seconds": 38.73559150611982, "mAP": 35.86852241057312, "rank1": 63.04142722513778, "rank5": 76.08714298120606}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/msmt17/facility_camera/draw1_seed43 {"step": 100, "mAP": 35.86852241057312, "rank1": 63.04142722513778, "rank5": 76.08714298120606, "gain": -1.1237264303208576}
+SHORT_TRIAL_COMPLETE msmt17 facility_camera 1 43
+FULL_EVAL {"query": 11659, "gallery": 82161, "extraction_seconds": 159.67355497111566, "rank_seconds": 38.47311673290096, "mAP": 38.86718884556502, "rank1": 65.69174028800767, "rank5": 78.23140921074527}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/msmt17/facility_camera/draw2_seed42 {"step": 30, "mAP": 38.86718884556502, "rank1": 65.69174028800767, "rank5": 78.23140921074527, "gain": 1.8749400046710392}
+FULL_EVAL {"query": 11659, "gallery": 82161, "extraction_seconds": 159.821790429065, "rank_seconds": 39.00714164506644, "mAP": 38.714700264232995, "rank1": 65.42585127522784, "rank5": 78.00840552260735}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/msmt17/facility_camera/draw2_seed42 {"step": 100, "mAP": 38.714700264232995, "rank1": 65.42585127522784, "rank5": 78.00840552260735, "gain": 1.7224514233390167}
+SHORT_TRIAL_COMPLETE msmt17 facility_camera 2 42
+FULL_EVAL {"query": 11659, "gallery": 82161, "extraction_seconds": 159.1069888889324, "rank_seconds": 38.287189569091424, "mAP": 38.67565443753194, "rank1": 65.59739257379547, "rank5": 78.0341367173925}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/msmt17/facility_camera/draw2_seed43 {"step": 30, "mAP": 38.67565443753194, "rank1": 65.59739257379547, "rank5": 78.0341367173925, "gain": 1.6834055966379609}
+FULL_EVAL {"query": 11659, "gallery": 82161, "extraction_seconds": 158.8902404268738, "rank_seconds": 36.62956487503834, "mAP": 38.43366514707023, "rank1": 65.28861823637374, "rank5": 77.82828715911134}
+SHORT_EVAL /root/hyk/FERReid/experiments/p2b_short_20261003_v1/adapt/msmt17/facility_camera/draw2_seed43 {"step": 100, "mAP": 38.43366514707023, "rank1": 65.28861823637374, "rank5": 77.82828715911134, "gain": 1.4414163061762508}
+SHORT_TRIAL_COMPLETE msmt17 facility_camera 2 43
