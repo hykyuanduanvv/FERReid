@@ -10,8 +10,8 @@ from torch.utils.data import DataLoader, Sampler
 
 from custom_trainer import CustomTrainer
 from adapters.config_reid import DOMAIN_CONFIG, NUM_SPLITS, NO_CAMERA_DOMAINS
-from adapters.reid_dataset import (DomainPersonTrainDataset, CameraPairTrainDataset, ContextPairDataset,
-                                   DomainReIDEvalDataset)
+from adapters.reid_dataset import (DomainPersonTrainDataset, CameraPairTrainDataset, CameraGroupTrainDataset,
+                                   ContextPairDataset, DomainReIDEvalDataset)
 from adapters.context_selection import ContextSampler, needs_features
 from torchreid.metrics import evaluate_rank
 
@@ -91,6 +91,74 @@ def cosine_distmat(qf, gf, device, chunk=4096):
     return out
 
 
+from models import CONTEXT_BRANCH
+
+
+def _read_state_dict(checkpoint_dir):
+    for name in ("pytorch_model.bin", "model.safetensors"):
+        path = os.path.join(checkpoint_dir, name)
+        if os.path.isfile(path):
+            if name.endswith(".safetensors"):
+                from safetensors.torch import load_file
+                return load_file(path)
+            return torch.load(path, map_location="cpu", weights_only=True)
+    raise FileNotFoundError("no pytorch_model.bin / model.safetensors in {}".format(checkpoint_dir))
+
+
+def load_init_checkpoint(model, checkpoint_dir):
+    """--init_from: copy matching weights of a checkpoint into a freshly built model before training.
+    A VPT checkpoint's `prompt` (1, L, V, D) becomes the residual `base_prompt` (1, L*V, D), so a residual
+    VICP with --delta_init_std 0 starts exactly at the VPT model. Everything that does not match keeps its
+    initialisation and is listed; at least the encoder must load."""
+    state = _read_state_dict(checkpoint_dir)
+    own = model.state_dict()
+    if "prompt" in state and "base_prompt" in own and "base_prompt" not in state:
+        state["base_prompt"] = state.pop("prompt").reshape(own["base_prompt"].shape)
+    loadable = {k: v for k, v in state.items() if k in own and own[k].shape == v.shape}
+    mismatched = sorted(k for k in state if k in own and own[k].shape != state[k].shape)
+    unused = sorted(k for k in state if k not in own)
+    missing = sorted(k for k in own if k not in loadable)
+    if not any(k.startswith("encoder.") for k in loadable):
+        raise ValueError("--init_from {}: no encoder weight matches this model".format(checkpoint_dir))
+    model.load_state_dict(loadable, strict=False)
+    n_enc = sum(k.startswith("encoder.") for k in loadable)
+    print("[init_from] {}: loaded {} tensors ({} encoder{}); shape mismatch {}; unused {}".format(
+        checkpoint_dir, len(loadable), n_enc, ", base_prompt" if "base_prompt" in loadable else "",
+        mismatched, unused))
+    fresh = sorted({k.split(".")[0] for k in missing if not k.startswith(("lm.", "encoder_copy."))})
+    print("[init_from] freshly initialised (besides the pretrained LLM / frozen encoder copy):", fresh)
+    return loadable
+
+
+def load_prompt_teachers(path, domain_names, shape):
+    """--prompt_teacher: teachers.pt of scripts/group_prompts.py -> (num_domains, L*V, D) FP32, in the order of
+    the training dataset's domain_names. Every training domain needs a teacher."""
+    if not path:
+        raise ValueError("--prompt_kd_weight > 0 needs --prompt_teacher <teachers.pt>")
+    prompts = torch.load(path, map_location="cpu", weights_only=False)["prompts"]
+    missing = [d for d in domain_names if d not in prompts]
+    if missing:
+        raise ValueError("--prompt_teacher {} has no prompt for training domains {} (has {})".format(
+            path, missing, sorted(prompts)))
+    return torch.stack([prompts[d].float().reshape(shape) for d in domain_names])
+
+
+def freeze_all_but_context(model):
+    """--train_context_only: only the context branch of VICP stays trainable."""
+    kept = []
+    for n, p in model.named_parameters():
+        train = n.startswith(CONTEXT_BRANCH)
+        if p.requires_grad and not train:
+            p.requires_grad_(False)
+        if p.requires_grad:
+            kept.append(n)
+    if not kept:
+        raise ValueError("--train_context_only left no trainable parameter (is this a VICP model?)")
+    print("[train_context_only] trainable: {:.2f}M in {}".format(
+        sum(p.numel() for n, p in model.named_parameters() if p.requires_grad) / 1e6,
+        sorted({n.split(".")[0] for n in kept})))
+
+
 class DGReIDTrainer(CustomTrainer):
 
     def __init__(self, args, device="cpu"):
@@ -114,11 +182,16 @@ class DGReIDTrainer(CustomTrainer):
         if args.pseudo_domains == "camera_pair":
             train_dataset = CameraPairTrainDataset(source_datasets, instances_per_id=args.instances_per_id,
                                                    min_ids=args.pseudo_min_ids)
+        elif args.pseudo_domains == "camera_group":
+            if not args.camera_groups:
+                raise ValueError("--pseudo_domains camera_group needs --camera_groups <groups.json>")
+            train_dataset = CameraGroupTrainDataset(source_datasets, args.camera_groups,
+                                                    instances_per_id=args.instances_per_id, min_ids=args.pseudo_min_ids)
         elif args.pseudo_domains == "none":
             train_dataset = DomainPersonTrainDataset(source_datasets, instances_per_id=args.instances_per_id,
                                                      cross_camera=args.cross_camera_instances)
         else:
-            raise ValueError("--pseudo_domains must be none or camera_pair")
+            raise ValueError("--pseudo_domains must be none, camera_pair or camera_group")
         print("num identities: ", train_dataset.num_ids)
         # size of the ID-classification head (if any). A value given on the command line (e.g. read from
         # a checkpoint for evaluation) must agree with the data that is loaded now.
@@ -137,6 +210,26 @@ class DGReIDTrainer(CustomTrainer):
         else:
             from adapters.reid_model import ReIDModel
             model = ReIDModel(args)
+        if args.ctx_contrast_weight > 0:
+            if args.model_type != "vicp":
+                raise ValueError("--ctx_contrast_weight needs --model_type vicp")
+            if args.batch_domain_mode != "single":
+                raise ValueError("--ctx_contrast_weight needs --batch_domain_mode single")
+            if len(train_dataset.domain_names) < 2:
+                raise ValueError("--ctx_contrast_weight needs >= 2 training domains, got {}".format(
+                    train_dataset.domain_names))
+            print("contrastive context loss: weight {} margin {} over {} training domains{}".format(
+                args.ctx_contrast_weight, args.ctx_contrast_margin, len(train_dataset.domain_names),
+                ", cross path trains the context branch only" if args.ctx_contrast_detach_encoder else ""))
+        if args.prompt_kd_weight > 0:
+            if args.model_type != "vicp" or args.batch_domain_mode != "single":
+                raise ValueError("--prompt_kd_weight needs --model_type vicp and --batch_domain_mode single")
+            model._prompt_teachers = load_prompt_teachers(args.prompt_teacher, train_dataset.domain_names,
+                                                          model.base_prompt.shape[1:])
+            print("prompt distillation: weight {} mode {} over {} training domains (teachers {})".format(
+                args.prompt_kd_weight, args.prompt_kd_mode, len(train_dataset.domain_names), args.prompt_teacher))
+        if args.init_from:
+            load_init_checkpoint(model, args.init_from)
         print("model type:", args.model_type, "| train_backbone:", args.train_backbone,
               "| trainable params: {:.2f}M".format(sum(p.numel() for p in model.parameters() if p.requires_grad) / 1e6))
         weight_dtype = torch.float16 if args.fp16 else (torch.bfloat16 if args.bf16 else torch.float32)
@@ -144,6 +237,9 @@ class DGReIDTrainer(CustomTrainer):
         for p in model.parameters():
             if p.requires_grad:
                 p.data = p.to(dtype=torch.float32)
+        # after the cast, so frozen LoRA / base prompt keep their FP32 values (not rounded to fp16)
+        if args.train_context_only:
+            freeze_all_but_context(model)
 
         # encoder weights trained in full fine-tuning get lr * backbone_lr_mult (LoRA / heads / prompts: lr)
         backbone, other = [], []
@@ -164,6 +260,10 @@ class DGReIDTrainer(CustomTrainer):
         )
 
         extra_losses = ["ot_loss", "id_loss", "icl_loss", "ce_loss", "std"]
+        if args.ctx_contrast_weight > 0:
+            extra_losses += ["ctx_contrast", "ctx_gap_own", "ctx_gap_cross"]
+        if args.prompt_kd_weight > 0:
+            extra_losses += ["prompt_kd"]
 
         self._device = device
         self._data_root = data_root

@@ -41,7 +41,7 @@ class PlainReIDModel(nn.Module):
         self.loss = HardTripletLoss(margin=getattr(args, "triplet_margin", 0.1), hardest=True)
         self.reid_head = build_head(args, self.encoder.embed_dim)
 
-    def forward(self, image_crops, labels=None, prompts=None):
+    def forward(self, image_crops, labels=None, prompts=None, domains=None):
         # prompts is accepted and ignored so evaluation code can call both models alike
         encoder_dtype = self.encoder.patch_embed.proj.weight.dtype
         if image_crops.ndim == 5:
@@ -90,7 +90,7 @@ class VPTReIDModel(nn.Module):
         self.prompt = nn.Parameter(torch.zeros(1, self.num_layers, args.num_vpt_tokens, self.hidden_size))
         self.reid_head = build_head(args, self.hidden_size)
 
-    def forward(self, image_crops, labels=None, prompts=None):
+    def forward(self, image_crops, labels=None, prompts=None, domains=None):
         encoder_dtype = self.encoder.patch_embed.proj.weight.dtype
         if image_crops.ndim == 5:
             bs, nview, nc, h, w = image_crops.size()

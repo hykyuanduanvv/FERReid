@@ -49,7 +49,31 @@ class ReIDTrainingArguments(transformers.TrainingArguments):
     # (needs --episode_context_ids > 0; "random" = the batch order; see adapters/selectors.py)
     train_context_selector: str = field(default="random")
     pseudo_domains: str = field(default="none")   # "camera_pair": a training "domain" = (dataset, camera pair)
+    #                                               "camera_group": a group of camera units (--camera_groups)
     pseudo_min_ids: int = field(default=8)        # camera pairs with fewer identities are dropped
+    camera_groups: str = field(default="")        # groups.json of scripts/group_prompts.py --stage cluster
+
+    # --- direction A, prompt distillation (defaults = off; see docs/DIRECTION_A_DISTILL.md)
+    # > 0: features under the generated prompt must match the features under the teacher prompt of the batch's
+    # (pseudo-)domain (teachers.pt of scripts/group_prompts.py). Needs --batch_domain_mode single.
+    prompt_teacher: str = field(default="")
+    prompt_kd_weight: float = field(default=0.0)
+    prompt_kd_mode: str = field(default="rel")    # "rel": batch similarity matrices; "feat": per-image cosine
+
+    # --- direction A, contrastive context loss (defaults = off; see docs/DIRECTION_A_CONTRAST.md)
+    # > 0: also generate a prompt from another source domain's (cached) context and require the own-domain
+    # prompt to separate the batch's query identities better than it, by ctx_contrast_margin, measured by
+    # the per-anchor gap d(hardest positive) - d(hardest negative) in FP32. Needs --batch_domain_mode single.
+    ctx_contrast_weight: float = field(default=0.0)
+    ctx_contrast_margin: float = field(default=0.05)
+    # the cross-domain path gives gradient to the context branch only (not to encoder / LoRA / base_prompt / LLM)
+    ctx_contrast_detach_encoder: bool = field(default=False)
+    # warm start: load a checkpoint dir (e.g. a VPT run) before training; a VPT "prompt" becomes the
+    # residual "base_prompt". Missing keys keep their fresh initialisation (listed in the log).
+    init_from: str = field(default="")
+    # train only the context branch (Q-Former, query tokens, prompt_mlp, delta_norm, ctx_gate);
+    # encoder / LoRA / base_prompt / ID head are frozen and kept in FP32
+    train_context_only: bool = field(default=False)
 
     # --- training sampler (defaults = historical)
     instances_per_id: int = field(default=2)      # K images per identity (even; batch = P ids x K images)

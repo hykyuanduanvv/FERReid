@@ -1,0 +1,7 @@
+[17:23:42] start e_d1_s42 on GPU 0
+[17:23:42] start e_d1_s43 on GPU 1
+[17:23:57] e_d1_s42 FAILED exit=1 (GPU 0)
+[17:23:57] e_d1_s43 FAILED exit=1 (GPU 1)
+[17:23:57] start e_vptB on GPU 0
+[17:25:57] e_vptB done (GPU 0)
+all task groups finished

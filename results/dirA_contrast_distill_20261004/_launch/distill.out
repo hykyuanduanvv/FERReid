@@ -1,0 +1,5 @@
+[16:25:10] start d0_grp_s42 on GPU 0
+[16:25:10] start d1_kdf_s42 on GPU 1
+[16:30:40] d0_grp_s42 done (GPU 0)
+[16:30:40] start d2_kdr_s42 on GPU 0
+[16:30:55] d1_kdf_s42 done (GPU 1)

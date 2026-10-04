@@ -1,0 +1,10 @@
+# extra 2026-10-04: more seeds for the main question (c1 vs c0); c1_ctr_s42 collapsed
+c1_ctr_s44       | train c1_ctr_s44       300 $TUNE_DATA $C_BASE $CTR --seed 44
+c0_base_s44      | train c0_base_s44      300 $TUNE_DATA $C_BASE --seed 44
+c1_ctr_s45       | train c1_ctr_s45       300 $TUNE_DATA $C_BASE $CTR --seed 45
+c0_base_s45      | train c0_base_s45      300 $TUNE_DATA $C_BASE --seed 45
+@wait
+g_c1_s44 | cgain g_c1_s44 experiments/c1_ctr_s44/checkpoint-300
+g_c0_s44 | cgain g_c0_s44 experiments/c0_base_s44/checkpoint-300
+g_c1_s45 | cgain g_c1_s45 experiments/c1_ctr_s45/checkpoint-300
+g_c0_s45 | cgain g_c0_s45 experiments/c0_base_s45/checkpoint-300

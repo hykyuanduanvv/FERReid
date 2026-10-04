@@ -414,3 +414,21 @@ def _get_triplet_mask(labels):
     mask = distinct_indices * valid_labels   # Combine the two masks
 
     return mask
+
+def per_anchor_gap(embeddings, labels):
+    """FERReID direction A (--ctx_contrast_weight): for every anchor that has a positive and a negative in
+    the batch, d(a, hardest positive) - d(a, hardest negative) on the Euclidean distance of the given
+    (L2-normalised) features. Lower = better separated. Computed in FP32 with autocast off: under AMP
+    near-identical features round to zero distance and lose their gradient (results/a0_factorial_20261001).
+    Unlike the hardest-triplet loss this does not saturate at 0 once the margin is met, so two prompts
+    can still be compared on a batch they both already solve."""
+    with torch.autocast(device_type=embeddings.device.type, enabled=False):
+        x = embeddings.float()
+        d = _pairwise_distance(x, squared=False)
+        same = labels.unsqueeze(0) == labels.unsqueeze(1)
+        eye = torch.eye(len(labels), dtype=torch.bool, device=labels.device)
+        pos, neg = same & ~eye, ~same
+        hardest_pos = d.masked_fill(~pos, float("-inf")).max(dim=1).values
+        hardest_neg = d.masked_fill(~neg, float("inf")).min(dim=1).values
+        valid = pos.any(dim=1) & neg.any(dim=1)
+        return (hardest_pos - hardest_neg)[valid]

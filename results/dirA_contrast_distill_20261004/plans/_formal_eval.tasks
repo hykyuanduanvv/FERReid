@@ -1,0 +1,4 @@
+# 9/30 formal protocol (docs/DEPLOYMENT.md section 6): 10 splits, identity selection, k=16
+e_d1_s42 | evaluate e_d1_s42 experiments/d1_kdf_s42/checkpoint-300 --model_type vicp --domains viper,grid,ilids --methods random --ks 16 --eval_seeds 3 --eval_splits 10 --selection_unit identity --camera_groups experiments/groups_style_lr1e-4_s1000/groups.json --pseudo_min_ids 64
+e_d1_s43 | evaluate e_d1_s43 experiments/d1_kdf_s43/checkpoint-300 --model_type vicp --domains viper,grid,ilids --methods random --ks 16 --eval_seeds 3 --eval_splits 10 --selection_unit identity --camera_groups experiments/groups_style_lr1e-4_s1000/groups.json --pseudo_min_ids 64
+e_vptB   | evaluate e_vptB /root/autodl-tmp/FERReID_experiments/vpt_dinov2_fold1_3k/val_cuhk03/checkpoint-3000 --model_type vpt --domains viper,grid,ilids --methods random --ks 16 --eval_seeds 1 --eval_splits 10 --selection_unit identity --camera_groups experiments/groups_style_lr1e-4_s1000/groups.json --pseudo_min_ids 64

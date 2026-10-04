@@ -1,0 +1,29 @@
+# Direction A, contrastive context loss (docs/DIRECTION_A_CONTRAST.md) -- force the generator to put the
+# context's domain into the prompt. Starts where step 4 (results/vpt_context_warm_20261001) stopped: strong VPT
+# frozen, context branch trained; there own-domain context was ~3 mAP below VPT and own - cross only +0.1.
+# Tuning fold ($TUNE_DATA: Market+MSMT train -> CUHK03 500 ids). 300 steps = the step-4 budget; seeds 42/43.
+# Needs VPT_WARM (plans/common.sh). ~5-8 min per training on one 3090, ~10 min per cgain.
+# --- C1: mechanism (does the contrast change own - cross at all, and at what cost to CUHK03 mAP?)
+c0_base_s42      | train c0_base_s42      300 $TUNE_DATA $C_BASE --seed 42
+c0_base_s43      | train c0_base_s43      300 $TUNE_DATA $C_BASE --seed 43
+c1_ctr_s42       | train c1_ctr_s42       300 $TUNE_DATA $C_BASE $CTR --seed 42
+c1_ctr_s43       | train c1_ctr_s43       300 $TUNE_DATA $C_BASE $CTR --seed 43
+c2_m10_s42       | train c2_m10_s42       300 $TUNE_DATA $C_BASE --ctx_contrast_weight 1.0 --ctx_contrast_margin 0.1 --seed 42
+c3_w3_s42        | train c3_w3_s42        300 $TUNE_DATA $C_BASE --ctx_contrast_weight 3.0 --ctx_contrast_margin 0.05 --seed 42
+c4_ema_s42       | train c4_ema_s42       300 $TUNE_DATA $C_BASE $CTR --ctx_center ema --seed 42
+c5_cam_s42       | train c5_cam_s42       300 $TUNE_DATA $C_BASE $CTR --pseudo_domains camera_pair --pseudo_min_ids 64 --seed 42
+# encoder LoRA trained too (no --train_context_only): with / without blocking the cross path's encoder gradient
+c6_lora_det_s42  | train c6_lora_det_s42  300 $TUNE_DATA $C_BASE $CTR --train_context_only False --ctx_contrast_detach_encoder True --seed 42
+c7_lora_raw_s42  | train c7_lora_raw_s42  300 $TUNE_DATA $C_BASE $CTR --train_context_only False --seed 42
+@wait
+# --- decision test on unseen small targets (own vs cross vs VPT reference)
+g_c0_s42 | cgain g_c0_s42 experiments/c0_base_s42/checkpoint-300
+g_c0_s43 | cgain g_c0_s43 experiments/c0_base_s43/checkpoint-300
+g_c1_s42 | cgain g_c1_s42 experiments/c1_ctr_s42/checkpoint-300
+g_c1_s43 | cgain g_c1_s43 experiments/c1_ctr_s43/checkpoint-300
+g_c2_s42 | cgain g_c2_s42 experiments/c2_m10_s42/checkpoint-300
+g_c3_s42 | cgain g_c3_s42 experiments/c3_w3_s42/checkpoint-300
+g_c4_s42 | cgain g_c4_s42 experiments/c4_ema_s42/checkpoint-300
+g_c5_s42 | cgain g_c5_s42 experiments/c5_cam_s42/checkpoint-300
+g_c6_s42 | cgain g_c6_s42 experiments/c6_lora_det_s42/checkpoint-300
+g_c7_s42 | cgain g_c7_s42 experiments/c7_lora_raw_s42/checkpoint-300

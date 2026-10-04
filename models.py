@@ -3,7 +3,12 @@ import os
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import torch.utils.checkpoint
 from transformers import AutoTokenizer, AutoModelForCausalLM
+
+# FERReID direction A: parameters that only exist to turn a context into a prompt (Q-Former, query tokens,
+# prompt_mlp, delta_norm, ctx_gate); --train_context_only and --ctx_contrast_detach_encoder use this list
+CONTEXT_BRANCH = ("mm_projector.", "query_embeddings", "prompt_mlp.", "delta_norm.", "ctx_gate")
 
 
 
@@ -138,13 +143,24 @@ class Model(torch.nn.Module):
             n_tok = self.args.num_vpt_tokens * self.num_layers
             self.base_prompt = nn.Parameter(torch.zeros(1, n_tok, self.hidden_size))
             self.delta_norm = nn.LayerNorm(self.lm.config.hidden_size)
-            nn.init.normal_(self.prompt_mlp.weight, std=getattr(args, "delta_init_std", 0.02))
+            delta_std = float(getattr(args, "delta_init_std", 0.02))
+            if delta_std > 0:
+                nn.init.normal_(self.prompt_mlp.weight, std=delta_std)
+            else:  # 0: start exactly at base_prompt (e.g. a warm-started VPT prompt); W still gets gradient
+                self.prompt_mlp.weight.data.zero_()
             self.ctx_gate = nn.Parameter(torch.full((self.num_layers, 1, 1), float(getattr(args, "ctx_gate_init", 0.1))))
             if getattr(args, "ctx_center", "none") == "ema":
                 self.register_buffer("h_mean", torch.zeros(1, n_tok, self.lm.config.hidden_size))
                 self.register_buffer("h_mean_count", torch.zeros(()))
         elif self.prompt_mode != "vicp":
             raise ValueError("--prompt_mode must be vicp or residual")
+
+        # FERReID direction A (--ctx_contrast_weight): the last context (frozen question features + labels)
+        # seen for each training domain. Plain attribute: not part of the state_dict / checkpoints.
+        self._ctx_bank = {}
+        # --prompt_kd_weight: teacher prompt per training domain, (num_domains, L*V, D), set by the trainer.
+        # Plain attribute as well (training-only supervision, not part of the model).
+        self._prompt_teachers = None
 
     @staticmethod
     def _load_dinov2(model_name):
@@ -160,13 +176,14 @@ class Model(torch.nn.Module):
             return local_qwen
         return model_name
 
-    def _prompts_from_hidden(self, h):
-        """LLM hidden states at the query tokens (B, L*V, H_lm) -> visual prompts (B, L*V, D)."""
+    def _prompts_from_hidden(self, h, update_stats=True):
+        """LLM hidden states at the query tokens (B, L*V, H_lm) -> visual prompts (B, L*V, D).
+        update_stats=False: do not update the EMA centre (used for the extra cross-domain prompt)."""
         if self.prompt_mode != "residual":  # original VICP
             return self.prompt_mlp(h.to(dtype=self.prompt_mlp.weight.dtype))
         h = h.float()
         if hasattr(self, "h_mean"):
-            if self.training:
+            if self.training and update_stats:
                 with torch.no_grad():
                     mean = h.mean(0, keepdim=True)
                     if self.h_mean_count.item() == 0:
@@ -249,10 +266,138 @@ class Model(torch.nn.Module):
         return all_pairs, all_labels
 
 
+    def _icl_prompts(self, image_features, labels_e, device, update_stats=True, with_icl_loss=True):
+        """VICP prompt generation from the context: num_icl_bs sequences of num_icl_samples yes/no questions
+        over the (frozen) context features -> LLM -> prompts (num_icl_bs, L*V, D), plus the ICL answer loss.
+        Unchanged from the original forward (same RNG call order); update_stats is passed to
+        _prompts_from_hidden."""
+        input_ids = []
+        new_image_features = []
+        yes_token_id = self.tokenizer.convert_tokens_to_ids('yes')
+        no_token_id = self.tokenizer.convert_tokens_to_ids('no')
+        tokenmaps = {1: yes_token_id, 0: no_token_id}
+        for i in range(self.args.num_icl_bs):
+            s = []
+            for j in range(self.args.num_icl_samples):
+                s.extend([-1] * self.args.num_id_tokens)
+                x = torch.randint(0, 2, (1,)).item()
+                if x == 1:
+                    idx = torch.randint(0, image_features.size(0) // 2, (1,)).item()
+                    s.append(tokenmaps[x])
+                    new_image_features.append(image_features.reshape(-1, 2, self.hidden_size)[idx])
+                elif x == 0:
+                    i1 = torch.randint(0, image_features.size(0), (1,)).item()
+                    i2 = torch.randint(0, image_features.size(0), (1,)).item()
+                    new_image_features.append(torch.stack([image_features[i1], image_features[i2]]))
+                    s.append(tokenmaps[int(labels_e[i1] == labels_e[i2])])
+                    # s.append(int(labels_e[i1] == labels_e[i2]))
+                else:
+                    raise ValueError
+            input_ids.append(s)
+        input_ids = torch.tensor(input_ids, device=device).long()  # FERReID: was .cuda()
+        input_labels = input_ids.clone()
+        input_labels[input_ids < 0] = -100
+
+        selected = input_ids == -1
+        input_ids[input_ids < 0] = 0
+
+        image_features = torch.cat(new_image_features)
+        image_features = image_features.reshape(-1, self.hidden_size * 2)
+        # Q-Former returns (B, num_id_tokens, lm_word_emb_dim)
+        image_features = image_features.to(dtype=self.mm_projector.visual_proj.weight.dtype)
+        image_features = self.mm_projector(image_features)
+        input_embeddings = self.lm.get_input_embeddings()(input_ids).clone()
+
+        image_features = image_features.reshape(-1, self.lm.config.hidden_size)
+        input_embeddings[selected] = input_embeddings[selected] * 0 + image_features.to(input_embeddings.dtype)
+        icl_loss = torch.tensor(0.0, device=device)
+        if with_icl_loss:  # the contrast's cross path discards it: skip that LM pass (vocabulary logits, OOM)
+            outputs = self.lm(inputs_embeds=input_embeddings, labels=input_labels, use_cache=False)
+            icl_loss = outputs.loss
+
+        query_embeddings = self.query_embeddings.to(dtype=input_embeddings.dtype)
+        input_embeddings2 = torch.cat([input_embeddings, query_embeddings.unsqueeze(0).expand(input_embeddings.size(0), -1, -1)], dim=1)
+        outputs2 = self.lm(inputs_embeds=input_embeddings2, use_cache=False, output_hidden_states=True)
+        prompts = outputs2.hidden_states[-1][:, -self.args.num_vpt_tokens * self.num_layers:]
+        prompts = self._prompts_from_hidden(prompts, update_stats=update_stats)
+        return prompts, icl_loss
+
+    def _encode(self, image_crops, prompts, checkpoint=False, frozen=()):
+        """Deep-prompted encoder (unchanged from the original forward): returns the L2-normalised CLS,
+        the raw CLS, the patch tokens and the per-image prompts (num_images, L, V, D).
+        checkpoint=True recomputes each block in backward instead of keeping its activations (same values;
+        used by the contrast's cross path, which would otherwise not fit next to the own path in 24 GB).
+        frozen: parameters that must not require grad inside each block, also during that recomputation."""
+        def frozen_blk(blk):
+            def fn(x):
+                flags = [p.requires_grad for p in frozen]
+                try:
+                    for p in frozen:
+                        p.requires_grad_(False)
+                    return blk(x)
+                finally:
+                    for p, f in zip(frozen, flags):
+                        p.requires_grad_(f)
+            return fn
+
+        def run(blk, x):
+            if checkpoint and torch.is_grad_enabled():
+                return torch.utils.checkpoint.checkpoint(frozen_blk(blk), x, use_reentrant=False)
+            return blk(x)
+
+        prompts = prompts.reshape(prompts.size(0), self.num_layers, self.args.num_vpt_tokens, -1)
+        prompts = prompts[torch.randint(0, prompts.size(0), (image_crops.size(0),))]
+
+        x = self.encoder.prepare_tokens_with_masks(image_crops, None)
+        prompts = prompts.to(dtype=x.dtype)
+        for blk in self.encoder.blocks[:-self.num_layers]:
+            x = run(blk, x)
+        for i, blk in enumerate(self.encoder.blocks[-self.num_layers:]):
+            prompts_ = prompts[:, i]
+            if i == 0:
+                x = torch.cat([x[:, 0].unsqueeze(1), prompts_, x[:, 1:]], dim=1)
+            else:
+                x = torch.cat([x[:, 0].unsqueeze(1), prompts_, x[:, 1+prompts_.size(1):]], dim=1)
+            x = run(blk, x)
+        x = self.encoder.norm(x)
+        patch_features = x[:, 1+prompts_.size(1):]
+        # patch_features = x[:, 1:]
+        raw = x[:, 0]
+        return F.normalize(raw, dim=-1), raw, patch_features, prompts
+
+    def _cross_domain_features(self, ctx_feats, ctx_labels, image_crops):
+        """Features of image_crops under a prompt generated from another domain's (cached) context.
+        --ctx_contrast_detach_encoder: in this path only the context branch (CONTEXT_BRANCH) gets gradient;
+        the encoder / LoRA, base_prompt and the LLM are used as constants, so the contrastive term cannot be
+        met by making the shared encoder worse under unfamiliar prompts (the gradient still reaches the
+        prompt through the encoder's activations). Their gradient from the own-domain path is unaffected."""
+        frozen = []
+        if getattr(self.args, "ctx_contrast_detach_encoder", False):
+            frozen = [p for n, p in self.named_parameters() if p.requires_grad and not n.startswith(CONTEXT_BRANCH)]
+        try:
+            for p in frozen:
+                p.requires_grad_(False)
+            p_cross, _ = self._icl_prompts(ctx_feats, ctx_labels, image_crops.device, update_stats=False,
+                                           with_icl_loss=False)
+            return self._encode(image_crops, p_cross, checkpoint=True, frozen=frozen)[0]
+        finally:
+            for p in frozen:
+                p.requires_grad_(True)
+
+    @staticmethod
+    def _batch_domain(domains):
+        if domains is None:
+            raise ValueError("--ctx_contrast_weight > 0 needs the per-sample 'domains' from the training dataset")
+        d = domains.reshape(-1)
+        if not bool((d == d[0]).all()):
+            raise ValueError("--ctx_contrast_weight > 0 needs single-domain batches (--batch_domain_mode single)")
+        return int(d[0].item())
+
     def forward(self,
                 image_crops,
                 labels=None,
                 prompts=None,
+                domains=None,
                 ):
         encoder_dtype = self.encoder.patch_embed.proj.weight.dtype
         if image_crops.ndim == 5:
@@ -261,6 +406,7 @@ class Model(torch.nn.Module):
         image_crops = image_crops.to(dtype=encoder_dtype)
 
         icl_loss = torch.tensor(0.0)
+        ctx_features = None  # frozen context features this batch generated its prompt from
 
         if labels is not None and prompts is None:
             labels = labels.unsqueeze(1).expand(-1, nview).reshape(-1)
@@ -292,79 +438,13 @@ class Model(torch.nn.Module):
             labels_e = ctx_labels[:num_examples]
             with torch.no_grad():
                 image_features = self.encoder_copy.forward_features(clip_image_crops_e)['x_norm_clstoken']
-
-            input_ids = []
-            new_image_features = []
-            yes_token_id = self.tokenizer.convert_tokens_to_ids('yes')
-            no_token_id = self.tokenizer.convert_tokens_to_ids('no')
-            tokenmaps = {1: yes_token_id, 0: no_token_id}
-            for i in range(self.args.num_icl_bs):
-                s = []
-                for j in range(self.args.num_icl_samples):
-                    s.extend([-1] * self.args.num_id_tokens)
-                    x = torch.randint(0, 2, (1,)).item()
-                    if x == 1:
-                        idx = torch.randint(0, image_features.size(0) // 2, (1,)).item()
-                        s.append(tokenmaps[x])
-                        new_image_features.append(image_features.reshape(-1, 2, self.hidden_size)[idx])
-                    elif x == 0:
-                        i1 = torch.randint(0, image_features.size(0), (1,)).item()
-                        i2 = torch.randint(0, image_features.size(0), (1,)).item()
-                        new_image_features.append(torch.stack([image_features[i1], image_features[i2]]))
-                        s.append(tokenmaps[int(labels_e[i1] == labels_e[i2])])
-                        # s.append(int(labels_e[i1] == labels_e[i2]))
-                    else:
-                        raise ValueError
-                input_ids.append(s)
-            input_ids = torch.tensor(input_ids, device=image_crops.device).long()  # FERReID: was .cuda()
-            input_labels = input_ids.clone()
-            input_labels[input_ids < 0] = -100
-        
-            selected = input_ids == -1
-            input_ids[input_ids < 0] = 0
-
-            image_features = torch.cat(new_image_features)
-            image_features = image_features.reshape(-1, self.hidden_size * 2)
-            # Q-Former returns (B, num_id_tokens, lm_word_emb_dim)
-            image_features = image_features.to(dtype=self.mm_projector.visual_proj.weight.dtype)
-            image_features = self.mm_projector(image_features)
-            input_embeddings = self.lm.get_input_embeddings()(input_ids).clone()
-
-            image_features = image_features.reshape(-1, self.lm.config.hidden_size)
-            input_embeddings[selected] = input_embeddings[selected] * 0 + image_features.to(input_embeddings.dtype)
-            outputs = self.lm(inputs_embeds=input_embeddings, labels=input_labels, use_cache=False)
-
-            icl_loss = outputs.loss
-
-            query_embeddings = self.query_embeddings.to(dtype=input_embeddings.dtype)
-            input_embeddings2 = torch.cat([input_embeddings, query_embeddings.unsqueeze(0).expand(input_embeddings.size(0), -1, -1)], dim=1)
-            outputs2 = self.lm(inputs_embeds=input_embeddings2, use_cache=False, output_hidden_states=True)
-            prompts = outputs2.hidden_states[-1][:, -self.args.num_vpt_tokens * self.num_layers:]
-            prompts = self._prompts_from_hidden(prompts)
+            ctx_features = (image_features.detach(), labels_e.detach())
+            prompts, icl_loss = self._icl_prompts(image_features, labels_e, image_crops.device)
 
         ot_loss = torch.tensor(0.0)
 
-        prompts = prompts.reshape(prompts.size(0), self.num_layers, self.args.num_vpt_tokens, -1)
-        prompts = prompts[torch.randint(0, prompts.size(0), (image_crops.size(0),))]
+        x, raw, patch_features, prompts = self._encode(image_crops, prompts)
 
-        x = self.encoder.prepare_tokens_with_masks(image_crops, None)
-        prompts = prompts.to(dtype=x.dtype)
-        for blk in self.encoder.blocks[:-self.num_layers]:
-            x = blk(x)
-        for i, blk in enumerate(self.encoder.blocks[-self.num_layers:]):
-            prompts_ = prompts[:, i]
-            if i == 0:
-                x = torch.cat([x[:, 0].unsqueeze(1), prompts_, x[:, 1:]], dim=1)
-            else:
-                x = torch.cat([x[:, 0].unsqueeze(1), prompts_, x[:, 1+prompts_.size(1):]], dim=1)
-            x = blk(x)
-        x = self.encoder.norm(x)
-        patch_features = x[:, 1+prompts_.size(1):]
-        # patch_features = x[:, 1:]
-        x = x[:, 0]
-        raw = x
-
-        x = F.normalize(x, dim=-1)
         std = x.std(dim=0).mean()
         if labels is not None:
             id_loss = self.loss(x, labels)
@@ -375,6 +455,31 @@ class Model(torch.nn.Module):
 
         else:
             id_loss = torch.tensor(0.0)
+
+        # FERReID direction A (--ctx_contrast_weight): the prompt generated from this domain's context must
+        # separate this batch's (non-context) identities better, by ctx_contrast_margin, than a prompt the
+        # same generator makes from another training domain's context. The other context is the last one
+        # cached for that domain (frozen question features, no image re-encoding); its prompt is generated
+        # now, with gradient, so the generator is pushed both to help with its own context and to not
+        # help with a foreign one. Runs after the original computation, so weight 0 is bit-identical.
+        ctx_contrast = torch.tensor(0.0)
+        gap_own = torch.tensor(0.0)
+        gap_cross = torch.tensor(0.0)
+        contrast_w = float(getattr(self.args, "ctx_contrast_weight", 0.0))
+        if self.training and contrast_w > 0 and ctx_features is not None:
+            from ops.losses import per_anchor_gap
+            dom = self._batch_domain(domains)
+            others = sorted(d for d in self._ctx_bank if d != dom)
+            if others:
+                other = others[int(torch.randint(0, len(others), (1,)).item())]
+                f_other, l_other = self._ctx_bank[other]
+                x_cross = self._cross_domain_features(f_other, l_other, image_crops)
+                g_own, g_cross = per_anchor_gap(x, labels), per_anchor_gap(x_cross, labels)
+                if g_own.numel():
+                    margin = float(getattr(self.args, "ctx_contrast_margin", 0.05))
+                    ctx_contrast = F.relu(margin + g_own - g_cross).mean()
+                    gap_own, gap_cross = g_own.detach().mean(), g_cross.detach().mean()
+            self._ctx_bank[dom] = ctx_features
 
         # FERReID: BNNeck / ID classification head. The CE term is only computed in training mode:
         # in the context forward at test time the labels are context-pair indices, not source classes.
@@ -388,6 +493,27 @@ class Model(torch.nn.Module):
 
         loss = (icl_loss * self.args.icl_loss_weight + id_loss + ot_loss * self.args.ot_loss_weight
                 + ce_loss * getattr(self.args, "ce_loss_weight", 0.0))
+        if contrast_w > 0:
+            loss = loss + contrast_w * ctx_contrast.to(loss.device)
+
+        # FERReID direction A (--prompt_kd_weight, docs/DIRECTION_A_DISTILL.md): the batch's features under the
+        # generated prompt must match its features under the teacher prompt of its (pseudo-)domain, a prompt
+        # tuned on that domain's labels beforehand (scripts/group_prompts.py). The teacher prompts are a plain
+        # attribute set by the trainer (not saved in the checkpoint) and are never used at test time.
+        # "rel": match the batch's cosine-similarity matrices; "feat": 1 - cosine of each image's two features.
+        # Runs after everything above, so weight 0 is bit-identical.
+        prompt_kd = torch.tensor(0.0)
+        kd_w = float(getattr(self.args, "prompt_kd_weight", 0.0))
+        if self.training and kd_w > 0 and labels is not None:
+            teacher = self._prompt_teachers[self._batch_domain(domains)].unsqueeze(0).to(x.device)
+            with torch.no_grad():
+                x_t = self._encode(image_crops, teacher)[0].float()
+            xs = x.float()
+            if getattr(self.args, "prompt_kd_mode", "rel") == "feat":
+                prompt_kd = (1 - (xs * x_t).sum(-1)).mean()
+            else:
+                prompt_kd = F.mse_loss(xs @ xs.T, x_t @ x_t.T)
+            loss = loss + kd_w * prompt_kd.to(loss.device)
         x = features
 
         outputs = {
@@ -396,6 +522,10 @@ class Model(torch.nn.Module):
             'ce_loss': ce_loss,
             'ot_loss': ot_loss,
             'icl_loss': icl_loss,
+            'ctx_contrast': ctx_contrast,
+            'ctx_gap_own': gap_own,
+            'ctx_gap_cross': gap_cross,
+            'prompt_kd': prompt_kd,
             'features': x,
             'prompts': prompts,
             'std': std,

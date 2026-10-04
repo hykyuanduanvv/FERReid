@@ -98,3 +98,31 @@ selsweep() {
   "$PY" scripts/eval_selectors.py --output_dir "$out" --checkpoint "$ckpt" --generator "$gen" \
     --selectors "$SELECTORS_ALL" --num_icl_samples 64 --report_to none "$@" 2>&1 | tee "$out/selectors.log"
 }
+
+# ---------------------------------------------------------------- direction A, contrastive context loss
+# (plans/dirA_contrast.tasks, docs/DIRECTION_A_CONTRAST.md). Warm start = a strong DINOv2 VPT trained with
+# triplet+WPA (no BNNeck head); its prompt becomes base_prompt, only the context branch is trained.
+VPT_WARM=${VPT_WARM:-experiments/s2_vpt_long/checkpoint-12000}
+# loss written out (not $LOSS_ARGS): a BNNeck head absent from the VPT would be random *and* frozen
+C_BASE="--model_type vicp --prompt_mode residual --delta_init_std 0 --init_from $VPT_WARM \
+  --train_context_only True --bnneck False --ce_loss_weight 0 \
+  --episode_context_ids 16 --unique_ids_per_batch True --batch_domain_mode single --eval_steps 100"
+CTR="--ctx_contrast_weight 1.0 --ctx_contrast_margin 0.05"
+
+# cgain <name> <checkpoint>: context_gain.py with the warm-start VPT as the no-context reference
+cgain() {
+  local name=$1 ckpt=$2; shift 2
+  local out="experiments/$name"
+  if [ -e "$out/context_gain.csv" ]; then echo "refusing to overwrite $out/context_gain.csv" >&2; return 2; fi
+  mkdir -p "$out"
+  # shellcheck disable=SC2086
+  "$PY" scripts/context_gain.py --output_dir "$out" --checkpoint "$ckpt" --reference_checkpoint "$VPT_WARM" \
+    --domains viper,grid,ilids --eval_splits 3 --ks 4,16 --n_draws 5 --n_cross 2 --selection_unit image \
+    --num_icl_samples 64 --fp16 True --report_to none "$@" 2>&1 | tee "$out/gain.log"
+}
+
+# ---------------------------------------------------------------- direction A, prompt distillation
+# (plans/dirA_distill.tasks, docs/DIRECTION_A_DISTILL.md): batches from style camera groups, teachers per group
+KD_DIR=${KD_DIR:-experiments/groups_style_lr1e-4_s1000}
+KD_GRP="--pseudo_domains camera_group --camera_groups $KD_DIR/groups.json --pseudo_min_ids 64"
+KD_TEACH="--prompt_teacher $KD_DIR/teachers.pt"

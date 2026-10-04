@@ -1,0 +1,90 @@
+{
+ "groups": {
+  "market1501|g0": {
+   "vpt": 95.81434708159851,
+   "own_teacher": 95.18534158737691,
+   "other_teachers_mean": 94.39448145709505,
+   "other_teachers_same_dataset_mean": 94.24553562101292,
+   "own_minus_vpt": -0.6290054942216017,
+   "own_minus_others": 0.7908601302818568,
+   "group": "market1501|g0",
+   "tune_ids": 532,
+   "eval_ids": 147,
+   "loss_start": 0.01073034805012867,
+   "loss_end": 0.012444386043353007,
+   "rel_change": 0.3924468457698822
+  },
+  "market1501|g1": {
+   "vpt": 96.95204487856375,
+   "own_teacher": 96.35783235919352,
+   "other_teachers_mean": 95.6319556834563,
+   "other_teachers_same_dataset_mean": 96.04717677273004,
+   "own_minus_vpt": -0.594212519370231,
+   "own_minus_others": 0.7258766757372257,
+   "group": "market1501|g1",
+   "tune_ids": 380,
+   "eval_ids": 111,
+   "loss_start": 0.017286008619703353,
+   "loss_end": 0.009734416182618588,
+   "rel_change": 0.4243015944957733
+  },
+  "msmt17|g0": {
+   "vpt": 91.92666789306425,
+   "own_teacher": 92.19098628372822,
+   "other_teachers_mean": 89.18303267806594,
+   "other_teachers_same_dataset_mean": 88.97243238548744,
+   "own_minus_vpt": 0.26431839066397345,
+   "own_minus_others": 3.00795360566228,
+   "group": "msmt17|g0",
+   "tune_ids": 341,
+   "eval_ids": 93,
+   "loss_start": 0.023068474093452095,
+   "loss_end": 0.016687303385697305,
+   "rel_change": 0.45036008954048157
+  },
+  "msmt17|g1": {
+   "vpt": 92.78989077947585,
+   "own_teacher": 93.38635181038278,
+   "other_teachers_mean": 91.67870952731474,
+   "other_teachers_same_dataset_mean": 91.55742431691868,
+   "own_minus_vpt": 0.5964610309069229,
+   "own_minus_others": 1.70764228306804,
+   "group": "msmt17|g1",
+   "tune_ids": 548,
+   "eval_ids": 150,
+   "loss_start": 0.018539049895480275,
+   "loss_end": 0.01726756093557924,
+   "rel_change": 0.4212040901184082
+  },
+  "msmt17|g2": {
+   "vpt": 89.01744804949725,
+   "own_teacher": 88.32037976268747,
+   "other_teachers_mean": 87.71353714388802,
+   "other_teachers_same_dataset_mean": 86.52639000280335,
+   "own_minus_vpt": -0.6970682868097811,
+   "own_minus_others": 0.6068426187994476,
+   "group": "msmt17|g2",
+   "tune_ids": 105,
+   "eval_ids": 26,
+   "loss_start": 0.03741510170511901,
+   "loss_end": 0.02445615832693875,
+   "rel_change": 0.5400650501251221
+  },
+  "msmt17|g3": {
+   "vpt": 81.07547392586699,
+   "own_teacher": 81.39914495434594,
+   "other_teachers_mean": 79.34210129452727,
+   "other_teachers_same_dataset_mean": 78.90002773378325,
+   "own_minus_vpt": 0.32367102847895524,
+   "own_minus_others": 2.0570436598186745,
+   "group": "msmt17|g3",
+   "tune_ids": 307,
+   "eval_ids": 83,
+   "loss_start": 0.04321919344365597,
+   "loss_end": 0.033523057214915754,
+   "rel_change": 0.4432651996612549
+  }
+ },
+ "mean_own_minus_vpt": -0.12263930839196036,
+ "mean_own_minus_others": 1.4827031622279208
+}

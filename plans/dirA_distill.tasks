@@ -1,0 +1,9 @@
+# direction A, prompt distillation (docs/DIRECTION_A_DISTILL.md). Style camera groups, teachers lr 1e-4 x 1000 steps.
+# d0 = same groups without distillation (control). Needs VPT_WARM (plans/common.sh).
+d0_grp_s42  | train d0_grp_s42  300 $TUNE_DATA $C_BASE $KD_GRP --seed 42
+d1_kdf_s42  | train d1_kdf_s42  300 $TUNE_DATA $C_BASE $KD_GRP $KD_TEACH --prompt_kd_weight 1 --prompt_kd_mode feat --seed 42
+d2_kdr_s42  | train d2_kdr_s42  300 $TUNE_DATA $C_BASE $KD_GRP $KD_TEACH --prompt_kd_weight 10 --prompt_kd_mode rel --seed 42
+@wait
+g_d0_s42 | cgain g_d0_s42 experiments/d0_grp_s42/checkpoint-300
+g_d1_s42 | cgain g_d1_s42 experiments/d1_kdf_s42/checkpoint-300
+g_d2_s42 | cgain g_d2_s42 experiments/d2_kdr_s42/checkpoint-300
