@@ -1,0 +1,12 @@
+[checkpoint] backbone = 'dinov2_b14' (command line had '')
+[checkpoint] bnneck = True (command line had False)
+[checkpoint] ce_loss_weight = 1.0 (command line had 0.0)
+[checkpoint] num_train_ids = 7340 (command line had 0)
+[checkpoint] source_domain_tokens = 8 (command line had 0)
+[checkpoint] num_source_domains = 3 (command line had 0)
+[ReIDModel] Loading DINOv2 dinov2_vitb14 from /root/autodl-tmp/weights/dinov2_vitb14_pretrain.pth (code /root/basic-models/dinov2), input (252, 126)
+[checkpoint] experiments/base_md_market1501/checkpoint-12000 (vpt, dinov2_b14)
+market1501|base|raw                      F1 0.532 split_ids  261 | missed  28992 (in kNN 0.22, median pct 15) | cand pos 0.228 top50 0.74 top250 0.60 | shortlist all @1/5/10 0.56/0.78/0.86 compl 0.63/0.81/0.86 | hit@1 0.895 hit@10 0.976
+market1501|base|camnorm                  F1 0.561 split_ids  160 | missed  17081 (in kNN 0.16, median pct 3) | cand pos 0.137 top50 0.64 top250 0.61 | shortlist all @1/5/10 0.55/0.80/0.87 compl 0.63/0.82/0.90 | hit@1 0.915 hit@10 0.981
+market1501|market1501_none_seed0|raw     F1 0.759 split_ids  113 | missed  10223 (in kNN 0.10, median pct 9) | cand pos 0.094 top50 0.46 top250 0.34 | shortlist all @1/5/10 0.55/0.82/0.94 compl 0.79/0.98/1.00 | hit@1 0.950 hit@10 0.989
+market1501|market1501_none_seed0|camnorm F1 0.762 split_ids  105 | missed  11151 (in kNN 0.10, median pct 15) | cand pos 0.100 top50 0.54 top250 0.44 | shortlist all @1/5/10 0.51/0.83/0.94 compl 0.85/0.96/0.98 | hit@1 0.952 hit@10 0.989

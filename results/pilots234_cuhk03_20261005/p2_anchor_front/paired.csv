@@ -1,0 +1,2 @@
+domain,strategy,round,ref,n,dmAP,dmAP_std,wins
+cuhk03,anchor:random@front,aulc,,3,45.19922274634951,0.1440558982708877,

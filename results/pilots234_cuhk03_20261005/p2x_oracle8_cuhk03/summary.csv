@@ -1,0 +1,10 @@
+domain,strategy,round,n,queries,anchors,true_ids,mAP,mAP_std,rank1
+cuhk03,base,0,1,0.0,0.0,0.0,37.47900608607701,0.0,37.0
+cuhk03,oracle,1,1,0.0,0.0,767.0,64.4061758858817,0.0,65.64285714285715
+cuhk03,oracle,2,0,0.0,0.0,767.0,nan,nan,nan
+cuhk03,oracle,3,1,0.0,0.0,767.0,69.67760358537947,0.0,72.42857142857143
+cuhk03,oracle,4,0,0.0,0.0,767.0,nan,nan,nan
+cuhk03,oracle,5,1,0.0,0.0,767.0,72.3037610735212,0.0,74.5
+cuhk03,oracle,6,0,0.0,0.0,767.0,nan,nan,nan
+cuhk03,oracle,7,0,0.0,0.0,767.0,nan,nan,nan
+cuhk03,oracle,8,1,0.0,0.0,767.0,73.9036124093192,0.0,75.42857142857143

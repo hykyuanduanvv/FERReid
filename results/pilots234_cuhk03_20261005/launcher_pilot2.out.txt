@@ -1,0 +1,19 @@
+[16:19:51] start p2_none8 on GPU 0
+[16:19:51] start p2_oracle5 on GPU 1
+[16:19:51] start p2_repair2 on GPU 2
+[16:19:51] start p2_anchor on GPU 3
+[16:35:51] p2_oracle5 done (GPU 1)
+[16:35:51] p2_anchor done (GPU 3)
+[16:35:51] start p2_random_front on GPU 1
+[16:35:51] start p2_repair2_front on GPU 3
+[16:37:51] p2_repair2 done (GPU 2)
+[16:37:51] start p2_anchor_front on GPU 2
+[16:42:16] p2_none8 done (GPU 0)
+[16:42:16] start p2_random1000 on GPU 0
+[16:49:42] p2_anchor_front done (GPU 2)
+[16:50:12] p2_random_front done (GPU 1)
+[16:51:07] p2_repair2_front done (GPU 3)
+[16:58:17] p2_random1000 done (GPU 0)
+[16:58:17] start merge_p2 on GPU 2
+[16:58:47] merge_p2 done (GPU 2)
+all task groups finished

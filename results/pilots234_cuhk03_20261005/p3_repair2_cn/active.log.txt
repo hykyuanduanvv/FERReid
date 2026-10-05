@@ -1,0 +1,35 @@
+[checkpoint] backbone = 'dinov2_b14' (command line had '')
+[checkpoint] bnneck = True (command line had False)
+[checkpoint] ce_loss_weight = 1.0 (command line had 0.0)
+[checkpoint] num_train_ids = 7324 (command line had 0)
+[checkpoint] source_domain_tokens = 8 (command line had 0)
+[checkpoint] num_source_domains = 3 (command line had 0)
+[ReIDModel] Loading DINOv2 dinov2_vitb14 from /root/autodl-tmp/weights/dinov2_vitb14_pretrain.pth (code /root/basic-models/dinov2), input (252, 126)
+[checkpoint] experiments/base_md_cuhk03/checkpoint-12000 (vpt, dinov2_b14)
+[   145s] cuhk03: pool 7368 images (cached), query 1400, gallery 5328
+  base: mAP 37.48 R1 37.00
+  [repair2 r1] queries 50 anchors 0 | pos 0 neg 50 inferred 0 | clusters 0 (501 true ids) | mAP 55.27 R1 54.79
+  [repair2 r2] queries 100 anchors 0 | pos 3 neg 97 inferred 0 | clusters 3 (519 true ids) | mAP - R1 -
+  [repair2 r3] queries 150 anchors 0 | pos 7 neg 143 inferred 1 | clusters 7 (562 true ids) | mAP 61.13 R1 60.93
+  [repair2 r4] queries 200 anchors 0 | pos 15 neg 185 inferred 2 | clusters 15 (564 true ids) | mAP - R1 -
+  [repair2 r5] queries 250 anchors 0 | pos 26 neg 224 inferred 4 | clusters 25 (569 true ids) | mAP 64.20 R1 64.07
+  [repair2 r1] queries 50 anchors 0 | pos 0 neg 50 inferred 0 | clusters 0 (501 true ids) | mAP 54.53 R1 53.64
+  [repair2 r2] queries 100 anchors 0 | pos 2 neg 98 inferred 0 | clusters 2 (525 true ids) | mAP - R1 -
+  [repair2 r3] queries 150 anchors 0 | pos 7 neg 143 inferred 0 | clusters 7 (540 true ids) | mAP 61.21 R1 60.50
+  [repair2 r4] queries 200 anchors 0 | pos 12 neg 188 inferred 1 | clusters 11 (574 true ids) | mAP - R1 -
+  [repair2 r5] queries 250 anchors 0 | pos 30 neg 220 inferred 4 | clusters 26 (576 true ids) | mAP 63.26 R1 63.14
+  [repair2 r1] queries 50 anchors 0 | pos 0 neg 50 inferred 0 | clusters 0 (501 true ids) | mAP 55.53 R1 55.21
+  [repair2 r2] queries 100 anchors 0 | pos 2 neg 98 inferred 0 | clusters 2 (512 true ids) | mAP - R1 -
+  [repair2 r3] queries 150 anchors 0 | pos 3 neg 147 inferred 0 | clusters 3 (552 true ids) | mAP 61.59 R1 60.71
+  [repair2 r4] queries 200 anchors 0 | pos 11 neg 189 inferred 1 | clusters 11 (554 true ids) | mAP - R1 -
+  [repair2 r5] queries 250 anchors 0 | pos 26 neg 224 inferred 4 | clusters 25 (571 true ids) | mAP 64.17 R1 63.93
+[   918s] cuhk03 done
+
+domain     strategy             round  queries  anchors      ids     mAP     std     R1
+cuhk03     base                     0        0        0      0.0   37.48    0.00  37.00
+cuhk03     repair2@cn               1       50        0    501.0   55.11    0.42  54.55
+cuhk03     repair2@cn               2      100        0    518.7     nan     nan    nan
+cuhk03     repair2@cn               3      150        0    551.3   61.31    0.20  60.71
+cuhk03     repair2@cn               4      200        0    564.0     nan     nan    nan
+cuhk03     repair2@cn               5      250        0    572.0   63.88    0.43  63.71
+total time: 918s

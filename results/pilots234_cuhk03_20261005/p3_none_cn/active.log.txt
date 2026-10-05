@@ -1,0 +1,35 @@
+[checkpoint] backbone = 'dinov2_b14' (command line had '')
+[checkpoint] bnneck = True (command line had False)
+[checkpoint] ce_loss_weight = 1.0 (command line had 0.0)
+[checkpoint] num_train_ids = 7324 (command line had 0)
+[checkpoint] source_domain_tokens = 8 (command line had 0)
+[checkpoint] num_source_domains = 3 (command line had 0)
+[ReIDModel] Loading DINOv2 dinov2_vitb14 from /root/autodl-tmp/weights/dinov2_vitb14_pretrain.pth (code /root/basic-models/dinov2), input (252, 126)
+[checkpoint] experiments/base_md_cuhk03/checkpoint-12000 (vpt, dinov2_b14)
+[   158s] cuhk03: pool 7368 images (cached), query 1400, gallery 5328
+  base: mAP 37.48 R1 37.00
+  [none r1] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (501 true ids) | mAP 53.87 R1 52.64
+  [none r2] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (494 true ids) | mAP - R1 -
+  [none r3] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (488 true ids) | mAP 60.17 R1 59.64
+  [none r4] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (474 true ids) | mAP - R1 -
+  [none r5] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (468 true ids) | mAP 63.54 R1 63.64
+  [none r1] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (501 true ids) | mAP 54.90 R1 53.71
+  [none r2] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (477 true ids) | mAP - R1 -
+  [none r3] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (480 true ids) | mAP 61.50 R1 61.43
+  [none r4] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (480 true ids) | mAP - R1 -
+  [none r5] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (477 true ids) | mAP 64.14 R1 64.71
+  [none r1] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (501 true ids) | mAP 54.10 R1 53.36
+  [none r2] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (476 true ids) | mAP - R1 -
+  [none r3] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (491 true ids) | mAP 60.88 R1 60.43
+  [none r4] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (478 true ids) | mAP - R1 -
+  [none r5] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (480 true ids) | mAP 63.60 R1 63.14
+[   818s] cuhk03 done
+
+domain     strategy             round  queries  anchors      ids     mAP     std     R1
+cuhk03     base                     0        0        0      0.0   37.48    0.00  37.00
+cuhk03     none@cn                  1        0        0    501.0   54.29    0.44  53.24
+cuhk03     none@cn                  2        0        0    482.3     nan     nan    nan
+cuhk03     none@cn                  3        0        0    486.3   60.85    0.54  60.50
+cuhk03     none@cn                  4        0        0    477.3     nan     nan    nan
+cuhk03     none@cn                  5        0        0    475.0   63.76    0.27  63.83
+total time: 818s

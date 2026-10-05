@@ -1,0 +1,31 @@
+[checkpoint] backbone = 'dinov2_b14' (command line had '')
+[checkpoint] bnneck = True (command line had False)
+[checkpoint] ce_loss_weight = 1.0 (command line had 0.0)
+[checkpoint] num_train_ids = 7324 (command line had 0)
+[checkpoint] source_domain_tokens = 8 (command line had 0)
+[checkpoint] num_source_domains = 3 (command line had 0)
+[ReIDModel] Loading DINOv2 dinov2_vitb14 from /root/autodl-tmp/weights/dinov2_vitb14_pretrain.pth (code /root/basic-models/dinov2), input (252, 126)
+[checkpoint] experiments/base_md_cuhk03/checkpoint-12000 (vpt, dinov2_b14)
+[   181s] cuhk03: pool 7368 images (cached), query 1400, gallery 5328
+  base: mAP 37.48 R1 37.00
+  [oracle r1] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (767 true ids) | mAP 64.41 R1 65.64
+  [oracle r2] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (767 true ids) | mAP - R1 -
+  [oracle r3] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (767 true ids) | mAP 69.68 R1 72.43
+  [oracle r4] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (767 true ids) | mAP - R1 -
+  [oracle r5] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (767 true ids) | mAP 72.30 R1 74.50
+  [oracle r6] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (767 true ids) | mAP - R1 -
+  [oracle r7] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (767 true ids) | mAP - R1 -
+  [oracle r8] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (767 true ids) | mAP 73.90 R1 75.43
+[   587s] cuhk03 done
+
+domain     strategy             round  queries  anchors      ids     mAP     std     R1
+cuhk03     base                     0        0        0      0.0   37.48    0.00  37.00
+cuhk03     oracle                   1        0        0    767.0   64.41    0.00  65.64
+cuhk03     oracle                   2        0        0    767.0     nan     nan    nan
+cuhk03     oracle                   3        0        0    767.0   69.68    0.00  72.43
+cuhk03     oracle                   4        0        0    767.0     nan     nan    nan
+cuhk03     oracle                   5        0        0    767.0   72.30    0.00  74.50
+cuhk03     oracle                   6        0        0    767.0     nan     nan    nan
+cuhk03     oracle                   7        0        0    767.0     nan     nan    nan
+cuhk03     oracle                   8        0        0    767.0   73.90    0.00  75.43
+total time: 587s
