@@ -1,18 +1,22 @@
 # Single-fold pilot (CUHK03 target; sources Market + MSMT17 + CUHK-SYSU): does cluster repair beat random?
-# ~3 h wall, ~6 GPU-h. Default hyper-parameters (no tuning runs): eps 0.6, 400 steps / round, lr 3e-4.
-#   python scripts/launch_tasks.py plans/pilot.tasks --gpus 0,1,2,3,4
+# ~2.2 h wall on 8 GPUs (the base model alone takes ~1.5 h on one), ~6 GPU-h. Default hyper-parameters (no tuning runs): eps 0.6, 400 steps / round, lr 3e-4.
+#   python scripts/launch_tasks.py plans/pilot.tasks --gpus 0,1,2,3,4,5,6,7
 #
 # 1. the fold's base model (VPT + multi-domain tokens), ~1.5 h on one GPU
 base_md_cuhk03 | train base_md_cuhk03 $STEPS $MD $(fold cuhk03) $LOSS_ARGS $SCHEDULE
 @wait
 # 2. offline screening (~15 min): pseudo-label pairwise F1 after 5 x 200 answers per strategy -- read this first
 sim_cuhk03 | sim sim_cuhk03 $(ckpt base_md_cuhk03) --domains cuhk03 --n_seeds 3 --strategies none,repair,repair_random,random,cover --pseudo True --rounds 5 --budget 200 --paired_ref random
-# 3. training runs, one seed per GPU (~1 h each): none = unsupervised (0 answers), repair = ours,
-#    repair_random / random = random references
-pilot_s0 | active pilot_s0 $(ckpt base_md_cuhk03) --domains cuhk03 --strategies none,repair,repair_random,random --n_seeds 1 --base_seed 0 $REP
-pilot_s1 | active pilot_s1 $(ckpt base_md_cuhk03) --domains cuhk03 --strategies none,repair,repair_random,random --n_seeds 1 --base_seed 1 $REP
-pilot_s2 | active pilot_s2 $(ckpt base_md_cuhk03) --domains cuhk03 --strategies none,repair,repair_random,random --n_seeds 1 --base_seed 2 $REP
-# the previous method (pair questions, no pseudo labels) on the same base, for reference
-pilot_pair | active pilot_pair $(ckpt base_md_cuhk03) --domains cuhk03 --strategies cover,random --n_seeds 3 $ACT --oracle_all True
+# 3. training runs, 8 tasks for 8 GPUs (~35 min each): one seed x two strategies per task.
+#    none = unsupervised (0 answers), repair = ours, repair_random / random = random references
+pilot_s0a | active pilot_s0a $(ckpt base_md_cuhk03) --domains cuhk03 --strategies none,repair --n_seeds 1 --base_seed 0 $REP
+pilot_s0b | active pilot_s0b $(ckpt base_md_cuhk03) --domains cuhk03 --strategies repair_random,random --n_seeds 1 --base_seed 0 $REP
+pilot_s1a | active pilot_s1a $(ckpt base_md_cuhk03) --domains cuhk03 --strategies none,repair --n_seeds 1 --base_seed 1 $REP
+pilot_s1b | active pilot_s1b $(ckpt base_md_cuhk03) --domains cuhk03 --strategies repair_random,random --n_seeds 1 --base_seed 1 $REP
+pilot_s2a | active pilot_s2a $(ckpt base_md_cuhk03) --domains cuhk03 --strategies none,repair --n_seeds 1 --base_seed 2 $REP
+pilot_s2b | active pilot_s2b $(ckpt base_md_cuhk03) --domains cuhk03 --strategies repair_random,random --n_seeds 1 --base_seed 2 $REP
+# the previous method (pair questions, no pseudo labels) on the same base, for reference (+ full-annotation bound)
+pilot_pair_cover  | active pilot_pair_cover  $(ckpt base_md_cuhk03) --domains cuhk03 --strategies cover  --n_seeds 3 $ACT --oracle_all True
+pilot_pair_random | active pilot_pair_random $(ckpt base_md_cuhk03) --domains cuhk03 --strategies random --n_seeds 3 $ACT --oracle_all False
 @wait
-merge_pilot | $PY scripts/merge_active.py experiments/pilot_s0 experiments/pilot_s1 experiments/pilot_s2 --out experiments/pilot --paired_ref random
+merge_pilot | $PY scripts/merge_active.py experiments/pilot_s?? --out experiments/pilot --paired_ref random && $PY scripts/merge_active.py experiments/pilot_pair_* --out experiments/pilot_pair --paired_ref random

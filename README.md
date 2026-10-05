@@ -70,7 +70,7 @@ python scripts/launch_tasks.py plans/base.tasks --gpus 0,1,2,3           # 三�
 python scripts/launch_tasks.py plans/tune.tasks --gpus 0,1,2,3           # 在 CUHK-SYSU 上选主动模块的 lr / 步数
 python scripts/launch_tasks.py plans/diag.tasks --gpus 0,1,2             # 诊断：基础模型能否提出有用的 pair
 python scripts/launch_tasks.py plans/active.tasks --gpus 0,1,2,3         # 主表、消融、in-context 对照
-python scripts/launch_tasks.py plans/pilot.tasks --gpus 0,1,2,3,4                     # 簇修复：单折试验（CUHK03，约 3 小时，先跑这个）
+python scripts/launch_tasks.py plans/pilot.tasks --gpus 0,1,2,3,4,5,6,7               # 簇修复：单折试验（CUHK03，8 卡约 2.2 小时，先跑这个）
 python scripts/launch_tasks.py plans/sim.tasks plans/repair_tune.tasks --gpus 0,1,2,3   # 簇修复：离线筛选、调参
 python scripts/launch_tasks.py plans/repair.tasks --gpus 0,1,2,3,4,5,6,7               # 簇修复：三折主表与消融
 ```
