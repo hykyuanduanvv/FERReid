@@ -84,6 +84,7 @@ class ActiveArguments:
     strategy_suffix: str = field(default="")    # appended to the strategy name in the outputs (e.g. "@front")
     cam_norm: bool = field(default=False)       # clustering / selection on camera-normalised features
     shortlist_k: int = field(default=5)         # shortlist questions: candidate clusters per question
+    shortlist_rank: str = field(default="rule")  # shortlist: rule | committee (source-token clusterings)
 
 
 def load_split(name, device, cache_max, num_workers):

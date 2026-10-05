@@ -58,6 +58,8 @@ class ActiveConfig:
     budget_schedule: str = ""     # questions per round, comma-separated (e.g. "250,0,0,0,0"); overrides budget
     cam_norm: bool = False        # clustering + question selection on camera-normalised features (training: raw)
     shortlist_k: int = 5          # shortlist: candidate clusters shown per question (cost: one comparison each)
+    shortlist_rank: str = "rule"  # shortlist: "rule" (fewest cameras, then centroid cosine) | "committee" (co-association
+    #                               of the clusterings under each source domain's tokens, complementary clusters only)
 
 
 def base_prompt(model):
@@ -202,6 +204,24 @@ class ActiveRun:
         top1 = S.max(1)
         ncam = mask.sum(1)
         order = np.lexsort((-top1, ncam))  # fewest cameras first, then the most similar complementary candidate
+        if self.cfg.shortlist_rank == "committee":
+            # query-by-committee: co-association of clusters A, B (share of their image pairs clustered together)
+            # under each source domain's tokens, averaged; complementary pairs only. Clusters with the strongest
+            # co-association first, candidates by co-association (ties / zeros: centroid cosine)
+            A = np.zeros((C, C))
+            size = np.array([len(m) for m in members], float)
+            for lab in self._committee_labels():
+                ok = lab >= 0
+                P = np.zeros((C, int(lab.max()) + 1 if ok.any() else 1))
+                np.add.at(P, (labels[ok & (labels >= 0)], lab[ok & (labels >= 0)]), 1)
+                P /= size[:, None]
+                A += P @ P.T
+            A /= len(self._committee_labels())
+            S = np.where(np.isfinite(S), A + 1e-3 * (S + 1), -np.inf)
+            top1 = S.max(1)
+            order = np.argsort(-top1, kind="stable")
+        elif self.cfg.shortlist_rank != "rule":
+            raise ValueError("--shortlist_rank must be rule or committee")
         asked = pos = nq = hits = 0
         for a in order:
             if asked >= self.budget or not np.isfinite(top1[a]):
@@ -221,6 +241,26 @@ class ActiveRun:
             asked += len(todo)
             nq += 1
         return {"n_shortlist_q": nq, "round_pos_rate": pos / max(asked, 1), "shortlist_hit_rate": hits / max(nq, 1)}
+
+    def _committee_labels(self):
+        """Pool clusterings under each source domain's tokens (shared prompt | domain_prompts[d]); the base model
+        is frozen, so they are computed once per run."""
+        if getattr(self, "_committee", None) is None:
+            dom = getattr(self.model, "domain_prompts", None)
+            if dom is None:
+                raise ValueError("--shortlist_rank committee needs a base model with source-domain tokens")
+            cfg, out = self.cfg, []
+            for d in range(dom.size(0)):
+                p = torch.cat([self.base, dom[d:d + 1].detach().float()], dim=2)
+                f = features(self.model, self.split.pool, p)
+                if cfg.cam_norm and self.split.has_cameras:
+                    f = camera_normalize(f, self.split.pool_cams)
+                g = PoolGraph(f, cfg.pseudo_k1, cfg.pseudo_k2, cfg.pseudo_eps, cfg.pseudo_min_samples)
+                out.append(g.cluster())
+                del g, f
+                torch.cuda.empty_cache()
+            self._committee = out
+        return self._committee
 
     def _ask_anchors(self, feats):
         from adapters.context_selection import IMAGE_SELECTORS, ImagePool

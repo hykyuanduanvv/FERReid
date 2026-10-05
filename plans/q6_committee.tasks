@@ -1,0 +1,6 @@
+# 10-06: committee-ranked shortlist questions (--shortlist_rank committee: co-association of the clusterings under
+# each source domain's tokens), K=1, 250 comparisons all in round 1, vs the current rule (DINOv2 base models).
+# References: CUHK03 shortlist K=1 front 64.8 (p4_sl1_front), none 63.7; MSMT17 none 51.6, oracle 59.8 (seed 0).
+q6_comm_cuhk03   | gpu_wait && active q6_comm_cuhk03   $(ckpt base_md_cuhk03) --domains cuhk03 --strategies shortlist --n_seeds 3 $REP --shortlist_k 1 --budget_schedule 250,0,0,0,0 --shortlist_rank committee --strategy_suffix @k1front_comm
+q6_comm_msmt_s0  | gpu_wait && active q6_comm_msmt_s0  $(ckpt base_md_msmt17) --domains msmt17 --strategies shortlist --n_seeds 1 --base_seed 0 $REP --shortlist_k 1 --budget_schedule 250,0,0,0,0 --shortlist_rank committee --strategy_suffix @k1front_comm
+q6_rule_msmt_s0  | gpu_wait && active q6_rule_msmt_s0  $(ckpt base_md_msmt17) --domains msmt17 --strategies shortlist --n_seeds 1 --base_seed 0 $REP --shortlist_k 1 --budget_schedule 250,0,0,0,0 --strategy_suffix @k1front

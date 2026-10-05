@@ -89,8 +89,11 @@ def main():
         v = np.array([r["vlm_score"] for r in R], float)
         s = np.array([float(r["sim"]) for r in R]); tau = np.array([float(r["tau"]) for r in R])
         hard = np.abs(s - tau) <= np.median(np.abs(s - tau))
-        for subset, m in (("all", np.ones_like(y)), ("hard", hard)):
-            print("{:<10} {:<6} {:>5} {:>9.3f} {:>9.3f} {:>9.3f} {:>9.3f}".format(
+        kinds = sorted({r.get("kind", "") for r in R} - {""})  # scripts/make_vlm_pairs.py question sets
+        subsets = [("all", np.ones_like(y)), ("hard", hard)] + [
+            (k, np.array([r.get("kind") == k for r in R])) for k in kinds]
+        for subset, m in subsets:
+            print("{:<10} {:<8} {:>5} {:>9.3f} {:>9.3f} {:>9.3f} {:>9.3f}".format(
                 dom, subset, int(m.sum()), float(((v[m] > 0) == y[m]).mean()), auc(v[m], y[m]),
                 float(((s[m] > tau[m]) == y[m]).mean()), auc(s[m], y[m])))
     print("wrote", out)

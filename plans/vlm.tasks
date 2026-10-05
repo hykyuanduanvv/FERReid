@@ -1,0 +1,3 @@
+# 10-06: MLLM annotator, offline: Qwen3-VL-8B on the question sets of scripts/make_vlm_pairs.py (waits for the download)
+vlm_q3_msmt   | while pgrep -f "huggingface-cli download Qwen/Qwen3-VL" >/dev/null; do sleep 60; done; gpu_wait && $PY scripts/diag_vlm.py --pairs experiments/vlm_pairs_msmt/verify_pairs.csv --model /root/autodl-tmp/basic-models/Qwen3-VL-8B-Instruct --out experiments/vlm_pairs_msmt/vlm_qwen3vl8b.csv
+vlm_q3_cuhk03 | while pgrep -f "huggingface-cli download Qwen/Qwen3-VL" >/dev/null; do sleep 60; done; gpu_wait && $PY scripts/diag_vlm.py --pairs experiments/vlm_pairs_cuhk03/verify_pairs.csv --model /root/autodl-tmp/basic-models/Qwen3-VL-8B-Instruct --out experiments/vlm_pairs_cuhk03/vlm_qwen3vl8b.csv
