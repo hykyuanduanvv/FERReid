@@ -1,7 +1,0 @@
-[04:36:18] start c0_base_s42 on GPU 0
-[04:36:18] start c0_base_s43 on GPU 1
-[04:36:18] start c1_ctr_s42 on GPU 3
-[04:40:43] c1_ctr_s42 FAILED exit=1 (GPU 3)
-[04:45:08] c0_base_s42 done (GPU 0)
-[04:45:08] c0_base_s43 done (GPU 1)
-stopping: a task failed (see experiments/_launch/*.log); rerun to retry failed tasks

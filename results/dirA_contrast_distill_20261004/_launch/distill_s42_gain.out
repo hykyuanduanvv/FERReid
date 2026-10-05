@@ -1,7 +1,0 @@
-[16:35:32] start g_d0_s42 on GPU 0
-[16:38:57] g_d0_s42 done (GPU 0)
-[16:38:57] start g_d1_s42 on GPU 0
-[16:42:27] g_d1_s42 done (GPU 0)
-[16:42:27] start g_d2_s42 on GPU 0
-[16:45:42] g_d2_s42 done (GPU 0)
-all task groups finished

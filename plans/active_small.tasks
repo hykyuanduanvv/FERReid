@@ -1,0 +1,15 @@
+# Active module on the small targets (VIPeR / GRID / i-LIDS, 3 splits x 3 seeds), base = BASE_SMALL.
+# 4 rounds x 25 queries = 100 yes/no answers (anchor strategies: 100 "find this person" annotations).
+act_small_main      | active act_small_main      $BASE_SMALL --domains viper,grid,ilids --eval_splits 3 --n_seeds 3 --strategies $STRATS --rounds 4 --budget 25
+# budget curve: 8 rounds x 25 (eval every second round)
+act_small_long      | active act_small_long      $BASE_SMALL --domains viper,grid,ilids --eval_splits 3 --n_seeds 3 --strategies cover,uncertain,random,anchor:random --rounds 8 --budget 25 --eval_rounds 2,4,6,8 --oracle_all False
+# ablations of ours (cover)
+abl_replace         | active abl_replace         $BASE_SMALL --domains viper,grid,ilids --eval_splits 3 --n_seeds 3 --strategies cover --rounds 4 --budget 25 --prompt_mode replace --oracle_all False
+abl_no_hardneg      | active abl_no_hardneg      $BASE_SMALL --domains viper,grid,ilids --eval_splits 3 --n_seeds 3 --strategies cover --rounds 4 --budget 25 --hn_prob 0 --oracle_all False
+abl_expand0         | active abl_expand0         $BASE_SMALL --domains viper,grid,ilids --eval_splits 3 --n_seeds 3 --strategies cover --rounds 4 --budget 25 --expand_ratio 0 --oracle_all False
+abl_expand1         | active abl_expand1         $BASE_SMALL --domains viper,grid,ilids --eval_splits 3 --n_seeds 3 --strategies cover --rounds 4 --budget 25 --expand_ratio 1 --oracle_all False
+abl_tokens4         | active abl_tokens4         $BASE_SMALL --domains viper,grid,ilids --eval_splits 3 --n_seeds 3 --strategies cover --rounds 4 --budget 25 --domain_tokens 4 --oracle_all False
+abl_tokens16        | active abl_tokens16        $BASE_SMALL --domains viper,grid,ilids --eval_splits 3 --n_seeds 3 --strategies cover --rounds 4 --budget 25 --domain_tokens 16 --oracle_all False
+abl_oneshot         | active abl_oneshot         $BASE_SMALL --domains viper,grid,ilids --eval_splits 3 --n_seeds 3 --strategies cover,uncertain,random --rounds 1 --budget 100 --oracle_all False
+# in-context baseline (VICP, same budget of k = 16 anchors; needs base_vicp_small)
+icl_vicp_small      | evaluate icl_vicp_small    $(ckpt base_vicp_small) --domains viper,grid,ilids --methods random,facility_camera --ks 4,16 --eval_seeds 3 --eval_splits 3

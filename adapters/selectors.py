@@ -9,7 +9,7 @@ without prompts (label-free on the target; the frozen pretrained copy is availab
 is a much weaker person-similarity) -- and "style" statistics (channel mean
 and std of the patch tokens after the first blocks), z-scored per dimension.
 
-Families (see docs/RUN_PLAN_20261001.md section 9):
+Families (anchor-image selectors of the in-context protocol; also anchor:<name> in adapters/active):
   efficiency      dedup, pairable
   representative  typical
   coverage        kcenter, camera_balanced, style_cover

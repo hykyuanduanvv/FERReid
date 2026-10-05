@@ -49,4 +49,6 @@ BACKBONES = {
                    'repo': _path('FERREID_DINOV2_REPO', '/root/basic-models/dinov2'),
                    'weights': os.path.join(DOMAIN_CONFIG['weights_dir'], 'dinov2_vitb14_pretrain.pth'),
                    'input_size': (252, 126)},
+    # randomly initialised tiny ViT for the CPU tests (tests/*.py); never used for experiments
+    'tiny_test': {'kind': 'timm_random', 'arch': 'vit_tiny_patch16_224', 'input_size': (256, 128)},
 }

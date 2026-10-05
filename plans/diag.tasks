@@ -1,0 +1,9 @@
+# Step 1 diagnostics (run before the active experiments): can the base model propose useful cross-camera
+# pairs? hit@k, mutual-NN precision, positive rate of proposed pairs, calibration, AUC; verify_pairs.csv for
+# scripts/diag_vlm.py (MLLM vs ReID as a same-person verifier).
+diag_small   | diag diag_small   $BASE_SMALL --domains viper,grid,ilids --eval_splits 3
+diag_market  | diag diag_market  $(ckpt base_vpt_to_market) --domains market1501
+diag_msmt    | diag diag_msmt    $(ckpt base_vpt_to_msmt)   --domains msmt17
+diag_cuhk03  | diag diag_cuhk03  $(ckpt base_vpt_to_cuhk03) --domains cuhk03
+# MLLM verifier (needs the model weights, ~16 GB for 7B in bf16):
+#   python scripts/diag_vlm.py --pairs experiments/diag_small/verify_pairs.csv --model Qwen/Qwen2.5-VL-7B-Instruct

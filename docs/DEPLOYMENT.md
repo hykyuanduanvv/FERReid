@@ -7,8 +7,8 @@
 私有仓库需要先在本机完成 GitHub 登录，并拥有仓库权限。
 
 ```bash
-git clone https://github.com/hykyuanduanvv/CVPR-2027.git
-cd CVPR-2027
+git clone -b Active_Pair_Prompt https://github.com/hykyuanduanvv/FERReid.git
+cd FERReid
 conda create -n ferreid python=3.12 -y
 conda activate ferreid
 python -m pip install torch==2.6.0 torchvision==0.21.0 --index-url https://download.pytorch.org/whl/cu124
@@ -24,7 +24,7 @@ git -C external/deep-person-reid checkout f8cd150fdf77e8d9e1ed143b7f308c2c609ded
 (cd external/deep-person-reid/torchreid/metrics/rank_cylib && python setup.py build_ext --inplace)
 ```
 
-编译后 `evaluate_rank` 自动使用 Cython 版本（结果与 Python 版相同，可用同目录的 `test_cython.py` 核对）。DINOv2 主干还需要其模型代码：`git clone https://github.com/facebookresearch/dinov2.git external/dinov2`，并设置 `FERREID_DINOV2_REPO`。`requirements.txt` 已列入主流程和诊断的依赖；`env/requirements_frozen.txt` 含原 Conda 环境的本机 `file://` 包，仅供追溯，**不要对该快照执行 pip install -r**。
+编译后 `evaluate_rank` 自动使用 Cython 版本（结果与 Python 版相同，可用同目录的 `test_cython.py` 核对）。DINOv2 主干还需要其模型代码：`git clone https://github.com/facebookresearch/dinov2.git external/dinov2`，并设置 `FERREID_DINOV2_REPO`。`requirements.txt` 已列入主流程和诊断的依赖（原 Conda 环境快照保留在 Direction_A 分支的 `env/`）。
 
 固定版本反映原服务器实况，并不代表已验证所有软件镜像都能下载。若某镜像缺包，先检查正确包源；不要无记录地升级关键依赖。`CustomTrainer` 使用 transformers 的内部接口，版本变动可能导致签名不兼容。
 
@@ -95,7 +95,7 @@ ViT 的文件名必须是：
 $FERREID_WEIGHTS_DIR/vit_base_patch16_224.pth
 ```
 
-优先使用原实验保留的权重；其 SHA256 记录在 `results/archive_20260929/provenance.json`。新的部署也可从具名 timm 预训练权重准备：
+优先使用原实验保留的权重（SHA256 记录在 Direction_A 分支的 `results/archive_20260929/provenance.json`）。新的部署也可从具名 timm 预训练权重准备：
 
 ```bash
 python scripts/prepare_weights.py --model vit_b16 --output-dir "$FERREID_WEIGHTS_DIR"
@@ -108,7 +108,7 @@ python scripts/prepare_weights.py --model dinov2_b14 --output-dir "$FERREID_WEIG
 
 脚本加载 `vit_base_patch16_224.augreg2_in21k_ft_in1k`，将位置编码适配到 256×128（16×8 patches），移除分类头，并检查完整 state_dict 可严格加载。它拒绝覆盖已有权重。新下载和重新序列化的文件不保证与历史权重逐字节一致；精确复算旧 checkpoint 应使用历史原文件。
 
-准备 Qwen3-0.6B：
+准备 Qwen3-0.6B（只有 VICP 对照需要）：
 
 ```bash
 hf download Qwen/Qwen3-0.6B --local-dir "$QWEN3_06B_DIR"
@@ -116,86 +116,38 @@ hf download Qwen/Qwen3-0.6B --local-dir "$QWEN3_06B_DIR"
 
 该目录应含模型配置、分词器及权重。记录所下载的模型 revision；下载当前默认分支不能视为历史 revision 的严格复现。离线运行时先确认文件齐全，再设置 `HF_HUB_OFFLINE=1`。
 
-历史训练 checkpoint 未上传到 Git；服务器原路径与文件指纹见 `provenance.json`。仅有代码仓库不能直接进行历史权重推理，需要已有 checkpoint 或重新训练。
+历史训练 checkpoint 未上传到 Git。Direction_A 分支训练的 VPT / plain / 原版 VICP checkpoint 在本分支可直接加载（参数名未变）；残差 prompt 等方向 A 的 VICP 变体不能加载。
 
-## 5. 运行训练
+## 5. 训练基础模型
 
-```bash
-# Market+MSMT → CUHK03；1,000 steps，seed=42
-bash scripts/run_main.sh vicp main_vicp 1000 42
-bash scripts/run_main.sh plain main_plain 1000 42
-
-# 三折源域交叉验证；每折 1,000 steps
-bash scripts/run_cv.sh cv_new 1000
-python scripts/summarize_cv.py cv_new
-
-# 单折延长到 3,000 steps（新的实验名称避免覆盖）
-bash scripts/run_main.sh vicp main_vicp_3k 3000 42
-```
-
-核心参数：batch=64 身份采样条目，每条目 2 图；Adam，lr=1e-4，恒定学习率，weight decay=0，不裁剪梯度，FP16；每 100 步在固定 CUHK03 **500 个测试身份子集**验证。原采样器按人工构造的大步数流工作，日志中 `epoch=0.01` 等不能当成真实整数据集遍历次数。
-
-`run_main.sh` 拒绝使用已有输出目录。原兼容脚本 `run_cv_fold1_3k.sh`、`run_v1.sh`、`run_v1_diag.sh` 保留固定输出名，使用前检查已有结果。`run_v1.sh` 是 `icl_feature=trained` 的消融，不属于主表配置。
-
-模型只在最后保存 checkpoint。某个中间步的验证值最好，不表示对应权重已保存。继续训练需明确使用 `scripts/train_reid.py --resume_from_checkpoint <目录>` 并提供一致参数。
-
-后台执行可用：
+所有实验通过多卡启动器运行：一张卡一个任务，自动排队，日志在 `experiments/_launch/<任务名>.log`，成功的任务再次运行时自动跳过。
 
 ```bash
-mkdir -p experiments
-nohup bash scripts/run_main.sh vicp main_vicp_bg 1000 42 > experiments/main_vicp_bg.launcher.log 2>&1 &
+python scripts/launch_tasks.py plans/base.tasks --gpus 0,1,2,3 --dry-run   # 先查看命令
+python scripts/launch_tasks.py plans/base.tasks --gpus 0,1,2,3
 ```
 
-此部署脚本不包含自动关机命令。租赁机器应在确认实验结束、结果已备份后按平台流程关机，避免仍有任务时被通用脚本意外关停。
+`plans/base.tasks` 训练 DINOv2 的 VPT 基础模型：小目标域用 Market + MSMT17 + CUHK03 的全部图像；大目标域（Market、MSMT17、CUHK03 留一）各训一个，源域只用 train 部分（有 CUHK-SYSU 数据时自动加入）。另有 plain 与 VICP 两个对照。损失默认 BNNeck + ID 交叉熵 + triplet，可在 `plans/chosen.sh` 里用 `LOSS_ARGS` 覆盖。
 
-## 6. 目标域正式评测
+已有 Direction_A 分支训练好的 VPT 时，在 `configs/local.sh` 里写 `export BASE_SMALL=<checkpoint 目录>`，跳过 `base_vpt_small`。
+
+## 6. 主动 pair 查询实验
 
 ```bash
-python scripts/eval_context.py \
-  --output_dir experiments/main_vicp/eval \
-  --checkpoint experiments/main_vicp/val_cuhk03/checkpoint-1000 \
-  --model_type vicp --domains viper,grid,ilids \
-  --methods random --ks 16 --eval_seeds 3 --eval_splits 10 \
-  --num_icl_samples 64 --fp16 True --report_to none --selection_unit identity
-
-python scripts/eval_context.py \
-  --output_dir experiments/main_plain/eval \
-  --checkpoint experiments/main_plain/val_cuhk03/checkpoint-1000 \
-  --model_type plain --domains viper,grid,ilids \
-  --methods random --ks 16 --eval_seeds 1 --eval_splits 10 \
-  --num_icl_samples 64 --fp16 True --report_to none --selection_unit identity
+python scripts/launch_tasks.py plans/diag.tasks --gpus 0,1,2,3           # 第 1 步：诊断
+python scripts/launch_tasks.py plans/active_small.tasks --gpus 0,1,2,3   # 小目标域主实验与消融
+python scripts/launch_tasks.py plans/active_large.tasks --gpus 0,1,2     # 大目标域（流式读取）
 ```
 
-每项结果进入 `context_eval.csv`。评估入口为兼容原 Trainer 会先读取源训练数据，因此正式评估也需准备 Market/MSMT。必须确认日志为 `missing: 0 unexpected: 0`，且三个域均成功、有完整行数（VICP 90 行，plain 30 行）；旧入口遇到数据缺失会跳过域，不能只看进程退出码。
+方法、协议、输出与判读见 [ACTIVE_PROMPT.md](ACTIVE_PROMPT.md)。大目标域请先编译 torchreid 的 Cython 排序（第 1 节），否则 MSMT17 的评测会非常慢。
 
-## 7. 上下文诊断
+## 7. 自检
 
 ```bash
-# 正确、乱序标签、反转标签、全 yes/no、跨域、源域、伪支持和零 prompt
-python scripts/context_diagnostics.py \
-  --output_dir experiments/main_vicp/diagnostics \
-  --checkpoint experiments/main_vicp/val_cuhk03/checkpoint-1000 \
-  --domains viper,grid,ilids --ks 4,16 --n_contexts 8 --eval_splits 3 \
-  --num_icl_samples 64 --fp16 True --report_to none --selection_unit identity
-
-# 更换支持身份与固定支持下的问题抽样波动
-python scripts/context_sensitivity.py \
-  --output_dir experiments/main_vicp/sensitivity \
-  --checkpoint experiments/main_vicp/val_cuhk03/checkpoint-1000 \
-  --domains viper,grid,ilids --ks 2,4,8,16,32 --n_contexts 30 --noise_reps 5 \
-  --eval_splits 1 --num_icl_samples 64 --fp16 True --report_to none --selection_unit identity
+python tests/test_active.py          # 主动模块：约束、候选、策略、端到端（CPU，约 1 分钟，无需数据和权重）
+python tests/test_models.py --tiny   # 模型前后向（随机小 ViT）
+python tests/test_selectors.py       # 锚点图选择器（合成数据）
+python tests/test_models.py --skip_vicp   # 真实主干权重（需第 4 节的权重）
 ```
 
-诊断会缓存图像到 GPU，规模大于目前小目标集时需要调整缓存实现。`noise` 表示固定图像对、改变题目抽样种子，不是随机 prompt 向量；`zero` 是插入全零 token，不等于完全移除 token。`oracle` 使用测试成绩事后选优，仅能作探索性上界。
-
-## 8. 验证与归档
-
-```bash
-python scripts/verify_repository.py
-python scripts/summarize_results.py
-python -m compileall -q adapters ops scripts models.py custom_trainer.py
-```
-
-保存完整训练参数、训练种子、支持种子、数据划分、checkpoint 指纹和 CSV。`seed=42` 只标识历史一次训练，不能代替多个训练种子；支持种子重复也不能代替训练重复。当前代码的模型构造早于 Trainer 设置随机种子，故从头重训不保证完全确定；这一继承行为在本次发布中未改变。进一步严格重训应在模型构造前统一设种子，并作为新协议单独记录。
-
-本次发布前的实际检查范围见 [复现记录](REPRODUCIBILITY.md)；没有在空白 Conda 环境完整重装并重新训练，因此不声称已完成端到端从零复现。
+保存完整训练参数、训练种子、数据划分和 CSV。`seed` 只标识一次训练，不能代替多个训练种子。

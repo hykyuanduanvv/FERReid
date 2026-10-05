@@ -1,7 +1,0 @@
-{
-  "contexts": 120,
-  "noise_max": 0.0,
-  "checkpoint": "/root/hyk/history/FERReID_experiments/dinov2_fold1_3k/val_cuhk03/checkpoint-3000",
-  "complete": true,
-  "warning": "Variance/domain separability are not useful-information measures."
-}

@@ -5,25 +5,25 @@ import transformers
 
 @dataclass
 class ReIDTrainingArguments(transformers.TrainingArguments):
-    # --- VICP model options (same names/defaults as VICP's train_vpt_lora.TrainingArguments)
-    # the backbone comes from --backbone; this field is kept for models.Model's signature
-    vision_model: str = field(default="vit_base_patch16_224")
+    # --- model
+    # "vpt"  : one learnable deep visual prompt (the base model of the active module)
+    # "plain": the same encoder without prompts
+    # "vicp" : VICP in-context prompting (LLM + context pairs), kept as the in-context baseline
+    model_type: str = field(default="vpt")
+    # visual backbone, a key of adapters/config_reid.py::BACKBONES (empty = DEFAULT_BACKBONE = vit_b16)
+    backbone: str = field(default="")
+    num_vpt_tokens: int = field(default=32)    # visual prompt tokens per ViT layer (VPT and VICP)
+    ot_loss_weight: float = field(default=0.01)  # WPA local alignment; 0 disables it (and skips its computation)
+
+    # --- VICP only (same names / defaults as VICP's train_vpt_lora.TrainingArguments)
     llm_model: str = field(default="Qwen/Qwen3-0.6B")
     num_id_tokens: int = field(default=32)     # Q-Former tokens per image pair
-    num_vpt_tokens: int = field(default=32)    # visual prompt tokens per ViT layer
-    num_icl_samples: int = field(default=64)   # ICL sequence length L (questions per sequence)
+    num_icl_samples: int = field(default=64)   # ICL sequence length (questions per sequence)
     num_icl_bs: int = field(default=1)         # ICL sequences (prompt sets) per forward
     icl_loss_weight: float = field(default=1.0)
     # features the ICL questions are built from: "frozen" = VICP's frozen encoder copy;
     # "trained" = the trained encoder (LoRA, no prompts), gradient stopped as in VICP
     icl_feature: str = field(default="frozen")
-    ot_loss_weight: float = field(default=0.01)  # WPA; 0 disables it (and skips its computation)
-
-    # "vicp" = VICP (LLM + in-context prompts); "plain" = same encoder, triplet only (baseline);
-    # "vpt" = VICP with the LLM/context replaced by one learnable prompt (same encoder, prompts, losses)
-    model_type: str = field(default="vicp")
-    # visual backbone, a key of adapters/config_reid.py::BACKBONES (empty = DEFAULT_BACKBONE = vit_b16)
-    backbone: str = field(default="")
 
     # --- how the encoder is trained (defaults = historical: LoRA r=128 on the last 4 blocks)
     train_backbone: str = field(default="lora")   # "lora" | "full" (every encoder weight trained, no LoRA)
@@ -37,43 +37,6 @@ class ReIDTrainingArguments(transformers.TrainingArguments):
     bnneck: bool = field(default=False)           # BNNeck: CE on BN(feature), retrieval with BN(feature)
     label_smoothing: float = field(default=0.1)
     num_train_ids: int = field(default=0)         # set by the trainer / read from the checkpoint
-
-    # --- direction A: make the prompt depend on the context (defaults = original VICP)
-    prompt_mode: str = field(default="vicp")      # "residual": prompt = base + gate * delta(context)
-    ctx_center: str = field(default="none")       # "ema": delta sees h minus a running mean of h
-    ctx_gate_init: float = field(default=0.1)     # initial per-layer gate of the context term
-    delta_init_std: float = field(default=0.02)   # init std of prompt_mlp in residual mode
-    episode_context_ids: int = field(default=0)   # > 0: first N identities of a batch = context only
-    episode_context_ids_min: int = field(default=0)  # > 0: N drawn uniformly from [min, episode_context_ids]
-    # direction B phase 2: label-free selector choosing the context identities of each batch
-    # (needs --episode_context_ids > 0; "random" = the batch order; see adapters/selectors.py)
-    train_context_selector: str = field(default="random")
-    pseudo_domains: str = field(default="none")   # "camera_pair": a training "domain" = (dataset, camera pair)
-    #                                               "camera_group": a group of camera units (--camera_groups)
-    pseudo_min_ids: int = field(default=8)        # camera pairs with fewer identities are dropped
-    camera_groups: str = field(default="")        # groups.json of scripts/group_prompts.py --stage cluster
-
-    # --- direction A, prompt distillation (defaults = off; see docs/DIRECTION_A_DISTILL.md)
-    # > 0: features under the generated prompt must match the features under the teacher prompt of the batch's
-    # (pseudo-)domain (teachers.pt of scripts/group_prompts.py). Needs --batch_domain_mode single.
-    prompt_teacher: str = field(default="")
-    prompt_kd_weight: float = field(default=0.0)
-    prompt_kd_mode: str = field(default="rel")    # "rel": batch similarity matrices; "feat": per-image cosine
-
-    # --- direction A, contrastive context loss (defaults = off; see docs/DIRECTION_A_CONTRAST.md)
-    # > 0: also generate a prompt from another source domain's (cached) context and require the own-domain
-    # prompt to separate the batch's query identities better than it, by ctx_contrast_margin, measured by
-    # the per-anchor gap d(hardest positive) - d(hardest negative) in FP32. Needs --batch_domain_mode single.
-    ctx_contrast_weight: float = field(default=0.0)
-    ctx_contrast_margin: float = field(default=0.05)
-    # the cross-domain path gives gradient to the context branch only (not to encoder / LoRA / base_prompt / LLM)
-    ctx_contrast_detach_encoder: bool = field(default=False)
-    # warm start: load a checkpoint dir (e.g. a VPT run) before training; a VPT "prompt" becomes the
-    # residual "base_prompt". Missing keys keep their fresh initialisation (listed in the log).
-    init_from: str = field(default="")
-    # train only the context branch (Q-Former, query tokens, prompt_mlp, delta_norm, ctx_gate);
-    # encoder / LoRA / base_prompt / ID head are frozen and kept in FP32
-    train_context_only: bool = field(default=False)
 
     # --- training sampler (defaults = historical)
     instances_per_id: int = field(default=2)      # K images per identity (even; batch = P ids x K images)
@@ -89,8 +52,8 @@ class ReIDTrainingArguments(transformers.TrainingArguments):
     # train on train+query+gallery of each source domain (torchreid combineall). Protocol-2 uses False.
     source_all_images: bool = field(default=True)
 
-    # --- context evaluation
-    # context_k is the labeling budget. num_icl_samples stays equal to the training value at test time.
+    # --- validation / in-context evaluation (scripts/eval_context.py)
+    # context_k is the labeling budget of the in-context protocol (VICP); VPT / plain ignore the context.
     context_k: int = field(default=16)
     context_method: str = field(default="random")
     # "image" (label-free): the selector sees only unlabeled images (paths, camera ids) and picks k

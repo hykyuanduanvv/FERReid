@@ -1,9 +1,0 @@
-[16:31:22] start d0_grp_s43 on GPU 1
-[16:36:12] d0_grp_s43 done (GPU 1)
-[16:36:12] start d1_kdf_s43 on GPU 1
-[16:41:57] d1_kdf_s43 done (GPU 1)
-[16:41:57] start g_d0_s43 on GPU 1
-[16:45:12] g_d0_s43 done (GPU 1)
-[16:45:12] start g_d1_s43 on GPU 1
-[16:48:17] g_d1_s43 done (GPU 1)
-all task groups finished

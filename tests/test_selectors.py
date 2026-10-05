@@ -76,14 +76,13 @@ def main():
         from adapters.trainer_reid import _get_dataset_cls
         from adapters.baseline_model import PlainReIDModel
         from adapters.selectors import extract_selector_features
-        from scripts.context_sensitivity import load_images
+        from adapters.active.image_store import load_images
         args = transformers.HfArgumentParser(ReIDTrainingArguments).parse_args_into_dataclasses(
             ["--output_dir", "/tmp/x", "--report_to", "none", "--model_type", "plain", "--backbone", "dinov2_b14"])[0]
         device = "cuda" if torch.cuda.is_available() else "cpu"
         if a.checkpoint:
-            from scripts.context_sensitivity import build_model
-            model = build_model(args, device, a.checkpoint)
-            model.load_state_dict(torch.load(os.path.join(a.checkpoint, "pytorch_model.bin"), map_location=device), strict=True)
+            from adapters.baseline_model import load_checkpoint_model
+            model = load_checkpoint_model(args, device, a.checkpoint)
         else:
             model = PlainReIDModel(args).to(device).eval()
         for name in ("viper", "grid"):

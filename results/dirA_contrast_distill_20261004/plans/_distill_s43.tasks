@@ -1,5 +1,0 @@
-d0_grp_s43  | train d0_grp_s43  300 $TUNE_DATA $C_BASE $KD_GRP --seed 43
-d1_kdf_s43  | train d1_kdf_s43  300 $TUNE_DATA $C_BASE $KD_GRP $KD_TEACH --prompt_kd_weight 1 --prompt_kd_mode feat --seed 43
-@wait
-g_d0_s43 | cgain g_d0_s43 experiments/d0_grp_s43/checkpoint-300
-g_d1_s43 | cgain g_d1_s43 experiments/d1_kdf_s43/checkpoint-300

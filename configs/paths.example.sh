@@ -3,7 +3,8 @@
 export FERREID_DATA_ROOT=/root/autodl-tmp/reid-data
 export FERREID_WEIGHTS_DIR=/root/autodl-tmp/weights       # vit_base_patch16_224.pth, dinov2_vitb14_pretrain.pth
 export FERREID_DINOV2_REPO=$PWD/external/dinov2            # clone of facebookresearch/dinov2 (model code only)
-export QWEN3_06B_DIR=/root/basic-models/Qwen3-0.6B
+export QWEN3_06B_DIR=/root/basic-models/Qwen3-0.6B       # only for the VICP baseline
+# export BASE_SMALL=$PWD/experiments/s2_vpt_long/checkpoint-12000   # reuse an existing VPT base model
 export PYTHON=python
 # Clone the pinned deep-person-reid dependency here (see docs/DEPLOYMENT.md).
 export PYTHONPATH="$PWD/external/deep-person-reid${PYTHONPATH:+:$PYTHONPATH}"

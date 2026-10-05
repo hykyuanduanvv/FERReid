@@ -42,12 +42,12 @@ def main():
     from adapters.trainer_reid import DGReIDTrainer
     if eargs.checkpoint:
         # rebuild the checkpoint's own architecture and source-identity count (training_args.bin)
-        from adapters.reid_model import apply_checkpoint_structure
+        from adapters.backbones import apply_checkpoint_structure
         apply_checkpoint_structure(args, eargs.checkpoint)
         saved = os.path.join(eargs.checkpoint, "training_args.bin")
         if os.path.isfile(saved):
             saved = torch.load(saved, map_location="cpu", weights_only=False)
-            for name in ("source_domains", "source_all_images", "val_domains", "pseudo_domains", "pseudo_min_ids"):
+            for name in ("source_domains", "source_all_images", "val_domains"):
                 if hasattr(saved, name) and getattr(args, name) != getattr(saved, name):
                     print("[checkpoint] {} = {!r} (command line had {!r})".format(
                         name, getattr(saved, name), getattr(args, name)))

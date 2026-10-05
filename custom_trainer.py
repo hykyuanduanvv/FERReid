@@ -1,19 +1,12 @@
-"""Copyright: Nabarun Goswami (2024)."""
-import math
-import time
-from typing import Dict, List, Optional, Union
+"""Copyright: Nabarun Goswami (2024). Trainer that logs the extra loss terms of the model outputs.
+Evaluation and the batch sampler are defined by adapters/trainer_reid.DGReIDTrainer."""
+from typing import Dict, List
 
-import datasets
 import torch
-from torch.utils.data import DataLoader, Dataset
 from transformers import Trainer, TrainerCallback, TrainingArguments, TrainerState, TrainerControl, \
-    is_torch_xla_available, is_datasets_available
-from transformers.debug_utils import DebugOption
+    is_torch_xla_available
 from transformers.modeling_utils import unwrap_model
-from transformers.trainer_utils import speed_metrics
 from transformers.utils import logging
-import numpy as np
-import torchvision
 
 logger = logging.get_logger(__name__)
 
@@ -104,58 +97,3 @@ class CustomTrainer(Trainer):
                     raise
                 self._save_checkpoint(model, trial)
             self.control = self.callback_handler.on_save(self.args, self.state, self.control)
-
-    @torch.no_grad()
-    def evaluate(
-            self,
-            eval_dataset: Optional[Dataset] = None,
-            ignore_keys: Optional[List[str]] = None,
-            metric_key_prefix: str = "eval",
-    ) -> Dict[str, float]:
-
-        test_cats = []
-        for name in ['cat','chimp','chinchilla','degus','dog','ferret','guineapig','hamster','hedgehog','javasparrow','parakeet','pig','rabbit']:
-            if self.args.cluster_index != -1:
-                if name in self.categories[self.args.cluster_index]:
-                    test_cats.append(name)
-        from ops.evaluation import evaluate_verification
-        all_results = evaluate_verification(self.model, test_cats, self.args.image_path)
-        self.log(all_results)
-        return all_results
-
-    def _get_train_sampler(self) -> Optional[torch.utils.data.Sampler]:
-        if not self.args.replace_sampler:
-            return super()._get_train_sampler()
-        
-        print('Using custom sampler')
-
-        dataset = self.train_dataset
-        pids = np.array(list(dataset.label2images.keys()))
-        labels = np.array([dataset.pid2label[x] for x in pids])
-        print(labels)
-        label_to_indices = {label: np.where(labels == label)[0] for label in np.unique(labels)}
-        num_batches = 10000
-        batch_size = self.args.per_device_train_batch_size * self.args.gradient_accumulation_steps * self.accelerator.num_processes
-        print('batch_size: ', batch_size, 'num_batches: ', num_batches)
-        all_batches = []
-        
-        while len(all_batches) < num_batches:
-            current_label = np.random.choice(list(label_to_indices.keys()))
-            indices = label_to_indices[current_label]
-            # print(current_label, indices, len(indices))
-            # exit(0)
-            batch_indices = np.random.choice(indices, batch_size, replace=True)
-            all_batches.append(batch_indices)
-        indices = np.array(all_batches).flatten()
-        # print(indices)
-        from torch.utils.data import DataLoader, Dataset, Sampler
-        class OrderedSampler(Sampler):
-            def __init__(self, indices):
-                self.indices = indices  # List of specific indices
-
-            def __iter__(self):
-                return iter(self.indices)  # Yield indices in order
-
-            def __len__(self):
-                return len(self.indices)
-        return OrderedSampler(indices)

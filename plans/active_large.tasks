@@ -1,0 +1,5 @@
+# Active module on large targets (pool streamed from disk). 5 rounds x 200 queries; evaluation after
+# rounds 1, 3, 5 (MSMT17 query x gallery = 11,659 x 82,161: ~10 min per evaluation on a 4090).
+act_market | active act_market $(ckpt base_vpt_to_market) --domains market1501 --n_seeds 2 --strategies cover,uncertain,balanced,random,anchor:random --rounds 5 --budget 200 --eval_rounds 1,3,5
+act_cuhk03 | active act_cuhk03 $(ckpt base_vpt_to_cuhk03) --domains cuhk03 --n_seeds 2 --strategies cover,uncertain,balanced,random,anchor:random --rounds 5 --budget 200 --eval_rounds 1,3,5
+act_msmt   | active act_msmt   $(ckpt base_vpt_to_msmt)   --domains msmt17 --n_seeds 1 --strategies cover,uncertain,random,anchor:random --rounds 5 --budget 200 --eval_rounds 1,3,5

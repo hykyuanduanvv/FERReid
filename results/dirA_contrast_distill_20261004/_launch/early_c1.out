@@ -1,3 +1,0 @@
-[04:42:03] start c1_ctr_s42 on GPU 3
-[04:42:48] c1_ctr_s42 FAILED exit=1 (GPU 3)
-stopping: a task failed (see experiments/_launch/*.log); rerun to retry failed tasks

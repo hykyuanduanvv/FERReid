@@ -1,3 +1,0 @@
-g_d0_s42 | cgain g_d0_s42 experiments/d0_grp_s42/checkpoint-300
-g_d1_s42 | cgain g_d1_s42 experiments/d1_kdf_s42/checkpoint-300
-g_d2_s42 | cgain g_d2_s42 experiments/d2_kdr_s42/checkpoint-300
