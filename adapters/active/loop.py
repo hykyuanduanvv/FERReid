@@ -57,6 +57,7 @@ class ActiveConfig:
     repair_per_cluster: int = 1   # questions per cluster and round
     budget_schedule: str = ""     # questions per round, comma-separated (e.g. "250,0,0,0,0"); overrides budget
     cam_norm: bool = False        # clustering + question selection on camera-normalised features (training: raw)
+    shortlist_k: int = 5          # shortlist: candidate clusters shown per question (cost: one comparison each)
 
 
 def base_prompt(model):
@@ -85,7 +86,7 @@ class ActiveRun:
 
     def __init__(self, model, split, strategy, cfg, seed, log=print):
         self.model, self.split, self.strategy, self.cfg, self.seed, self.log = model, split, strategy, cfg, seed, log
-        if not (strategy in STRATEGIES or strategy in REPAIR_STRATEGIES or strategy in ("none", "oracle")
+        if not (strategy in STRATEGIES or strategy in REPAIR_STRATEGIES or strategy in ("none", "oracle", "shortlist")
                 or strategy.startswith("anchor:")):
             raise ValueError("unknown strategy {}; pair strategies: {}, repair strategies: {}, none, or "
                              "anchor:<image selector>".format(strategy, sorted(STRATEGIES), REPAIR_STRATEGIES))
@@ -123,7 +124,8 @@ class ActiveRun:
     def _needs_graph(self):
         if self.strategy == "oracle":
             return False
-        return self.cfg.pseudo or self.strategy in REPAIR_STRATEGIES or self.strategy in NEEDS_GRAPH
+        return (self.cfg.pseudo or self.strategy in REPAIR_STRATEGIES or self.strategy in NEEDS_GRAPH
+                or self.strategy == "shortlist")
 
     def _ask_pairs(self, feats):
         cfg, store = self.cfg, self.store
@@ -173,6 +175,53 @@ class ActiveRun:
                 "cand_mutual": float(cand["mutual"].mean()) if len(cand["sim"]) else float("nan"),
                 "round_pos_rate": pos / max(asked, 1), **extra}
 
+    def _ask_shortlist(self, feats):
+        """Shortlist questions: "which of these K clusters (no camera in common with cluster A) is A's person,
+        if any?" -- several may be chosen. Query clusters A, most likely split first: fewest cameras, then the
+        highest centroid similarity of the best complementary candidate. The simulated annotator compares A's
+        medoid with each candidate's medoid; the cost is one comparison per candidate shown (candidates whose
+        answer follows from earlier answers are not shown)."""
+        K, store, X = self.cfg.shortlist_k, self.store, feats.cpu().numpy()
+        labels = self.graph.cluster(store)
+        C = int(labels.max()) + 1 if (labels >= 0).any() else 0
+        if C < 2:
+            return {"n_shortlist_q": 0}
+        members = [np.flatnonzero(labels == c) for c in range(C)]
+        cent = np.stack([X[m].mean(0) for m in members])
+        cent /= np.linalg.norm(cent, axis=1, keepdims=True) + 1e-12
+        medoid = np.array([m[np.argmax(X[m] @ cent[c])] for c, m in enumerate(members)])
+        cams = np.asarray(self.split.pool_cams)
+        cam_idx = np.unique(cams, return_inverse=True)[1].reshape(-1)
+        mask = np.zeros((C, cam_idx.max() + 1), bool)
+        for c, m in enumerate(members):
+            mask[c, cam_idx[m]] = True
+        S = cent @ cent.T
+        np.fill_diagonal(S, -np.inf)
+        if self.split.has_cameras:
+            S = np.where((mask.astype(np.int32) @ mask.T.astype(np.int32)) > 0, -np.inf, S)  # complementary only
+        top1 = S.max(1)
+        ncam = mask.sum(1)
+        order = np.lexsort((-top1, ncam))  # fewest cameras first, then the most similar complementary candidate
+        asked = pos = nq = hits = 0
+        for a in order:
+            if asked >= self.budget or not np.isfinite(top1[a]):
+                continue
+            cand = [int(c) for c in np.argsort(-S[a])[:K] if np.isfinite(S[a, c])]
+            todo = [c for c in cand if store.infer(int(medoid[a]), int(medoid[c])) is None]
+            if not todo:
+                continue
+            todo = todo[:self.budget - asked]
+            hit = 0
+            for c in todo:
+                same = self.oracle.same(int(medoid[a]), int(medoid[c]))
+                store.add(int(medoid[a]), int(medoid[c]), same)
+                hit += same
+            pos += hit
+            hits += hit > 0
+            asked += len(todo)
+            nq += 1
+        return {"n_shortlist_q": nq, "round_pos_rate": pos / max(asked, 1), "shortlist_hit_rate": hits / max(nq, 1)}
+
     def _ask_anchors(self, feats):
         from adapters.context_selection import IMAGE_SELECTORS, ImagePool
         method = self.strategy.split(":", 1)[1]
@@ -215,6 +264,8 @@ class ActiveRun:
                 info = {}
             elif self.strategy.startswith("anchor:"):
                 info = self._ask_anchors(sel)
+            elif self.strategy == "shortlist":
+                info = self._ask_shortlist(sel)
             else:
                 info = self._ask_pairs(sel)
             if self.strategy == "oracle":  # upper bound, every round: the true identities of the pool

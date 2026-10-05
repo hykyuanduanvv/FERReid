@@ -85,13 +85,18 @@ run_fallback_queue() {
   done
 }
 
-# gpu_wait: block until this task's GPU (CUDA_VISIBLE_DEVICES) has less than 1.5 GB in use -- for a launcher that
-# shares GPUs with runs started elsewhere
+# gpu_wait: block until this task's GPU (CUDA_VISIBLE_DEVICES) is ours: a per-GPU lock (held by this task's shell
+# until it exits, so two launchers never start on one GPU together) and less than 1.5 GB in use (runs started
+# without the lock, e.g. by an older launcher, still finishing there)
 gpu_wait() {
   local g=${CUDA_VISIBLE_DEVICES:-0} used
+  exec 8>"/tmp/ferreid_gpu$g.lock"
   while true; do
-    used=$(nvidia-smi -i "$g" --query-gpu=memory.used --format=csv,noheader,nounits | tr -d ' ')
-    [ "$used" -lt 1500 ] && return 0
+    if flock -n 8; then
+      used=$(nvidia-smi -i "$g" --query-gpu=memory.used --format=csv,noheader,nounits | tr -d ' ')
+      [ "$used" -lt 1500 ] && return 0
+      flock -u 8
+    fi
     sleep 30
   done
 }

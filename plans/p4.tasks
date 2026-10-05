@@ -1,0 +1,11 @@
+# Pilot 4: shortlist questions (CUHK03, 3 seeds, 250 comparisons = 5 x 50 or 250 in round 1; a shortlist question
+# with K candidates costs K comparisons). Runs next to plans/p3.tasks: gpu_wait gives every GPU to one task at a time.
+#   python scripts/launch_tasks.py plans/p4.tasks --gpus 0,1,2,3 --merge --keep-going
+# References: none 63.7, repair2@front 65.2, anchor@front 65.1 (finds), oracle every round 71.9.
+p4_sl1_front    | gpu_wait && active p4_sl1_front    $(ckpt base_md_cuhk03) --domains cuhk03 --strategies shortlist --n_seeds 3 $REP --shortlist_k 1 --budget_schedule 250,0,0,0,0 --strategy_suffix @k1front
+p4_sl5_front    | gpu_wait && active p4_sl5_front    $(ckpt base_md_cuhk03) --domains cuhk03 --strategies shortlist --n_seeds 3 $REP --shortlist_k 5 --budget_schedule 250,0,0,0,0 --strategy_suffix @k5front
+p4_sl3_front    | gpu_wait && active p4_sl3_front    $(ckpt base_md_cuhk03) --domains cuhk03 --strategies shortlist --n_seeds 3 $REP --shortlist_k 3 --budget_schedule 250,0,0,0,0 --strategy_suffix @k3front
+p4_sl1_front_cn | gpu_wait && active p4_sl1_front_cn $(ckpt base_md_cuhk03) --domains cuhk03 --strategies shortlist --n_seeds 3 $REP --shortlist_k 1 --budget_schedule 250,0,0,0,0 --cam_norm True --strategy_suffix @k1front_cn
+p4_sl1          | gpu_wait && active p4_sl1          $(ckpt base_md_cuhk03) --domains cuhk03 --strategies shortlist --n_seeds 3 $REP --shortlist_k 1 --strategy_suffix @k1
+p4_sl5          | gpu_wait && active p4_sl5          $(ckpt base_md_cuhk03) --domains cuhk03 --strategies shortlist --n_seeds 3 $REP --shortlist_k 5 --strategy_suffix @k5
+merge_p4 after=p4_sl1_front,p4_sl5_front,p4_sl3_front,p4_sl1_front_cn,p4_sl1,p4_sl5 | $PY scripts/merge_active.py experiments/pilot_s?? experiments/p2_* experiments/p3_* experiments/p4_* --out experiments/pilot4 --paired_ref random
