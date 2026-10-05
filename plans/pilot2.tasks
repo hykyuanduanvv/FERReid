@@ -1,0 +1,19 @@
+# Pilot 2 (CUHK03, 4 GPUs, ~50 min): how much room is there above unsupervised, and which annotation closes it?
+#   python scripts/launch_tasks.py plans/pilot2.tasks --gpus 0,1,2,3 --merge --keep-going
+# References from pilot 1 (same code, same base): none 63.7, random 63.8, repair_random 64.0 (5 x 50 answers).
+# Every task: 3 seeds, pseudo-label training ($REP: 5 rounds, warm start, 400 steps / round).
+#
+# ceiling and unsupervised trend
+p2_none8   | active p2_none8   $(ckpt base_md_cuhk03) --domains cuhk03 --strategies none   --n_seeds 3 $REP --rounds 8 --eval_rounds 1,3,5,8
+p2_oracle5 | active p2_oracle5 $(ckpt base_md_cuhk03) --domains cuhk03 --strategies oracle --n_seeds 3 $REP
+# leverage per answer: fixed repair (cross-camera k-NN pair between clusters, sqrt impact), "find this person"
+p2_repair2 | active p2_repair2 $(ckpt base_md_cuhk03) --domains cuhk03 --strategies repair2       --n_seeds 3 $REP
+p2_anchor  | active p2_anchor  $(ckpt base_md_cuhk03) --domains cuhk03 --strategies anchor:random --n_seeds 3 $REP
+# timing: the same 250 answers all in round 1
+p2_random_front  | active p2_random_front  $(ckpt base_md_cuhk03) --domains cuhk03 --strategies random        --n_seeds 3 $REP --budget_schedule 250,0,0,0,0 --strategy_suffix @front
+p2_repair2_front | active p2_repair2_front $(ckpt base_md_cuhk03) --domains cuhk03 --strategies repair2       --n_seeds 3 $REP --budget_schedule 250,0,0,0,0 --strategy_suffix @front
+p2_anchor_front  | active p2_anchor_front  $(ckpt base_md_cuhk03) --domains cuhk03 --strategies anchor:random --n_seeds 3 $REP --budget_schedule 250,0,0,0,0 --strategy_suffix @front
+# more answers: 5 x 200 = 1,000
+p2_random1000 | active p2_random1000 $(ckpt base_md_cuhk03) --domains cuhk03 --strategies random --n_seeds 3 $REP --budget 200 --strategy_suffix @1000
+#
+merge_p2 after=p2_none8,p2_oracle5,p2_repair2,p2_anchor,p2_random_front,p2_repair2_front,p2_anchor_front,p2_random1000 | $PY scripts/merge_active.py experiments/pilot_s?? experiments/p2_* --out experiments/pilot2 --paired_ref random

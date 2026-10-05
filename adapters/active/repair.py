@@ -116,6 +116,39 @@ def repair_candidates(X, labels, k_merge=5, min_split=4, cams=None, k_overall=No
     return res
 
 
+def repair_candidates_knn(X, labels, knn, min_split=4):
+    """repair2: merge questions from the cross-camera k-NN pairs (candidates.candidate_pairs) -- for every pair of
+    pseudo clusters (an outlier counts as a cluster of its own) joined by k-NN pairs, the most similar such image
+    pair is the question; impact sqrt(min(|A|, |B|)) (big clusters are often impure: no linear preference).
+    Split questions as in repair_candidates, impact sqrt(|far part|). Same output format."""
+    n_cl = int(labels.max()) + 1 if (labels >= 0).any() else 0
+    gid = labels.copy()
+    out_idx = np.flatnonzero(gid < 0)
+    gid[out_idx] = n_cl + np.arange(len(out_idx))         # outliers: singleton groups
+    size = np.bincount(gid, minlength=n_cl + len(out_idx))
+    i, j, s = np.asarray(knn["i"]), np.asarray(knn["j"]), np.asarray(knn["sim"], np.float64)
+    ga, gb = gid[i], gid[j]
+    keep = ga != gb
+    i, j, s, ga, gb = i[keep], j[keep], s[keep], ga[keep], gb[keep]
+    lo, hi = np.minimum(ga, gb), np.maximum(ga, gb)
+    key = lo.astype(np.int64) * (len(size) + 1) + hi
+    order = np.lexsort((-s, key))                          # per cluster pair, most similar image pair first
+    first = np.r_[True, key[order][1:] != key[order][:-1]] if len(order) else np.zeros(0, bool)
+    sel = order[first]
+    res = {"i": np.minimum(i[sel], j[sel]).astype(np.int64), "j": np.maximum(i[sel], j[sel]).astype(np.int64),
+           "impact": np.sqrt(np.minimum(size[ga[sel]], size[gb[sel]])).astype(np.float64),
+           "kind": np.zeros(len(sel), np.int64), "ga": lo[sel].astype(np.int64), "gb": hi[sel].astype(np.int64)}
+    sp = repair_candidates(X, labels, k_merge=0, min_split=min_split)  # split questions only (k_merge 0)
+    sp_keep = sp["kind"] == 1
+    for k in ("i", "j", "kind", "ga", "gb"):
+        res[k] = np.r_[res[k], sp[k][sp_keep]].astype(np.int64)
+    res["impact"] = np.r_[res["impact"], np.sqrt(sp["impact"][sp_keep])]
+    res["sim"] = (X[res["i"]] * X[res["j"]]).sum(1) if len(res["i"]) else np.zeros(0, np.float32)
+    res["mutual"] = np.zeros(len(res["i"]), bool)
+    res["rank"] = np.zeros(len(res["i"]), np.int64)
+    return res
+
+
 def _top(S, k):
     """Per row, the columns of the k largest finite entries (lists)."""
     k = min(k, S.shape[1] - 1)
@@ -158,4 +191,4 @@ def rank_repair(cand, p, rng, mode="repair", per_cluster=1):
     return _quota(order, cand, per_cluster)
 
 
-REPAIR_STRATEGIES = ("repair", "repair_unc", "repair_random")
+REPAIR_STRATEGIES = ("repair", "repair_unc", "repair_random", "repair2")

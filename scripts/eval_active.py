@@ -80,6 +80,8 @@ class ActiveArguments:
     repair_k: int = field(default=5)
     repair_per_cluster: int = field(default=1)
     paired_ref: str = field(default="random")   # paired.csv: differences to this strategy (same seed)
+    budget_schedule: str = field(default="")    # questions per round, e.g. "250,0,0,0,0" (overrides --budget)
+    strategy_suffix: str = field(default="")    # appended to the strategy name in the outputs (e.g. "@front")
 
 
 def load_split(name, device, cache_max, num_workers):
@@ -186,13 +188,13 @@ def main():
             for strategy in strategies:
                 run = ActiveRun(model, split, strategy, cfg, seed=s)
                 for row in run.run():
-                    rows.append(dict(base, strategy=strategy, seed=s, **row))  # actual seed: runs split over tasks merge
+                    rows.append(dict(base, strategy=strategy + a.strategy_suffix, seed=s, **row))  # actual seed: runs split over tasks merge
                 if a.save_prompts:
                     torch.save({"prompt": run.prompt.cpu(), "domain": name, "strategy": strategy, "seed": s,
                                 "checkpoint": a.checkpoint, "config": cfg.__dict__,
                                 "n_queries": run.store.stats()["n_queries"], "n_anchors": run.anchors_used},
                                os.path.join(args.output_dir, "prompts", "{}_{}_seed{}.pt".format(
-                                   name, strategy.replace(":", "-"), s)))
+                                   name, (strategy + a.strategy_suffix).replace(":", "-").replace("@", "-"), s)))
                 save()
         print("[{:6.0f}s] {} done".format(time.time() - t0, name), flush=True)
         del split

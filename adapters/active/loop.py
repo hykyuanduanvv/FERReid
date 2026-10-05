@@ -25,7 +25,7 @@ from adapters.active.oracle import PairOracle
 from adapters.active.pair_selection import NEEDS_GRAPH, STRATEGIES, SelectionContext
 from adapters.active.prompt_tuning import tune_domain_prompt
 from adapters.active.pseudo import PoolGraph, label_clusters
-from adapters.active.repair import REPAIR_STRATEGIES, Calibrator, rank_repair, repair_candidates
+from adapters.active.repair import REPAIR_STRATEGIES, Calibrator, rank_repair, repair_candidates, repair_candidates_knn
 
 
 @dataclass
@@ -55,6 +55,7 @@ class ActiveConfig:
     cross_cam: bool = True        # pseudo only: the two images of a cluster from two cameras
     repair_k: int = 5             # merge questions: nearest clusters per cluster
     repair_per_cluster: int = 1   # questions per cluster and round
+    budget_schedule: str = ""     # questions per round, comma-separated (e.g. "250,0,0,0,0"); overrides budget
 
 
 def base_prompt(model):
@@ -83,13 +84,18 @@ class ActiveRun:
 
     def __init__(self, model, split, strategy, cfg, seed, log=print):
         self.model, self.split, self.strategy, self.cfg, self.seed, self.log = model, split, strategy, cfg, seed, log
-        if not (strategy in STRATEGIES or strategy in REPAIR_STRATEGIES or strategy == "none"
+        if not (strategy in STRATEGIES or strategy in REPAIR_STRATEGIES or strategy in ("none", "oracle")
                 or strategy.startswith("anchor:")):
             raise ValueError("unknown strategy {}; pair strategies: {}, repair strategies: {}, none, or "
                              "anchor:<image selector>".format(strategy, sorted(STRATEGIES), REPAIR_STRATEGIES))
         if strategy == "none" and not cfg.pseudo:
             raise ValueError("strategy none (no questions) only makes sense with --pseudo True")
+        if cfg.budget_schedule:
+            sched = [int(x) for x in cfg.budget_schedule.split(",") if x != ""]
+            if len(sched) != cfg.rounds:
+                raise ValueError("--budget_schedule needs one entry per round ({} rounds)".format(cfg.rounds))
         self.graph = None
+        self.budget = cfg.budget  # questions of the current round (budget_schedule)
         self.oracle = PairOracle(split.pool_pids, split.pool_cams, split.has_cameras)
         self.store = ConstraintStore()
         self.rng = np.random.RandomState(seed)
@@ -108,7 +114,14 @@ class ActiveRun:
 
     # ---------------------------------------------------------------- one round of questions
 
+    def _round_budget(self, r):
+        if self.cfg.budget_schedule:
+            return [int(x) for x in self.cfg.budget_schedule.split(",") if x != ""][r - 1]
+        return self.cfg.budget
+
     def _needs_graph(self):
+        if self.strategy == "oracle":
+            return False
         return self.cfg.pseudo or self.strategy in REPAIR_STRATEGIES or self.strategy in NEEDS_GRAPH
 
     def _ask_pairs(self, feats):
@@ -123,23 +136,29 @@ class ActiveRun:
         else:
             tau = dup_tau
         extra = {}
+        budget = self.budget
         if self.strategy in REPAIR_STRATEGIES:
             labels = self.graph.cluster(store)
-            cand = repair_candidates(X, labels, k_merge=cfg.repair_k,
-                                     cams=self.split.pool_cams if self.split.has_cameras else None)
+            if self.strategy == "repair2":
+                knn = candidate_pairs(feats, self.split.pool_cams, self.split.has_cameras, k=cfg.candidate_k)
+                cand = repair_candidates_knn(X, labels, knn)
+            else:
+                cand = repair_candidates(X, labels, k_merge=cfg.repair_k,
+                                         cams=self.split.pool_cams if self.split.has_cameras else None)
             p = Calibrator(ans_sims, ans_lab, tau)(cand["sim"])
-            order = rank_repair(cand, p, self.rng, self.strategy, cfg.repair_per_cluster)
-            top = order[:cfg.budget]
+            mode = "repair" if self.strategy == "repair2" else self.strategy
+            order = rank_repair(cand, p, self.rng, mode, cfg.repair_per_cluster)
+            top = order[:budget]
             extra = {"n_merge_q": int((cand["kind"][top] == 0).sum()), "n_split_q": int((cand["kind"][top] == 1).sum()),
                      "exp_change": float((np.where(cand["kind"] == 0, p, 1 - p) * cand["impact"])[top].sum())}
         else:
             cand = candidate_pairs(feats, self.split.pool_cams, self.split.has_cameras, k=cfg.candidate_k)
-            ctx = SelectionContext(store, cfg.budget, self.rng, X, self.split.pool_cams, tau, dup_tau,
+            ctx = SelectionContext(store, budget, self.rng, X, self.split.pool_cams, tau, dup_tau,
                                    self.split.has_cameras, cfg.expand_ratio, graph=self.graph)
             order = STRATEGIES[self.strategy](cand, ctx)
         asked = pos = 0
         for p in order:
-            if asked >= cfg.budget:
+            if asked >= budget:
                 break
             i, j = int(cand["i"][p]), int(cand["j"][p])
             if store.infer(i, j) is not None:
@@ -159,7 +178,7 @@ class ActiveRun:
         pool = ImagePool([(p, -1, c) for p, c in zip(self.split.pool_paths, self.split.pool_cams)],
                          has_cameras=self.split.has_cameras)  # no person ids: the selector cannot see them
         pool.attach_features(feats.cpu().numpy())
-        anchors = IMAGE_SELECTORS[method](pool, min(self.cfg.budget, len(pool)), self.rng)
+        anchors = IMAGE_SELECTORS[method](pool, min(self.budget, len(pool)), self.rng)
         new = fail = 0
         for a in anchors:
             b = self.oracle.partner(int(a), self.rng)
@@ -189,13 +208,16 @@ class ActiveRun:
                 feats = self._features()
                 self.graph = PoolGraph(feats, cfg.pseudo_k1, cfg.pseudo_k2, cfg.pseudo_eps,
                                        cfg.pseudo_min_samples) if self._needs_graph() else None
-            if self.strategy == "none":
+            self.budget = self._round_budget(r)
+            if self.strategy in ("none", "oracle") or self.budget <= 0:
                 info = {}
             elif self.strategy.startswith("anchor:"):
                 info = self._ask_anchors(feats)
             else:
                 info = self._ask_pairs(feats)
-            if cfg.pseudo:
+            if self.strategy == "oracle":  # upper bound, every round: the true identities of the pool
+                clusters, cannot = self.oracle.all_identities(), []
+            elif cfg.pseudo:
                 labels = self.graph.cluster(self.store)
                 clusters, cannot = self._pseudo_clusters(labels)
                 info.update(self.oracle.pseudo_report(labels))
