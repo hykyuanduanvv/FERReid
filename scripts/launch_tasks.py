@@ -3,6 +3,8 @@
 Task file format (plans/*.tasks):
     # comment
     <name> | <shell command>          one task; name = [A-Za-z0-9_.-]+
+    <name> after=<a>,<b> | <command>  starts only once tasks a and b (of any group / file) have finished OK;
+                                      with --merge, every task starts as soon as a GPU and its inputs are free
     @wait                             barrier: wait until every task above has finished
 Commands run with bash from the repository root, after `source configs/local.sh` (if present) and
 `source plans/common.sh`, with CUDA_VISIBLE_DEVICES set to one GPU.
@@ -25,6 +27,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 LAUNCH = ROOT / "experiments" / "_launch"
 NAME = re.compile(r"^[A-Za-z0-9_.-]+$")
+AFTER = {}  # task name -> names of the tasks it waits for
 
 
 def parse(path):
@@ -39,9 +42,16 @@ def parse(path):
             continue
         if "|" not in line:
             raise SystemExit("{}:{}: expected '<name> | <command>' or '@wait'".format(path, n))
-        name, cmd = (s.strip() for s in line.split("|", 1))
+        head, cmd = (s.strip() for s in line.split("|", 1))
+        name, *opts = head.split()
+        after = []
+        for o in opts:
+            if not o.startswith("after="):
+                raise SystemExit("{}:{}: unknown option {!r}".format(path, n, o))
+            after += [x for x in o[len("after="):].split(",") if x]
         if not NAME.match(name):
             raise SystemExit("{}:{}: bad task name {!r}".format(path, n, name))
+        AFTER[name] = after
         current.append((name, cmd))
     groups.append(current)
     return [g for g in groups if g]
@@ -71,9 +81,25 @@ def run_group(tasks, gpus, dry_run):
             print("would run {}: {}".format(n, c))
         return True
     free, running, ok = list(gpus), {}, True
+
+    def failed(n):
+        st = LAUNCH / (n + ".status")
+        return n not in running and all(n != t for t, _ in todo) and not (st.exists() and st.read_text().strip() == "0")
+
     while todo or running:
-        while todo and free:
-            name, cmd = todo.pop(0)
+        for name, cmd in list(todo):  # a prerequisite failed (or never ran): this task cannot run
+            if any(failed(d) for d in AFTER.get(name, [])):
+                todo.remove((name, cmd))
+                (LAUNCH / (name + ".status")).write_text("skipped: prerequisite failed")
+                print("[{}] {} SKIPPED (prerequisite failed: {})".format(time.strftime("%H:%M:%S"), name,
+                                                                      AFTER[name]), flush=True)
+                ok = False
+        while free:
+            ready = [t for t in todo if all(done(d) for d in AFTER.get(t[0], []))]
+            if not ready:
+                break
+            todo.remove(ready[0])
+            name, cmd = ready[0]
             gpu = free.pop(0)
             proc, log = start(name, cmd, gpu)
             running[name] = (proc, log, gpu)

@@ -1,0 +1,38 @@
+# Pilot on 8 GPUs without idle cards: one pool (run with --merge), every task starts as soon as a GPU and its
+# inputs (after=...) are free; earlier lines have priority.
+#   python scripts/launch_tasks.py plans/pilot8.tasks --gpus 0,1,2,3,4,5,6,7 --merge --keep-going
+#
+# 1. base models (~1.5 h, all 8 GPUs): the pilot fold first, the other folds' bases for the follow-up
+base_md_cuhk03      | train base_md_cuhk03      $STEPS $MD $(fold cuhk03)     $LOSS_ARGS $SCHEDULE
+base_md_market1501  | train base_md_market1501  $STEPS $MD $(fold market1501) $LOSS_ARGS $SCHEDULE
+base_md_msmt17      | train base_md_msmt17      $STEPS $MD $(fold msmt17)     $LOSS_ARGS $SCHEDULE
+base_tune           | train base_tune $STEPS $MD --source_domains market1501,msmt17 --source_all_images False --val_domains cuhksysu --eval_strategy steps --eval_steps 2000 $LOSS_ARGS $SCHEDULE
+base_vpt_cuhk03     | train base_vpt_cuhk03     $STEPS --model_type vpt $(fold cuhk03)     $LOSS_ARGS $SCHEDULE
+base_vpt_market1501 | train base_vpt_market1501 $STEPS --model_type vpt $(fold market1501) $LOSS_ARGS $SCHEDULE
+base_vpt_msmt17     | train base_vpt_msmt17     $STEPS --model_type vpt $(fold msmt17)     $LOSS_ARGS $SCHEDULE
+base_vicp_cuhk03    | train base_vicp_cuhk03    $STEPS --model_type vicp $(fold cuhk03)    $LOSS_ARGS $SCHEDULE
+#
+# 2. the pilot (CUHK03), as plans/pilot.tasks
+sim_cuhk03 after=base_md_cuhk03 | sim sim_cuhk03 $(ckpt base_md_cuhk03) --domains cuhk03 --n_seeds 3 --strategies none,repair,repair_random,random,cover --pseudo True --rounds 5 --budget 200 --paired_ref random
+pilot_s0a after=base_md_cuhk03 | active pilot_s0a $(ckpt base_md_cuhk03) --domains cuhk03 --strategies none,repair --n_seeds 1 --base_seed 0 $REP
+pilot_s0b after=base_md_cuhk03 | active pilot_s0b $(ckpt base_md_cuhk03) --domains cuhk03 --strategies repair_random,random --n_seeds 1 --base_seed 0 $REP
+pilot_s1a after=base_md_cuhk03 | active pilot_s1a $(ckpt base_md_cuhk03) --domains cuhk03 --strategies none,repair --n_seeds 1 --base_seed 1 $REP
+pilot_s1b after=base_md_cuhk03 | active pilot_s1b $(ckpt base_md_cuhk03) --domains cuhk03 --strategies repair_random,random --n_seeds 1 --base_seed 1 $REP
+pilot_s2a after=base_md_cuhk03 | active pilot_s2a $(ckpt base_md_cuhk03) --domains cuhk03 --strategies none,repair --n_seeds 1 --base_seed 2 $REP
+pilot_s2b after=base_md_cuhk03 | active pilot_s2b $(ckpt base_md_cuhk03) --domains cuhk03 --strategies repair_random,random --n_seeds 1 --base_seed 2 $REP
+pilot_pair_cover  after=base_md_cuhk03 | active pilot_pair_cover  $(ckpt base_md_cuhk03) --domains cuhk03 --strategies cover  --n_seeds 3 $ACT --oracle_all True
+pilot_pair_random after=base_md_cuhk03 | active pilot_pair_random $(ckpt base_md_cuhk03) --domains cuhk03 --strategies random --n_seeds 3 $ACT --oracle_all False
+merge_pilot after=pilot_s0a,pilot_s0b,pilot_s1a,pilot_s1b,pilot_s2a,pilot_s2b,pilot_pair_cover,pilot_pair_random | $PY scripts/merge_active.py experiments/pilot_s?? --out experiments/pilot --paired_ref random && $PY scripts/merge_active.py experiments/pilot_pair_* --out experiments/pilot_pair --paired_ref random
+#
+# 3. backfill (lower priority; stop the launcher if the pilot says no): screening of the other folds, the
+#    Market fold with the pilot's strategies, repair settings on CUHK-SYSU, the base-model ablation on CUHK03
+sim_market1501 after=base_md_market1501 | sim sim_market1501 $(ckpt base_md_market1501) --domains market1501 --n_seeds 3 --strategies none,repair,repair_random,random,cover --pseudo True --rounds 5 --budget 200 --paired_ref random
+sim_msmt17     after=base_md_msmt17     | sim sim_msmt17     $(ckpt base_md_msmt17)     --domains msmt17     --n_seeds 2 --strategies none,repair,repair_random,random --pseudo True --rounds 5 --budget 200 --paired_ref random
+rep_market1501_s0 after=base_md_market1501 | active rep_market1501_s0 $(ckpt base_md_market1501) --domains market1501 --strategies none,repair,repair_random,random --n_seeds 1 --base_seed 0 $REP
+rep_market1501_s1 after=base_md_market1501 | active rep_market1501_s1 $(ckpt base_md_market1501) --domains market1501 --strategies none,repair,repair_random,random --n_seeds 1 --base_seed 1 $REP
+rep_market1501_s2 after=base_md_market1501 | active rep_market1501_s2 $(ckpt base_md_market1501) --domains market1501 --strategies none,repair,repair_random,random --n_seeds 1 --base_seed 2 $REP
+rtune_e0.5_s400 after=base_tune | active rtune_e0.5_s400 $(ckpt base_tune) --domains cuhksysu --strategies none,repair --n_seeds 1 $REP --pseudo_eps 0.5 --steps 400
+rtune_e0.6_s400 after=base_tune | active rtune_e0.6_s400 $(ckpt base_tune) --domains cuhksysu --strategies none,repair --n_seeds 1 $REP --pseudo_eps 0.6 --steps 400
+rtune_e0.7_s400 after=base_tune | active rtune_e0.7_s400 $(ckpt base_tune) --domains cuhksysu --strategies none,repair --n_seeds 1 $REP --pseudo_eps 0.7 --steps 400
+rtune_e0.6_s800 after=base_tune | active rtune_e0.6_s800 $(ckpt base_tune) --domains cuhksysu --strategies none,repair --n_seeds 1 $REP --pseudo_eps 0.6 --steps 800
+rabl_nomd after=base_vpt_cuhk03 | active rabl_nomd $(ckpt base_vpt_cuhk03) --domains cuhk03 --strategies none,repair,repair_random --n_seeds 3 $REP
