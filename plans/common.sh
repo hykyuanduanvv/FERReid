@@ -85,6 +85,17 @@ run_fallback_queue() {
   done
 }
 
+# gpu_wait: block until this task's GPU (CUDA_VISIBLE_DEVICES) has less than 1.5 GB in use -- for a launcher that
+# shares GPUs with runs started elsewhere
+gpu_wait() {
+  local g=${CUDA_VISIBLE_DEVICES:-0} used
+  while true; do
+    used=$(nvidia-smi -i "$g" --query-gpu=memory.used --format=csv,noheader,nounits | tr -d ' ')
+    [ "$used" -lt 1500 ] && return 0
+    sleep 30
+  done
+}
+
 # ---------------------------------------------------------------- active module
 # active <name> <checkpoint> [extra args...]: scripts/eval_active.py
 active() {

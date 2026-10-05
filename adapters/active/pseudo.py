@@ -24,6 +24,19 @@ import torch
 
 
 @torch.no_grad()
+def camera_normalize(feats, cams):
+    """Camera-bias removal for clustering / question selection: every camera's mean feature is subtracted from
+    its images, then the features are L2-normalised again (cross-camera images of one person become closer).
+    feats: (N, D) torch; cams: (N,) camera ids. Label-free (camera ids belong to the unlabeled pool)."""
+    cams = torch.as_tensor(np.asarray(cams), device=feats.device)
+    out = feats.float().clone()
+    for c in torch.unique(cams):
+        m = cams == c
+        out[m] -= out[m].mean(0, keepdim=True)
+    return torch.nn.functional.normalize(out, dim=1)
+
+
+@torch.no_grad()
 def knn(feats, k, chunk=4096):
     """k nearest neighbours (self excluded) of L2-normalised feats (N, D) torch: (sims, idx) torch (N, k)."""
     n = feats.size(0)

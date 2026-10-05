@@ -1,0 +1,15 @@
+# Pilot 3: where are the missed identities (diagnostics), and does camera normalisation fix them (method 1)?
+#   python scripts/launch_tasks.py plans/p3.tasks --gpus 0,1,2,3 --merge --keep-going
+# gpu_wait: a task starts once its GPU is free (other launchers may still be running there).
+# References (pilot 1/2, same code and base, 5 x 50 answers): none 63.7, random 63.8, anchor 64.2, repair2 62.5,
+# oracle every round 71.9 (CUHK03); none 84.3 (Market, seed 0).
+#
+# order: both diagnostics on the first free GPU one after the other; the method-1 runs wait for their GPU
+diag_missed_cuhk03 | gpu_wait && $PY scripts/diag_missed.py --output_dir experiments/diag_missed_cuhk03 --checkpoint $(ckpt base_md_cuhk03) --domains cuhk03 --prompts experiments/pilot_s0a/prompts/cuhk03_none_seed0.pt --fp16 True --report_to none --eval_num_workers 12
+p3_none_cn        | gpu_wait && active p3_none_cn        $(ckpt base_md_cuhk03)     --domains cuhk03     --strategies none          --n_seeds 3 $REP --cam_norm True --strategy_suffix @cn
+p3_anchor_cn      | gpu_wait && active p3_anchor_cn      $(ckpt base_md_cuhk03)     --domains cuhk03     --strategies anchor:random --n_seeds 3 $REP --cam_norm True --strategy_suffix @cn
+p3_repair2_cn     | gpu_wait && active p3_repair2_cn     $(ckpt base_md_cuhk03)     --domains cuhk03     --strategies repair2       --n_seeds 3 $REP --cam_norm True --strategy_suffix @cn
+diag_missed_market after=diag_missed_cuhk03 | gpu_wait && $PY scripts/diag_missed.py --output_dir experiments/diag_missed_market --checkpoint $(ckpt base_md_market1501) --domains market1501 --prompts experiments/fb_none_market1501/prompts/market1501_none_seed0.pt --fp16 True --report_to none --eval_num_workers 12
+p3_random_cn      | gpu_wait && active p3_random_cn      $(ckpt base_md_cuhk03)     --domains cuhk03     --strategies random        --n_seeds 3 $REP --cam_norm True --strategy_suffix @cn
+p3_none_cn_market | gpu_wait && active p3_none_cn_market $(ckpt base_md_market1501) --domains market1501 --strategies none          --n_seeds 2 $REP --cam_norm True --strategy_suffix @cn
+merge_p3 after=p3_none_cn,p3_anchor_cn,p3_repair2_cn,p3_random_cn | $PY scripts/merge_active.py experiments/pilot_s?? experiments/p2_* experiments/p3_* --out experiments/pilot3 --paired_ref random

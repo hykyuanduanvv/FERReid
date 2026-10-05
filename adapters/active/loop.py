@@ -24,7 +24,7 @@ from adapters.active.image_store import features
 from adapters.active.oracle import PairOracle
 from adapters.active.pair_selection import NEEDS_GRAPH, STRATEGIES, SelectionContext
 from adapters.active.prompt_tuning import tune_domain_prompt
-from adapters.active.pseudo import PoolGraph, label_clusters
+from adapters.active.pseudo import PoolGraph, camera_normalize, label_clusters
 from adapters.active.repair import REPAIR_STRATEGIES, Calibrator, rank_repair, repair_candidates, repair_candidates_knn
 
 
@@ -56,6 +56,7 @@ class ActiveConfig:
     repair_k: int = 5             # merge questions: nearest clusters per cluster
     repair_per_cluster: int = 1   # questions per cluster and round
     budget_schedule: str = ""     # questions per round, comma-separated (e.g. "250,0,0,0,0"); overrides budget
+    cam_norm: bool = False        # clustering + question selection on camera-normalised features (training: raw)
 
 
 def base_prompt(model):
@@ -206,15 +207,16 @@ class ActiveRun:
             t0 = time.time()
             if tune or feats is None:
                 feats = self._features()
-                self.graph = PoolGraph(feats, cfg.pseudo_k1, cfg.pseudo_k2, cfg.pseudo_eps,
+                sel = camera_normalize(feats, self.split.pool_cams) if (cfg.cam_norm and self.split.has_cameras) else feats
+                self.graph = PoolGraph(sel, cfg.pseudo_k1, cfg.pseudo_k2, cfg.pseudo_eps,
                                        cfg.pseudo_min_samples) if self._needs_graph() else None
             self.budget = self._round_budget(r)
             if self.strategy in ("none", "oracle") or self.budget <= 0:
                 info = {}
             elif self.strategy.startswith("anchor:"):
-                info = self._ask_anchors(feats)
+                info = self._ask_anchors(sel)
             else:
-                info = self._ask_pairs(feats)
+                info = self._ask_pairs(sel)
             if self.strategy == "oracle":  # upper bound, every round: the true identities of the pool
                 clusters, cannot = self.oracle.all_identities(), []
             elif cfg.pseudo:

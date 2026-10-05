@@ -82,6 +82,7 @@ class ActiveArguments:
     paired_ref: str = field(default="random")   # paired.csv: differences to this strategy (same seed)
     budget_schedule: str = field(default="")    # questions per round, e.g. "250,0,0,0,0" (overrides --budget)
     strategy_suffix: str = field(default="")    # appended to the strategy name in the outputs (e.g. "@front")
+    cam_norm: bool = field(default=False)       # clustering / selection on camera-normalised features
 
 
 def load_split(name, device, cache_max, num_workers):
