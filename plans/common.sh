@@ -120,15 +120,15 @@ evaluate() {
 
 # strategies of the main comparison (pair strategies + the ID-level anchor protocol)
 STRATS=${STRATS:-"cover,uncertain,balanced,confident,random,anchor:random,anchor:facility_camera"}
-# active-module settings of the main runs: 5 rounds x 200 yes/no answers
-ACT=${ACT:-"--rounds 5 --budget 200 --eval_rounds 1,3,5"}
+# active-module settings of the main runs: 5 rounds x 50 yes/no answers (250 in all; was 1,000)
+ACT=${ACT:-"--rounds 5 --budget 50 --eval_rounds 1,3,5"}
 [ -f plans/active_chosen.sh ] && source plans/active_chosen.sh   # lr / steps chosen by plans/tune.tasks
 ACT_TUNE=${ACT_TUNE:-""}
 
 # ---------------------------------------------------------------- cluster repair (docs/CLUSTER_REPAIR.md)
-# pseudo labels of the whole pool + merge / split questions; 5 rounds x 200 answers as in the pair setting, the
+# pseudo labels of the whole pool + merge / split questions; 5 rounds x 50 answers as in the pair setting, the
 # domain tokens continue across rounds (cluster-then-train loop). REP_TUNE: chosen by plans/repair_tune.tasks
-REP=${REP:-"--pseudo True --warm_start True --rounds 5 --budget 200 --eval_rounds 1,3,5 --steps 400 --paired_ref repair_random --oracle_all False"}
+REP=${REP:-"--pseudo True --warm_start True --rounds 5 --budget 50 --eval_rounds 1,3,5 --steps 400 --paired_ref repair_random --oracle_all False"}
 REP_STRATS=${REP_STRATS:-"none,repair,repair_unc,repair_random,random,cover,disagree"}
 [ -f plans/repair_chosen.sh ] && source plans/repair_chosen.sh
 REP_TUNE=${REP_TUNE:-""}
