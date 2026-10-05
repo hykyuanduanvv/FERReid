@@ -1,0 +1,5 @@
+domain,strategy,round,ref,n,dmAP,dmAP_std,wins
+cuhk03,random,1,random,3,0.0,0.0,0
+cuhk03,random,3,random,3,0.0,0.0,0
+cuhk03,random,5,random,3,0.0,0.0,0
+cuhk03,random,aulc,,3,43.99390603928339,0.8957630047341483,

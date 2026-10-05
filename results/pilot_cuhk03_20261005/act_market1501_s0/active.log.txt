@@ -1,0 +1,47 @@
+[checkpoint] backbone = 'dinov2_b14' (command line had '')
+[checkpoint] bnneck = True (command line had False)
+[checkpoint] ce_loss_weight = 1.0 (command line had 0.0)
+[checkpoint] num_train_ids = 7340 (command line had 0)
+[checkpoint] source_domain_tokens = 8 (command line had 0)
+[checkpoint] num_source_domains = 3 (command line had 0)
+[ReIDModel] Loading DINOv2 dinov2_vitb14 from /root/autodl-tmp/weights/dinov2_vitb14_pretrain.pth (code /root/basic-models/dinov2), input (252, 126)
+[checkpoint] experiments/base_md_market1501/checkpoint-12000 (vpt, dinov2_b14)
+[    73s] market1501: pool 12936 images (cached), query 3368, gallery 15913
+  base: mAP 63.11 R1 82.51
+  oracle_all: mAP 82.25 R1 92.70
+  [cover r1] queries 50 anchors 0 | pos 13 neg 37 inferred 0 | clusters 13 (13 true ids) | mAP 68.18 R1 86.25
+  [cover r2] queries 100 anchors 0 | pos 41 neg 59 inferred 0 | clusters 37 (37 true ids) | mAP - R1 -
+  [cover r3] queries 150 anchors 0 | pos 70 neg 80 inferred 0 | clusters 57 (56 true ids) | mAP 71.96 R1 87.05
+  [cover r4] queries 200 anchors 0 | pos 95 neg 105 inferred 0 | clusters 74 (73 true ids) | mAP - R1 -
+  [cover r5] queries 250 anchors 0 | pos 120 neg 130 inferred 1 | clusters 91 (89 true ids) | mAP 75.41 R1 89.31
+  [uncertain r1] queries 50 anchors 0 | pos 15 neg 35 inferred 0 | clusters 15 (15 true ids) | mAP 68.95 R1 85.63
+  [uncertain r2] queries 100 anchors 0 | pos 50 neg 50 inferred 0 | clusters 49 (48 true ids) | mAP - R1 -
+  [uncertain r3] queries 150 anchors 0 | pos 81 neg 69 inferred 0 | clusters 80 (73 true ids) | mAP 72.68 R1 88.00
+  [uncertain r4] queries 200 anchors 0 | pos 114 neg 86 inferred 0 | clusters 113 (102 true ids) | mAP - R1 -
+  [uncertain r5] queries 250 anchors 0 | pos 153 neg 97 inferred 0 | clusters 152 (134 true ids) | mAP 75.28 R1 89.58
+  [random r1] queries 50 anchors 0 | pos 27 neg 23 inferred 0 | clusters 27 (26 true ids) | mAP 60.15 R1 80.31
+  [random r2] queries 100 anchors 0 | pos 55 neg 45 inferred 0 | clusters 53 (49 true ids) | mAP - R1 -
+  [random r3] queries 150 anchors 0 | pos 82 neg 68 inferred 0 | clusters 80 (68 true ids) | mAP 66.14 R1 84.35
+  [random r4] queries 200 anchors 0 | pos 119 neg 81 inferred 0 | clusters 116 (98 true ids) | mAP - R1 -
+  [random r5] queries 250 anchors 0 | pos 152 neg 98 inferred 0 | clusters 147 (123 true ids) | mAP 72.12 R1 88.03
+[   811s] market1501 done
+
+domain     strategy             round  queries  anchors      ids     mAP     std     R1
+market1501 base                     0        0        0      0.0   63.11    0.00  82.51
+market1501 cover                    1       50        0     13.0   68.18    0.00  86.25
+market1501 cover                    2      100        0     37.0     nan     nan    nan
+market1501 cover                    3      150        0     56.0   71.96    0.00  87.05
+market1501 cover                    4      200        0     73.0     nan     nan    nan
+market1501 cover                    5      250        0     89.0   75.41    0.00  89.31
+market1501 oracle_all               0        0        0    751.0   82.25    0.00  92.70
+market1501 random                   1       50        0     26.0   60.15    0.00  80.31
+market1501 random                   2      100        0     49.0     nan     nan    nan
+market1501 random                   3      150        0     68.0   66.14    0.00  84.35
+market1501 random                   4      200        0     98.0     nan     nan    nan
+market1501 random                   5      250        0    123.0   72.12    0.00  88.03
+market1501 uncertain                1       50        0     15.0   68.95    0.00  85.63
+market1501 uncertain                2      100        0     48.0     nan     nan    nan
+market1501 uncertain                3      150        0     73.0   72.68    0.00  88.00
+market1501 uncertain                4      200        0    102.0     nan     nan    nan
+market1501 uncertain                5      250        0    134.0   75.28    0.00  89.58
+total time: 811s

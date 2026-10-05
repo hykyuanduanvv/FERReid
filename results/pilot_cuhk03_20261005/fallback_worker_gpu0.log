@@ -1,0 +1,5 @@
+[13:57:40] fallback item diag_cuhk03 on GPU 0:  diag diag_cuhk03 $(ckpt base_md_cuhk03) --domains cuhk03
+[13:58:01] fallback item diag_cuhk03 exit 0
+[13:58:01] fallback item fb_none_eps0.5 on GPU 0:  active fb_none_eps0.5 $(ckpt base_md_cuhk03) --domains cuhk03 --strategies none --n_seeds 1 $REP --pseudo_eps 0.5
+[14:02:28] fallback item fb_none_eps0.5 exit 0
+fallback queue empty

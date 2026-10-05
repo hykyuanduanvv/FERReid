@@ -1,0 +1,13 @@
+domain,strategy,round,ref,n,dmAP,dmAP_std,wins
+cuhk03,random,1,repair_random,2,-1.040861947195875,0.8270906720842639,0
+cuhk03,random,3,repair_random,2,0.4085333687918542,0.910523550851007,1
+cuhk03,random,5,repair_random,2,-0.4153949192592137,0.36558587210518567,0
+cuhk03,repair,1,repair_random,2,-0.44525418962751573,0.5856622968401233,1
+cuhk03,repair,3,repair_random,2,0.1518947056361597,1.6030349731445312,1
+cuhk03,repair,5,repair_random,2,-1.4575794764927537,0.1679186139787987,0
+cuhk03,repair_random,1,repair_random,2,0.0,0.0,0
+cuhk03,repair_random,3,repair_random,2,0.0,0.0,0
+cuhk03,repair_random,5,repair_random,2,0.0,0.0,0
+cuhk03,random,aulc,,2,55.20145645141602,0.28103561401367116,
+cuhk03,repair,aulc,,2,55.06904640197753,0.10793091910226238,
+cuhk03,repair_random,aulc,,2,55.43338067190989,0.32400065830775304,

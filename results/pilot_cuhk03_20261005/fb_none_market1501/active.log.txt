@@ -1,0 +1,25 @@
+[checkpoint] backbone = 'dinov2_b14' (command line had '')
+[checkpoint] bnneck = True (command line had False)
+[checkpoint] ce_loss_weight = 1.0 (command line had 0.0)
+[checkpoint] num_train_ids = 7340 (command line had 0)
+[checkpoint] source_domain_tokens = 8 (command line had 0)
+[checkpoint] num_source_domains = 3 (command line had 0)
+[ReIDModel] Loading DINOv2 dinov2_vitb14 from /root/autodl-tmp/weights/dinov2_vitb14_pretrain.pth (code /root/basic-models/dinov2), input (252, 126)
+[checkpoint] experiments/base_md_market1501/checkpoint-12000 (vpt, dinov2_b14)
+[    66s] market1501: pool 12936 images (cached), query 3368, gallery 15913
+  base: mAP 63.11 R1 82.51
+  [none r1] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (508 true ids) | mAP 77.24 R1 89.70
+  [none r2] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (508 true ids) | mAP - R1 -
+  [none r3] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (535 true ids) | mAP 83.22 R1 92.73
+  [none r4] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (545 true ids) | mAP - R1 -
+  [none r5] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (552 true ids) | mAP 84.33 R1 93.56
+[   354s] market1501 done
+
+domain     strategy             round  queries  anchors      ids     mAP     std     R1
+market1501 base                     0        0        0      0.0   63.11    0.00  82.51
+market1501 none                     1        0        0    508.0   77.24    0.00  89.70
+market1501 none                     2        0        0    508.0     nan     nan    nan
+market1501 none                     3        0        0    535.0   83.22    0.00  92.73
+market1501 none                     4        0        0    545.0     nan     nan    nan
+market1501 none                     5        0        0    552.0   84.33    0.00  93.56
+total time: 354s

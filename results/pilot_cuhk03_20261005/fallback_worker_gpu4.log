@@ -1,0 +1,3 @@
+[13:59:40] fallback item act_cuhk03_s0 on GPU 4:  active act_cuhk03_s0 $(ckpt base_md_cuhk03) --domains cuhk03 --strategies cover,uncertain,balanced,random,anchor:random --n_seeds 1 --base_seed 0 $ACT --oracle_all False
+[14:13:41] fallback item act_cuhk03_s0 exit 0
+fallback queue empty

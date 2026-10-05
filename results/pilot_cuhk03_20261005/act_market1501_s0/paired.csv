@@ -1,0 +1,13 @@
+domain,strategy,round,ref,n,dmAP,dmAP_std,wins
+market1501,cover,1,random,1,8.028473480297109,0.0,1
+market1501,cover,3,random,1,5.82282412929942,0.0,1
+market1501,cover,5,random,1,3.2923800361977555,0.0,1
+market1501,random,1,random,1,0.0,0.0,0
+market1501,random,3,random,1,0.0,0.0,0
+market1501,random,5,random,1,0.0,0.0,0
+market1501,uncertain,1,random,1,8.800910714120036,0.0,1
+market1501,uncertain,3,random,1,6.537080434042593,0.0,1
+market1501,uncertain,5,random,1,3.1574090699401864,0.0,1
+market1501,cover,aulc,,1,70.63230537178964,0.0,
+market1501,random,aulc,,1,65.23615766874119,0.0,
+market1501,uncertain,aulc,,1,71.12274487058228,0.0,

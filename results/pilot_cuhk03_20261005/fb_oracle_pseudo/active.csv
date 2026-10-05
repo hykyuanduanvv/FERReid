@@ -1,0 +1,4 @@
+domain,split,strategy,seed,round,n_queries,n_anchors,rank1,mAP,n_pos,n_neg,n_inferred,n_clusters,n_cluster_imgs,n_labeled_imgs,true_ids,purity,split_ids,loss_start,loss_end,n_train_ids,n_train_imgs,t_tune,prompt_tokens,pseudo_clusters,pseudo_outliers,pw_prec,pw_rec,pw_f,nmi,pseudo_split_ids,t_query,ans_true_ids,ans_purity,ans_split_ids
+cuhk03,0,base,0,0,0,0,37.0,37.47900608607701,,,,,,,,,,,,,,,,,,,,,,,,,,
+cuhk03,0,oracle_all,0,0,0,0,64.14285714285714,63.24722290039062,0,0,0,767,7368,0,767,1.0,0,0.5989383697509766,0.26832414492964746,767,7368,33.27399826049805,40,,,,,,,,,,,
+cuhk03,0,none,0,1,0,0,48.57142857142857,49.93886021205357,0,0,0,0,0,0,523,0.5960925592351393,77,0.375925686955452,0.2872284807264805,600,7217,33.510820150375366,40,600,0.020494028230184536,0.2229181949852341,0.7404098463076346,0.34266795818936224,0.9064382050909414,327,6.654239892959595,0,nan,0

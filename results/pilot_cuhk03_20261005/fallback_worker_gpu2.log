@@ -1,0 +1,7 @@
+[13:58:40] fallback item fb_oracle_pseudo on GPU 2:  active fb_oracle_pseudo $(ckpt base_md_cuhk03) --domains cuhk03 --strategies none --n_seeds 1 $REP --rounds 1 --oracle_all True
+[14:01:17] fallback item fb_oracle_pseudo exit 0
+[14:01:17] fallback item diag_msmt17 on GPU 2:  diag diag_msmt17 $(ckpt base_md_msmt17) --domains msmt17
+[14:02:06] fallback item diag_msmt17 exit 0
+[14:02:06] fallback item act_market1501_s0 on GPU 2:  active act_market1501_s0 $(ckpt base_md_market1501) --domains market1501 --strategies cover,uncertain,random --n_seeds 1 --base_seed 0 $ACT --oracle_all True
+[14:15:51] fallback item act_market1501_s0 exit 0
+fallback queue empty

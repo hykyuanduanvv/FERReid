@@ -1,0 +1,65 @@
+[checkpoint] backbone = 'dinov2_b14' (command line had '')
+[checkpoint] bnneck = True (command line had False)
+[checkpoint] ce_loss_weight = 1.0 (command line had 0.0)
+[checkpoint] num_train_ids = 7324 (command line had 0)
+[checkpoint] source_domain_tokens = 8 (command line had 0)
+[checkpoint] num_source_domains = 3 (command line had 0)
+[ReIDModel] Loading DINOv2 dinov2_vitb14 from /root/autodl-tmp/weights/dinov2_vitb14_pretrain.pth (code /root/basic-models/dinov2), input (252, 126)
+[checkpoint] experiments/base_md_cuhk03/checkpoint-12000 (vpt, dinov2_b14)
+[    44s] cuhk03: pool 7368 images (cached), query 1400, gallery 5328
+  base: mAP 37.48 R1 37.00
+  [cover r1] queries 50 anchors 0 | pos 0 neg 50 inferred 0 | clusters 0 (0 true ids) | mAP 37.48 R1 37.00
+  [cover r2] queries 100 anchors 0 | pos 6 neg 94 inferred 37 | clusters 6 (6 true ids) | mAP - R1 -
+  [cover r3] queries 150 anchors 0 | pos 18 neg 132 inferred 37 | clusters 18 (18 true ids) | mAP 43.15 R1 43.36
+  [cover r4] queries 200 anchors 0 | pos 37 neg 163 inferred 37 | clusters 34 (32 true ids) | mAP - R1 -
+  [cover r5] queries 250 anchors 0 | pos 60 neg 190 inferred 38 | clusters 55 (53 true ids) | mAP 47.26 R1 48.43
+  [uncertain r1] queries 50 anchors 0 | pos 2 neg 48 inferred 0 | clusters 2 (2 true ids) | mAP 30.28 R1 29.86
+  [uncertain r2] queries 100 anchors 0 | pos 16 neg 84 inferred 0 | clusters 16 (15 true ids) | mAP - R1 -
+  [uncertain r3] queries 150 anchors 0 | pos 26 neg 124 inferred 0 | clusters 26 (25 true ids) | mAP 40.20 R1 41.57
+  [uncertain r4] queries 200 anchors 0 | pos 42 neg 158 inferred 0 | clusters 41 (39 true ids) | mAP - R1 -
+  [uncertain r5] queries 250 anchors 0 | pos 60 neg 190 inferred 2 | clusters 59 (57 true ids) | mAP 45.10 R1 45.21
+  [balanced r1] queries 50 anchors 0 | pos 2 neg 48 inferred 0 | clusters 2 (2 true ids) | mAP 30.28 R1 29.86
+  [balanced r2] queries 100 anchors 0 | pos 15 neg 85 inferred 0 | clusters 15 (14 true ids) | mAP - R1 -
+  [balanced r3] queries 150 anchors 0 | pos 26 neg 124 inferred 0 | clusters 26 (25 true ids) | mAP 39.40 R1 40.21
+  [balanced r4] queries 200 anchors 0 | pos 38 neg 162 inferred 0 | clusters 38 (37 true ids) | mAP - R1 -
+  [balanced r5] queries 250 anchors 0 | pos 51 neg 199 inferred 0 | clusters 51 (50 true ids) | mAP 48.73 R1 50.14
+  [random r1] queries 50 anchors 0 | pos 17 neg 33 inferred 0 | clusters 17 (16 true ids) | mAP 39.88 R1 40.36
+  [random r2] queries 100 anchors 0 | pos 30 neg 70 inferred 0 | clusters 30 (28 true ids) | mAP - R1 -
+  [random r3] queries 150 anchors 0 | pos 40 neg 110 inferred 0 | clusters 39 (37 true ids) | mAP 45.44 R1 45.43
+  [random r4] queries 200 anchors 0 | pos 50 neg 150 inferred 0 | clusters 49 (46 true ids) | mAP - R1 -
+  [random r5] queries 250 anchors 0 | pos 61 neg 189 inferred 0 | clusters 60 (56 true ids) | mAP 47.45 R1 49.57
+  [anchor:random r1] queries 50 anchors 50 | pos 50 neg 0 inferred 0 | clusters 50 (48 true ids) | mAP 47.95 R1 49.07
+  [anchor:random r2] queries 100 anchors 100 | pos 100 neg 0 inferred 0 | clusters 97 (92 true ids) | mAP - R1 -
+  [anchor:random r3] queries 150 anchors 150 | pos 150 neg 0 inferred 0 | clusters 145 (135 true ids) | mAP 57.12 R1 59.36
+  [anchor:random r4] queries 200 anchors 200 | pos 200 neg 0 inferred 0 | clusters 193 (178 true ids) | mAP - R1 -
+  [anchor:random r5] queries 250 anchors 250 | pos 250 neg 0 inferred 0 | clusters 239 (216 true ids) | mAP 63.09 R1 65.07
+[   827s] cuhk03 done
+
+domain     strategy             round  queries  anchors      ids     mAP     std     R1
+cuhk03     anchor:random            1       50       50     48.0   47.95    0.00  49.07
+cuhk03     anchor:random            2      100      100     92.0     nan     nan    nan
+cuhk03     anchor:random            3      150      150    135.0   57.12    0.00  59.36
+cuhk03     anchor:random            4      200      200    178.0     nan     nan    nan
+cuhk03     anchor:random            5      250      250    216.0   63.09    0.00  65.07
+cuhk03     balanced                 1       50        0      2.0   30.28    0.00  29.86
+cuhk03     balanced                 2      100        0     14.0     nan     nan    nan
+cuhk03     balanced                 3      150        0     25.0   39.40    0.00  40.21
+cuhk03     balanced                 4      200        0     37.0     nan     nan    nan
+cuhk03     balanced                 5      250        0     50.0   48.73    0.00  50.14
+cuhk03     base                     0        0        0      0.0   37.48    0.00  37.00
+cuhk03     cover                    1       50        0      0.0   37.48    0.00  37.00
+cuhk03     cover                    2      100        0      6.0     nan     nan    nan
+cuhk03     cover                    3      150        0     18.0   43.15    0.00  43.36
+cuhk03     cover                    4      200        0     32.0     nan     nan    nan
+cuhk03     cover                    5      250        0     53.0   47.26    0.00  48.43
+cuhk03     random                   1       50        0     16.0   39.88    0.00  40.36
+cuhk03     random                   2      100        0     28.0     nan     nan    nan
+cuhk03     random                   3      150        0     37.0   45.44    0.00  45.43
+cuhk03     random                   4      200        0     46.0     nan     nan    nan
+cuhk03     random                   5      250        0     56.0   47.45    0.00  49.57
+cuhk03     uncertain                1       50        0      2.0   30.28    0.00  29.86
+cuhk03     uncertain                2      100        0     15.0     nan     nan    nan
+cuhk03     uncertain                3      150        0     25.0   40.20    0.00  41.57
+cuhk03     uncertain                4      200        0     39.0     nan     nan    nan
+cuhk03     uncertain                5      250        0     57.0   45.10    0.00  45.21
+total time: 827s

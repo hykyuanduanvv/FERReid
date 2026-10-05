@@ -1,0 +1,3 @@
+[13:58:10] fallback item fb_none_eps0.7 on GPU 1:  active fb_none_eps0.7 $(ckpt base_md_cuhk03) --domains cuhk03 --strategies none --n_seeds 1 $REP --pseudo_eps 0.7
+[14:02:55] fallback item fb_none_eps0.7 exit 0
+fallback queue empty

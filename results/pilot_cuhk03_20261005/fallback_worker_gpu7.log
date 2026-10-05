@@ -1,0 +1,5 @@
+[14:01:11] fallback item diag_market1501 on GPU 7:  diag diag_market1501 $(ckpt base_md_market1501) --domains market1501
+[14:01:44] fallback item diag_market1501 exit 0
+[14:01:44] fallback item fb_none_market1501 on GPU 7:  active fb_none_market1501 $(ckpt base_md_market1501) --domains market1501 --strategies none --n_seeds 1 $REP
+[14:07:49] fallback item fb_none_market1501 exit 0
+fallback queue empty

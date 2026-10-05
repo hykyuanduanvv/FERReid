@@ -1,0 +1,26 @@
+[13:40:29] start pilot_s0a on GPU 0
+[13:40:29] start pilot_s0b on GPU 1
+[13:40:29] start pilot_s1a on GPU 2
+[13:40:29] start pilot_s1b on GPU 3
+[13:40:29] start pilot_s2a on GPU 4
+[13:40:29] start pilot_s2b on GPU 5
+[13:40:29] start pilot_pair_cover on GPU 6
+[13:40:29] start pilot_pair_random on GPU 7
+[13:54:49] pilot_s2a done (GPU 4)
+[13:54:49] start rep_market1501_s0 on GPU 4
+[13:55:19] pilot_s1a done (GPU 2)
+[13:55:19] start rep_market1501_s1 on GPU 2
+[13:55:34] pilot_s0a done (GPU 0)
+[13:55:34] start rep_market1501_s2 on GPU 0
+[13:55:44] pilot_s1b done (GPU 3)
+[13:55:44] start rabl_nomd on GPU 3
+[13:55:49] pilot_pair_random done (GPU 7)
+[13:55:49] start rtune_e0.5_s400 on GPU 7
+[13:55:54] pilot_s2b done (GPU 5)
+[13:55:54] start rtune_e0.6_s400 on GPU 5
+[13:56:04] pilot_pair_cover done (GPU 6)
+[13:56:04] start rtune_e0.7_s400 on GPU 6
+[13:56:09] pilot_s0b done (GPU 1)
+[13:56:09] start merge_pilot on GPU 1
+[13:56:49] merge_pilot done (GPU 1)
+[13:56:49] start rtune_e0.6_s800 on GPU 1

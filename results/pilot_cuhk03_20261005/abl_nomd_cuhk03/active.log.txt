@@ -1,0 +1,43 @@
+[checkpoint] backbone = 'dinov2_b14' (command line had '')
+[checkpoint] bnneck = True (command line had False)
+[checkpoint] ce_loss_weight = 1.0 (command line had 0.0)
+[checkpoint] num_train_ids = 7324 (command line had 0)
+[ReIDModel] Loading DINOv2 dinov2_vitb14 from /root/autodl-tmp/weights/dinov2_vitb14_pretrain.pth (code /root/basic-models/dinov2), input (252, 126)
+[checkpoint] experiments/base_vpt_cuhk03/checkpoint-12000 (vpt, dinov2_b14)
+[    37s] cuhk03: pool 7368 images (cached), query 1400, gallery 5328
+  base: mAP 41.50 R1 40.71
+  [cover r1] queries 50 anchors 0 | pos 4 neg 46 inferred 0 | clusters 4 (4 true ids) | mAP 39.02 R1 38.71
+  [cover r2] queries 100 anchors 0 | pos 16 neg 84 inferred 0 | clusters 16 (15 true ids) | mAP - R1 -
+  [cover r3] queries 150 anchors 0 | pos 28 neg 122 inferred 0 | clusters 28 (27 true ids) | mAP 41.42 R1 42.00
+  [cover r4] queries 200 anchors 0 | pos 50 neg 150 inferred 0 | clusters 47 (45 true ids) | mAP - R1 -
+  [cover r5] queries 250 anchors 0 | pos 73 neg 177 inferred 0 | clusters 66 (62 true ids) | mAP 45.34 R1 46.36
+  [random r1] queries 50 anchors 0 | pos 10 neg 40 inferred 0 | clusters 10 (10 true ids) | mAP 40.94 R1 40.57
+  [random r2] queries 100 anchors 0 | pos 26 neg 74 inferred 0 | clusters 26 (26 true ids) | mAP - R1 -
+  [random r3] queries 150 anchors 0 | pos 36 neg 114 inferred 0 | clusters 36 (35 true ids) | mAP 45.06 R1 45.79
+  [random r4] queries 200 anchors 0 | pos 50 neg 150 inferred 1 | clusters 50 (49 true ids) | mAP - R1 -
+  [random r5] queries 250 anchors 0 | pos 57 neg 193 inferred 2 | clusters 56 (55 true ids) | mAP 48.49 R1 48.29
+  [cover r1] queries 50 anchors 0 | pos 4 neg 46 inferred 0 | clusters 4 (4 true ids) | mAP 36.18 R1 34.93
+  [cover r2] queries 100 anchors 0 | pos 13 neg 87 inferred 1 | clusters 13 (13 true ids) | mAP - R1 -
+  [cover r3] queries 150 anchors 0 | pos 29 neg 121 inferred 1 | clusters 28 (28 true ids) | mAP 45.31 R1 46.36
+  [cover r4] queries 200 anchors 0 | pos 48 neg 152 inferred 4 | clusters 42 (41 true ids) | mAP - R1 -
+  [cover r5] queries 250 anchors 0 | pos 71 neg 179 inferred 6 | clusters 63 (59 true ids) | mAP 48.30 R1 50.79
+  [random r1] queries 50 anchors 0 | pos 7 neg 43 inferred 0 | clusters 7 (7 true ids) | mAP 28.96 R1 27.43
+  [random r2] queries 100 anchors 0 | pos 12 neg 88 inferred 0 | clusters 12 (12 true ids) | mAP - R1 -
+  [random r3] queries 150 anchors 0 | pos 28 neg 122 inferred 0 | clusters 28 (28 true ids) | mAP 42.71 R1 42.21
+  [random r4] queries 200 anchors 0 | pos 39 neg 161 inferred 0 | clusters 39 (39 true ids) | mAP - R1 -
+  [random r5] queries 250 anchors 0 | pos 51 neg 199 inferred 1 | clusters 51 (51 true ids) | mAP 49.24 R1 49.64
+[   669s] cuhk03 done
+
+domain     strategy             round  queries  anchors      ids     mAP     std     R1
+cuhk03     base                     0        0        0      0.0   41.50    0.00  40.71
+cuhk03     cover                    1       50        0      4.0   37.60    1.42  36.82
+cuhk03     cover                    2      100        0     14.0     nan     nan    nan
+cuhk03     cover                    3      150        0     27.5   43.36    1.94  44.18
+cuhk03     cover                    4      200        0     43.0     nan     nan    nan
+cuhk03     cover                    5      250        0     60.5   46.82    1.48  48.57
+cuhk03     random                   1       50        0      8.5   34.95    5.99  34.00
+cuhk03     random                   2      100        0     19.0     nan     nan    nan
+cuhk03     random                   3      150        0     31.5   43.88    1.17  44.00
+cuhk03     random                   4      200        0     44.0     nan     nan    nan
+cuhk03     random                   5      250        0     53.0   48.87    0.38  48.96
+total time: 669s

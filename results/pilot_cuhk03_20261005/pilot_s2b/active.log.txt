@@ -1,0 +1,35 @@
+[checkpoint] backbone = 'dinov2_b14' (command line had '')
+[checkpoint] bnneck = True (command line had False)
+[checkpoint] ce_loss_weight = 1.0 (command line had 0.0)
+[checkpoint] num_train_ids = 7324 (command line had 0)
+[checkpoint] source_domain_tokens = 8 (command line had 0)
+[checkpoint] num_source_domains = 3 (command line had 0)
+[ReIDModel] Loading DINOv2 dinov2_vitb14 from /root/autodl-tmp/weights/dinov2_vitb14_pretrain.pth (code /root/basic-models/dinov2), input (252, 126)
+[checkpoint] experiments/base_md_cuhk03/checkpoint-12000 (vpt, dinov2_b14)
+[   429s] cuhk03: pool 7368 images (cached), query 1400, gallery 5328
+  base: mAP 37.48 R1 37.00
+  [repair_random r1] queries 50 anchors 0 | pos 8 neg 42 inferred 0 | clusters 8 (524 true ids) | mAP 49.28 R1 48.21
+  [repair_random r2] queries 100 anchors 0 | pos 16 neg 84 inferred 0 | clusters 16 (500 true ids) | mAP - R1 -
+  [repair_random r3] queries 150 anchors 0 | pos 28 neg 122 inferred 0 | clusters 28 (476 true ids) | mAP 60.70 R1 61.14
+  [repair_random r4] queries 200 anchors 0 | pos 33 neg 167 inferred 0 | clusters 33 (473 true ids) | mAP - R1 -
+  [repair_random r5] queries 250 anchors 0 | pos 40 neg 210 inferred 1 | clusters 40 (475 true ids) | mAP 63.98 R1 65.07
+  [random r1] queries 50 anchors 0 | pos 11 neg 39 inferred 0 | clusters 11 (527 true ids) | mAP 50.38 R1 49.21
+  [random r2] queries 100 anchors 0 | pos 26 neg 74 inferred 0 | clusters 26 (508 true ids) | mAP - R1 -
+  [random r3] queries 150 anchors 0 | pos 39 neg 111 inferred 0 | clusters 39 (499 true ids) | mAP 60.20 R1 60.36
+  [random r4] queries 200 anchors 0 | pos 52 neg 148 inferred 0 | clusters 52 (487 true ids) | mAP - R1 -
+  [random r5] queries 250 anchors 0 | pos 65 neg 185 inferred 0 | clusters 65 (505 true ids) | mAP 64.88 R1 66.21
+[   908s] cuhk03 done
+
+domain     strategy             round  queries  anchors      ids     mAP     std     R1
+cuhk03     base                     0        0        0      0.0   37.48    0.00  37.00
+cuhk03     random                   1       50        0    527.0   50.38    0.00  49.21
+cuhk03     random                   2      100        0    508.0     nan     nan    nan
+cuhk03     random                   3      150        0    499.0   60.20    0.00  60.36
+cuhk03     random                   4      200        0    487.0     nan     nan    nan
+cuhk03     random                   5      250        0    505.0   64.88    0.00  66.21
+cuhk03     repair_random            1       50        0    524.0   49.28    0.00  48.21
+cuhk03     repair_random            2      100        0    500.0     nan     nan    nan
+cuhk03     repair_random            3      150        0    476.0   60.70    0.00  61.14
+cuhk03     repair_random            4      200        0    473.0     nan     nan    nan
+cuhk03     repair_random            5      250        0    475.0   63.98    0.00  65.07
+total time: 908s

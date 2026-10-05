@@ -1,0 +1,35 @@
+[checkpoint] backbone = 'dinov2_b14' (command line had '')
+[checkpoint] bnneck = True (command line had False)
+[checkpoint] ce_loss_weight = 1.0 (command line had 0.0)
+[checkpoint] num_train_ids = 7324 (command line had 0)
+[checkpoint] source_domain_tokens = 8 (command line had 0)
+[checkpoint] num_source_domains = 3 (command line had 0)
+[ReIDModel] Loading DINOv2 dinov2_vitb14 from /root/autodl-tmp/weights/dinov2_vitb14_pretrain.pth (code /root/basic-models/dinov2), input (252, 126)
+[checkpoint] experiments/base_md_cuhk03/checkpoint-12000 (vpt, dinov2_b14)
+[   373s] cuhk03: pool 7368 images (cached), query 1400, gallery 5328
+  base: mAP 37.48 R1 37.00
+  [none r1] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (523 true ids) | mAP 49.34 R1 48.14
+  [none r2] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (498 true ids) | mAP - R1 -
+  [none r3] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (475 true ids) | mAP 60.02 R1 59.86
+  [none r4] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (469 true ids) | mAP - R1 -
+  [none r5] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (454 true ids) | mAP 64.29 R1 66.36
+  [repair r1] queries 50 anchors 0 | pos 0 neg 50 inferred 0 | clusters 0 (526 true ids) | mAP 50.45 R1 49.29
+  [repair r2] queries 100 anchors 0 | pos 4 neg 96 inferred 0 | clusters 4 (539 true ids) | mAP - R1 -
+  [repair r3] queries 150 anchors 0 | pos 4 neg 146 inferred 0 | clusters 4 (561 true ids) | mAP 58.65 R1 58.00
+  [repair r4] queries 200 anchors 0 | pos 6 neg 194 inferred 0 | clusters 6 (565 true ids) | mAP - R1 -
+  [repair r5] queries 250 anchors 0 | pos 10 neg 240 inferred 0 | clusters 9 (569 true ids) | mAP 62.52 R1 62.50
+[   843s] cuhk03 done
+
+domain     strategy             round  queries  anchors      ids     mAP     std     R1
+cuhk03     base                     0        0        0      0.0   37.48    0.00  37.00
+cuhk03     none                     1        0        0    523.0   49.34    0.00  48.14
+cuhk03     none                     2        0        0    498.0     nan     nan    nan
+cuhk03     none                     3        0        0    475.0   60.02    0.00  59.86
+cuhk03     none                     4        0        0    469.0     nan     nan    nan
+cuhk03     none                     5        0        0    454.0   64.29    0.00  66.36
+cuhk03     repair                   1       50        0    526.0   50.45    0.00  49.29
+cuhk03     repair                   2      100        0    539.0     nan     nan    nan
+cuhk03     repair                   3      150        0    561.0   58.65    0.00  58.00
+cuhk03     repair                   4      200        0    565.0     nan     nan    nan
+cuhk03     repair                   5      250        0    569.0   62.52    0.00  62.50
+total time: 843s

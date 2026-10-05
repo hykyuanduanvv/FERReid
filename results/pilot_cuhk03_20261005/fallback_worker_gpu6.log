@@ -1,0 +1,3 @@
+[14:00:40] fallback item abl_nomd_cuhk03 on GPU 6:  active abl_nomd_cuhk03 $(ckpt base_vpt_cuhk03) --domains cuhk03 --strategies cover,random --n_seeds 2 $ACT --oracle_all False
+[14:12:05] fallback item abl_nomd_cuhk03 exit 0
+fallback queue empty

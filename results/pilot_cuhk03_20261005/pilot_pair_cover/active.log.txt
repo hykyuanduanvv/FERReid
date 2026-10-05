@@ -1,0 +1,37 @@
+[checkpoint] backbone = 'dinov2_b14' (command line had '')
+[checkpoint] bnneck = True (command line had False)
+[checkpoint] ce_loss_weight = 1.0 (command line had 0.0)
+[checkpoint] num_train_ids = 7324 (command line had 0)
+[checkpoint] source_domain_tokens = 8 (command line had 0)
+[checkpoint] num_source_domains = 3 (command line had 0)
+[ReIDModel] Loading DINOv2 dinov2_vitb14 from /root/autodl-tmp/weights/dinov2_vitb14_pretrain.pth (code /root/basic-models/dinov2), input (252, 126)
+[checkpoint] experiments/base_md_cuhk03/checkpoint-12000 (vpt, dinov2_b14)
+[   434s] cuhk03: pool 7368 images (cached), query 1400, gallery 5328
+  base: mAP 37.48 R1 37.00
+  oracle_all: mAP 62.91 R1 63.50
+  [cover r1] queries 50 anchors 0 | pos 0 neg 50 inferred 0 | clusters 0 (0 true ids) | mAP 37.48 R1 37.00
+  [cover r2] queries 100 anchors 0 | pos 6 neg 94 inferred 37 | clusters 6 (6 true ids) | mAP - R1 -
+  [cover r3] queries 150 anchors 0 | pos 18 neg 132 inferred 37 | clusters 18 (18 true ids) | mAP 43.15 R1 43.36
+  [cover r4] queries 200 anchors 0 | pos 37 neg 163 inferred 37 | clusters 34 (32 true ids) | mAP - R1 -
+  [cover r5] queries 250 anchors 0 | pos 60 neg 190 inferred 38 | clusters 55 (53 true ids) | mAP 47.26 R1 48.43
+  [cover r1] queries 50 anchors 0 | pos 3 neg 47 inferred 0 | clusters 3 (3 true ids) | mAP 32.97 R1 32.43
+  [cover r2] queries 100 anchors 0 | pos 20 neg 80 inferred 0 | clusters 18 (18 true ids) | mAP - R1 -
+  [cover r3] queries 150 anchors 0 | pos 36 neg 114 inferred 0 | clusters 31 (31 true ids) | mAP 43.87 R1 44.64
+  [cover r4] queries 200 anchors 0 | pos 58 neg 142 inferred 1 | clusters 48 (45 true ids) | mAP - R1 -
+  [cover r5] queries 250 anchors 0 | pos 81 neg 169 inferred 2 | clusters 66 (61 true ids) | mAP 40.26 R1 40.93
+  [cover r1] queries 50 anchors 0 | pos 7 neg 43 inferred 0 | clusters 7 (7 true ids) | mAP 33.76 R1 34.71
+  [cover r2] queries 100 anchors 0 | pos 15 neg 85 inferred 0 | clusters 13 (13 true ids) | mAP - R1 -
+  [cover r3] queries 150 anchors 0 | pos 26 neg 124 inferred 1 | clusters 23 (23 true ids) | mAP 44.69 R1 44.93
+  [cover r4] queries 200 anchors 0 | pos 44 neg 156 inferred 3 | clusters 36 (36 true ids) | mAP - R1 -
+  [cover r5] queries 250 anchors 0 | pos 61 neg 189 inferred 5 | clusters 50 (48 true ids) | mAP 48.70 R1 50.64
+[   919s] cuhk03 done
+
+domain     strategy             round  queries  anchors      ids     mAP     std     R1
+cuhk03     base                     0        0        0      0.0   37.48    0.00  37.00
+cuhk03     cover                    1       50        0      3.3   34.74    1.96  34.71
+cuhk03     cover                    2      100        0     12.3     nan     nan    nan
+cuhk03     cover                    3      150        0     24.0   43.91    0.63  44.31
+cuhk03     cover                    4      200        0     37.7     nan     nan    nan
+cuhk03     cover                    5      250        0     54.0   45.41    3.69  46.67
+cuhk03     oracle_all               0        0        0    767.0   62.91    0.00  63.50
+total time: 919s

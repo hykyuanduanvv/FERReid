@@ -1,0 +1,25 @@
+[checkpoint] backbone = 'dinov2_b14' (command line had '')
+[checkpoint] bnneck = True (command line had False)
+[checkpoint] ce_loss_weight = 1.0 (command line had 0.0)
+[checkpoint] num_train_ids = 7324 (command line had 0)
+[checkpoint] source_domain_tokens = 8 (command line had 0)
+[checkpoint] num_source_domains = 3 (command line had 0)
+[ReIDModel] Loading DINOv2 dinov2_vitb14 from /root/autodl-tmp/weights/dinov2_vitb14_pretrain.pth (code /root/basic-models/dinov2), input (252, 126)
+[checkpoint] experiments/base_md_cuhk03/checkpoint-12000 (vpt, dinov2_b14)
+[    37s] cuhk03: pool 7368 images (cached), query 1400, gallery 5328
+  base: mAP 37.48 R1 37.00
+  [none r1] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (627 true ids) | mAP 48.57 R1 47.29
+  [none r2] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (626 true ids) | mAP - R1 -
+  [none r3] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (625 true ids) | mAP 55.80 R1 54.64
+  [none r4] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (609 true ids) | mAP - R1 -
+  [none r5] queries 0 anchors 0 | pos 0 neg 0 inferred 0 | clusters 0 (596 true ids) | mAP 59.61 R1 59.57
+[   256s] cuhk03 done
+
+domain     strategy             round  queries  anchors      ids     mAP     std     R1
+cuhk03     base                     0        0        0      0.0   37.48    0.00  37.00
+cuhk03     none                     1        0        0    627.0   48.57    0.00  47.29
+cuhk03     none                     2        0        0    626.0     nan     nan    nan
+cuhk03     none                     3        0        0    625.0   55.80    0.00  54.64
+cuhk03     none                     4        0        0    609.0     nan     nan    nan
+cuhk03     none                     5        0        0    596.0   59.61    0.00  59.57
+total time: 256s
