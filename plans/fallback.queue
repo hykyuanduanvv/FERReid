@@ -1,0 +1,13 @@
+diag_cuhk03 | base_md_cuhk03 | diag diag_cuhk03 $(ckpt base_md_cuhk03) --domains cuhk03
+fb_none_eps0.5 | base_md_cuhk03 | active fb_none_eps0.5 $(ckpt base_md_cuhk03) --domains cuhk03 --strategies none --n_seeds 1 $REP --pseudo_eps 0.5
+fb_none_eps0.7 | base_md_cuhk03 | active fb_none_eps0.7 $(ckpt base_md_cuhk03) --domains cuhk03 --strategies none --n_seeds 1 $REP --pseudo_eps 0.7
+fb_oracle_pseudo | base_md_cuhk03 | active fb_oracle_pseudo $(ckpt base_md_cuhk03) --domains cuhk03 --strategies none --n_seeds 1 $REP --rounds 1 --oracle_all True
+fb_small_budget | base_md_cuhk03 | active fb_small_budget $(ckpt base_md_cuhk03) --domains cuhk03 --strategies repair,repair_random,random --n_seeds 2 $REP --rounds 4 --budget 50 --eval_rounds 1,2,4
+act_cuhk03_s0 | base_md_cuhk03 | active act_cuhk03_s0 $(ckpt base_md_cuhk03) --domains cuhk03 --strategies cover,uncertain,balanced,random,anchor:random --n_seeds 1 --base_seed 0 $ACT --oracle_all False
+act_cuhk03_s1 | base_md_cuhk03 | active act_cuhk03_s1 $(ckpt base_md_cuhk03) --domains cuhk03 --strategies cover,uncertain,balanced,random,anchor:random --n_seeds 1 --base_seed 1 $ACT --oracle_all False
+abl_nomd_cuhk03 | base_vpt_cuhk03 | active abl_nomd_cuhk03 $(ckpt base_vpt_cuhk03) --domains cuhk03 --strategies cover,random --n_seeds 2 $ACT --oracle_all False
+diag_market1501 | base_md_market1501 | diag diag_market1501 $(ckpt base_md_market1501) --domains market1501
+diag_msmt17 | base_md_msmt17 | diag diag_msmt17 $(ckpt base_md_msmt17) --domains msmt17
+fb_none_market1501 | base_md_market1501 | active fb_none_market1501 $(ckpt base_md_market1501) --domains market1501 --strategies none --n_seeds 1 $REP
+act_market1501_s0 | base_md_market1501 | active act_market1501_s0 $(ckpt base_md_market1501) --domains market1501 --strategies cover,uncertain,random --n_seeds 1 --base_seed 0 $ACT --oracle_all True
+icl_cuhk03 | base_vicp_cuhk03 | evaluate icl_cuhk03 $(ckpt base_vicp_cuhk03) --domains cuhk03 --methods random,facility_camera --ks 16,64 --eval_seeds 2

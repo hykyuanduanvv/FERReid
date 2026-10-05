@@ -47,6 +47,44 @@ train() {
 # ckpt <run name> -> its last checkpoint directory
 ckpt() { ls -d "experiments/$1"/checkpoint-* 2>/dev/null | sort -t- -k2 -n | tail -1; }
 
+# ---------------------------------------------------------------- fallback queue (pilot watchdog)
+# experiments/_launch/fallback.queue, one item per line:  <name> | <prerequisite run or -> | <command>
+# run_fallback_queue (one worker per GPU, started by watchdog/watchdog.sh) takes items one after another until the
+# queue is empty; an item waits until its prerequisite's final checkpoint exists (training still running elsewhere).
+FALLBACK=experiments/_launch/fallback.queue
+trained() { [ "$1" = "-" ] || ls experiments/"$1"/checkpoint-*/trainer_state.json >/dev/null 2>&1; }
+
+run_fallback_queue() {
+  local waited=0 line name need cmd picked
+  while true; do
+    picked=""
+    exec 9>"$FALLBACK.lock"
+    flock 9
+    if [ -s "$FALLBACK" ]; then
+      while IFS= read -r line; do
+        need=$(echo "$line" | cut -d'|' -f2 | xargs)
+        if [ -z "$picked" ] && trained "$need"; then picked=$line; fi
+      done < "$FALLBACK"
+      if [ -n "$picked" ]; then
+        grep -vxF "$picked" "$FALLBACK" > "$FALLBACK.tmp"; mv "$FALLBACK.tmp" "$FALLBACK"
+      fi
+    fi
+    local left=$( [ -s "$FALLBACK" ] && wc -l < "$FALLBACK" || echo 0 )
+    flock -u 9
+    if [ -z "$picked" ]; then
+      [ "$left" -eq 0 ] && { echo "fallback queue empty"; return 0; }
+      [ $waited -ge 180 ] && { echo "fallback: $left items still wait for checkpoints; giving up this slot"; return 0; }
+      sleep 60; waited=$((waited + 1)); continue
+    fi
+    name=$(echo "$picked" | cut -d'|' -f1 | xargs)
+    cmd=$(echo "$picked" | cut -d'|' -f3-)
+    echo "[$(date +%T)] fallback item $name on GPU $CUDA_VISIBLE_DEVICES: $cmd"
+    ( eval "$cmd" ) > "experiments/_launch/fb_$name.log" 2>&1
+    echo $? > "experiments/_launch/fb_$name.status"
+    echo "[$(date +%T)] fallback item $name exit $(cat experiments/_launch/fb_$name.status)"
+  done
+}
+
 # ---------------------------------------------------------------- active module
 # active <name> <checkpoint> [extra args...]: scripts/eval_active.py
 active() {
