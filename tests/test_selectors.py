@@ -1,7 +1,7 @@
 """CPU checks of the label-free selectors (adapters/selectors.py).
 
   python tests/test_selectors.py            # synthetic pools only (seconds)
-  python tests/test_selectors.py --real     # + VIPeR / GRID split 0 with DINOv2 features (minutes on CPU)
+  python tests/test_selectors.py --real     # + CUHK03 pool with DINOv2 features (minutes on a GPU)
 
 Synthetic: every selector returns k distinct valid indices, is reproducible for a seed, never touches
 the hidden labels (the oracle raises on any access), de-duplicating selectors avoid near-identical
@@ -85,12 +85,12 @@ def main():
             model = load_checkpoint_model(args, device, a.checkpoint)
         else:
             model = PlainReIDModel(args).to(device).eval()
-        for name in ("viper", "grid"):
-            ds = _get_dataset_cls(name)(root=DOMAIN_CONFIG["data_root"], verbose=False, split_id=0)
+        for name in ("cuhk03",):
+            ds = _get_dataset_cls(name)(root=DOMAIN_CONFIG["data_root"], verbose=False)
             pool = ImagePool(ds.train, has_cameras=True)
             feats, style = extract_selector_features(model, load_images(pool.paths, device), device)
             pool.attach_features(feats, style)
-            print("\n{} split 0: {} pool images, k=16, 10 seeds".format(name, len(pool)))
+            print("\n{}: {} pool images, k=16, 10 seeds".format(name, len(pool)))
             for sel in sorted(IMAGE_SELECTORS):
                 stats = [annotate(pool, select_images(sel, pool, 16, np.random.RandomState(s)), np.random.RandomState(s))[1]
                          for s in range(10)]

@@ -18,20 +18,20 @@ LOSS_ARGS=${LOSS_ARGS-$LOSS_BOT}
 STEPS=${STEPS:-12000}
 SCHEDULE=${SCHEDULE:-"--lr_scheduler_type cosine --warmup_steps 500"}
 
-# small targets (VIPeR / GRID / i-LIDS): sources = every image of Market + MSMT17 + CUHK03 (no validation)
-SMALL_SRC="--source_domains market1501,msmt17,cuhk03 --source_all_images True --val_domains none"
-
-# large targets: leave-one-out over Market1501 / MSMT17 / CUHK03 (+ CUHK-SYSU when its data is present),
-# sources = train splits. large_sources market1501 -> msmt17,cuhk03[,cuhksysu]
-large_sources() {
-  local t=$1 out="" d
-  for d in market1501 msmt17 cuhk03 cuhksysu; do
-    [ "$d" = "$t" ] && continue
-    [ "$d" = cuhksysu ] && [ ! -d "${FERREID_DATA_ROOT:-/root/autodl-tmp/reid-data}/cuhksysu" ] && continue
-    out="${out:+$out,}$d"
-  done
-  echo "$out"
+# leave-one-out folds: target = market1501 | msmt17 | cuhk03; sources = train splits of the other three
+# (CUHK-SYSU is always a source). fold <target> -> the training arguments of that fold
+fold_sources() {
+  case $1 in
+    market1501) echo msmt17,cuhk03,cuhksysu ;;
+    msmt17)     echo market1501,cuhk03,cuhksysu ;;
+    cuhk03)     echo market1501,msmt17,cuhksysu ;;
+    *) echo "unknown target $1" >&2; return 2 ;;
+  esac
 }
+fold() { echo "--source_domains $(fold_sources "$1") --source_all_images False --val_domains none --eval_strategy no"; }
+
+# multi-domain tokens of the base model (method A): m tokens per layer for every source domain
+MD="--model_type vpt --source_domain_tokens ${MD_TOKENS:-8}"
 
 # train <name> <steps> [extra args...]
 train() {
@@ -80,6 +80,9 @@ evaluate() {
     --num_icl_samples 64 --fp16 True --report_to none --eval_num_workers 12 "$@" 2>&1 | tee "$out/eval.log"
 }
 
-# base checkpoints used by the active plans (override in configs/local.sh, e.g. with an existing VPT run)
-BASE_SMALL=${BASE_SMALL:-$(ckpt base_vpt_small)}
+# strategies of the main comparison (pair strategies + the ID-level anchor protocol)
 STRATS=${STRATS:-"cover,uncertain,balanced,confident,random,anchor:random,anchor:facility_camera"}
+# active-module settings of the main runs: 5 rounds x 200 yes/no answers
+ACT=${ACT:-"--rounds 5 --budget 200 --eval_rounds 1,3,5"}
+[ -f plans/active_chosen.sh ] && source plans/active_chosen.sh   # lr / steps chosen by plans/tune.tasks
+ACT_TUNE=${ACT_TUNE:-""}

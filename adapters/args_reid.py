@@ -14,6 +14,11 @@ class ReIDTrainingArguments(transformers.TrainingArguments):
     backbone: str = field(default="")
     num_vpt_tokens: int = field(default=32)    # visual prompt tokens per ViT layer (VPT and VICP)
     ot_loss_weight: float = field(default=0.01)  # WPA local alignment; 0 disables it (and skips its computation)
+    # VPT, multi-domain tokens: > 0 gives every source domain its own m tokens per layer, appended to the shared
+    # prompt and used for the batches of that domain (batches are single-domain). The shared prompt / LoRA learn
+    # what holds across domains; at deployment a new target gets m tokens initialised with the source mean.
+    source_domain_tokens: int = field(default=0)
+    num_source_domains: int = field(default=0)  # set by the trainer / read from the checkpoint
 
     # --- VICP only (same names / defaults as VICP's train_vpt_lora.TrainingArguments)
     llm_model: str = field(default="Qwen/Qwen3-0.6B")

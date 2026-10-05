@@ -1,13 +1,15 @@
-# Base models (source-trained, no target data). DINOv2 ViT-B/14, 12k steps, cosine schedule.
-# A VPT checkpoint trained on the Direction_A branch (e.g. experiments/s2_vpt_long/checkpoint-12000) loads
-# unchanged; set BASE_SMALL=<that checkpoint> in configs/local.sh and skip base_vpt_small.
+# Base models, leave-one-out: one per target (Market-1501 / MSMT17 / CUHK03), sources = train splits of the
+# other three (CUHK-SYSU always a source). DINOv2 ViT-B/14, 12k steps, cosine schedule, no target data.
 #
-# small targets (VIPeR / GRID / i-LIDS)
-base_vpt_small    | train base_vpt_small    $STEPS --model_type vpt  $SMALL_SRC $LOSS_ARGS $SCHEDULE
-base_plain_small  | train base_plain_small  $STEPS --model_type plain $SMALL_SRC $LOSS_ARGS $SCHEDULE
-# VICP in-context baseline (only needed for the in-context comparison; Qwen3-0.6B)
-base_vicp_small   | train base_vicp_small   $STEPS --model_type vicp $SMALL_SRC $LOSS_ARGS $SCHEDULE
-# large targets: one VPT base per target (leave-one-out, sources = train splits)
-base_vpt_to_market | train base_vpt_to_market $STEPS --model_type vpt --source_domains $(large_sources market1501) --source_all_images False --val_domains none $LOSS_ARGS $SCHEDULE
-base_vpt_to_msmt   | train base_vpt_to_msmt   $STEPS --model_type vpt --source_domains $(large_sources msmt17) --source_all_images False --val_domains none $LOSS_ARGS $SCHEDULE
-base_vpt_to_cuhk03 | train base_vpt_to_cuhk03 $STEPS --model_type vpt --source_domains $(large_sources cuhk03) --source_all_images False --val_domains none $LOSS_ARGS $SCHEDULE
+# main: VPT + multi-domain tokens (8 per layer for each source domain)
+base_md_market1501 | train base_md_market1501 $STEPS $MD $(fold market1501) $LOSS_ARGS $SCHEDULE
+base_md_msmt17     | train base_md_msmt17     $STEPS $MD $(fold msmt17)     $LOSS_ARGS $SCHEDULE
+base_md_cuhk03     | train base_md_cuhk03     $STEPS $MD $(fold cuhk03)     $LOSS_ARGS $SCHEDULE
+# ablation: one shared prompt, no domain tokens (the earlier base model)
+base_vpt_market1501 | train base_vpt_market1501 $STEPS --model_type vpt $(fold market1501) $LOSS_ARGS $SCHEDULE
+base_vpt_msmt17     | train base_vpt_msmt17     $STEPS --model_type vpt $(fold msmt17)     $LOSS_ARGS $SCHEDULE
+base_vpt_cuhk03     | train base_vpt_cuhk03     $STEPS --model_type vpt $(fold cuhk03)     $LOSS_ARGS $SCHEDULE
+# in-context baseline: VICP (Qwen3-0.6B), same folds
+base_vicp_market1501 | train base_vicp_market1501 $STEPS --model_type vicp $(fold market1501) $LOSS_ARGS $SCHEDULE
+base_vicp_msmt17     | train base_vicp_msmt17     $STEPS --model_type vicp $(fold msmt17)     $LOSS_ARGS $SCHEDULE
+base_vicp_cuhk03     | train base_vicp_cuhk03     $STEPS --model_type vicp $(fold cuhk03)     $LOSS_ARGS $SCHEDULE

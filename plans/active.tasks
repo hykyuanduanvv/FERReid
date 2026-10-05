@@ -1,0 +1,26 @@
+# Active module on the three folds (pools streamed from disk). 5 rounds x 200 yes/no answers, evaluation after
+# rounds 1, 3, 5 (MSMT17: 11,659 x 82,161, ~10 min per evaluation on a 4090 -> one seed there).
+#
+# main table: every strategy, base = VPT + multi-domain tokens, new tokens start at the source mean
+act_market1501 | active act_market1501 $(ckpt base_md_market1501) --domains market1501 --n_seeds 2 --strategies $STRATS $ACT $ACT_TUNE
+act_cuhk03     | active act_cuhk03     $(ckpt base_md_cuhk03)     --domains cuhk03     --n_seeds 2 --strategies $STRATS $ACT $ACT_TUNE
+act_msmt17     | active act_msmt17     $(ckpt base_md_msmt17)     --domains msmt17     --n_seeds 1 --strategies $STRATS $ACT $ACT_TUNE
+#
+# ablation of the base model: one shared prompt, no domain tokens (new tokens start from N(0, 0.02))
+abl_nomd_market1501 | active abl_nomd_market1501 $(ckpt base_vpt_market1501) --domains market1501 --n_seeds 2 --strategies cover,random $ACT $ACT_TUNE
+abl_nomd_cuhk03     | active abl_nomd_cuhk03     $(ckpt base_vpt_cuhk03)     --domains cuhk03     --n_seeds 2 --strategies cover,random $ACT $ACT_TUNE
+abl_nomd_msmt17     | active abl_nomd_msmt17     $(ckpt base_vpt_msmt17)     --domains msmt17     --n_seeds 1 --strategies cover,random $ACT $ACT_TUNE
+#
+# ablations of the active module (fold CUHK03, the cheapest to evaluate)
+abl_tokinit_random | active abl_tokinit_random $(ckpt base_md_cuhk03) --domains cuhk03 --n_seeds 2 --strategies cover --token_init random $ACT $ACT_TUNE --oracle_all False
+abl_replace        | active abl_replace        $(ckpt base_md_cuhk03) --domains cuhk03 --n_seeds 2 --strategies cover --prompt_mode replace $ACT $ACT_TUNE --oracle_all False
+abl_no_hardneg     | active abl_no_hardneg     $(ckpt base_md_cuhk03) --domains cuhk03 --n_seeds 2 --strategies cover --hn_prob 0 $ACT $ACT_TUNE --oracle_all False
+abl_expand0        | active abl_expand0        $(ckpt base_md_cuhk03) --domains cuhk03 --n_seeds 2 --strategies cover --expand_ratio 0 $ACT $ACT_TUNE --oracle_all False
+abl_expand1        | active abl_expand1        $(ckpt base_md_cuhk03) --domains cuhk03 --n_seeds 2 --strategies cover --expand_ratio 1 $ACT $ACT_TUNE --oracle_all False
+abl_oneshot        | active abl_oneshot        $(ckpt base_md_cuhk03) --domains cuhk03 --n_seeds 2 --strategies cover,uncertain,random --rounds 1 --budget 1000 $ACT_TUNE --oracle_all False
+abl_budget         | active abl_budget         $(ckpt base_md_cuhk03) --domains cuhk03 --n_seeds 2 --strategies cover,uncertain,random,anchor:random --rounds 10 --budget 100 --eval_rounds 1,2,4,6,8,10 $ACT_TUNE --oracle_all False
+#
+# in-context baseline (VICP: k anchors -> pairs -> LLM -> prompt, no gradient)
+icl_market1501 | evaluate icl_market1501 $(ckpt base_vicp_market1501) --domains market1501 --methods random,facility_camera --ks 16,64 --eval_seeds 2
+icl_cuhk03     | evaluate icl_cuhk03     $(ckpt base_vicp_cuhk03)     --domains cuhk03     --methods random,facility_camera --ks 16,64 --eval_seeds 2
+icl_msmt17     | evaluate icl_msmt17     $(ckpt base_vicp_msmt17)     --domains msmt17     --methods random,facility_camera --ks 16,64 --eval_seeds 1

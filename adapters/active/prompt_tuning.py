@@ -1,9 +1,10 @@
 """Target-domain prompt learned from the annotated clusters; the base model stays frozen.
 
-  append  (default): the base prompt (1, L, V, D) is frozen and `domain_tokens` new tokens per layer are
-          appended and trained -> prompt (1, L, V + m, D). The base prompt is untouched, so the domain
-          tokens are a separate, swappable per-domain parameter.
-  replace: a copy of the base prompt is trained (the "tuned prompt" generator of the earlier experiments).
+  append  (default): the shared base prompt (1, L, V, D) is frozen and m new tokens per layer are appended
+          and trained -> prompt (1, L, V + m, D). The new tokens start from the mean of the base model's
+          source-domain tokens when it was trained with --source_domain_tokens (init_tokens), else from
+          N(0, init_std). The base prompt is untouched: the domain tokens are a separate, swappable parameter.
+  replace: a copy of the base model's default prompt is trained.
 
 Each step draws `ids_per_batch` identity clusters with >= 2 images (two images each); with probability
 `hn_prob` a cluster brings one of its cannot-link clusters along (an annotated hard negative). Loss: the
@@ -41,14 +42,17 @@ def augment(x, gen):
 
 class DomainPrompt(torch.nn.Module):
 
-    def __init__(self, base, mode="append", domain_tokens=8, init_std=0.02, seed=0):
+    def __init__(self, base, mode="append", domain_tokens=8, init_std=0.02, seed=0, init_tokens=None):
         super().__init__()
         self.mode = mode
         base = base.detach().float().reshape(1, base.size(1), -1, base.size(-1))
         self.register_buffer("base", base.clone())
         if mode == "append":
-            g = torch.Generator(device="cpu").manual_seed(seed)
-            tok = torch.randn(1, base.size(1), domain_tokens, base.size(-1), generator=g) * init_std
+            if init_tokens is not None:
+                tok = init_tokens.detach().float().reshape(1, base.size(1), -1, base.size(-1)).clone()
+            else:
+                g = torch.Generator(device="cpu").manual_seed(seed)
+                tok = torch.randn(1, base.size(1), domain_tokens, base.size(-1), generator=g) * init_std
             self.tokens = torch.nn.Parameter(tok.to(base.device))
         elif mode == "replace":
             self.tokens = torch.nn.Parameter(base.clone())
@@ -64,11 +68,12 @@ def _two(rng, members):
 
 
 def tune_domain_prompt(model, store, clusters, cannot, base, mode="append", domain_tokens=8, init_std=0.02,
-                       steps=300, lr=3e-4, ids_per_batch=32, hn_prob=0.5, seed=0):
+                       steps=300, lr=3e-4, ids_per_batch=32, hn_prob=0.5, seed=0, init_tokens=None):
     """clusters: lists of pool indices (one per annotated identity, singletons allowed: they only serve as
-    negatives); cannot: pairs of positions into clusters. Returns (prompt (1, L, V', D) detached, info)."""
+    negatives); cannot: pairs of positions into clusters; base: the frozen shared prompt (append) or the prompt
+    to start from (replace). Returns (prompt (1, L, V', D) detached, info)."""
     device = base.device
-    prompt = DomainPrompt(base, mode, domain_tokens, init_std, seed).to(device)
+    prompt = DomainPrompt(base, mode, domain_tokens, init_std, seed, init_tokens).to(device)
     positives = [n for n, c in enumerate(clusters) if len(c) >= 2]
     info = {"loss_start": float("nan"), "loss_end": float("nan"), "n_train_ids": len(positives)}
     if not positives or steps <= 0:

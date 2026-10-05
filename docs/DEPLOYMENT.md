@@ -18,7 +18,7 @@ git clone https://github.com/KaiyangZhou/deep-person-reid.git external/deep-pers
 git -C external/deep-person-reid checkout f8cd150fdf77e8d9e1ed143b7f308c2c609ded50
 ```
 
-本项目使用源码中的 `torchreid` 包，通过 `PYTHONPATH` 加载。不要以同名 PyPI 包替代。小目标域（VIPeR/GRID/i-LIDS）无需编译 Cython，未编译时使用 Python 排序评估；**Protocol-2 的大目标域（尤其 MSMT17：11,659 query × 82,161 gallery）请编译**：
+本项目使用源码中的 `torchreid` 包，通过 `PYTHONPATH` 加载。不要以同名 PyPI 包替代。**请编译 Cython 排序评估**：三个目标域都较大，尤其 MSMT17（11,659 query × 82,161 gallery），Python 版会非常慢：
 
 ```bash
 (cd external/deep-person-reid/torchreid/metrics/rank_cylib && python setup.py build_ext --inplace)
@@ -62,30 +62,21 @@ $FERREID_DATA_ROOT/
 │   ├── train_all/<pid>/*.jpg
 │   ├── query/<pid>/*.jpg
 │   └── gallery/<pid>/*.jpg
-├── viper/VIPeR/{cam_a,cam_b}/
-├── grid/underground_reid/{probe,gallery}/
-├── ilids/i-LIDS_Pedestrian/Persons/
-└── cuhksysu/cuhksysu4reid/          # Protocol-2 需要；读取器 adapters/cuhksysu.py
+└── cuhksysu/cuhksysu4reid/          # 三折的源域；读取器 adapters/cuhksysu.py
     ├── train/   ├── query/   └── gallery/     # <pid>_*.jpg 或 <pid>/*.jpg
 ```
 
-CUHK-SYSU 使用行人搜索数据集裁剪出的 ReID 版本（DG-ReID Protocol-2 所用划分）。它没有摄像头标签：读取器令 train/query 的 camid 为 0、gallery 为 1，使"同人同摄像头"过滤不删除真实匹配；标注模拟对它不要求跨摄像头。文献中的规模为 train 5,532 人 / 15,088 张、query 2,900、gallery 5,447（2,900 人），**放好数据后以 `python scripts/check_datasets.py --domains cuhksysu` 的输出为准**，不符时先核对版本与目录再使用。
+CUHK-SYSU 使用行人搜索数据集裁剪出的 ReID 版本（DG-ReID 留一协议所用划分）。它没有摄像头标签：读取器令 train/query 的 camid 为 0、gallery 为 1，使"同人同摄像头"过滤不删除真实匹配；标注模拟对它不要求跨摄像头。文献中的规模为 train 5,532 人 / 15,088 张、query 2,900、gallery 5,447（2,900 人），**放好数据后以 `python scripts/check_datasets.py --domains cuhksysu` 的输出为准**，不符时先核对版本与目录再使用。
 
 CUHK03 需使用 **NP labeled 的 767/700 身份划分**，文件名格式为 `<camera_pair>_<pid>_<camera>_<index>.jpg`；不要把原始 `.mat`、detected 版本或其他协议放进相同目录后直接套用本表。
 
-数据图片需自行从发布方获得并遵守原协议。本仓库只提供历史划分元数据。先放好图片，再执行：
+数据图片需自行从发布方获得并遵守原协议。放好图片后执行：
 
 ```bash
-# 默认只核对图像是否齐全、已存在 splits.json 是否一致
-python scripts/install_splits.py
-# 只创建缺失的 splits.json；遇到不同的现有划分会停止，不自动覆盖
-python scripts/install_splits.py --apply
 python scripts/check_datasets.py
 ```
 
-VIPeR/GRID 的路径会转换为当前数据根目录；i-LIDS 保留读取器需要的图像文件名。若现有划分与记录不同，应先将其另存后再有意切换，不要混用不同划分下的结果。
-
-`check_datasets.py` 对 PRID2011 显示缺失是当前快照的预期状态。其退出码不代表所有数据均成功，应检查打印的 `Summary`。正式命令显式选择 `viper,grid,ilids`。当前检查仅覆盖统计和路径交集，并未提供内容级无泄漏保证。
+它按训练和评测的方式读取四个数据集，打印规模、摄像头数和路径泄漏检查；退出码不代表所有数据均成功，应检查打印的 `Summary`。当前检查仅覆盖统计和路径交集，并未提供内容级无泄漏保证。
 
 ## 4. 准备模型权重
 
@@ -127,24 +118,23 @@ python scripts/launch_tasks.py plans/base.tasks --gpus 0,1,2,3 --dry-run   # 先
 python scripts/launch_tasks.py plans/base.tasks --gpus 0,1,2,3
 ```
 
-`plans/base.tasks` 训练 DINOv2 的 VPT 基础模型：小目标域用 Market + MSMT17 + CUHK03 的全部图像；大目标域（Market、MSMT17、CUHK03 留一）各训一个，源域只用 train 部分（有 CUHK-SYSU 数据时自动加入）。另有 plain 与 VICP 两个对照。损失默认 BNNeck + ID 交叉熵 + triplet，可在 `plans/chosen.sh` 里用 `LOSS_ARGS` 覆盖。
-
-已有 Direction_A 分支训练好的 VPT 时，在 `configs/local.sh` 里写 `export BASE_SMALL=<checkpoint 目录>`，跳过 `base_vpt_small`。
+`plans/base.tasks` 为三折各训练三个模型：主模型 `base_md_<目标>`（VPT + 每个源域 8 个追加 token）、消融 `base_vpt_<目标>`（只有一组共享 prompt）、in-context 对照 `base_vicp_<目标>`。源域只用 train 划分，不做验证，12,000 步。损失默认 BNNeck + ID 交叉熵 + triplet + WPA，可在 `plans/chosen.sh` 里用 `LOSS_ARGS` 覆盖。
 
 ## 6. 主动 pair 查询实验
 
 ```bash
-python scripts/launch_tasks.py plans/diag.tasks --gpus 0,1,2,3           # 第 1 步：诊断
-python scripts/launch_tasks.py plans/active_small.tasks --gpus 0,1,2,3   # 小目标域主实验与消融
-python scripts/launch_tasks.py plans/active_large.tasks --gpus 0,1,2     # 大目标域（流式读取）
+python scripts/launch_tasks.py plans/tune.tasks --gpus 0,1,2,3     # 在 CUHK-SYSU 上选 lr / 步数，结果写入 plans/active_chosen.sh
+python scripts/launch_tasks.py plans/diag.tasks --gpus 0,1,2       # 诊断
+python scripts/launch_tasks.py plans/active.tasks --gpus 0,1,2,3   # 主表、消融、in-context 对照
 ```
 
-方法、协议、输出与判读见 [ACTIVE_PROMPT.md](ACTIVE_PROMPT.md)。大目标域请先编译 torchreid 的 Cython 排序（第 1 节），否则 MSMT17 的评测会非常慢。
+方法、协议、输出与判读见 [ACTIVE_PROMPT.md](ACTIVE_PROMPT.md)。
 
 ## 7. 自检
 
 ```bash
 python tests/test_active.py          # 主动模块：约束、候选、策略、端到端（CPU，约 1 分钟，无需数据和权重）
+python tests/test_trainer.py         # 多域 token 训练：经 HF Trainer 的单域 batch、梯度只到本域 token、checkpoint 重载
 python tests/test_models.py --tiny   # 模型前后向（随机小 ViT）
 python tests/test_selectors.py       # 锚点图选择器（合成数据）
 python tests/test_models.py --skip_vicp   # 真实主干权重（需第 4 节的权重）

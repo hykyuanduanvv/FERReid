@@ -27,7 +27,8 @@ class ActiveConfig:
     candidate_k: int = 10         # cross-camera neighbours per image proposed as pairs
     expand_ratio: float = 0.5     # cover: share of the budget for pairs touching annotated images
     prompt_mode: str = "append"   # append | replace
-    domain_tokens: int = 8        # append: new tokens per layer
+    domain_tokens: int = 0        # append: new tokens per layer (0: as many as the source-domain tokens, else 8)
+    token_init: str = "source_mean"  # append: "source_mean" of the base model's domain tokens (if any) | "random"
     init_std: float = 0.02
     steps: int = 300
     lr: float = 3e-4
@@ -38,10 +39,16 @@ class ActiveConfig:
 
 
 def base_prompt(model):
-    """The model's context-free prompt (1, L, V, D): VPT's learned prompt."""
-    if getattr(model, "prompt", None) is None:
+    """The shared prompt (1, L, V, D) of a VPT model (without its source-domain tokens)."""
+    if getattr(model, "prompt", None) is None or not hasattr(model, "default_prompt"):
         raise ValueError("the active module tunes a deep visual prompt: use a --model_type vpt checkpoint")
     return model.prompt.detach().float()
+
+
+def default_prompt(model):
+    """What the base model uses on an unseen domain: shared prompt (+ source-mean tokens)."""
+    base_prompt(model)  # type check
+    return model.default_prompt().detach().float()
 
 
 def _eval_round(cfg, r):
@@ -64,8 +71,16 @@ class ActiveRun:
         self.store = ConstraintStore()
         self.rng = np.random.RandomState(seed)
         self.base = base_prompt(model)
-        self.prompt = self.base
+        self.prompt = default_prompt(model)  # round 1 proposes pairs with the base model as deployed
         self.anchors_used = 0
+        src = model.domain_token_init()  # (1, L, m, D) or None
+        self.init_tokens = src if (cfg.token_init == "source_mean" and src is not None) else None
+        if cfg.token_init not in ("source_mean", "random"):
+            raise ValueError("--token_init must be source_mean or random")
+        self.n_tokens = cfg.domain_tokens or (src.size(2) if src is not None else 8)
+        if self.init_tokens is not None and self.n_tokens != src.size(2):
+            raise ValueError("--domain_tokens {} differs from the base model's {} source-domain tokens "
+                             "(use 0, or --token_init random)".format(cfg.domain_tokens, src.size(2)))
 
     # ---------------------------------------------------------------- one round of questions
 
@@ -141,11 +156,15 @@ class ActiveRun:
     def _tune_and_eval(self, r, info, clusters, cannot, evaluate):
         cfg = self.cfg
         t0 = time.time()
-        start = self.prompt if (cfg.warm_start and r > 1 and cfg.prompt_mode == "replace") else self.base
+        if cfg.prompt_mode == "replace":
+            start = self.prompt if (cfg.warm_start and r > 1) else default_prompt(self.model)
+        else:
+            start = self.base
         self.prompt, tinfo = tune_domain_prompt(
             self.model, self.split.pool, clusters, cannot, start, mode=cfg.prompt_mode,
-            domain_tokens=cfg.domain_tokens, init_std=cfg.init_std, steps=cfg.steps, lr=cfg.lr,
-            ids_per_batch=cfg.ids_per_batch, hn_prob=cfg.hn_prob, seed=self.seed + 7919 * r)
+            domain_tokens=self.n_tokens, init_std=cfg.init_std, steps=cfg.steps, lr=cfg.lr,
+            ids_per_batch=cfg.ids_per_batch, hn_prob=cfg.hn_prob, seed=self.seed + 7919 * r,
+            init_tokens=self.init_tokens)
         t_tune = time.time() - t0
         rank1 = mAP = float("nan")
         if evaluate:
@@ -164,5 +183,5 @@ def _fmt(v):
 
 @torch.no_grad()
 def evaluate_base(model, split):
-    """Round 0: the base model with its own prompt, no target labels."""
-    return split.evaluate(model, base_prompt(model) if getattr(model, "prompt", None) is not None else None)
+    """Round 0: the base model as deployed (shared prompt + source-mean tokens), no target labels."""
+    return split.evaluate(model, default_prompt(model))

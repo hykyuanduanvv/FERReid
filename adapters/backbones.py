@@ -144,7 +144,8 @@ def load_backbone(name):
 # checkpoint's saved training_args.bin so a checkpoint is always rebuilt with its own architecture.
 STRUCTURAL_FIELDS = ["model_type", "backbone", "train_backbone", "lora_layers", "lora_rank",
                      "num_vpt_tokens", "num_id_tokens", "num_icl_bs", "icl_feature", "llm_model",
-                     "bnneck", "ce_loss_weight", "label_smoothing", "num_train_ids"]
+                     "bnneck", "ce_loss_weight", "label_smoothing", "num_train_ids",
+                     "source_domain_tokens", "num_source_domains"]
 
 
 def apply_checkpoint_structure(args, checkpoint_dir):

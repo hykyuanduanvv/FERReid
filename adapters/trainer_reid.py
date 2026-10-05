@@ -9,17 +9,13 @@ import torch.nn.functional as F
 from torch.utils.data import DataLoader, Sampler
 
 from custom_trainer import CustomTrainer
-from adapters.config_reid import DOMAIN_CONFIG, NUM_SPLITS, NO_CAMERA_DOMAINS
+from adapters.config_reid import DOMAIN_CONFIG, NO_CAMERA_DOMAINS
 from adapters.reid_dataset import DomainPersonTrainDataset, ContextPairDataset, DomainReIDEvalDataset
 from adapters.context_selection import ContextSampler, needs_features
 from torchreid.metrics import evaluate_rank
 
 
-_CLS_MAP = {
-    'market1501': 'Market1501', 'msmt17': 'MSMT17',
-    'viper': 'VIPeR', 'grid': 'GRID', 'ilids': 'iLIDS',
-    'prid2011': 'PRID', 'cuhk02': 'CUHK02', 'cuhk03': 'CUHK03',
-}
+_CLS_MAP = {'market1501': 'Market1501', 'msmt17': 'MSMT17'}
 
 
 def _get_dataset_cls(name, cls_map=_CLS_MAP):
@@ -120,6 +116,15 @@ class DGReIDTrainer(CustomTrainer):
                              "domains / source_all_images of the checkpoint".format(
                                  args.num_train_ids, train_dataset.num_ids))
         args.num_train_ids = train_dataset.num_ids
+        if args.source_domain_tokens > 0:
+            if args.model_type != "vpt" or args.batch_domain_mode != "single":
+                raise ValueError("--source_domain_tokens needs --model_type vpt and --batch_domain_mode single")
+            n = len(train_dataset.domain_names)
+            if args.num_source_domains and args.num_source_domains != n:
+                raise ValueError("--num_source_domains={} but {} source domains are loaded".format(args.num_source_domains, n))
+            args.num_source_domains = n
+            print("multi-domain tokens: {} per layer for each of {}".format(args.source_domain_tokens,
+                                                                           train_dataset.domain_names))
 
         from adapters.baseline_model import build_model
         model = build_model(args)
@@ -213,8 +218,7 @@ class DGReIDTrainer(CustomTrainer):
         key = (name, split_id, max_ids)
         if key not in self._dataset_cache:
             cls = _get_dataset_cls(name)
-            kwargs = {"split_id": split_id} if name in NUM_SPLITS else {}
-            ds = cls(root=self._data_root, verbose=False, **kwargs)
+            ds = cls(root=self._data_root, verbose=False)
             pool_paths = set(p for p, *_ in ds.train)
             eval_paths = set(p for p, *_ in ds.query + ds.gallery)
             assert not (pool_paths & eval_paths), (
@@ -283,8 +287,7 @@ class DGReIDTrainer(CustomTrainer):
         rows = []
         with _RNGGuard():
             for name in domains:
-                n_splits = min(num_splits or NUM_SPLITS.get(name, 1), NUM_SPLITS.get(name, 1))
-                for split_id in range(n_splits):
+                for split_id in range(1):  # every domain has one fixed split
                     try:
                         ds, sampler = self._load_split(name, split_id, max_ids)
                     except Exception as e:

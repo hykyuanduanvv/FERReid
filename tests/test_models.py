@@ -68,6 +68,7 @@ def main():
         with torch.no_grad():
             f = m.eval()(torch.randn(2, 3, 256, 128), prompts=P)["features"]
         assert f.shape[0] == 2
+        check_domain_tokens()
         print("PASS")
         return
     m, bad = check("plain vit (historical defaults)", model_type="plain")
@@ -85,6 +86,31 @@ def main():
         m, bad = check("vicp dinov2 + BNNeck/CE, K=4", K=4, model_type="vicp", backbone="dinov2_b14",
                        ce_loss_weight=1.0, bnneck=True)
     print("PASS")
+
+
+def check_domain_tokens():
+    """--source_domain_tokens: a batch of domain d trains the shared prompt and d's tokens only; without a
+    domain (evaluation) the model appends the mean of the source tokens."""
+    torch.manual_seed(0)
+    args = make_args(model_type="vpt", backbone="tiny_test", source_domain_tokens=3, num_source_domains=3,
+                     num_vpt_tokens=4, lora_layers=2, lora_rank=8, ot_loss_weight=0)
+    m = build(args)
+    m.train()
+    out = m(torch.randn(3, 2, 3, 256, 128), torch.tensor([1, 4, 7]), domains=torch.tensor([2, 2, 2]))
+    out["loss"].backward()
+    g = m.domain_prompts.grad
+    assert g[2].abs().sum() > 0 and g[0].abs().sum() == 0 and g[1].abs().sum() == 0
+    assert m.prompt.grad.abs().sum() > 0 and tuple(out["prompts"].shape) == (1, m.num_layers, 7, m.hidden_size)
+    try:
+        m(torch.randn(2, 2, 3, 256, 128), torch.tensor([1, 4]), domains=torch.tensor([0, 1]))
+        raise AssertionError("a mixed-domain batch must be rejected")
+    except ValueError:
+        pass
+    m.eval()
+    expect = torch.cat([m.prompt, m.domain_prompts.mean(0, keepdim=True)], dim=2)
+    assert torch.equal(m.default_prompt(), expect) and torch.equal(m.domain_token_init(), expect[:, :, 4:].detach())
+    print("{:<34} grads: shared prompt + the batch domain's tokens only; eval appends the source mean".format(
+        "vpt tiny + multi-domain tokens"))
 
 
 if __name__ == "__main__":

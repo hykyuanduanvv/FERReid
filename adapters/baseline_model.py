@@ -65,10 +65,15 @@ class PlainReIDModel(nn.Module):
 
 
 class VPTReIDModel(nn.Module):
-    """One learnable deep visual prompt (1, L, V, D) shared by every image, zero-initialised.
+    """A learnable deep visual prompt (1, L, V, D) shared by every image, zero-initialised.
 
-    forward(x, prompts=P) uses P instead of the learned prompt; P may carry more tokens per layer than
-    --num_vpt_tokens (base prompt + appended domain tokens)."""
+    --source_domain_tokens m > 0 (multi-domain tokens): every source domain d also has m tokens per layer
+    (domain_prompts[d], (L, m, D)); a training batch of domain d (batches are single-domain) uses
+    [shared prompt | domain_prompts[d]]. Without a domain (validation, evaluation) the model uses
+    [shared prompt | mean over the source domains] -- the initialisation of a new target's tokens.
+
+    forward(x, prompts=P) uses P instead (the active module's tuned prompt); P may carry any number of tokens
+    per layer."""
 
     def __init__(self, args):
         super().__init__()
@@ -78,12 +83,40 @@ class VPTReIDModel(nn.Module):
         self.num_layers = len(self.encoder.blocks)
         self.hidden_size = self.encoder.embed_dim
         self.prompt = nn.Parameter(torch.zeros(1, self.num_layers, args.num_vpt_tokens, self.hidden_size))
+        m, n_dom = getattr(args, "source_domain_tokens", 0), getattr(args, "num_source_domains", 0)
+        self.domain_prompts = None
+        if m > 0:
+            if n_dom < 1:
+                raise ValueError("--source_domain_tokens needs num_source_domains (set by the trainer)")
+            self.domain_prompts = nn.Parameter(torch.randn(n_dom, self.num_layers, m, self.hidden_size) * 0.02)
         self.reid_head = build_head(args, self.hidden_size)
+
+    def domain_token_init(self):
+        """Mean of the source-domain tokens (1, L, m, D): the starting point of a new domain's tokens; None
+        without multi-domain tokens."""
+        if self.domain_prompts is None:
+            return None
+        return self.domain_prompts.detach().float().mean(0, keepdim=True)
+
+    def default_prompt(self, domains=None):
+        """The prompt used when none is given: the shared prompt, followed by the batch domain's tokens
+        (training) or the source mean (no domain)."""
+        if self.domain_prompts is None:
+            return self.prompt
+        if domains is None:
+            tokens = self.domain_prompts.mean(0, keepdim=True)
+        else:
+            d = domains.reshape(-1)
+            if not bool((d == d[0]).all()):
+                raise ValueError("--source_domain_tokens needs single-domain batches (--batch_domain_mode single)")
+            tokens = self.domain_prompts[int(d[0])].unsqueeze(0)
+        return torch.cat([self.prompt, tokens.to(self.prompt.dtype)], dim=2)
 
     def forward(self, image_crops, labels=None, prompts=None, domains=None):
         image_crops, labels = _flatten(image_crops, labels, self.encoder.patch_embed.proj.weight.dtype)
-        raw, patch = insert_deep_prompts(self.encoder, image_crops, self.prompt if prompts is None else prompts,
-                                         self.num_layers)
+        if prompts is None:
+            prompts = self.default_prompt(domains if self.training else None)
+        raw, patch = insert_deep_prompts(self.encoder, image_crops, prompts, self.num_layers)
         x = F.normalize(raw, dim=-1)
         zero = torch.tensor(0.0, device=x.device)
         id_loss = ot_loss = zero
@@ -96,8 +129,7 @@ class VPTReIDModel(nn.Module):
         features, ce_loss = _head_outputs(self, raw, labels, zero)
         loss = id_loss + ot_loss * self.args.ot_loss_weight + ce_loss * getattr(self.args, "ce_loss_weight", 0.0)
         return {"loss": loss, "id_loss": id_loss, "ce_loss": ce_loss, "ot_loss": ot_loss, "icl_loss": zero,
-                "features": features, "prompts": self.prompt if prompts is None else prompts,
-                "std": x.std(dim=0).mean()}
+                "features": features, "prompts": prompts, "std": x.std(dim=0).mean()}
 
 
 def build_model(args):

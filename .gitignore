@@ -48,3 +48,4 @@ Thumbs.db
 # Generated local tuning decisions (archive reviewed snapshots under results/)
 plans/chosen.sh
 plans/final.sh
+plans/active_chosen.sh

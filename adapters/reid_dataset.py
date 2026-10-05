@@ -30,7 +30,8 @@ EVAL_TRANSFORM = PEDESTRIAN_EVAL_TRANSFORM
 
 def _set_domain_index(ds, sample_domain_names):
     """ds.domain_names (sorted training domains, i.e. what the batch sampler groups by) and
-    ds.sample_domain[i] = index of sample i's domain (returned per sample as "domains"; the models ignore it)."""
+    ds.sample_domain[i] = index of sample i's domain (returned per sample as "domains"; read by the VPT
+    multi-domain tokens to pick the batch domain's tokens)."""
     ds.domain_names = sorted(set(sample_domain_names))
     index = {d: i for i, d in enumerate(ds.domain_names)}
     ds.sample_domain = [index[d] for d in sample_domain_names]

@@ -2,14 +2,22 @@
 
 ## 1. 设定
 
-一个在源域训练好的 ReID 模型（基础模型，默认 DINOv2 VPT）部署到新的摄像头网络：
+Market-1501 / MSMT17 / CUHK03 / CUHK-SYSU 留一，三折：Market、MSMT17、CUHK03 轮流作目标域，其余三个的 train 划分作源域（CUHK-SYSU 只作源域）。源域与目标域完全分开。
 
-- 目标域候选池（train 划分）**没有身份标签**，**有摄像头标签**（监控数据自带）；
+在目标域上：
+
+- 候选池（train 划分）**没有身份标签**，**有摄像头标签**（监控数据自带）；
 - 标注员可以回答"这两张图是不是同一个人"（pair 查询，是/否）；
-- 基础模型参数**全部冻结**，每个目标域只学一组 prompt 参数，学完后冻结、插入，成为该域的常参数；
+- 基础模型参数**全部冻结**，每个目标域只学一组追加 token，学完后冻结、插入，成为该域的常参数；
 - 成本 = 人工回答的次数（另报告最终覆盖的身份数）。
 
-## 2. 每一轮做什么
+## 2. 基础模型：多域 token
+
+`--model_type vpt --source_domain_tokens 8`：共享 prompt（每层 32 个 token）之外，每个源域还有自己的 8 个 token/层。训练 batch 只来自一个源域（`--batch_domain_mode single`），该 batch 用"共享 prompt + 本域 token"；共享 prompt 与 LoRA 每步都更新，各域 token 只在本域的 batch 里更新。这样共享部分被迫学跨域通用的身份特征，域特有的外观交给各域 token。
+
+部署到目标域时，新域的 8 个 token 初始化为三个源域 token 的**均值**（只是对源域参数取平均，不用任何目标数据）；第 0 轮（不标注）的基础模型就是"共享 prompt + 源域均值 token"。消融：`base_vpt_*`（只有共享 prompt，新 token 从 N(0, 0.02) 开始）与 `--token_init random`。
+
+## 3. 每一轮做什么
 
 | 步骤 | 内容 | 代码 |
 |---|---|---|
@@ -24,7 +32,7 @@
 
 **判定阈值 tau**：第一轮用无标签规则（随机图对相似度的 99 分位数，随机对几乎都是不同的人）；之后用已回答的 pair 在当前特征上拟合（最大化平衡准确率）。
 
-## 3. 选择策略
+## 4. 选择策略
 
 | 名称 | 做法 | 角色 |
 |---|---|---|
@@ -36,49 +44,50 @@
 | `anchor:<选择器>` | ID 级标注协议：选择器挑锚点图，标注员在另一个摄像头里找到这个人（`<选择器>` 为 `adapters/context_selection.IMAGE_SELECTORS` 中的方法，如 `random`、`facility_camera`） | 与 in-context 设定相同的标注方式；成本单位是"找人"而非"是/否" |
 | `oracle_all` | 候选池全部身份都标注 | 上界 |
 
-## 4. 域 prompt
+## 5. 域 prompt
 
-- `--prompt_mode append`（默认）：基础 prompt（每层 V 个 token）不动，每层追加 `--domain_tokens` 个新 token 并训练，得到 (1, L, V+m, D)。换域只换这 m 个 token。
-- `--prompt_mode replace`：训练基础 prompt 的一个副本（即之前实验中的 "tuned prompt"）。
+- `--prompt_mode append`（默认）：共享 prompt（每层 V 个 token）不动，每层追加 m 个新 token 并训练，得到 (1, L, V+m, D)。m 默认等于基础模型的源域 token 数，初始化为源域 token 均值（`--token_init source_mean`）；基础模型没有域 token 时 m = 8、随机初始化。换域只换这 m 个 token。
+- `--prompt_mode replace`：训练"共享 prompt + 均值 token"的一个副本。
 
-每一步取 `--ids_per_batch` 个至少两张图的身份簇，每簇两张；以 `--hn_prob` 的概率把该簇的一个 cannot-link 簇一起放进 batch（人工确认的困难负样本）。默认每轮从基础 prompt 重新训练 `--steps 300` 步（lr 3e-4）。
+每一步取 `--ids_per_batch` 个至少两张图的身份簇，每簇两张；以 `--hn_prob` 的概率把该簇的一个 cannot-link 簇一起放进 batch（人工确认的困难负样本）。默认每轮从初始化重新训练 `--steps 300` 步（lr 3e-4）；这两个值由 `plans/tune.tasks` 在 CUHK-SYSU 上重选（Market + MSMT17 训练的基础模型，三个目标域都不参与评测），写入 `plans/active_chosen.sh`。
 
-## 5. 运行
+## 6. 运行
 
 ```bash
-python scripts/launch_tasks.py plans/diag.tasks --gpus 0,1,2,3
-python scripts/launch_tasks.py plans/active_small.tasks --gpus 0,1,2,3
-python scripts/launch_tasks.py plans/active_large.tasks --gpus 0,1,2
+python scripts/launch_tasks.py plans/base.tasks --gpus 0,1,2,3     # 三折基础模型
+python scripts/launch_tasks.py plans/tune.tasks --gpus 0,1,2,3     # 主动模块 lr / 步数（CUHK-SYSU）
+python scripts/launch_tasks.py plans/diag.tasks --gpus 0,1,2       # 诊断
+python scripts/launch_tasks.py plans/active.tasks --gpus 0,1,2,3   # 主表、消融、in-context 对照
 ```
 
 单独运行：
 
 ```bash
-python scripts/eval_active.py --output_dir experiments/act_try --checkpoint <VPT checkpoint> \
-    --domains viper --eval_splits 1 --n_seeds 1 --strategies cover,random --rounds 2 --budget 25 \
-    --fp16 True --report_to none
+python scripts/eval_active.py --output_dir experiments/act_try --checkpoint experiments/base_md_cuhk03/checkpoint-12000 \
+    --domains cuhk03 --n_seeds 1 --strategies cover,random --rounds 2 --budget 200 --fp16 True --report_to none
 ```
 
-小目标域图像缓存在显存；超过 `--cache_max`（默认 6000 张）的集合从磁盘流式读取，只有被标注的图像会解码进内存。
+超过 `--cache_max`（默认 6000 张）的图像集合从磁盘流式读取（Market、MSMT17 的候选池与 gallery），只有被标注的图像会解码进内存。
 
-## 6. 输出
+## 7. 输出
 
 `experiments/<任务名>/`：
 
-- `active.csv`：每个 domain / split / strategy / seed / round 一行。主要列：`n_queries`（是/否回答数）、`n_anchors`（找人次数）、`n_pos` / `n_neg` / `n_inferred`、`n_clusters`（≥2 张图的簇）、`true_ids`（簇覆盖的真实身份数，仅用于报告）、`purity`（簇纯度）、`split_ids`（同一人被分成多个簇的数目）、`tau`、`round_pos_rate`（本轮回答为"是"的比例）、`mAP`、`rank1`、prompt 训练损失与耗时。
-- `summary.csv`：按 domain / strategy / round 对 split × seed 取平均。
+- `active.csv`：每个 domain / strategy / seed / round 一行。主要列：`n_queries`（是/否回答数）、`n_anchors`（找人次数）、`n_pos` / `n_neg` / `n_inferred`、`n_clusters`（≥2 张图的簇）、`true_ids`（簇覆盖的真实身份数，仅用于报告）、`purity`（簇纯度）、`split_ids`（同一人被分成多个簇的数目）、`tau`、`round_pos_rate`（本轮回答为"是"的比例）、`mAP`、`rank1`、prompt 训练损失与耗时。
+- `summary.csv`：按 domain / strategy / round 对 seed 取平均。
 - `prompts/*.pt`：每次运行最终的域 prompt（`{"prompt": (1, L, V', D), ...}`），即冻结后插入的常参数。
 
 诊断（`plans/diag.tasks`）：`diag_retrieval.json`（hit@k、互为近邻精度、候选 pair 正样本率、按相似度十分位的正样本率、AUC）和 `verify_pairs.csv`（供 `scripts/diag_vlm.py` 比较多模态大模型与 ReID 模型的同人判断能力）。
 
-## 7. 判读
+## 8. 判读
 
 1. **诊断先行**：`hit@10` 太低（例如 < 0.3）说明第一轮提出的 pair 大多是负对，`cover` 应提高 `--candidate_k` 或降低 `--expand_ratio`；十分位正样本率若从 0 陡升到 1、中间没有过渡带，说明不确定区间很窄，`uncertain` 与 `balanced` 会接近。
-2. **主表**：同一预算（`n_queries`）下各策略的 mAP，相对 `base`（第 0 轮）与 `random` 的提升，距 `oracle_all` 的差距；`true_ids` 说明同样的回答数覆盖了多少人。
-3. **成本口径**：pair 策略与 `anchor:*` 的成本单位不同。报告时两种都列，并说明一次"找人"通常比一次"是/否"贵。
-4. **噪声尺度**：以 `random` 在不同 seed 间的标准差为尺度，小于它的差别不下结论。
+2. **主表**：三折各自同一预算（`n_queries`）下各策略的 mAP，相对 `base`（第 0 轮）与 `random` 的提升，距 `oracle_all` 的差距；`true_ids` 说明同样的回答数覆盖了多少人。
+3. **多域 token 是否有用**：`act_*` 与 `abl_nomd_*`（同策略、同预算）比较第 0 轮和最后一轮；`abl_tokinit_random` 区分"训练方式"和"均值初始化"各自的贡献。
+4. **成本口径**：pair 策略与 `anchor:*` 的成本单位不同。报告时两种都列，并说明一次"找人"通常比一次"是/否"贵。
+5. **噪声尺度**：以 `random` 在不同 seed 间的标准差为尺度，小于它的差别不下结论。
 
-## 8. 已知限制与后续
+## 9. 已知限制与后续
 
 - `anchor:*` 跨轮次可能再次选中已标注的人，形成两个未合并的簇（`split_ids` 记录），这在真实 ID 级标注中不会发生，会略低估 anchor 协议。
 - 适配方式的对照（同样标注下全参微调、LoRA、只调 BN）尚未实现；需要时在 `prompt_tuning.py` 旁加一个"可训练参数集合"的选项。

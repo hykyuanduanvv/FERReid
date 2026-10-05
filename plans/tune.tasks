@@ -1,0 +1,11 @@
+# Hyper-parameters of the active module (lr / steps of the domain tokens), chosen without any test target:
+# a base model on Market + MSMT17 (train splits, multi-domain tokens) is adapted to CUHK-SYSU, which is never a
+# target of the three folds. Pick the best (cover, last round mAP) and write it to plans/active_chosen.sh, e.g.
+#   ACT_TUNE="--lr 1e-3 --steps 300"
+base_tune | train base_tune $STEPS $MD --source_domains market1501,msmt17 --source_all_images False --val_domains cuhksysu --eval_strategy steps --eval_steps 2000 $LOSS_ARGS $SCHEDULE
+@wait
+tune_lr3e-4_s300 | active tune_lr3e-4_s300 $(ckpt base_tune) --domains cuhksysu --strategies cover,random --n_seeds 2 $ACT --lr 3e-4 --steps 300 --oracle_all False
+tune_lr1e-3_s300 | active tune_lr1e-3_s300 $(ckpt base_tune) --domains cuhksysu --strategies cover,random --n_seeds 2 $ACT --lr 1e-3 --steps 300 --oracle_all False
+tune_lr3e-3_s300 | active tune_lr3e-3_s300 $(ckpt base_tune) --domains cuhksysu --strategies cover,random --n_seeds 2 $ACT --lr 3e-3 --steps 300 --oracle_all False
+tune_lr1e-3_s600 | active tune_lr1e-3_s600 $(ckpt base_tune) --domains cuhksysu --strategies cover,random --n_seeds 2 $ACT --lr 1e-3 --steps 600 --oracle_all False
+tune_lr3e-3_s600 | active tune_lr3e-3_s600 $(ckpt base_tune) --domains cuhksysu --strategies cover,random --n_seeds 2 $ACT --lr 3e-3 --steps 600 --oracle_all False

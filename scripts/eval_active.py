@@ -1,21 +1,21 @@
-"""Active pair querying + target-domain prompt: strategies x target domains x splits x seeds.
+"""Active pair querying + target-domain prompt: strategies x target domains x seeds.
 
-For every target split: round 0 = the base model (no target labels); then, for each strategy and seed,
+For every target domain: round 0 = the base model (no target labels); then, for each strategy and seed,
 `rounds` rounds of `budget` queries, a domain prompt tuned after every round, retrieval evaluated on the
-split's query / gallery. Optionally the full-annotation upper bound (every pool identity).
+target's query / gallery. Optionally the full-annotation upper bound (every pool identity).
 
 Outputs (output_dir):
-  active.csv   one row per domain / split / strategy / seed / round: queries, anchors, positive / negative /
+  active.csv   one row per domain / strategy / seed / round: queries, anchors, positive / negative /
                inferred answers, clusters, true identities covered, cluster purity, threshold, Rank-1, mAP
-  summary.csv  mean / std over splits x seeds per domain / strategy / round
+  summary.csv  mean / std over seeds per domain / strategy / round
   prompts/     the final domain prompt of every run (--save_prompts True): a constant per-domain parameter
 
-Small targets (VIPeR / GRID / i-LIDS) are cached on the device; large ones (Market-1501, MSMT17, CUHK03 as
-targets) are streamed from disk (--cache_max).
+Image sets larger than --cache_max are streamed from disk (Market / MSMT17 pools and galleries); smaller ones
+(e.g. CUHK03 query) are cached on the device.
 
-  python scripts/eval_active.py --output_dir experiments/act_small --checkpoint experiments/base_vpt/checkpoint-12000 \
-      --domains viper,grid,ilids --eval_splits 3 --strategies cover,uncertain,balanced,confident,random,anchor:random \
-      --rounds 4 --budget 25 --n_seeds 3 --fp16 True --report_to none
+  python scripts/eval_active.py --output_dir experiments/act_cuhk03 --checkpoint experiments/base_vpt_to_cuhk03/checkpoint-12000 \
+      --domains cuhk03 --strategies cover,uncertain,balanced,random,anchor:random \
+      --rounds 5 --budget 200 --n_seeds 2 --fp16 True --report_to none
 """
 import os
 import sys
@@ -34,23 +34,24 @@ from adapters.args_reid import ReIDTrainingArguments
 from adapters.active.image_store import TargetSplit
 from adapters.active.loop import ActiveConfig, ActiveRun, evaluate_base
 from adapters.baseline_model import load_checkpoint_model
-from adapters.config_reid import DOMAIN_CONFIG, NUM_SPLITS, NO_CAMERA_DOMAINS
+from adapters.config_reid import DOMAIN_CONFIG, NO_CAMERA_DOMAINS
 from adapters.trainer_reid import _get_dataset_cls
 
 
 @dataclass
 class ActiveArguments:
     checkpoint: str = field(default="")
-    domains: str = field(default="viper,grid,ilids")
+    domains: str = field(default="cuhk03")  # the fold's target domain (comma-separated: several, same model)
     strategies: str = field(default="cover,uncertain,balanced,confident,random,anchor:random")
     n_seeds: int = field(default=3)
     base_seed: int = field(default=0)
-    rounds: int = field(default=4)
-    budget: int = field(default=25)
+    rounds: int = field(default=5)
+    budget: int = field(default=200)
     candidate_k: int = field(default=10)
     expand_ratio: float = field(default=0.5)
     prompt_mode: str = field(default="append")
-    domain_tokens: int = field(default=8)
+    domain_tokens: int = field(default=0)       # 0: as many as the base model's source-domain tokens (else 8)
+    token_init: str = field(default="source_mean")  # source_mean | random
     init_std: float = field(default=0.02)
     steps: int = field(default=300)
     lr: float = field(default=3e-4)
@@ -58,17 +59,15 @@ class ActiveArguments:
     hn_prob: float = field(default=0.5)
     warm_start: bool = field(default=False)
     eval_rounds: str = field(default="all")
-    oracle_all: bool = field(default=True)      # also the full-annotation upper bound (one run per split)
+    oracle_all: bool = field(default=True)      # also the full-annotation upper bound (one run per target)
     save_prompts: bool = field(default=True)
     cache_max: int = field(default=6000)        # sets larger than this are streamed from disk
 
 
-def load_split(name, split_id, device, cache_max, num_workers):
-    kwargs = {"split_id": split_id} if name in NUM_SPLITS else {}
-    ds = _get_dataset_cls(name)(root=DOMAIN_CONFIG["data_root"], verbose=False, **kwargs)
+def load_split(name, device, cache_max, num_workers):
+    ds = _get_dataset_cls(name)(root=DOMAIN_CONFIG["data_root"], verbose=False)
     pool = {p for p, *_ in ds.train}
-    assert not (pool & {p for p, *_ in ds.query + ds.gallery}), "{} split {}: pool overlaps query/gallery".format(
-        name, split_id)
+    assert not (pool & {p for p, *_ in ds.query + ds.gallery}), "{}: pool overlaps query/gallery".format(name)
     return TargetSplit(ds, name, device, has_cameras=name not in NO_CAMERA_DOMAINS, cache_max=cache_max,
                        num_workers=num_workers)
 
@@ -119,37 +118,36 @@ def main():
         write_csv(os.path.join(args.output_dir, "summary.csv"), summarize(rows))
 
     for name in a.domains.split(","):
-        for split_id in range(min(args.eval_splits, NUM_SPLITS.get(name, 1))):
-            split = load_split(name, split_id, device, a.cache_max, args.eval_num_workers)
-            print("[{:6.0f}s] {} split {}: pool {} images ({}), query {}, gallery {}".format(
-                time.time() - t0, name, split_id, len(split.pool), "cached" if split.pool.cached else "streamed",
-                len(split.query), len(split.gallery)), flush=True)
-            base = dict(domain=name, split=split_id)
-            r1, mAP = evaluate_base(model, split)
-            rows.append(dict(base, strategy="base", seed=0, round=0, n_queries=0, n_anchors=0, rank1=r1, mAP=mAP))
-            print("  base: mAP {:.2f} R1 {:.2f}".format(mAP, r1), flush=True)
-            if a.oracle_all:
-                run = ActiveRun(model, split, "random", cfg, seed=a.base_seed + 1000 * split_id)
-                rows.append(dict(base, strategy="oracle_all", seed=0, **run.run(oracle_all=True)[0]))
-                print("  oracle_all: mAP {:.2f} R1 {:.2f}".format(rows[-1]["mAP"], rows[-1]["rank1"]), flush=True)
-            for seed in range(a.n_seeds):
-                s = a.base_seed + 1000 * split_id + seed  # the same seed for every strategy
-                for strategy in strategies:
-                    run = ActiveRun(model, split, strategy, cfg, seed=s)
-                    for row in run.run():
-                        rows.append(dict(base, strategy=strategy, seed=seed, **row))
-                    if a.save_prompts:
-                        torch.save({"prompt": run.prompt.cpu(), "domain": name, "split": split_id,
-                                    "strategy": strategy, "seed": seed, "checkpoint": a.checkpoint,
-                                    "config": cfg.__dict__, "n_queries": run.store.stats()["n_queries"],
-                                    "n_anchors": run.anchors_used},
-                                   os.path.join(args.output_dir, "prompts", "{}_s{}_{}_seed{}.pt".format(
-                                       name, split_id, strategy.replace(":", "-"), seed)))
-                    save()
-            print("[{:6.0f}s] {} split {} done".format(time.time() - t0, name, split_id), flush=True)
-            del split
-            if device == "cuda":
-                torch.cuda.empty_cache()
+        split_id = 0  # one fixed split per dataset
+        split = load_split(name, device, a.cache_max, args.eval_num_workers)
+        print("[{:6.0f}s] {}: pool {} images ({}), query {}, gallery {}".format(
+            time.time() - t0, name, len(split.pool), "cached" if split.pool.cached else "streamed",
+            len(split.query), len(split.gallery)), flush=True)
+        base = dict(domain=name, split=split_id)
+        r1, mAP = evaluate_base(model, split)
+        rows.append(dict(base, strategy="base", seed=0, round=0, n_queries=0, n_anchors=0, rank1=r1, mAP=mAP))
+        print("  base: mAP {:.2f} R1 {:.2f}".format(mAP, r1), flush=True)
+        if a.oracle_all:
+            run = ActiveRun(model, split, "random", cfg, seed=a.base_seed)
+            rows.append(dict(base, strategy="oracle_all", seed=0, **run.run(oracle_all=True)[0]))
+            print("  oracle_all: mAP {:.2f} R1 {:.2f}".format(rows[-1]["mAP"], rows[-1]["rank1"]), flush=True)
+        for seed in range(a.n_seeds):
+            s = a.base_seed + seed  # the same seed for every strategy
+            for strategy in strategies:
+                run = ActiveRun(model, split, strategy, cfg, seed=s)
+                for row in run.run():
+                    rows.append(dict(base, strategy=strategy, seed=seed, **row))
+                if a.save_prompts:
+                    torch.save({"prompt": run.prompt.cpu(), "domain": name, "strategy": strategy, "seed": seed,
+                                "checkpoint": a.checkpoint, "config": cfg.__dict__,
+                                "n_queries": run.store.stats()["n_queries"], "n_anchors": run.anchors_used},
+                               os.path.join(args.output_dir, "prompts", "{}_{}_seed{}.pt".format(
+                                   name, strategy.replace(":", "-"), seed)))
+                save()
+        print("[{:6.0f}s] {} done".format(time.time() - t0, name), flush=True)
+        del split
+        if device == "cuda":
+            torch.cuda.empty_cache()
     save()
 
     print("\n{:<10} {:<20} {:>5} {:>8} {:>8} {:>8} {:>7} {:>7} {:>6}".format(

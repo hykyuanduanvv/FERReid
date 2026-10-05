@@ -1,6 +1,6 @@
 """Diagnostics before running the active module: can the base model propose useful pairs?
 
-Per target split, with the base model's features of the unlabeled pool (labels only used to score):
+Per target domain, with the base model's features of the unlabeled pool (labels only used to score):
   hit@k          share of pool images (whose person appears in another camera) with a same-person image
                  among their k nearest images from other cameras (k = 1, 5, 10, 20)
   mutual_prec    share of mutual cross-camera nearest neighbours that are one person, and their coverage
@@ -10,8 +10,8 @@ Per target split, with the base model's features of the unlabeled pool (labels o
                  the label-free threshold tau (99th percentile of random-pair similarity)
   verify_pairs.csv  a balanced sample of proposed pairs (paths, similarity, label) for scripts/diag_vlm.py
 
-  python scripts/diag_retrieval.py --output_dir experiments/diag_base --checkpoint experiments/base_vpt/checkpoint-12000 \
-      --domains viper,grid,ilids,market1501 --eval_splits 3 --fp16 True --report_to none
+  python scripts/diag_retrieval.py --output_dir experiments/diag_cuhk03 --checkpoint experiments/base_vpt_to_cuhk03/checkpoint-12000 \
+      --domains cuhk03 --fp16 True --report_to none
 """
 import os
 import sys
@@ -29,16 +29,16 @@ from adapters.args_reid import ReIDTrainingArguments
 from adapters.active.candidates import candidate_pairs, random_pair_quantile
 from adapters.active.image_store import ImageStore, features
 from adapters.baseline_model import load_checkpoint_model
-from adapters.config_reid import DOMAIN_CONFIG, NUM_SPLITS, NO_CAMERA_DOMAINS
+from adapters.config_reid import DOMAIN_CONFIG, NO_CAMERA_DOMAINS
 from adapters.trainer_reid import _get_dataset_cls
 
 
 @dataclass
 class DiagArguments:
     checkpoint: str = field(default="")
-    domains: str = field(default="viper,grid,ilids")
+    domains: str = field(default="cuhk03")
     candidate_k: int = field(default=10)
-    n_verify_pairs: int = field(default=200)   # per class and split, written to verify_pairs.csv
+    n_verify_pairs: int = field(default=200)   # per class and domain, written to verify_pairs.csv
     cache_max: int = field(default=6000)
 
 
@@ -87,9 +87,8 @@ def main():
     results, verify = [], []
     for name in a.domains.split(","):
         has_cameras = name not in NO_CAMERA_DOMAINS
-        for split_id in range(min(args.eval_splits, NUM_SPLITS.get(name, 1))):
-            kwargs = {"split_id": split_id} if name in NUM_SPLITS else {}
-            ds = _get_dataset_cls(name)(root=DOMAIN_CONFIG["data_root"], verbose=False, **kwargs)
+        for split_id in range(1):  # one fixed split per dataset
+            ds = _get_dataset_cls(name)(root=DOMAIN_CONFIG["data_root"], verbose=False)
             paths = [x[0] for x in ds.train]
             pids = np.array([x[1] for x in ds.train]); cams = np.array([x[2] for x in ds.train])
             feats = features(model, ImageStore(paths, device, cache_max=a.cache_max,
@@ -113,9 +112,9 @@ def main():
             dec = np.clip(np.searchsorted(edges, cand["sim"], side="right") - 1, 0, 9)
             res["calibration"] = [float(lab[dec == d].mean()) if (dec == d).any() else float("nan") for d in range(10)]
             results.append(res)
-            print("{} split {}: hit@1/5/10/20 = {} | candidates {} pos {:.2f} | mutual prec {:.2f} cov {:.2f} | "
+            print("{}: hit@1/5/10/20 = {} | candidates {} pos {:.2f} | mutual prec {:.2f} cov {:.2f} | "
                   "AUC {:.3f} acc@tau {:.3f}".format(
-                      name, split_id, " / ".join("{:.2f}".format(hits[k]) for k in hits), res["n_candidates"],
+                      name, " / ".join("{:.2f}".format(hits[k]) for k in hits), res["n_candidates"],
                       res["cand_pos_rate"], res["mutual_prec"], res["mutual_coverage"], res["auc"], res["acc_tau"]))
             print("   positive rate per similarity decile:", " ".join("{:.2f}".format(c) for c in res["calibration"]))
             rng = np.random.RandomState(split_id)

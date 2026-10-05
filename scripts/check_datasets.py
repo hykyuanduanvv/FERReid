@@ -1,14 +1,11 @@
-"""Load every configured domain the same way training/evaluation does and check it.
+"""Load every dataset of the leave-one-out protocol the way training / evaluation does and check it.
 
-For each domain (and every split of the small target sets): #IDs / #images / #cams
-of train (context pool for val/target) / query / gallery vs reference counts, number
-of identities eligible as context (seen by >= 2 cameras), the share of pool images a
-label-free annotator could pair (another image of the person from another camera; any
-other image in NO_CAMERA_DOMAINS), and a path-based leak check between the context pool
-and query/gallery.
+Per dataset: #IDs / #images / #cams of train (source data; the unlabeled pool when it is the target) /
+query / gallery vs reference counts, identities seen by >= 2 cameras, the share of pool images a
+cross-camera pair can be formed for (any other image of the person in NO_CAMERA_DOMAINS), and a path-based
+leak check between the train split and query / gallery.
 
-  python scripts/check_datasets.py                # historical config (Market+MSMT / CUHK03 / small targets)
-  python scripts/check_datasets.py --protocol 2   # Protocol-2: Market, MSMT17, CUHK-SYSU, CUHK03
+  python scripts/check_datasets.py                       # Market1501, MSMT17, CUHK03, CUHK-SYSU
   python scripts/check_datasets.py --domains cuhksysu
 """
 import argparse
@@ -18,7 +15,7 @@ import warnings
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # project root
 warnings.filterwarnings("ignore")
 
-from adapters.config_reid import DOMAIN_CONFIG, NUM_SPLITS, NO_CAMERA_DOMAINS, PROTOCOL2_DOMAINS
+from adapters.config_reid import DOMAIN_CONFIG, DATASETS, NO_CAMERA_DOMAINS
 from adapters.context_selection import CandidatePool
 from adapters.trainer_reid import _get_dataset_cls
 
@@ -27,12 +24,8 @@ REFERENCE = {
     "market1501": {"train": (751, 12936), "query": (750, 3368), "gallery": (751, 15913)},
     "msmt17":     {"train": (1041, 30248), "query": (3060, 11659), "gallery": (3060, 82161)},
     "cuhk03":     {"train": (767, 7368), "query": (700, 1400), "gallery": (700, 5328)},  # CUHK03-NP labeled
-    # CUHK-SYSU (ReID crops, Protocol-2): sizes reported by DG-ReID papers, to be confirmed on the data
+    # CUHK-SYSU (ReID crops): sizes reported by DG-ReID papers, to be confirmed on the data
     "cuhksysu":   {"train": (5532, 15088), "query": (2900, 2900), "gallery": (2900, 5447)},
-    "viper":      {"train": (316, 632), "query": (316, 316), "gallery": (316, 316)},
-    "grid":       {"train": (125, 250), "query": (125, 125), "gallery": (126, 900)},
-    "ilids":      {"train": (59, None), "query": (60, 60), "gallery": (60, 60)},
-    "prid2011":   {"train": (100, 200), "query": (100, 100), "gallery": (649, 649)},
 }
 
 
@@ -76,23 +69,19 @@ def check(name, split_id=None):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--protocol", default="", choices=["", "2"])
     parser.add_argument("--domains", default="", help="comma-separated domain names (overrides the roles)")
     a = parser.parse_args()
     print("format: subset ids/images/cams  (!) = differs from the reference counts\n")
     if a.domains:
         roles = {"domains": a.domains.split(",")}
-    elif a.protocol == "2":
-        roles = {"protocol-2 domains (each is source in 3 folds, target in 1)": PROTOCOL2_DOMAINS}
     else:
-        roles = {r: DOMAIN_CONFIG[r] for r in ("source_domains", "val_domains", "target_domains")}
+        roles = {"leave-one-out datasets (Market / MSMT17 / CUHK03 are each the target of one fold)": DATASETS}
     summary = {}
     for role, names in roles.items():
         print("== {}".format(role))
         for name in names:
             try:
-                splits = range(NUM_SPLITS[name]) if name in NUM_SPLITS else [None]
-                summary[name] = "OK" if all([check(name, s) for s in splits]) else "MISMATCH"
+                summary[name] = "OK" if check(name) else "MISMATCH"
             except Exception as e:
                 print("{:<14} FAILED: {}".format(name, e))
                 summary[name] = "MISSING"

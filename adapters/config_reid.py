@@ -6,32 +6,32 @@ def _path(var, default):
 
 
 DOMAIN_CONFIG = {
-    # training only
-    'source_domains': ['market1501', 'msmt17'],
-    # held-out source domain for model selection during training (never a target domain)
-    'val_domains': ['cuhk03'],
-    # test only; never used for training or model selection (override with --target_domains)
-    'target_domains': ['viper', 'grid', 'ilids', 'prid2011'],
+    # default fold (override with --source_domains / --val_domains / --target_domains)
+    'source_domains': ['market1501', 'msmt17', 'cuhksysu'],
+    # held-out domain for model selection during training (never a target domain); none by default
+    'val_domains': [],
+    'target_domains': ['cuhk03'],
     'data_root': _path('FERREID_DATA_ROOT', '/root/autodl-tmp/reid-data'),
     'weights_dir': _path('FERREID_WEIGHTS_DIR', '/root/autodl-tmp/weights'),
 }
 
-# number of official random splits per domain; domains not listed have a single fixed split
-NUM_SPLITS = {
-    'viper': 10,  # splits.json holds 20: 10-19 are 0-9 with cam_a/cam_b swapped
-    'grid': 10,
-    'ilids': 10,
-    'prid2011': 10,
-}
+# Leave-one-out protocol: each target domain is evaluated with a model trained on the *train splits* of
+# the other three datasets; its own train split is only the unlabeled pool of the active module.
+# CUHK-SYSU is always a source domain (no camera labels, so never a target here).
+DATASETS = ['market1501', 'msmt17', 'cuhk03', 'cuhksysu']
+TARGETS = ['market1501', 'msmt17', 'cuhk03']
 
-# Domains whose camera ids are not real cameras. i-LIDS: torchreid uses the image index as camid;
-# CUHK-SYSU: street snaps / movie frames, no camera labels. For these, simulated annotation pairs
-# an anchor with *another image* of the same person instead of an image from another camera.
-NO_CAMERA_DOMAINS = {'ilids', 'cuhksysu'}
 
-# DG-ReID Protocol-2 (leave-one-out over four large datasets): train on the *train split* of three,
-# test on the query/gallery of the fourth; the fourth's train split is only the unlabeled context pool.
-PROTOCOL2_DOMAINS = ['market1501', 'msmt17', 'cuhksysu', 'cuhk03']
+def fold_sources(target):
+    """Source domains of the fold whose target is `target`."""
+    if target not in TARGETS:
+        raise ValueError("target must be one of {}, got {}".format(TARGETS, target))
+    return [d for d in DATASETS if d != target]
+
+
+# Domains whose camera ids are not real cameras (CUHK-SYSU: street snaps / movie frames). There, pairs
+# are any two images of the pool instead of two images from different cameras.
+NO_CAMERA_DOMAINS = {'cuhksysu'}
 
 # Visual backbones (select with --backbone; empty = DEFAULT_BACKBONE). Data pipelines always produce
 # 256x128 images; a backbone whose input_size differs resizes inside the model.

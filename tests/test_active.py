@@ -9,7 +9,8 @@
 4. strategies never see person ids (the oracle is the only holder);
 5. end to end on synthetic images with a random tiny ViT (VPT): rounds of queries -> constraints ->
    appended domain prompt -> retrieval metrics, for a pair strategy, an anchor strategy and the
-   full-annotation bound; streamed and cached image stores give the same features.
+   full-annotation bound; streamed and cached image stores give the same features; with a base model trained
+   with multi-domain tokens, round 0 and the new domain's tokens start at the source mean.
 """
 import os
 import sys
@@ -191,6 +192,25 @@ def test_end_to_end():
         assert run.prompt.shape == model.prompt.shape
         row = ActiveRun(model, split, "random", cfg, seed=0).run(oracle_all=True)[0]
         assert row["true_ids"] == 12 and row["purity"] == 1.0
+
+        # base model trained with multi-domain tokens: round 0 and the new domain's tokens start at the source mean
+        args_md = transformers.HfArgumentParser(ReIDTrainingArguments).parse_args_into_dataclasses(
+            ["--output_dir", "/tmp/ferreid_test", "--report_to", "none", "--model_type", "vpt", "--backbone", "tiny_test",
+             "--num_vpt_tokens", "4", "--lora_layers", "2", "--lora_rank", "8", "--source_domain_tokens", "3",
+             "--num_source_domains", "3"])[0]
+        md = VPTReIDModel(args_md).eval()
+        for p in md.parameters():
+            p.requires_grad_(False)
+        mean = md.domain_prompts.mean(0, keepdim=True)
+        assert evaluate_base(md, split) == split.evaluate(md, torch.cat([md.prompt, mean], dim=2))
+        cfg0 = ActiveConfig(rounds=1, budget=8, candidate_k=4, steps=0)
+        run = ActiveRun(md, split, "cover", cfg0, seed=0)
+        run.run()
+        assert run.prompt.shape[2] == 4 + 3 and torch.allclose(run.prompt[:, :, 4:], mean)  # steps=0: the init
+        cfg_rand = ActiveConfig(rounds=1, budget=8, candidate_k=4, steps=0, token_init="random")
+        run = ActiveRun(md, split, "cover", cfg_rand, seed=0)
+        run.run()
+        assert not torch.allclose(run.prompt[:, :, 4:], mean)
         print("end to end: pair / anchor / replace / oracle_all runs, mAP after 2 rounds {:.2f}: ok".format(rows[-1]["mAP"]))
 
 
