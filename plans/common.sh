@@ -28,7 +28,7 @@ fold_sources() {
     *) echo "unknown target $1" >&2; return 2 ;;
   esac
 }
-fold() { echo "--source_domains $(fold_sources "$1") --source_all_images False --val_domains none --eval_strategy no"; }
+fold() { echo "--source_domains $(fold_sources "$1") --target_domains $1 --source_all_images False --val_domains none --eval_strategy no"; }
 
 # multi-domain tokens of the base model (method A): m tokens per layer for every source domain
 MD="--model_type vpt --source_domain_tokens ${MD_TOKENS:-8}"

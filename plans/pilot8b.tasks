@@ -1,0 +1,10 @@
+# Second launcher (GPUs 1,2,5,6): the folds whose first start failed on the target_domains default (fixed in common.sh).
+base_md_market1501  | train base_md_market1501  $STEPS $MD $(fold market1501) $LOSS_ARGS $SCHEDULE
+base_md_msmt17      | train base_md_msmt17      $STEPS $MD $(fold msmt17)     $LOSS_ARGS $SCHEDULE
+base_vpt_market1501 | train base_vpt_market1501 $STEPS --model_type vpt $(fold market1501) $LOSS_ARGS $SCHEDULE
+base_vpt_msmt17     | train base_vpt_msmt17     $STEPS --model_type vpt $(fold msmt17)     $LOSS_ARGS $SCHEDULE
+sim_market1501 after=base_md_market1501 | sim sim_market1501 $(ckpt base_md_market1501) --domains market1501 --n_seeds 3 --strategies none,repair,repair_random,random,cover --pseudo True --rounds 5 --budget 200 --paired_ref random
+sim_msmt17     after=base_md_msmt17     | sim sim_msmt17     $(ckpt base_md_msmt17)     --domains msmt17     --n_seeds 2 --strategies none,repair,repair_random,random --pseudo True --rounds 5 --budget 200 --paired_ref random
+rep_market1501_s0 after=base_md_market1501 | active rep_market1501_s0 $(ckpt base_md_market1501) --domains market1501 --strategies none,repair,repair_random,random --n_seeds 1 --base_seed 0 $REP
+rep_market1501_s1 after=base_md_market1501 | active rep_market1501_s1 $(ckpt base_md_market1501) --domains market1501 --strategies none,repair,repair_random,random --n_seeds 1 --base_seed 1 $REP
+rep_market1501_s2 after=base_md_market1501 | active rep_market1501_s2 $(ckpt base_md_market1501) --domains market1501 --strategies none,repair,repair_random,random --n_seeds 1 --base_seed 2 $REP
