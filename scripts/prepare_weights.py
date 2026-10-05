@@ -2,6 +2,8 @@
 
   --model vit_b16    : timm vit_base_patch16_224.augreg2_in21k_ft_in1k adapted to 256x128
                        -> vit_base_patch16_224.pth
+  --model clip_b16   : timm vit_base_patch16_clip_quickgelu_224.openai (CLIP ViT-B/16 image encoder) adapted to
+                       256x128 -> vit_base_patch16_clip_quickgelu_openai.pth (HF_ENDPOINT may point to a mirror)
   --model dinov2_b14 : official DINOv2 ViT-B/14 weights -> dinov2_vitb14_pretrain.pth
                        (downloaded from dl.fbaipublicfiles.com, or copied with --from-file, e.g. from
                        ~/.cache/torch/hub/checkpoints/dinov2_vitb14_pretrain.pth)
@@ -38,6 +40,17 @@ def prepare_vit(out):
           'download/cache revisions and serialization can change this file hash.')
 
 
+def prepare_clip(out):
+    import timm
+    import torch
+    arch = 'vit_base_patch16_clip_quickgelu_224'
+    model = timm.create_model(arch + '.openai', pretrained=True, img_size=(256, 128), num_classes=0)
+    verifier = timm.create_model(arch, pretrained=False, img_size=(256, 128), num_classes=0)
+    verifier.load_state_dict(model.state_dict(), strict=True)
+    assert tuple(model.pos_embed.shape) == (1, 129, 768)
+    torch.save(model.state_dict(), out)
+
+
 def prepare_dinov2(out, from_file):
     import torch
     if from_file:
@@ -56,17 +69,20 @@ def prepare_dinov2(out, from_file):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument('--model', choices=['vit_b16', 'dinov2_b14'], default='vit_b16')
+    parser.add_argument('--model', choices=['vit_b16', 'dinov2_b14', 'clip_b16'], default='vit_b16')
     parser.add_argument('--output-dir', default=os.environ.get('FERREID_WEIGHTS_DIR', 'weights'))
     parser.add_argument('--from-file', default='', help='dinov2_b14 only: copy this local file instead of downloading')
     args = parser.parse_args()
-    name = {'vit_b16': 'vit_base_patch16_224.pth', 'dinov2_b14': 'dinov2_vitb14_pretrain.pth'}[args.model]
+    name = {'vit_b16': 'vit_base_patch16_224.pth', 'dinov2_b14': 'dinov2_vitb14_pretrain.pth',
+            'clip_b16': 'vit_base_patch16_clip_quickgelu_openai.pth'}[args.model]
     out = Path(args.output_dir).expanduser() / name
     if out.exists():
         raise SystemExit(f'Refusing to overwrite existing weights: {out}')
     out.parent.mkdir(parents=True, exist_ok=True)
     if args.model == 'vit_b16':
         prepare_vit(out)
+    elif args.model == 'clip_b16':
+        prepare_clip(out)
     else:
         prepare_dinov2(out, args.from_file)
     print(f'{out}\nSHA256 {sha256(out)}')

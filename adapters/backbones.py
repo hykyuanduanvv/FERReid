@@ -31,7 +31,7 @@ class TimMViTWrapper(nn.Module):
             )
         print(f"[ReIDModel] Loading ViT-B/16 from {weights}")
         self._vit = timm.create_model(
-            "vit_base_patch16_224", pretrained=False,
+            arch, pretrained=False,
             img_size=img_size, num_classes=0,
         )
         state = torch.load(weights, map_location="cpu")
@@ -66,6 +66,33 @@ class TimMViTWrapper(nn.Module):
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.forward_features(x)["x_norm_clstoken"]
+
+
+class ClipViTWrapper(TimMViTWrapper):
+    """CLIP ViT-B/16 image encoder (OpenAI weights, QuickGELU; timm vit_base_patch16_clip_quickgelu_224), pos_embed
+    interpolated to 16x8 patches by scripts/prepare_weights.py --model clip_b16. Features: the CLS token after the
+    final LayerNorm, before the 512-d projection (768-d).
+    The data pipelines normalise with ImageNet mean / std; CLIP was trained with its own, so inputs are
+    re-normalised here (an exact affine map; random-erasing fills stay ImageNet-mean pixels)."""
+
+    IMAGENET = ((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))
+    CLIP = ((0.48145466, 0.4578275, 0.40821073), (0.26862954, 0.26130258, 0.27577711))
+
+    def __init__(self, img_size, weights, arch):
+        super().__init__(img_size=img_size, weights=weights, arch=arch)
+        (mi, si), (mc, sc) = self.IMAGENET, self.CLIP
+        t = lambda v: torch.tensor(v).view(1, 3, 1, 1)
+        self.register_buffer("_scale", t(si) / t(sc), persistent=False)
+        self.register_buffer("_shift", (t(mi) - t(mc)) / t(sc), persistent=False)
+
+    def _renorm(self, x):
+        return x * self._scale.to(x.dtype) + self._shift.to(x.dtype)
+
+    def prepare_tokens_with_masks(self, x, masks=None):
+        return super().prepare_tokens_with_masks(self._renorm(x), masks)
+
+    def forward_features(self, x):
+        return super().forward_features(self._renorm(x))
 
 
 class Dinov2Wrapper(nn.Module):
@@ -133,6 +160,8 @@ def load_backbone(name):
     cfg = BACKBONES[name]
     if cfg["kind"] == "timm":
         return TimMViTWrapper(img_size=tuple(cfg["input_size"]), weights=cfg["weights"])
+    if cfg["kind"] == "clip":
+        return ClipViTWrapper(tuple(cfg["input_size"]), cfg["weights"], cfg["arch"])
     if cfg["kind"] == "timm_random":
         return TimMViTWrapper(img_size=tuple(cfg["input_size"]), weights=None, arch=cfg["arch"])
     if cfg["kind"] == "dinov2":

@@ -1,0 +1,7 @@
+# 10-06: CLIP ViT-B/16 backbone (docs: 10-5 "FERReid 全流程（CLIP ViT-B 16 版）"). 32 ids x 4 images (cross-camera),
+# no WPA, LoRA rank 128 on the last 4 blocks, multi-domain tokens. Stage-1 lr chosen on the tuning fold
+# (Market + MSMT17 -> CUHK-SYSU validation), 6k-step sweep.
+#   python scripts/launch_tasks.py plans/clip.tasks --gpus 2,3,1,0 --merge --keep-going
+clip_tune_lr5e-5 | gpu_wait && train clip_tune_lr5e-5 6000 $MD $CLIP --source_domains market1501,msmt17 --source_all_images False --val_domains cuhksysu --eval_strategy steps --eval_steps 2000 $LOSS_ARGS $SCHEDULE --learning_rate 5e-5
+clip_tune_lr1e-4 | gpu_wait && train clip_tune_lr1e-4 6000 $MD $CLIP --source_domains market1501,msmt17 --source_all_images False --val_domains cuhksysu --eval_strategy steps --eval_steps 2000 $LOSS_ARGS $SCHEDULE --learning_rate 1e-4
+clip_tune_lr2e-5 | gpu_wait && train clip_tune_lr2e-5 6000 $MD $CLIP --source_domains market1501,msmt17 --source_all_images False --val_domains cuhksysu --eval_strategy steps --eval_steps 2000 $LOSS_ARGS $SCHEDULE --learning_rate 2e-5

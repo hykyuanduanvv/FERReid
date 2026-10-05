@@ -31,6 +31,7 @@ fold_sources() {
 fold() { echo "--source_domains $(fold_sources "$1") --target_domains $1 --source_all_images False --val_domains none --eval_strategy no"; }
 
 # multi-domain tokens of the base model (method A): m tokens per layer for every source domain
+CLIP="--backbone clip_b16 --per_device_train_batch_size 32 --instances_per_id 4 --cross_camera_instances True --ot_loss_weight 0"
 MD="--model_type vpt --source_domain_tokens ${MD_TOKENS:-8}"
 
 # train <name> <steps> [extra args...]

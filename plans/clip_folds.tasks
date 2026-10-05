@@ -1,0 +1,16 @@
+# 10-06: CLIP ViT-B/16 base models of the three folds (multi-domain tokens), 12k steps, stage-1 lr from plans/clip.tasks
+# (CLIP_LR); then none / oracle of the active loop (5 rounds, one seed per task so a free GPU picks up the next).
+#   CLIP_LR=1e-4 python scripts/launch_tasks.py plans/clip_folds.tasks --gpus 1,2,3 --merge --keep-going
+clip_md_cuhk03     | gpu_wait && train clip_md_cuhk03     $STEPS $MD $CLIP $(fold cuhk03)     $LOSS_ARGS $SCHEDULE --learning_rate $CLIP_LR
+clip_md_msmt17     | gpu_wait && train clip_md_msmt17     $STEPS $MD $CLIP $(fold msmt17)     $LOSS_ARGS $SCHEDULE --learning_rate $CLIP_LR
+clip_md_market1501 | gpu_wait && train clip_md_market1501 $STEPS $MD $CLIP $(fold market1501) $LOSS_ARGS $SCHEDULE --learning_rate $CLIP_LR
+c6_none_cuhk03_s0    after=clip_md_cuhk03 | gpu_wait && active c6_none_cuhk03_s0    $(ckpt clip_md_cuhk03) --domains cuhk03 --strategies none   --n_seeds 1 --base_seed 0 $REP
+c6_oracle_cuhk03_s0  after=clip_md_cuhk03 | gpu_wait && active c6_oracle_cuhk03_s0  $(ckpt clip_md_cuhk03) --domains cuhk03 --strategies oracle --n_seeds 1 --base_seed 0 $REP
+c6_none_msmt_s0      after=clip_md_msmt17 | gpu_wait && active c6_none_msmt_s0      $(ckpt clip_md_msmt17) --domains msmt17 --strategies none   --n_seeds 1 --base_seed 0 $REP
+c6_oracle_msmt_s0    after=clip_md_msmt17 | gpu_wait && active c6_oracle_msmt_s0    $(ckpt clip_md_msmt17) --domains msmt17 --strategies oracle --n_seeds 1 --base_seed 0 $REP
+c6_none_market_s0    after=clip_md_market1501 | gpu_wait && active c6_none_market_s0    $(ckpt clip_md_market1501) --domains market1501 --strategies none   --n_seeds 1 --base_seed 0 $REP
+c6_oracle_market_s0  after=clip_md_market1501 | gpu_wait && active c6_oracle_market_s0  $(ckpt clip_md_market1501) --domains market1501 --strategies oracle --n_seeds 1 --base_seed 0 $REP
+c6_none_cuhk03_s1    after=clip_md_cuhk03 | gpu_wait && active c6_none_cuhk03_s1    $(ckpt clip_md_cuhk03) --domains cuhk03 --strategies none   --n_seeds 1 --base_seed 1 $REP
+c6_none_cuhk03_s2    after=clip_md_cuhk03 | gpu_wait && active c6_none_cuhk03_s2    $(ckpt clip_md_cuhk03) --domains cuhk03 --strategies none   --n_seeds 1 --base_seed 2 $REP
+c6_none_msmt_s1      after=clip_md_msmt17 | gpu_wait && active c6_none_msmt_s1      $(ckpt clip_md_msmt17) --domains msmt17 --strategies none   --n_seeds 1 --base_seed 1 $REP
+c6_none_market_s1    after=clip_md_market1501 | gpu_wait && active c6_none_market_s1    $(ckpt clip_md_market1501) --domains market1501 --strategies none   --n_seeds 1 --base_seed 1 $REP

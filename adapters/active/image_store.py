@@ -1,76 +1,88 @@
 """Images of one subset (pool / query / gallery) for small and large target domains.
 
-Small sets (VIPeR, GRID, i-LIDS: hundreds of images) are decoded once and kept on the device. Large sets
-(Market-1501, MSMT17 as targets: 10^4 - 10^5 images) are streamed from disk for feature extraction; only
-the images that prompt tuning needs are decoded on demand and kept in host memory (FP16), up to `host_max`
-images -- with pseudo labels prompt tuning draws from the whole pool, so beyond the cap images are decoded
-for every batch instead of being kept.
+Every image is decoded once, on the CPU with torchvision (libjpeg-turbo / libpng, many threads: ~8k MSMT17 images
+/ s; nvjpeg on the GPU was 15x slower for these small images); the 256x128 resize (bicubic, antialiased like PIL) runs on the GPU and
+the result is kept as uint8 -- on the device up to `cache_max` images per set, in host memory beyond (MSMT17's
+82k gallery images: ~8 GB). Batches are normalised (ImageNet mean / std, as EVAL_TRANSFORM) on the device.
 """
 from concurrent.futures import ThreadPoolExecutor
 
 import numpy as np
 import torch
 import torch.nn.functional as F
-from PIL import Image
-from torch.utils.data import DataLoader
+from torchvision.io import ImageReadMode, decode_image
 
-from adapters.reid_dataset import EVAL_TRANSFORM, PathDataset
-
-
-def _decode(path):
-    return EVAL_TRANSFORM(Image.open(path).convert("RGB"))
+SIZE = (256, 128)
+_MEAN = (0.485, 0.456, 0.406)
+_STD = (0.229, 0.224, 0.225)
 
 
-def load_images(paths, device=None, dtype=None, threads=16):
+def _read(path):
+    with open(path, "rb") as f:
+        return torch.frombuffer(bytearray(f.read()), dtype=torch.uint8)
+
+
+def _resize(img, device):
+    """(3, H, W) uint8 -> (3, 256, 128) uint8, resized on the device."""
+    x = img.to(device, non_blocking=True).float()[None]
+    if tuple(x.shape[-2:]) != SIZE:
+        x = F.interpolate(x, size=SIZE, mode="bicubic", align_corners=False, antialias=True)
+    return x.round_().clamp_(0, 255).to(torch.uint8)[0]
+
+
+def decode_resized(paths, device, threads=32, chunk=2048, out_device=None):
+    """uint8 (N, 3, 256, 128) on `out_device` (default: device); CPU decoding, resizing on `device`."""
+    dev = torch.device(device)
+    odev = dev if out_device is None else torch.device(out_device)
+    dec = lambda p: decode_image(_read(p), mode=ImageReadMode.RGB)
+    out = torch.empty((len(paths), 3) + SIZE, dtype=torch.uint8, device=odev,
+                      pin_memory=odev.type == "cpu" and dev.type == "cuda")
     with ThreadPoolExecutor(threads) as ex:
-        imgs = torch.stack(list(ex.map(_decode, paths)))
+        for s in range(0, len(paths), chunk):
+            imgs = list(ex.map(dec, paths[s:s + chunk]))
+            out[s:s + len(imgs)] = torch.stack([_resize(im, dev) for im in imgs]).to(odev)
+    return out
+
+
+def normalize(x_uint8, device):
+    """uint8 batch -> float32 normalised batch on the device."""
+    x = x_uint8.to(device, non_blocking=True).float().div_(255)
+    m = torch.tensor(_MEAN, device=x.device).view(1, 3, 1, 1)
+    s = torch.tensor(_STD, device=x.device).view(1, 3, 1, 1)
+    return (x - m) / s
+
+
+def load_images(paths, device=None, dtype=None, threads=32):
+    dev = device if device is not None else ("cuda" if torch.cuda.is_available() else "cpu")
+    imgs = normalize(decode_resized(list(paths), dev, threads), dev)
     if dtype is not None:
         imgs = imgs.to(dtype)
-    return imgs.to(device) if device is not None else imgs
+    return imgs if device is not None else imgs.cpu()
 
 
 class ImageStore:
-    """cache=None: decode everything onto the device when len(paths) <= cache_max, else stream."""
+    """Decoded once (uint8, 256x128): on the device when len(paths) <= cache_max (or cache=True), else in host
+    memory (pinned), moved to the device per batch."""
 
-    def __init__(self, paths, device, cache=None, cache_max=6000, batch_size=256, num_workers=8, host_max=12000):
+    def __init__(self, paths, device, cache=None, cache_max=6000, batch_size=256, num_workers=8, host_max=None):
         self.paths = list(paths)
         self.device = device
         self.batch_size = batch_size
-        self.num_workers = num_workers
         self.cached = len(self.paths) <= cache_max if cache is None else bool(cache)
-        # half precision on the GPU halves the cache; the models run in fp16 / fp32 anyway
-        dtype = torch.float16 if torch.device(device).type == "cuda" else None
-        self._imgs = load_images(self.paths, device, dtype) if self.cached else None
-        self._host = {}  # streamed sets: index -> decoded image (CPU, FP16), filled by get()
-        self.host_max = host_max
+        self._imgs = decode_resized(self.paths, device, out_device=None if self.cached else "cpu")
 
     def __len__(self):
         return len(self.paths)
 
     def get(self, idx):
         """Images idx (list / array of positions) as one float32 tensor on the device."""
-        idx = [int(i) for i in idx]
-        if self.cached:
-            return self._imgs[torch.tensor(idx, device=self._imgs.device)].float()
-        missing = sorted({i for i in idx if i not in self._host})
-        new = {}
-        if missing:
-            for i, img in zip(missing, load_images([self.paths[i] for i in missing])):
-                new[i] = img
-                if len(self._host) < self.host_max:
-                    self._host[i] = img.half()
-        return torch.stack([new[i] if i in new else self._host[i].float() for i in idx]).to(self.device)
+        idx = torch.as_tensor(np.asarray([int(i) for i in idx], np.int64))
+        return normalize(self._imgs[idx.to(self._imgs.device)], self.device)
 
     def batches(self):
         """Every image in order, in batches (on the device)."""
-        if self.cached:
-            for i in range(0, len(self), self.batch_size):
-                yield self._imgs[i:i + self.batch_size].float()
-            return
-        loader = DataLoader(PathDataset(self.paths), batch_size=self.batch_size, shuffle=False,
-                            num_workers=self.num_workers, pin_memory=torch.device(self.device).type == "cuda")
-        for x, _ in loader:
-            yield x.to(self.device, non_blocking=True)
+        for i in range(0, len(self), self.batch_size):
+            yield normalize(self._imgs[i:i + self.batch_size], self.device)
 
 
 @torch.no_grad()

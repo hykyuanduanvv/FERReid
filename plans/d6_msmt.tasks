@@ -1,0 +1,5 @@
+# 10-06 fillers: DINOv2 MSMT17 fold, none vs oracle (gap of the MSMT17 fold), one seed per task
+d6_none_msmt_s0   | gpu_wait && active d6_none_msmt_s0   $(ckpt base_md_msmt17) --domains msmt17 --strategies none   --n_seeds 1 --base_seed 0 $REP
+d6_oracle_msmt_s0 | gpu_wait && active d6_oracle_msmt_s0 $(ckpt base_md_msmt17) --domains msmt17 --strategies oracle --n_seeds 1 --base_seed 0 $REP
+d6_none_msmt_s1   | gpu_wait && active d6_none_msmt_s1   $(ckpt base_md_msmt17) --domains msmt17 --strategies none   --n_seeds 1 --base_seed 1 $REP
+d6_oracle_msmt_s1 | gpu_wait && active d6_oracle_msmt_s1 $(ckpt base_md_msmt17) --domains msmt17 --strategies oracle --n_seeds 1 --base_seed 1 $REP
