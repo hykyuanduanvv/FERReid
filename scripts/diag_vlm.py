@@ -25,6 +25,14 @@ from PIL import Image
 QUESTION = ("These are two pedestrian images from different surveillance cameras. Are they the same person? "
             "Judge by clothing, body shape, accessories and other identity cues, not by pose, lighting or "
             "background. Answer yes or no.")
+QUESTIONS = {
+    "default": QUESTION,
+    "strict": ("These are two pedestrian images from different surveillance cameras. Compare the upper-body clothing "
+               "(colour, pattern, sleeves), the lower-body clothing, the shoes, bags or other carried items, hair and "
+               "body shape one by one; ignore pose, viewpoint, lighting, resolution and background. Many different "
+               "people wear similar clothes, so answer yes only if every visible cue matches and nothing contradicts. "
+               "Are they the same person? Answer yes or no."),
+}
 
 
 def first_token_ids(tokenizer, words):
@@ -51,15 +59,20 @@ def main():
     p.add_argument("--out", default="")
     p.add_argument("--height", type=int, default=256)
     p.add_argument("--max_pairs", type=int, default=0)
+    p.add_argument("--question", default="default", choices=sorted(QUESTIONS))
+    p.add_argument("--adapter", default="", help="LoRA adapter of scripts/finetune_vlm.py")
     a = p.parse_args()
     from transformers import AutoProcessor, AutoModelForImageTextToText
     from scripts.diag_retrieval import auc
 
     proc = AutoProcessor.from_pretrained(a.model)
     model = AutoModelForImageTextToText.from_pretrained(a.model, torch_dtype=torch.bfloat16, device_map="auto").eval()
+    if a.adapter:
+        from peft import PeftModel
+        model = PeftModel.from_pretrained(model, a.adapter).eval()
     yes_ids = first_token_ids(proc.tokenizer, ["Yes", "yes"])
     no_ids = first_token_ids(proc.tokenizer, ["No", "no"])
-    messages = [{"role": "user", "content": [{"type": "image"}, {"type": "image"}, {"type": "text", "text": QUESTION}]}]
+    messages = [{"role": "user", "content": [{"type": "image"}, {"type": "image"}, {"type": "text", "text": QUESTIONS[a.question]}]}]
     text = proc.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
 
     rows = list(csv.DictReader(open(a.pairs)))
