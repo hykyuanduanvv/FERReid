@@ -10,4 +10,3 @@ diag_market1501 | base_md_market1501 | diag diag_market1501 $(ckpt base_md_marke
 diag_msmt17 | base_md_msmt17 | diag diag_msmt17 $(ckpt base_md_msmt17) --domains msmt17
 fb_none_market1501 | base_md_market1501 | active fb_none_market1501 $(ckpt base_md_market1501) --domains market1501 --strategies none --n_seeds 1 $REP
 act_market1501_s0 | base_md_market1501 | active act_market1501_s0 $(ckpt base_md_market1501) --domains market1501 --strategies cover,uncertain,random --n_seeds 1 --base_seed 0 $ACT --oracle_all True
-icl_cuhk03 | base_vicp_cuhk03 | evaluate icl_cuhk03 $(ckpt base_vicp_cuhk03) --domains cuhk03 --methods random,facility_camera --ks 16,64 --eval_seeds 2

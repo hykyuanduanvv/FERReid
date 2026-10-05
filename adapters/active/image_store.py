@@ -86,15 +86,31 @@ def features(model, store, prompts):
 
 
 @torch.no_grad()
-def retrieval_metrics(qf, gf, q_pids, g_pids, q_cams, g_cams, chunk=4096):
-    """Rank-1 / mAP (%) of query vs gallery with cosine distance, the distance matrix built in chunks."""
-    from torchreid.metrics import evaluate_rank
-    dist = np.empty((qf.size(0), gf.size(0)), dtype=np.float32)
+def retrieval_metrics(qf, gf, q_pids, g_pids, q_cams, g_cams, chunk=1024):
+    """Rank-1 / mAP (%) of query vs gallery with cosine distance, on the features' device (the GPU): the
+    torchreid market protocol (gallery images of the query's person seen by the query's camera are ignored;
+    queries without a valid match are skipped)."""
+    dev = qf.device
+    qp, gp = torch.as_tensor(np.asarray(q_pids), device=dev), torch.as_tensor(np.asarray(g_pids), device=dev)
+    qc, gc = torch.as_tensor(np.asarray(q_cams), device=dev), torch.as_tensor(np.asarray(g_cams), device=dev)
+    ap_sum, r1_sum, n_valid = 0.0, 0.0, 0
     for i in range(0, qf.size(0), chunk):
-        dist[i:i + chunk] = (1 - qf[i:i + chunk] @ gf.T).cpu().numpy()
-    cmc, mAP = evaluate_rank(dist, np.asarray(q_pids), np.asarray(g_pids), np.asarray(q_cams),
-                             np.asarray(g_cams), max_rank=10)
-    return float(cmc[0]) * 100, float(mAP) * 100
+        order = torch.argsort(1 - qf[i:i + chunk].float() @ gf.float().T, dim=1, stable=True)
+        same = gp[order] == qp[i:i + chunk, None]
+        keep = ~(same & (gc[order] == qc[i:i + chunk, None]))
+        match = same & keep
+        n_rel = match.sum(1)
+        valid = n_rel > 0
+        rank = keep.long().cumsum(1)                        # 1-based rank among kept gallery images
+        prec = match.long().cumsum(1).float() / rank.clamp_min(1).float()
+        ap = (prec * match).sum(1) / n_rel.clamp_min(1)
+        first_kept = torch.argmax(keep.int(), dim=1)
+        r1 = match.gather(1, first_kept[:, None])[:, 0].float()
+        ap_sum += float(ap[valid].sum())
+        r1_sum += float(r1[valid].sum())
+        n_valid += int(valid.sum())
+    assert n_valid > 0, "no query has a valid gallery match"
+    return r1_sum / n_valid * 100, ap_sum / n_valid * 100
 
 
 class TargetSplit:
@@ -103,7 +119,7 @@ class TargetSplit:
     Person ids of the pool are kept here only to build the annotation oracle and for reporting; the
     selection code receives features and camera ids."""
 
-    def __init__(self, ds, name, device, has_cameras, cache_max=6000, num_workers=8):
+    def __init__(self, ds, name, device, has_cameras, cache_max=40000, num_workers=8):
         self.name = name
         self.has_cameras = has_cameras
         self.pool_paths = [x[0] for x in ds.train]

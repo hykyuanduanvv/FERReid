@@ -1,10 +1,14 @@
 """Pseudo identities of the unlabeled pool: k-reciprocal Jaccard graph + DBSCAN, constrained by the answers.
+Everything heavy runs in torch on the features' device (the GPU in practice); only the bookkeeping of the
+answered clusters (a few hundred images) is done in numpy.
 
-  PoolGraph(feats)       k-NN of every pool image, k-reciprocal encodings V (Zhong et al., CVPR 2017, with
-                         local query expansion) and the sparse Jaccard distance between each image and its k1
-                         nearest neighbours. Built once per round from the current features.
-  graph.cluster(store)   DBSCAN on that sparse distance (as in the usual cluster-then-train UDA recipe),
-                         then the human answers are enforced:
+  PoolGraph(feats)       k-NN of every pool image, k-reciprocal encodings V (Zhong et al., CVPR 2017: k1-reciprocal
+                         sets expanded by their k1/2-reciprocal subsets, exp(-distance) weights, local query
+                         expansion over k2 neighbours; dense (N, N) on the device) and the Jaccard distance between
+                         each image and its k1 nearest neighbours. Built once per round from the current features.
+  graph.cluster(store)   DBSCAN on that k-NN distance graph (core point: >= min_samples neighbours within eps, the
+                         point itself included; clusters = connected components of core points; a border point
+                         joins the cluster of its nearest core neighbour), then the human answers are enforced:
                            * every answered positive cluster (ConstraintStore) ends up in one pseudo cluster
                              (must-link edges at distance ~0; the pseudo clusters it spans are merged);
                            * a pseudo cluster containing two answered clusters that are known to be different
@@ -16,13 +20,12 @@
 Labels never come from the person ids: the clustering sees features and the answers only.
 """
 import numpy as np
-import scipy.sparse as sp
 import torch
 
 
 @torch.no_grad()
 def knn(feats, k, chunk=4096):
-    """k nearest neighbours (self excluded) of L2-normalised feats (N, D): (sims, idx), numpy (N, k)."""
+    """k nearest neighbours (self excluded) of L2-normalised feats (N, D) torch: (sims, idx) torch (N, k)."""
     n = feats.size(0)
     k = min(k, n - 1)
     sims, idx = [], []
@@ -31,80 +34,96 @@ def knn(feats, k, chunk=4096):
         S = feats[rows] @ feats.T
         S[torch.arange(len(rows), device=feats.device), rows] = -2
         v, i = S.topk(k, dim=1)
-        sims.append(v.float().cpu())
-        idx.append(i.cpu())
-    return torch.cat(sims).numpy(), torch.cat(idx).numpy()
+        sims.append(v.float())
+        idx.append(i)
+    return torch.cat(sims), torch.cat(idx)
+
+
+def _reciprocal(idx, k, n):
+    """(N, N) bool: j in the k-NN of i and i in the k-NN of j, plus the diagonal."""
+    A = torch.zeros(n, n, dtype=torch.bool, device=idx.device)
+    A.scatter_(1, idx[:, :k], True)
+    R = A & A.T
+    R.fill_diagonal_(True)
+    return R
 
 
 class PoolGraph:
 
-    def __init__(self, feats, k1=30, k2=6, eps=0.6, min_samples=4):
-        self.X = feats.float().cpu().numpy() if torch.is_tensor(feats) else np.asarray(feats, np.float32)
+    def __init__(self, feats, k1=30, k2=6, eps=0.6, min_samples=4, chunk=1024):
+        t = feats if torch.is_tensor(feats) else torch.from_numpy(np.asarray(feats, np.float32))
+        self.Xt = t.float()
+        self.X = self.Xt.cpu().numpy()
         self.n = len(self.X)
         self.k1, self.k2 = min(k1, self.n - 1), max(1, min(k2, self.n - 1))
-        self.eps, self.min_samples = eps, min_samples
-        t = feats if torch.is_tensor(feats) else torch.from_numpy(self.X)
-        self.nn_sim, self.nn_idx = knn(t, self.k1)
-        self.V = self._encodings()
-        self._dist = self._knn_distance()
+        self.eps, self.min_samples, self.chunk = eps, min_samples, chunk
+        # large pools: half-precision encodings (weights are normalised per row, ~1e-3 relative error)
+        self.dtype = torch.float32 if self.n <= 16000 else torch.float16
+        with torch.no_grad():
+            self.nn_sim_t, self.nn_idx_t = knn(self.Xt, self.k1)
+            self.nn_idx = self.nn_idx_t.cpu().numpy()
+            self.V = self._encodings()
+            self._dist = self._knn_distance()
 
     # ---------------------------------------------------------------- k-reciprocal encodings
 
     def _encodings(self):
-        n, k1, X, idx = self.n, self.k1, self.X, self.nn_idx
-        half = max(1, int(round(k1 / 2)))
-        full_sets = [set(r.tolist()) for r in idx]
-        half_sets = [set(r[:half].tolist()) for r in idx]
-        recip = [[i] + [j for j in idx[i].tolist() if i in full_sets[j]] for i in range(n)]
-        recip_half = [[i] + [j for j in idx[i, :half].tolist() if i in half_sets[j]] for i in range(n)]
-        rows, cols, vals = [], [], []
-        for i in range(n):
-            R = set(recip[i])
-            for j in recip[i]:
-                c = recip_half[j]
-                if len(R.intersection(c)) > 2 / 3 * len(c):
-                    R.update(c)
-            R = np.fromiter(R, np.int64, len(R))
-            w = np.exp(-(2 - 2 * (X[R] @ X[i])))   # exp(-squared euclidean distance)
-            rows.append(np.full(len(R), i))
-            cols.append(R)
-            vals.append(w / w.sum())
-        V = sp.csr_matrix((np.concatenate(vals), (np.concatenate(rows), np.concatenate(cols))), shape=(n, n))
+        n, k1, X, idx, c = self.n, self.k1, self.Xt, self.nn_idx_t, self.chunk
+        R = _reciprocal(idx, k1, n)
+        Rh = _reciprocal(idx, max(1, int(round(k1 / 2))), n)
+        Rh_h = Rh.half()
+        size_h = Rh.sum(1).float()
+        V = torch.empty(n, n, dtype=self.dtype, device=X.device)
+        for s in range(0, n, c):
+            r = R[s:s + c]
+            overlap = r.half() @ Rh_h.T                        # |R(i) & R_half(j)| (small integers: exact)
+            add = r & (overlap.float() > 2 / 3 * size_h[None, :])
+            rs = r | ((add.half() @ Rh_h) > 0)                 # R*(i) = R(i) + qualifying R_half(j)
+            w = torch.exp(-(2 - 2 * (X[s:s + c] @ X.T))) * rs  # exp(-squared euclidean distance) on R*(i)
+            V[s:s + c] = (w / w.sum(1, keepdim=True)).to(self.dtype)
+        del R, Rh, Rh_h
         if self.k2 > 1:  # local query expansion: average over the k2 nearest images (self included)
-            nb = np.concatenate([np.arange(n)[:, None], idx[:, :self.k2 - 1]], axis=1)
-            Q = sp.csr_matrix((np.full(nb.size, 1.0 / nb.shape[1]), (np.repeat(np.arange(n), nb.shape[1]),
-                                                                      nb.reshape(-1))), shape=(n, n))
-            V = (Q @ V).tocsr()
+            nb = torch.cat([torch.arange(n, device=X.device)[:, None], idx[:, :self.k2 - 1]], dim=1)
+            V2 = torch.empty_like(V)
+            for s in range(0, n, max(1, c // 4)):
+                e = min(s + max(1, c // 4), n)
+                V2[s:e] = V[nb[s:e]].float().mean(1).to(self.dtype)
+            V = V2
         return V
 
-    def jaccard_sim(self, a, b, chunk=50000):
-        """1 - Jaccard distance of the encodings of pairs (a[t], b[t]); rows of V sum to one."""
-        a, b = np.asarray(a, np.int64), np.asarray(b, np.int64)
-        out = np.empty(len(a), np.float64)
+    @torch.no_grad()
+    def _jaccard_t(self, a, b, chunk=256):
+        out = torch.empty(len(a), dtype=torch.float32, device=self.V.device)
         for s in range(0, len(a), chunk):
-            m = np.asarray(self.V[a[s:s + chunk]].minimum(self.V[b[s:s + chunk]]).sum(1)).reshape(-1)
+            m = torch.minimum(self.V[a[s:s + chunk]], self.V[b[s:s + chunk]]).float().sum(1)
             out[s:s + chunk] = m / (2 - m)
         return out
 
+    def jaccard_sim(self, a, b):
+        """1 - Jaccard distance of the encodings of pairs (a[t], b[t]); rows of V sum to one. numpy in/out."""
+        dev = self.V.device
+        a = torch.as_tensor(np.asarray(a, np.int64), device=dev)
+        b = torch.as_tensor(np.asarray(b, np.int64), device=dev)
+        return self._jaccard_t(a, b).double().cpu().numpy()
+
     def _knn_distance(self):
-        a = np.repeat(np.arange(self.n), self.k1)
-        b = self.nn_idx.reshape(-1)
-        d = 1 - self.jaccard_sim(a, b)
-        return a, b, np.maximum(d, 1e-6)  # explicit entries only: keep zero distances stored
+        a = torch.arange(self.n, device=self.V.device).repeat_interleave(self.k1)
+        b = self.nn_idx_t.reshape(-1)
+        d = 1 - self._jaccard_t(a, b)
+        return a, b, d.clamp_min(1e-6)
 
     # ---------------------------------------------------------------- clustering
 
     def cluster(self, store=None):
-        from sklearn.cluster import DBSCAN
         a, b, d = self._dist
         groups = [] if store is None else [c for c in store.clusters() if len(c) >= 2]
         if groups:  # must-links: a chain inside every answered cluster at distance ~0
-            ml_a = np.concatenate([np.asarray(g[:-1]) for g in groups])
-            ml_b = np.concatenate([np.asarray(g[1:]) for g in groups])
-            a, b, d = np.r_[a, ml_a], np.r_[b, ml_b], np.r_[d, np.full(len(ml_a), 1e-6)]
-        # symmetric; i in N(j) and j in N(i) give duplicate entries -> keep the smaller distance
-        D = _min_duplicates(np.r_[a, b], np.r_[b, a], np.r_[d, d], self.n)
-        labels = DBSCAN(eps=self.eps, min_samples=self.min_samples, metric="precomputed").fit_predict(D)
+            dev = a.device
+            ml_a = torch.as_tensor(np.concatenate([np.asarray(g[:-1]) for g in groups]), device=dev)
+            ml_b = torch.as_tensor(np.concatenate([np.asarray(g[1:]) for g in groups]), device=dev)
+            a, b = torch.cat([a, ml_a]), torch.cat([b, ml_b])
+            d = torch.cat([d, torch.full((len(ml_a),), 1e-6, device=dev)])
+        labels = dbscan_graph(a, b, d, self.n, self.eps, self.min_samples).cpu().numpy()
         if store is not None:
             labels = self._enforce(labels, store)
         return _relabel(labels)
@@ -126,7 +145,9 @@ class PoolGraph:
             else:
                 labels[members] = nxt
                 nxt += 1
-        for lab in np.unique(labels[labels >= 0]):
+        answered = np.asarray(store.images(), np.int64)
+        touched = np.unique(labels[answered]) if len(answered) else np.zeros(0, np.int64)
+        for lab in touched[touched >= 0]:  # only pseudo clusters holding answered images can conflict
             members = np.flatnonzero(labels == lab)
             rs = sorted({store.find(int(i)) for i in members if store.labeled(int(i))},
                         key=lambda r: -len(roots[r]))
@@ -156,17 +177,53 @@ class PoolGraph:
         return labels
 
 
-def _min_duplicates(rows, cols, vals, n):
-    """Sparse symmetric distance matrix keeping the smallest value of duplicate entries."""
-    key = rows.astype(np.int64) * n + cols
-    order = np.lexsort((vals, key))
-    key, rows, cols, vals = key[order], rows[order], cols[order], vals[order]
-    first = np.r_[True, key[1:] != key[:-1]]
-    return sp.csr_matrix((vals[first], (rows[first], cols[first])), shape=(n, n))
+@torch.no_grad()
+def dbscan_graph(a, b, d, n, eps, min_samples, max_iter=10000):
+    """DBSCAN on a sparse distance graph given as edges (a, b, d) (any direction, duplicates allowed), in torch.
+    Neighbours of i: the points joined to i by an edge with distance <= eps, and i itself. Core points have at
+    least min_samples neighbours; clusters are the connected components of core points over core-core edges
+    (min-label propagation with pointer jumping); a non-core point joins the cluster of its nearest core
+    neighbour, else it is an outlier (-1). Returns (N,) int64 labels (component ids, not consecutive)."""
+    dev = a.device
+    keep = d <= eps
+    ea, eb, ed = torch.cat([a[keep], b[keep]]), torch.cat([b[keep], a[keep]]), torch.cat([d[keep], d[keep]])
+    nz = ea != eb
+    ea, eb, ed = ea[nz], eb[nz], ed[nz]
+    if len(ea):  # unique (i, j) edges, smallest distance kept
+        order = torch.argsort(ed)
+        ea, eb, ed = ea[order], eb[order], ed[order]
+        key = ea * n + eb
+        order = torch.argsort(key, stable=True)
+        ea, eb, ed, key = ea[order], eb[order], ed[order], key[order]
+        first = torch.ones_like(key, dtype=torch.bool)
+        first[1:] = key[1:] != key[:-1]
+        ea, eb, ed = ea[first], eb[first], ed[first]
+    deg = torch.bincount(ea, minlength=n) + 1
+    core = deg >= min_samples
+    lab = torch.arange(n, device=dev)
+    cc = core[ea] & core[eb]
+    ca, cb = ea[cc], eb[cc]
+    for _ in range(max_iter):
+        new = lab.clone()
+        new.scatter_reduce_(0, ca, lab[cb], reduce="amin")
+        new = new[new]  # pointer jumping
+        if torch.equal(new, lab):
+            break
+        lab = new
+    out = torch.full((n,), -1, dtype=torch.int64, device=dev)
+    out[core] = lab[core]
+    border = (~core[ea]) & core[eb]  # edges from a non-core point to a core point
+    if border.any():
+        ba, bb, bd = ea[border], eb[border], ed[border]
+        best = torch.full((n,), float("inf"), device=dev)
+        best.scatter_reduce_(0, ba, bd, reduce="amin")
+        hit = bd == best[ba]
+        out[ba[hit]] = lab[bb[hit]]  # ties: any nearest core neighbour
+    return out
 
 
 def _relabel(labels):
-    """Consecutive labels 0..C-1 by first appearance; -1 stays."""
+    """Consecutive labels 0..C-1; -1 stays."""
     out = np.full(len(labels), -1, np.int64)
     ok = labels >= 0
     _, inv = np.unique(labels[ok], return_inverse=True)

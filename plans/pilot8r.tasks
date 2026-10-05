@@ -1,0 +1,25 @@
+# Restart of the pilot with the GPU implementation (pool / query / gallery cached on the GPU, graph + DBSCAN +
+# augmentation + evaluation in torch). Base models are already trained. One pool, earlier lines first:
+#   python scripts/launch_tasks.py plans/pilot8r.tasks --gpus 0,1,2,3,4,5,6,7 --merge --keep-going
+# No in-context (VICP) baseline (dropped 2026-10-05).
+#
+# 1. the pilot (CUHK03): 8 tasks for 8 GPUs
+pilot_s0a | active pilot_s0a $(ckpt base_md_cuhk03) --domains cuhk03 --strategies none,repair --n_seeds 1 --base_seed 0 $REP
+pilot_s0b | active pilot_s0b $(ckpt base_md_cuhk03) --domains cuhk03 --strategies repair_random,random --n_seeds 1 --base_seed 0 $REP
+pilot_s1a | active pilot_s1a $(ckpt base_md_cuhk03) --domains cuhk03 --strategies none,repair --n_seeds 1 --base_seed 1 $REP
+pilot_s1b | active pilot_s1b $(ckpt base_md_cuhk03) --domains cuhk03 --strategies repair_random,random --n_seeds 1 --base_seed 1 $REP
+pilot_s2a | active pilot_s2a $(ckpt base_md_cuhk03) --domains cuhk03 --strategies none,repair --n_seeds 1 --base_seed 2 $REP
+pilot_s2b | active pilot_s2b $(ckpt base_md_cuhk03) --domains cuhk03 --strategies repair_random,random --n_seeds 1 --base_seed 2 $REP
+pilot_pair_cover  | active pilot_pair_cover  $(ckpt base_md_cuhk03) --domains cuhk03 --strategies cover  --n_seeds 3 $ACT --oracle_all True
+pilot_pair_random | active pilot_pair_random $(ckpt base_md_cuhk03) --domains cuhk03 --strategies random --n_seeds 3 $ACT --oracle_all False
+merge_pilot after=pilot_s0a,pilot_s0b,pilot_s1a,pilot_s1b,pilot_s2a,pilot_s2b,pilot_pair_cover,pilot_pair_random | $PY scripts/merge_active.py experiments/pilot_s?? --out experiments/pilot --paired_ref random && $PY scripts/merge_active.py experiments/pilot_pair_* --out experiments/pilot_pair --paired_ref random
+#
+# 2. backfill: Market fold with the pilot's strategies, base-model ablation, repair settings on CUHK-SYSU
+rep_market1501_s0 | active rep_market1501_s0 $(ckpt base_md_market1501) --domains market1501 --strategies none,repair,repair_random,random --n_seeds 1 --base_seed 0 $REP
+rep_market1501_s1 | active rep_market1501_s1 $(ckpt base_md_market1501) --domains market1501 --strategies none,repair,repair_random,random --n_seeds 1 --base_seed 1 $REP
+rep_market1501_s2 | active rep_market1501_s2 $(ckpt base_md_market1501) --domains market1501 --strategies none,repair,repair_random,random --n_seeds 1 --base_seed 2 $REP
+rabl_nomd | active rabl_nomd $(ckpt base_vpt_cuhk03) --domains cuhk03 --strategies none,repair,repair_random --n_seeds 3 $REP
+rtune_e0.5_s400 | active rtune_e0.5_s400 $(ckpt base_tune) --domains cuhksysu --strategies none,repair --n_seeds 1 $REP --pseudo_eps 0.5 --steps 400
+rtune_e0.6_s400 | active rtune_e0.6_s400 $(ckpt base_tune) --domains cuhksysu --strategies none,repair --n_seeds 1 $REP --pseudo_eps 0.6 --steps 400
+rtune_e0.7_s400 | active rtune_e0.7_s400 $(ckpt base_tune) --domains cuhksysu --strategies none,repair --n_seeds 1 $REP --pseudo_eps 0.7 --steps 400
+rtune_e0.6_s800 | active rtune_e0.6_s800 $(ckpt base_tune) --domains cuhksysu --strategies none,repair --n_seeds 1 $REP --pseudo_eps 0.6 --steps 800

@@ -68,7 +68,7 @@ class ActiveArguments:
     eval_rounds: str = field(default="all")
     oracle_all: bool = field(default=True)      # also the full-annotation upper bound (one run per target)
     save_prompts: bool = field(default=True)
-    cache_max: int = field(default=6000)        # sets larger than this are streamed from disk
+    cache_max: int = field(default=40000)       # sets up to this size are decoded once and kept on the GPU (fp16)
     pseudo: bool = field(default=False)
     pseudo_k1: int = field(default=30)
     pseudo_k2: int = field(default=6)
@@ -153,6 +153,7 @@ def main():
     args, a = parser.parse_args_into_dataclasses()
     device = "cuda" if torch.cuda.is_available() and not args.no_cuda else "cpu"
     torch.backends.cuda.matmul.allow_tf32 = True
+    torch.set_num_threads(int(os.environ.get("FERREID_CPU_THREADS", "8")))  # the work runs on the GPU
     model = load_checkpoint_model(args, device, a.checkpoint)
     cfg = ActiveConfig(**{f.name: getattr(a, f.name) for f in fields(ActiveConfig)})
     strategies = [s for s in a.strategies.split(",") if s]

@@ -60,6 +60,7 @@ def main():
     parser = transformers.HfArgumentParser((ReIDTrainingArguments, ActiveArguments))
     args, a = parser.parse_args_into_dataclasses()
     device = "cuda" if torch.cuda.is_available() and not args.no_cuda else "cpu"
+    torch.set_num_threads(int(os.environ.get("FERREID_CPU_THREADS", "8")))
     model = load_checkpoint_model(args, device, a.checkpoint)
     cfg = ActiveConfig(**{f.name: getattr(a, f.name) for f in fields(ActiveConfig)})
     os.makedirs(args.output_dir, exist_ok=True)

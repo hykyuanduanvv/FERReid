@@ -25,27 +25,38 @@ import torch.nn.functional as F
 
 def augment(x, gen):
     """Flip, +-10 px translation (pad + crop), random erasing -- the tensor analogue of the training
-    transform without colour jitter. x: (B, 3, H, W), normalised."""
-    B, _, H, W = x.shape
-    flip = torch.rand(B, generator=gen, device=x.device) < 0.5
+    transform without colour jitter, batched on x's device (no host round trips). x: (B, 3, H, W), normalised.
+    RandomErasing(p=0.5, scale=(0.02, 0.4), ratio=(0.3, 3.3), fill 0): up to 10 draws per image, the first
+    one that fits is used."""
+    B, C, H, W = x.shape
+    dev = x.device
+    rand = lambda *shape: torch.rand(*shape, generator=gen, device=dev)
+    flip = rand(B) < 0.5
     x = torch.where(flip[:, None, None, None], torch.flip(x, dims=(3,)), x)
     xp = F.pad(x, (10, 10, 10, 10))
-    dy = torch.randint(0, 21, (B,), generator=gen, device=x.device).tolist()
-    dx = torch.randint(0, 21, (B,), generator=gen, device=x.device).tolist()
-    out = torch.stack([xp[i, :, dy[i]:dy[i] + H, dx[i]:dx[i] + W] for i in range(B)])
-    for i in range(B):  # RandomErasing(p=0.5, scale=(0.02, 0.4), ratio=(0.3, 3.3)), fill 0
-        if torch.rand(1, generator=gen, device=x.device).item() >= 0.5:
-            continue
-        for _ in range(10):
-            area = H * W * (0.02 + 0.38 * torch.rand(1, generator=gen, device=x.device).item())
-            logr = np.log(0.3) + (np.log(3.3) - np.log(0.3)) * torch.rand(1, generator=gen, device=x.device).item()
-            h, w = int(round((area * np.exp(logr)) ** 0.5)), int(round((area / np.exp(logr)) ** 0.5))
-            if h < H and w < W:
-                y0 = torch.randint(0, H - h + 1, (1,), generator=gen, device=x.device).item()
-                x0 = torch.randint(0, W - w + 1, (1,), generator=gen, device=x.device).item()
-                out[i, :, y0:y0 + h, x0:x0 + w] = 0
-                break
-    return out
+    dy = torch.randint(0, 21, (B,), generator=gen, device=dev)
+    dx = torch.randint(0, 21, (B,), generator=gen, device=dev)
+    ys = dy[:, None] + torch.arange(H, device=dev)[None, :]          # (B, H)
+    xs = dx[:, None] + torch.arange(W, device=dev)[None, :]          # (B, W)
+    out = xp[torch.arange(B, device=dev)[:, None, None, None], torch.arange(C, device=dev)[None, :, None, None],
+             ys[:, None, :, None], xs[:, None, None, :]]
+    erase = rand(B) < 0.5
+    area = H * W * (0.02 + 0.38 * rand(B, 10))
+    logr = float(np.log(0.3)) + float(np.log(3.3) - np.log(0.3)) * rand(B, 10)
+    h = torch.round(torch.sqrt(area * torch.exp(logr))).long()
+    w = torch.round(torch.sqrt(area / torch.exp(logr))).long()
+    fits = (h < H) & (w < W)
+    first = torch.argmax(fits.int(), dim=1)                          # first draw that fits
+    h, w = h.gather(1, first[:, None])[:, 0], w.gather(1, first[:, None])[:, 0]
+    erase &= fits.any(1)
+    y0 = (rand(B) * (H - h + 1).clamp_min(1)).long()
+    x0 = (rand(B) * (W - w + 1).clamp_min(1)).long()
+    yy = torch.arange(H, device=dev)[None, :]
+    xx = torch.arange(W, device=dev)[None, :]
+    my = (yy >= y0[:, None]) & (yy < (y0 + h)[:, None])               # (B, H)
+    mx = (xx >= x0[:, None]) & (xx < (x0 + w)[:, None])               # (B, W)
+    mask = (my[:, :, None] & mx[:, None, :]) & erase[:, None, None]  # (B, H, W)
+    return out.masked_fill(mask[:, None], 0)
 
 
 class DomainPrompt(torch.nn.Module):
@@ -93,8 +104,12 @@ class ClusterMemory:
 
     @torch.no_grad()
     def update(self, f, y):
-        for v, c in zip(f.detach(), y.tolist()):
-            self.M[c] = F.normalize(self.momentum * self.M[c] + (1 - self.momentum) * v, dim=0)
+        """Momentum update with the batch mean of each cluster's features (one step per cluster)."""
+        f = f.detach().float()
+        cl, inv = torch.unique(y, return_inverse=True)
+        mean = torch.zeros(len(cl), f.size(1), device=f.device).index_add_(0, inv, f)
+        mean /= torch.bincount(inv, minlength=len(cl)).float()[:, None]
+        self.M[cl] = F.normalize(self.momentum * self.M[cl] + (1 - self.momentum) * mean, dim=1)
 
 
 def tune_domain_prompt(model, store, clusters, cannot, base, mode="append", domain_tokens=8, init_std=0.02,
