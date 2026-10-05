@@ -38,6 +38,10 @@ class ConstraintStore:
     def labeled(self, i):
         return i in self._parent
 
+    def images(self):
+        """Every image that appears in an answer."""
+        return list(self._parent)
+
     def infer(self, i, j):
         """True / False when the answer follows from the stored answers, else None."""
         ri, rj = self.find(i), self.find(j)

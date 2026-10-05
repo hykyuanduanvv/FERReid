@@ -1,0 +1,8 @@
+# Cluster-repair settings (DBSCAN eps, prompt steps per round) chosen without any test target: base_tune
+# (Market + MSMT17, from plans/tune.tasks) adapted to CUHK-SYSU. Pick the best "repair" last-round mAP and write it
+# to plans/repair_chosen.sh, e.g.  REP_TUNE="--pseudo_eps 0.6 --steps 400"
+# NB: CUHK-SYSU has no camera ids, so cross-camera sampling and camera-disjoint merges are inactive here.
+rtune_e0.5_s400 | active rtune_e0.5_s400 $(ckpt base_tune) --domains cuhksysu --strategies none,repair --n_seeds 1 $REP --pseudo_eps 0.5 --steps 400
+rtune_e0.6_s400 | active rtune_e0.6_s400 $(ckpt base_tune) --domains cuhksysu --strategies none,repair --n_seeds 1 $REP --pseudo_eps 0.6 --steps 400
+rtune_e0.7_s400 | active rtune_e0.7_s400 $(ckpt base_tune) --domains cuhksysu --strategies none,repair --n_seeds 1 $REP --pseudo_eps 0.7 --steps 400
+rtune_e0.6_s800 | active rtune_e0.6_s800 $(ckpt base_tune) --domains cuhksysu --strategies none,repair --n_seeds 1 $REP --pseudo_eps 0.6 --steps 800

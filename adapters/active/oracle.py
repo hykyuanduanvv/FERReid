@@ -49,6 +49,28 @@ class PairOracle:
         return {"true_ids": len(set(majority)), "purity": agree / total,
                 "split_ids": len(majority) - len(set(majority))}
 
+    def pseudo_report(self, labels):
+        """Quality of pseudo labels (-1: outlier) against the person ids: pairwise precision / recall / F1 over
+        the clustered images, NMI, number of clusters, share of outliers, and the identities whose images are
+        split over several clusters (e.g. by camera)."""
+        from sklearn.metrics import normalized_mutual_info_score
+        labels = np.asarray(labels)
+        ok = labels >= 0
+        out = {"pseudo_clusters": int(labels.max()) + 1 if ok.any() else 0, "pseudo_outliers": float(1 - ok.mean())}
+        if ok.sum() < 2:
+            return dict(out, pw_prec=float("nan"), pw_rec=float("nan"), pw_f=float("nan"), nmi=float("nan"),
+                        pseudo_split_ids=0)
+        y, c = self._pids[ok], labels[ok]
+        pair = lambda n: (n * (n - 1) // 2).sum()
+        _, joint = np.unique(np.stack([y, c]), axis=1, return_counts=True)
+        tp = pair(joint)
+        pred = pair(np.unique(c, return_counts=True)[1])
+        true = pair(np.unique(self._pids, return_counts=True)[1])  # recall against every pool pair of a person
+        prec, rec = tp / max(pred, 1), tp / max(true, 1)
+        n_split = sum(len(np.unique(c[y == p])) > 1 for p in np.unique(y))
+        return dict(out, pw_prec=float(prec), pw_rec=float(rec), pw_f=float(2 * prec * rec / max(prec + rec, 1e-12)),
+                    nmi=float(normalized_mutual_info_score(y, c)), pseudo_split_ids=int(n_split))
+
     def all_identities(self, min_images=2):
         """Every pool identity as a cluster (the full-annotation upper bound)."""
         return [v for v in self._by_pid.values() if len(v) >= min_images]

@@ -2,8 +2,9 @@
 
 Small sets (VIPeR, GRID, i-LIDS: hundreds of images) are decoded once and kept on the device. Large sets
 (Market-1501, MSMT17 as targets: 10^4 - 10^5 images) are streamed from disk for feature extraction; only
-the images that prompt tuning needs (the annotated ones, a few hundred to a few thousand) are decoded on
-demand and kept in host memory.
+the images that prompt tuning needs are decoded on demand and kept in host memory (FP16), up to `host_max`
+images -- with pseudo labels prompt tuning draws from the whole pool, so beyond the cap images are decoded
+for every batch instead of being kept.
 """
 from concurrent.futures import ThreadPoolExecutor
 
@@ -31,7 +32,7 @@ def load_images(paths, device=None, dtype=None, threads=16):
 class ImageStore:
     """cache=None: decode everything onto the device when len(paths) <= cache_max, else stream."""
 
-    def __init__(self, paths, device, cache=None, cache_max=6000, batch_size=256, num_workers=8):
+    def __init__(self, paths, device, cache=None, cache_max=6000, batch_size=256, num_workers=8, host_max=12000):
         self.paths = list(paths)
         self.device = device
         self.batch_size = batch_size
@@ -40,7 +41,8 @@ class ImageStore:
         # half precision on the GPU halves the cache; the models run in fp16 / fp32 anyway
         dtype = torch.float16 if torch.device(device).type == "cuda" else None
         self._imgs = load_images(self.paths, device, dtype) if self.cached else None
-        self._host = {}  # streamed sets: index -> decoded image (CPU), filled by get()
+        self._host = {}  # streamed sets: index -> decoded image (CPU, FP16), filled by get()
+        self.host_max = host_max
 
     def __len__(self):
         return len(self.paths)
@@ -51,10 +53,13 @@ class ImageStore:
         if self.cached:
             return self._imgs[torch.tensor(idx, device=self._imgs.device)].float()
         missing = sorted({i for i in idx if i not in self._host})
+        new = {}
         if missing:
             for i, img in zip(missing, load_images([self.paths[i] for i in missing])):
-                self._host[i] = img
-        return torch.stack([self._host[i] for i in idx]).to(self.device)
+                new[i] = img
+                if len(self._host) < self.host_max:
+                    self._host[i] = img.half()
+        return torch.stack([new[i] if i in new else self._host[i].float() for i in idx]).to(self.device)
 
     def batches(self):
         """Every image in order, in batches (on the device)."""

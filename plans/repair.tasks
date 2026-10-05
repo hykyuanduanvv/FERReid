@@ -1,0 +1,25 @@
+# Cluster repair on the three folds, one task per seed (merged at the end by scripts/merge_active.py).
+# Strategies ($REP_STRATS): none (unsupervised, 0 answers), repair (ours), repair_unc, repair_random, and the kNN pair
+# questions random / cover / disagree, all with pseudo labels. Market / CUHK03: 3 seeds; MSMT17: 2 seeds, 5 strategies
+# split over two tasks per seed (evaluation on MSMT17 is ~10 min).
+rep_cuhk03_s0 | active rep_cuhk03_s0 $(ckpt base_md_cuhk03) --domains cuhk03 --strategies $REP_STRATS --n_seeds 1 --base_seed 0 $REP $REP_TUNE
+rep_cuhk03_s1 | active rep_cuhk03_s1 $(ckpt base_md_cuhk03) --domains cuhk03 --strategies $REP_STRATS --n_seeds 1 --base_seed 1 $REP $REP_TUNE
+rep_cuhk03_s2 | active rep_cuhk03_s2 $(ckpt base_md_cuhk03) --domains cuhk03 --strategies $REP_STRATS --n_seeds 1 --base_seed 2 $REP $REP_TUNE
+rep_market1501_s0 | active rep_market1501_s0 $(ckpt base_md_market1501) --domains market1501 --strategies $REP_STRATS --n_seeds 1 --base_seed 0 $REP $REP_TUNE
+rep_market1501_s1 | active rep_market1501_s1 $(ckpt base_md_market1501) --domains market1501 --strategies $REP_STRATS --n_seeds 1 --base_seed 1 $REP $REP_TUNE
+rep_market1501_s2 | active rep_market1501_s2 $(ckpt base_md_market1501) --domains market1501 --strategies $REP_STRATS --n_seeds 1 --base_seed 2 $REP $REP_TUNE
+rep_msmt17_s0a | active rep_msmt17_s0a $(ckpt base_md_msmt17) --domains msmt17 --strategies none,repair,repair_random --n_seeds 1 --base_seed 0 $REP $REP_TUNE
+rep_msmt17_s0b | active rep_msmt17_s0b $(ckpt base_md_msmt17) --domains msmt17 --strategies random,cover --n_seeds 1 --base_seed 0 $REP $REP_TUNE
+rep_msmt17_s1a | active rep_msmt17_s1a $(ckpt base_md_msmt17) --domains msmt17 --strategies none,repair,repair_random --n_seeds 1 --base_seed 1 $REP $REP_TUNE
+rep_msmt17_s1b | active rep_msmt17_s1b $(ckpt base_md_msmt17) --domains msmt17 --strategies random,cover --n_seeds 1 --base_seed 1 $REP $REP_TUNE
+#
+# ablations (CUHK03 fold; repair against its random reference, 3 seeds)
+rabl_nocross    | active rabl_nocross    $(ckpt base_md_cuhk03) --domains cuhk03 --strategies repair,repair_random --n_seeds 3 $REP $REP_TUNE --cross_cam False
+rabl_nocontrast | active rabl_nocontrast $(ckpt base_md_cuhk03) --domains cuhk03 --strategies repair,repair_random --n_seeds 3 $REP $REP_TUNE --contrast_weight 0
+rabl_nowarm     | active rabl_nowarm     $(ckpt base_md_cuhk03) --domains cuhk03 --strategies repair,repair_random --n_seeds 3 $REP $REP_TUNE --warm_start False
+rabl_quota2     | active rabl_quota2     $(ckpt base_md_cuhk03) --domains cuhk03 --strategies repair,repair_random --n_seeds 3 $REP $REP_TUNE --repair_per_cluster 2
+rabl_nomd       | active rabl_nomd       $(ckpt base_vpt_cuhk03) --domains cuhk03 --strategies none,repair,repair_random --n_seeds 3 $REP $REP_TUNE
+rabl_budget     | active rabl_budget     $(ckpt base_md_cuhk03) --domains cuhk03 --strategies repair,repair_random,random --n_seeds 3 $REP $REP_TUNE --rounds 10 --budget 100 --eval_rounds 2,4,6,8,10
+rabl_oracle     | active rabl_oracle     $(ckpt base_md_cuhk03) --domains cuhk03 --strategies none --n_seeds 1 $REP $REP_TUNE --rounds 1 --oracle_all True
+@wait
+merge_rep | for d in cuhk03 market1501 msmt17; do $PY scripts/merge_active.py experiments/rep_${d}_s* --out experiments/rep_$d --paired_ref repair_random; done

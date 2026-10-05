@@ -98,10 +98,13 @@ def test_strategies(X, pids, cams, cand):
     store.add(int(cand["i"][0]), int(cand["j"][0]), bool(pids[cand["i"][0]] == pids[cand["j"][0]]))
     dup_tau = random_pair_quantile(feats, 0.99)
     n = len(cand["sim"])
+    from adapters.active.pseudo import PoolGraph
+    graph = PoolGraph(X, k1=8, k2=2)  # for the strategies that need it (disagree)
     for name, fn in STRATEGIES.items():
         orders = []
         for _ in range(2):
-            ctx = SelectionContext(store, 10, np.random.RandomState(3), feats, cams, tau=0.5, dup_tau=dup_tau)
+            ctx = SelectionContext(store, 10, np.random.RandomState(3), feats, cams, tau=0.5, dup_tau=dup_tau,
+                                   graph=graph)
             orders.append(np.asarray(fn(cand, ctx)))
         assert np.array_equal(orders[0], orders[1]), name
         assert sorted(orders[0].tolist()) == list(range(n)), name

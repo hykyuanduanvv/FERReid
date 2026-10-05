@@ -1,0 +1,6 @@
+# Offline screening (no training, ~10-30 min each): question strategies on the base model's fixed features, the
+# effect measured as the pairwise F1 of the constrained pseudo labels and the identities covered. Run right after
+# the base models; if "repair" does not beat "repair_random" / "random" here, stop and rethink before the full runs.
+sim_market1501 | sim sim_market1501 $(ckpt base_md_market1501) --domains market1501 --n_seeds 5 --strategies $REP_STRATS --pseudo True --rounds 5 --budget 200 --paired_ref random
+sim_msmt17     | sim sim_msmt17     $(ckpt base_md_msmt17)     --domains msmt17     --n_seeds 3 --strategies $REP_STRATS --pseudo True --rounds 5 --budget 200 --paired_ref random
+sim_cuhk03     | sim sim_cuhk03     $(ckpt base_md_cuhk03)     --domains cuhk03     --n_seeds 5 --strategies $REP_STRATS --pseudo True --rounds 5 --budget 200 --paired_ref random

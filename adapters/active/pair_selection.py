@@ -14,6 +14,10 @@ threshold tau and the answers given so far.
                   link the identity clusters), the rest to pairs of unseen images (new identities);
                 * no two pairs in a round whose images look like the same person (redundant answers);
                 * a quota per camera pair, so every camera combination of the network is asked about.
+  disagree    the two similarities of a pair disagree most: cosine of the features vs the k-reciprocal
+              Jaccard similarity of the pool graph (pseudo.PoolGraph) -- e.g. a low cosine between two images
+              with the same neighbourhood is a likely hard positive (query by committee); cover's
+              redundancy / camera filter on the top of the ranking.
 """
 import math
 
@@ -21,10 +25,12 @@ import numpy as np
 
 
 class SelectionContext:
-    def __init__(self, store, budget, rng, feats, camids, tau, dup_tau, has_cameras=True, expand_ratio=0.5):
+    def __init__(self, store, budget, rng, feats, camids, tau, dup_tau, has_cameras=True, expand_ratio=0.5,
+                 graph=None):
         self.store, self.budget, self.rng = store, budget, rng
         self.feats, self.camids, self.has_cameras = feats, np.asarray(camids), has_cameras
         self.tau, self.dup_tau, self.expand_ratio = tau, dup_tau, expand_ratio
+        self.graph = graph  # pseudo.PoolGraph of the current features (strategies that need it)
 
 
 def _uncertainty(sim, tau):
@@ -122,10 +128,25 @@ def select_cover(cand, ctx):
     return np.array(order + rest, dtype=np.int64)
 
 
+def select_disagree(cand, ctx):
+    from scipy.stats import rankdata
+    n = len(cand["sim"])
+    if ctx.graph is None:
+        raise ValueError("disagree needs the pool graph (SelectionContext.graph)")
+    jac = ctx.graph.jaccard_sim(cand["i"], cand["j"])
+    score = np.abs(rankdata(cand["sim"]) - rankdata(jac)) / max(n, 1)
+    order = np.lexsort((ctx.rng.rand(n), -score))
+    kept = _greedy(order, cand, ctx, 3 * ctx.budget)
+    used = set(kept)
+    return np.array(kept + [p for p in order if p not in used], dtype=np.int64)
+
+
 STRATEGIES = {
     "random": select_random,
     "confident": select_confident,
     "uncertain": select_uncertain,
     "balanced": select_balanced,
     "cover": select_cover,
+    "disagree": select_disagree,
 }
+NEEDS_GRAPH = {"disagree"}

@@ -86,3 +86,22 @@ STRATS=${STRATS:-"cover,uncertain,balanced,confident,random,anchor:random,anchor
 ACT=${ACT:-"--rounds 5 --budget 200 --eval_rounds 1,3,5"}
 [ -f plans/active_chosen.sh ] && source plans/active_chosen.sh   # lr / steps chosen by plans/tune.tasks
 ACT_TUNE=${ACT_TUNE:-""}
+
+# ---------------------------------------------------------------- cluster repair (docs/CLUSTER_REPAIR.md)
+# pseudo labels of the whole pool + merge / split questions; 5 rounds x 200 answers as in the pair setting, the
+# domain tokens continue across rounds (cluster-then-train loop). REP_TUNE: chosen by plans/repair_tune.tasks
+REP=${REP:-"--pseudo True --warm_start True --rounds 5 --budget 200 --eval_rounds 1,3,5 --steps 400 --paired_ref repair_random --oracle_all False"}
+REP_STRATS=${REP_STRATS:-"none,repair,repair_unc,repair_random,random,cover,disagree"}
+[ -f plans/repair_chosen.sh ] && source plans/repair_chosen.sh
+REP_TUNE=${REP_TUNE:-""}
+
+# sim <name> <checkpoint> [extra args...]: scripts/sim_selection.py (offline screening, no training)
+sim() {
+  local name=$1 ck=$2; shift 2
+  local out="experiments/$name"
+  if [ -e "$out/sim_summary.csv" ] && [ -e "$out/.done" ]; then echo "refusing to overwrite $out" >&2; return 2; fi
+  [ -d "$ck" ] || { echo "missing checkpoint $ck" >&2; return 2; }
+  mkdir -p "$out"
+  "$PY" scripts/sim_selection.py --output_dir "$out" --checkpoint "$ck" --fp16 True --report_to none \
+    --eval_num_workers 12 "$@" 2>&1 | tee "$out/sim.log" && touch "$out/.done"
+}

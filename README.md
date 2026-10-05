@@ -11,6 +11,7 @@
 ## 导航
 
 - [方法、协议、输出与判读](docs/ACTIVE_PROMPT.md)
+- [簇修复：伪标签 + 主动合并/拆分查询（本分支主线）](docs/CLUSTER_REPAIR.md)
 - [环境安装、数据与权重准备、运行](docs/DEPLOYMENT.md)
 - [代码来源与第三方说明](THIRD_PARTY_NOTICES.md)
 
@@ -69,6 +70,8 @@ python scripts/launch_tasks.py plans/base.tasks --gpus 0,1,2,3           # 三�
 python scripts/launch_tasks.py plans/tune.tasks --gpus 0,1,2,3           # 在 CUHK-SYSU 上选主动模块的 lr / 步数
 python scripts/launch_tasks.py plans/diag.tasks --gpus 0,1,2             # 诊断：基础模型能否提出有用的 pair
 python scripts/launch_tasks.py plans/active.tasks --gpus 0,1,2,3         # 主表、消融、in-context 对照
+python scripts/launch_tasks.py plans/sim.tasks plans/repair_tune.tasks --gpus 0,1,2,3   # 簇修复：离线筛选、调参
+python scripts/launch_tasks.py plans/repair.tasks --gpus 0,1,2,3,4,5,6,7               # 簇修复：三折主表与消融
 ```
 
 参数见 `adapters/args_reid.py`（模型与训练）和 `scripts/eval_active.py`（主动模块）。
@@ -77,7 +80,8 @@ python scripts/launch_tasks.py plans/active.tasks --gpus 0,1,2,3         # 主�
 
 ```text
 adapters/
-  active/           主动查询模块：图像存储（缓存/流式）、候选 pair、约束、选择策略、域 prompt 训练、轮次循环
+  active/           主动查询模块：图像存储（缓存/流式）、候选 pair、约束、选择策略、域 prompt 训练、轮次循环；
+                    pseudo.py（伪标签聚类 + 约束）、repair.py（合并/拆分问题与排序）
   baseline_model.py VPT（含多域 token）/ plain 基础模型，checkpoint 加载
   vicp_model.py     原版 VICP（in-context 对照）
   backbones.py      DINOv2 / timm ViT 包装

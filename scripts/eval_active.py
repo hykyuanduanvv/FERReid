@@ -8,6 +8,9 @@ Outputs (output_dir):
   active.csv   one row per domain / strategy / seed / round: queries, anchors, positive / negative /
                inferred answers, clusters, true identities covered, cluster purity, threshold, Rank-1, mAP
   summary.csv  mean / std over seeds per domain / strategy / round
+  paired.csv   per domain / strategy / round: mean and std over seeds of the mAP difference to the reference
+               strategy of the same seed (--paired_ref, default random), and the area under the mAP-vs-answers
+               curve (rounds evaluated, mean over seeds); paired differences cancel the seed's shared noise
   prompts/     the final domain prompt of every run (--save_prompts True): a constant per-domain parameter
 
 Image sets larger than --cache_max are streamed from disk (Market / MSMT17 pools and galleries); smaller ones
@@ -16,6 +19,10 @@ Image sets larger than --cache_max are streamed from disk (Market / MSMT17 pools
   python scripts/eval_active.py --output_dir experiments/act_cuhk03 --checkpoint experiments/base_vpt_to_cuhk03/checkpoint-12000 \
       --domains cuhk03 --strategies cover,uncertain,balanced,random,anchor:random \
       --rounds 5 --budget 200 --n_seeds 2 --fp16 True --report_to none
+
+Cluster repair (pseudo labels of the whole pool, merge / split questions; docs/CLUSTER_REPAIR.md):
+
+  python scripts/eval_active.py --output_dir experiments/rep_cuhk03 --checkpoint experiments/base_md_cuhk03/checkpoint-12000       --domains cuhk03 --pseudo True --warm_start True --strategies none,repair,repair_random,random       --rounds 5 --budget 200 --n_seeds 3 --paired_ref repair_random --fp16 True --report_to none
 """
 import os
 import sys
@@ -62,6 +69,17 @@ class ActiveArguments:
     oracle_all: bool = field(default=True)      # also the full-annotation upper bound (one run per target)
     save_prompts: bool = field(default=True)
     cache_max: int = field(default=6000)        # sets larger than this are streamed from disk
+    pseudo: bool = field(default=False)
+    pseudo_k1: int = field(default=30)
+    pseudo_k2: int = field(default=6)
+    pseudo_eps: float = field(default=0.6)
+    pseudo_min_samples: int = field(default=4)
+    contrast_weight: float = field(default=1.0)
+    contrast_temp: float = field(default=0.05)
+    cross_cam: bool = field(default=True)
+    repair_k: int = field(default=5)
+    repair_per_cluster: int = field(default=1)
+    paired_ref: str = field(default="random")   # paired.csv: differences to this strategy (same seed)
 
 
 def load_split(name, device, cache_max, num_workers):
@@ -100,6 +118,36 @@ def summarize(rows):
     return out
 
 
+def paired(rows, ref):
+    """mAP difference to `ref` of the same domain / seed / round, mean and std over seeds; AULC per strategy."""
+    by = {(r["domain"], r["strategy"], r["seed"], r["round"]): r["mAP"] for r in rows if r["strategy"] != "base"}
+    base = {r["domain"]: r["mAP"] for r in rows if r["strategy"] == "base"}
+    groups, curves = defaultdict(list), defaultdict(list)
+    for (d, s, seed, rnd), m in by.items():
+        if rnd == 0 or m != m:
+            continue
+        q = [r.get("n_queries", 0) for r in rows if (r["domain"], r["strategy"], r["seed"], r["round"]) == (d, s, seed, rnd)][0]
+        curves[(d, s, seed)].append((q, m))
+        o = by.get((d, ref, seed, rnd))
+        if o is not None and o == o:
+            groups[(d, s, rnd)].append(m - o)
+    out = []
+    for (d, s, rnd), diffs in sorted(groups.items()):
+        out.append({"domain": d, "strategy": s, "round": rnd, "ref": ref, "n": len(diffs),
+                    "dmAP": float(np.mean(diffs)), "dmAP_std": float(np.std(diffs)),
+                    "wins": int(sum(x > 0 for x in diffs))})
+    aulc = defaultdict(list)
+    for (d, s, seed), pts in curves.items():  # trapezoid from (0, base mAP), normalised by the last budget
+        pts = sorted([(0, base.get(d, pts[0][1]))] + pts)
+        x, y = np.array([p[0] for p in pts], float), np.array([p[1] for p in pts], float)
+        if x[-1] > 0:
+            aulc[(d, s)].append(float(np.sum((x[1:] - x[:-1]) * (y[1:] + y[:-1]) / 2) / x[-1]))
+    for (d, s), v in sorted(aulc.items()):
+        out.append({"domain": d, "strategy": s, "round": "aulc", "ref": "", "n": len(v),
+                    "dmAP": float(np.mean(v)), "dmAP_std": float(np.std(v)), "wins": ""})
+    return out
+
+
 def main():
     parser = transformers.HfArgumentParser((ReIDTrainingArguments, ActiveArguments))
     args, a = parser.parse_args_into_dataclasses()
@@ -116,6 +164,7 @@ def main():
     def save():
         write_csv(os.path.join(args.output_dir, "active.csv"), rows)
         write_csv(os.path.join(args.output_dir, "summary.csv"), summarize(rows))
+        write_csv(os.path.join(args.output_dir, "paired.csv"), paired(rows, a.paired_ref))
 
     for name in a.domains.split(","):
         split_id = 0  # one fixed split per dataset
@@ -136,13 +185,13 @@ def main():
             for strategy in strategies:
                 run = ActiveRun(model, split, strategy, cfg, seed=s)
                 for row in run.run():
-                    rows.append(dict(base, strategy=strategy, seed=seed, **row))
+                    rows.append(dict(base, strategy=strategy, seed=s, **row))  # actual seed: runs split over tasks merge
                 if a.save_prompts:
-                    torch.save({"prompt": run.prompt.cpu(), "domain": name, "strategy": strategy, "seed": seed,
+                    torch.save({"prompt": run.prompt.cpu(), "domain": name, "strategy": strategy, "seed": s,
                                 "checkpoint": a.checkpoint, "config": cfg.__dict__,
                                 "n_queries": run.store.stats()["n_queries"], "n_anchors": run.anchors_used},
                                os.path.join(args.output_dir, "prompts", "{}_{}_seed{}.pt".format(
-                                   name, strategy.replace(":", "-"), seed)))
+                                   name, strategy.replace(":", "-"), s)))
                 save()
         print("[{:6.0f}s] {} done".format(time.time() - t0, name), flush=True)
         del split
