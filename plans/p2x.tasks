@@ -1,0 +1,4 @@
+# fillers while the diagnostics / camera normalization are being written (existing code)
+p2x_oracle8_cuhk03  | active p2x_oracle8_cuhk03  $(ckpt base_md_cuhk03)     --domains cuhk03     --strategies oracle --n_seeds 1 $REP --rounds 8 --eval_rounds 1,3,5,8
+p2x_oracle5_market  | active p2x_oracle5_market  $(ckpt base_md_market1501) --domains market1501 --strategies oracle --n_seeds 1 $REP
+p2x_none5_market_s1 | active p2x_none5_market_s1 $(ckpt base_md_market1501) --domains market1501 --strategies none   --n_seeds 1 --base_seed 1 $REP

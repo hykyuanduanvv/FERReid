@@ -1,0 +1,34 @@
+2026-10-05 11:47:37 watchdog started (pid 17835)
+2026-10-05 12:07:31 watchdog (no-shutdown version) started (pid 19003)
+2026-10-05 12:23:32 sim verdict (logged only): GOOD sim round 5: pairwise F1 cover 0.3090, none 0.2527, random 0.2859, repair 0.3531, repair_random 0.2615
+2026-10-05 13:33:30 watchdog v3 (pilot8r; shut down when the planned runs are done) started (pid 94240)
+2026-10-05 13:40:31 watchdog v3 (pilot8r; shut down when the planned runs are done) started (pid 100051)
+2026-10-05 13:43:09 watchdog v3 (pilot8r; shut down when the planned runs are done) started (pid 103061)
+2026-10-05 13:57:09 pilot verdict: BAD base 37.48 | final mAP none 63.69, random 63.80, repair 62.87, repair_random 64.01 | AULC random 55.86, repair 54.97, repair_random 55.60 -> repair <= none (answers add nothing over unsupervised)
+2026-10-05 13:57:39 launcher and cluster-repair follow-ups stopped
+2026-10-05 13:57:39 fallback queue: 12 items
+2026-10-05 13:57:39 worker started on GPU 0 (pid 110189)
+2026-10-05 13:58:10 worker started on GPU 1 (pid 111102)
+2026-10-05 13:58:40 worker started on GPU 2 (pid 112030)
+2026-10-05 13:59:10 worker started on GPU 3 (pid 112801)
+2026-10-05 13:59:40 worker started on GPU 4 (pid 113591)
+2026-10-05 14:00:10 worker started on GPU 5 (pid 114351)
+2026-10-05 14:00:40 worker started on GPU 6 (pid 115105)
+2026-10-05 14:01:10 worker started on GPU 7 (pid 115834)
+2026-10-05 14:02:41 worker on GPU 0 finished
+2026-10-05 14:03:41 worker on GPU 1 finished
+2026-10-05 14:08:41 worker on GPU 7 finished
+2026-10-05 14:12:41 worker on GPU 6 finished
+2026-10-05 14:14:41 worker on GPU 4 finished
+2026-10-05 14:14:41 worker on GPU 5 finished
+2026-10-05 14:16:41 worker on GPU 2 finished
+2026-10-05 14:23:41 worker on GPU 3 finished
+2026-10-05 14:23:41 fallback queue done
+2026-10-05 14:23:41 FINISHED: pilot bad; fallback validation runs finished
+2026-10-05 14:23:41 results packed: /root/autodl-tmp/FERReid_CR_results.tar.gz (results/pilot_cuhk03_20261005, 804K)
+2026-10-05 14:26:41 results fetched by the local monitor
+2026-10-05 14:26:41 SHUTDOWN
+2026-10-05 16:19:53 pilot-2 watchdog started (pid 5875)
+2026-10-05 16:21:38 pilot-2 watchdog stopped by request (no auto shutdown)
+2026-10-05 16:22:55 pilot-2 watchdog started (pid 8021)
+2026-10-05 16:52:57 pilot-2 watchdog stopped: no shutdown, diagnostics + camera normalization next

@@ -1,0 +1,17 @@
+[16:59:12] start diag_missed_cuhk03 on GPU 0
+[16:59:12] start p3_none_cn on GPU 1
+[16:59:12] start p3_anchor_cn on GPU 2
+[16:59:12] start p3_repair2_cn on GPU 3
+[17:00:37] diag_missed_cuhk03 done (GPU 0)
+[17:00:37] start diag_missed_market on GPU 0
+[17:03:22] diag_missed_market done (GPU 0)
+[17:03:22] start p3_random_cn on GPU 0
+[17:17:37] p3_random_cn done (GPU 0)
+[17:17:37] start p3_none_cn_market on GPU 0
+[17:17:42] p3_none_cn done (GPU 1)
+[17:18:07] p3_anchor_cn done (GPU 2)
+[17:20:12] p3_repair2_cn done (GPU 3)
+[17:20:12] start merge_p3 on GPU 1
+[17:20:52] merge_p3 done (GPU 1)
+[17:31:47] p3_none_cn_market done (GPU 0)
+all task groups finished

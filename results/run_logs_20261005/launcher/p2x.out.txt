@@ -1,0 +1,7 @@
+[16:53:23] start p2x_oracle8_cuhk03 on GPU 1
+[16:53:23] start p2x_oracle5_market on GPU 2
+[16:53:23] start p2x_none5_market_s1 on GPU 3
+[17:03:23] p2x_oracle8_cuhk03 done (GPU 1)
+[17:04:08] p2x_oracle5_market done (GPU 2)
+[17:04:13] p2x_none5_market_s1 done (GPU 3)
+all task groups finished

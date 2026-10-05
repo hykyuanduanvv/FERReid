@@ -1,0 +1,29 @@
+[10:57:15] start base_md_cuhk03 on GPU 0
+[10:57:15] start base_md_market1501 on GPU 1
+[10:57:15] start base_md_msmt17 on GPU 2
+[10:57:15] start base_tune on GPU 3
+[10:57:15] start base_vpt_cuhk03 on GPU 4
+[10:57:15] start base_vpt_market1501 on GPU 5
+[10:57:15] start base_vpt_msmt17 on GPU 6
+[10:57:15] start base_vicp_cuhk03 on GPU 7
+[10:57:25] base_md_market1501 FAILED exit=1 (GPU 1)
+[10:57:25] base_md_msmt17 FAILED exit=1 (GPU 2)
+[10:57:25] base_vpt_market1501 FAILED exit=1 (GPU 5)
+[10:57:25] base_vpt_msmt17 FAILED exit=1 (GPU 6)
+[10:57:25] sim_market1501 SKIPPED (prerequisite failed: ['base_md_market1501'])
+[10:57:25] sim_msmt17 SKIPPED (prerequisite failed: ['base_md_msmt17'])
+[10:57:25] rep_market1501_s0 SKIPPED (prerequisite failed: ['base_md_market1501'])
+[10:57:25] rep_market1501_s1 SKIPPED (prerequisite failed: ['base_md_market1501'])
+[10:57:25] rep_market1501_s2 SKIPPED (prerequisite failed: ['base_md_market1501'])
+[12:11:46] base_vpt_cuhk03 done (GPU 4)
+[12:11:46] start rabl_nomd on GPU 1
+[12:12:41] base_md_cuhk03 done (GPU 0)
+[12:12:41] start sim_cuhk03 on GPU 2
+[12:12:41] start pilot_s0a on GPU 5
+[12:12:41] start pilot_s0b on GPU 6
+[12:12:41] start pilot_s1a on GPU 4
+[12:12:41] start pilot_s1b on GPU 0
+[12:15:01] base_tune done (GPU 3)
+[12:15:01] start pilot_s2a on GPU 3
+[12:23:16] sim_cuhk03 done (GPU 2)
+[12:23:16] start pilot_s2b on GPU 2

@@ -1,0 +1,15 @@
+[17:12:06] start p4_sl1_front on GPU 0
+[17:12:06] start p4_sl5_front on GPU 1
+[17:12:06] start p4_sl3_front on GPU 2
+[17:12:06] start p4_sl1_front_cn on GPU 3
+[17:33:47] p4_sl5_front done (GPU 1)
+[17:33:47] start p4_sl1 on GPU 1
+[17:33:52] p4_sl3_front done (GPU 2)
+[17:33:52] start p4_sl5 on GPU 2
+[17:36:07] p4_sl1_front_cn done (GPU 3)
+[17:45:57] p4_sl1_front done (GPU 0)
+[17:46:52] p4_sl5 done (GPU 2)
+[17:47:17] p4_sl1 done (GPU 1)
+[17:47:17] start merge_p4 on GPU 3
+[17:47:27] merge_p4 done (GPU 3)
+all task groups finished
