@@ -63,6 +63,8 @@ class ActiveConfig:
     answers_file: str = ""        # strategy "file": machine answers (csv with i, j, vlm_score; scripts/diag_vlm.py)
     answer_yes: float = 2.2       # file: accept "same" when vlm_score > answer_yes (log-odds; 2.2 ~ P(yes) 0.9)
     answer_no: float = -2.2       # file: accept "different" when vlm_score < answer_no; in between: no answer
+    human_verify: int = 0         # file: a human checks the top-N "same" candidates of the machine (by score); 0: none
+    unverified_yes: str = "trust" # file + human_verify: "trust" the machine's remaining "same" answers or "drop" them
 
 
 def base_prompt(model):
@@ -254,19 +256,30 @@ class ActiveRun:
         if any(r.get("kind") == "q_all" for r in rows):
             rows = [r for r in rows if r.get("kind") == "q_all"]
         rows.sort(key=lambda r: -abs(float(r["vlm_score"])))  # most confident first
-        n_yes = n_no = right_yes = right_no = 0
+        # VLM-assisted active learning: a human checks the machine's most confident "same" candidates
+        verify = {(int(r["i"]), int(r["j"])) for r in sorted(rows, key=lambda r: -float(r["vlm_score"]))
+                  [:cfg.human_verify] if float(r["vlm_score"]) > cfg.answer_yes}
+        n_yes = n_no = right_yes = right_no = n_human = human_pos = 0
         for r in rows:
             if n_yes + n_no >= self.budget:
                 break
             i, j, s = int(r["i"]), int(r["j"]), float(r["vlm_score"])
             if cfg.answer_no <= s <= cfg.answer_yes or store.infer(i, j) is not None:
                 continue
+            if (i, j) in verify:  # human answer (counted as a human query)
+                truth = self.oracle.same(i, j)
+                store.add(i, j, truth)
+                n_human += 1; human_pos += truth
+                continue
             same = s > cfg.answer_yes
+            if same and cfg.human_verify and cfg.unverified_yes == "drop":
+                continue
             store.add(i, j, same)
             truth = bool(self.oracle._pids[i] == self.oracle._pids[j])  # reporting only (not a human query)
             n_yes += same; n_no += not same
             right_yes += same and truth; right_no += (not same) and (not truth)
-        return {"n_machine_yes": n_yes, "n_machine_no": n_no, "machine_yes_prec": right_yes / max(n_yes, 1),
+        return {"n_human_verified": n_human, "n_human_yes": human_pos,
+                "n_machine_yes": n_yes, "n_machine_no": n_no, "machine_yes_prec": right_yes / max(n_yes, 1),
                 "machine_no_prec": right_no / max(n_no, 1), "round_pos_rate": n_yes / max(n_yes + n_no, 1)}
 
     def _committee_labels(self):

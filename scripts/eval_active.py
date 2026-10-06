@@ -88,6 +88,8 @@ class ActiveArguments:
     answers_file: str = field(default="")       # strategy file: machine answers (i, j, vlm_score)
     answer_yes: float = field(default=2.2)
     answer_no: float = field(default=-2.2)
+    human_verify: int = field(default=0)
+    unverified_yes: str = field(default="trust")
 
 
 def load_split(name, device, cache_max, num_workers):
