@@ -60,6 +60,9 @@ BACKBONES = {
                   'weights': os.path.join(DOMAIN_CONFIG['weights_dir'], 'pass_vits_lup.pth'), 'input_size': (256, 128)},
     'pass_vitb': {'kind': 'clip', 'arch': 'vit_base_patch16_224', 'norm': 'half',
                   'weights': os.path.join(DOMAIN_CONFIG['weights_dir'], 'pass_vitb_lup.pth'), 'input_size': (256, 128)},
+    # the same with the three pre-trained [PART] tokens kept (frozen) in the sequence
+    'pass_vitb_p': {'kind': 'clip', 'arch': 'vit_base_patch16_224', 'norm': 'half', 'parts': True,
+                    'weights': os.path.join(DOMAIN_CONFIG['weights_dir'], 'pass_vitb_lup.pth'), 'input_size': (256, 128)},
     # randomly initialised tiny ViT for the CPU tests (tests/*.py); never used for experiments
     'tiny_test': {'kind': 'timm_random', 'arch': 'vit_tiny_patch16_224', 'input_size': (256, 128)},
 }

@@ -1,0 +1,16 @@
+# 10-06 night: PASS (ECCV22) LUPerson ViT-B/16 as the ReID backbone of our prompt line. Same recipe as CLIP
+# (32 ids x 4 cross-camera, no WPA, LoRA last 4 blocks, multi-domain tokens); stage-1 lr 1e-4 and 2e-4 both trained,
+# the tuning fold (CUHK-SYSU validation) decides which one is used.
+
+pass_tune_lr1e-4 | gpu_wait && train pass_tune_lr1e-4 6000 $MD $PASSB --source_domains market1501,msmt17 --source_all_images False --val_domains cuhksysu --eval_strategy steps --eval_steps 2000 $LOSS_ARGS $SCHEDULE --learning_rate 1e-4
+pass_tune_lr2e-4 | gpu_wait && train pass_tune_lr2e-4 6000 $MD $PASSB --source_domains market1501,msmt17 --source_all_images False --val_domains cuhksysu --eval_strategy steps --eval_steps 2000 $LOSS_ARGS $SCHEDULE --learning_rate 2e-4
+pass1_md_msmt17 | gpu_wait && train pass1_md_msmt17 $STEPS $MD $PASSB $(fold msmt17) $LOSS_ARGS $SCHEDULE --learning_rate 1e-4
+pass2_md_msmt17 | gpu_wait && train pass2_md_msmt17 $STEPS $MD $PASSB $(fold msmt17) $LOSS_ARGS $SCHEDULE --learning_rate 2e-4
+pass1_md_cuhk03 | gpu_wait && train pass1_md_cuhk03 $STEPS $MD $PASSB $(fold cuhk03) $LOSS_ARGS $SCHEDULE --learning_rate 1e-4
+pass2_md_cuhk03 | gpu_wait && train pass2_md_cuhk03 $STEPS $MD $PASSB $(fold cuhk03) $LOSS_ARGS $SCHEDULE --learning_rate 2e-4
+pass1_none_msmt after=pass1_md_msmt17 | gpu_wait && active pass1_none_msmt $(ckpt pass1_md_msmt17) --domains msmt17 --strategies none --n_seeds 1 --base_seed 0 $REP
+pass2_none_msmt after=pass2_md_msmt17 | gpu_wait && active pass2_none_msmt $(ckpt pass2_md_msmt17) --domains msmt17 --strategies none --n_seeds 1 --base_seed 0 $REP
+pass1_none_cuhk03 after=pass1_md_cuhk03 | gpu_wait && active pass1_none_cuhk03 $(ckpt pass1_md_cuhk03) --domains cuhk03 --strategies none --n_seeds 1 --base_seed 0 $REP
+pass2_none_cuhk03 after=pass2_md_cuhk03 | gpu_wait && active pass2_none_cuhk03 $(ckpt pass2_md_cuhk03) --domains cuhk03 --strategies none --n_seeds 1 --base_seed 0 $REP
+pass1_md_market1501 | gpu_wait && train pass1_md_market1501 $STEPS $MD $PASSB $(fold market1501) $LOSS_ARGS $SCHEDULE --learning_rate 1e-4
+pass2_md_market1501 | gpu_wait && train pass2_md_market1501 $STEPS $MD $PASSB $(fold market1501) $LOSS_ARGS $SCHEDULE --learning_rate 2e-4

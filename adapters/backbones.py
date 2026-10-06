@@ -20,6 +20,7 @@ class TimMViTWrapper(nn.Module):
 
     def __init__(self, img_size=(256, 128), weights=_VIT_B16_LOCAL, arch="vit_base_patch16_224"):
         super().__init__()
+        self.part_tokens = None
         if weights is None:  # CPU tests only (BACKBONES["tiny_test"]): random weights, no file needed
             self._vit = timm.create_model(arch, pretrained=False, img_size=img_size, num_classes=0)
             return
@@ -35,7 +36,10 @@ class TimMViTWrapper(nn.Module):
             img_size=img_size, num_classes=0,
         )
         state = torch.load(weights, map_location="cpu", weights_only=False)
+        self.part_tokens = None
         if "cls_pos" in state:  # PASS / TransReID-SSL (LUPerson) checkpoint: separate [CLS] position, [PART] tokens
+            parts = [state[f"part_token{k}"] + state[f"part{k}_pos"] for k in (1, 2, 3)]
+            self.part_tokens = torch.cat(parts, dim=1)  # (1, 3, D), kept frozen (see ClipViTWrapper parts=True)
             state = {k: v for k, v in state.items() if not k.startswith(("part_token", "part1_", "part2_", "part3_"))}
             state["pos_embed"] = torch.cat([state.pop("cls_pos"), state["pos_embed"]], dim=1)
         self._vit.load_state_dict(state, strict=True)  # fail loudly instead of silently random-init
@@ -82,8 +86,13 @@ class ClipViTWrapper(TimMViTWrapper):
     CLIP = ((0.48145466, 0.4578275, 0.40821073), (0.26862954, 0.26130258, 0.27577711))
     HALF = ((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))  # PASS / TransReID-SSL LUPerson models (self_norm)
 
-    def __init__(self, img_size, weights, arch, norm="clip"):
+    def __init__(self, img_size, weights, arch, norm="clip", parts=False):
         super().__init__(img_size=img_size, weights=weights, arch=arch)
+        # parts: PASS models were pre-trained with three [PART] tokens after [CLS]; keep them (frozen, with their
+        # positions) in the sequence so [CLS] sees the context it was trained in
+        self.use_parts = bool(parts) and self.part_tokens is not None
+        if self.use_parts:
+            self.register_buffer("_parts", self.part_tokens.clone(), persistent=False)
         (mi, si), (mc, sc) = self.IMAGENET, {"clip": self.CLIP, "half": self.HALF}[norm]
         t = lambda v: torch.tensor(v).view(1, 3, 1, 1)
         self.register_buffer("_scale", t(si) / t(sc), persistent=False)
@@ -93,10 +102,18 @@ class ClipViTWrapper(TimMViTWrapper):
         return x * self._scale.to(x.dtype) + self._shift.to(x.dtype)
 
     def prepare_tokens_with_masks(self, x, masks=None):
-        return super().prepare_tokens_with_masks(self._renorm(x), masks)
+        x = super().prepare_tokens_with_masks(self._renorm(x), masks)
+        if self.use_parts:
+            x = torch.cat([x[:, :1], self._parts.to(x.dtype).expand(x.size(0), -1, -1), x[:, 1:]], dim=1)
+        return x
 
     def forward_features(self, x):
-        return super().forward_features(self._renorm(x))
+        if not self.use_parts:
+            return super().forward_features(self._renorm(x))
+        x = self.prepare_tokens_with_masks(x)
+        for blk in self.blocks:
+            x = blk(x)
+        return {"x_norm_clstoken": self.norm(x)[:, 0]}
 
 
 class Dinov2Wrapper(nn.Module):
@@ -165,7 +182,8 @@ def load_backbone(name):
     if cfg["kind"] == "timm":
         return TimMViTWrapper(img_size=tuple(cfg["input_size"]), weights=cfg["weights"])
     if cfg["kind"] == "clip":
-        return ClipViTWrapper(tuple(cfg["input_size"]), cfg["weights"], cfg["arch"], cfg.get("norm", "clip"))
+        return ClipViTWrapper(tuple(cfg["input_size"]), cfg["weights"], cfg["arch"], cfg.get("norm", "clip"),
+                              cfg.get("parts", False))
     if cfg["kind"] == "timm_random":
         return TimMViTWrapper(img_size=tuple(cfg["input_size"]), weights=None, arch=cfg["arch"])
     if cfg["kind"] == "dinov2":

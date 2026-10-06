@@ -1,0 +1,5 @@
+# 10-06 night: why is PASS ViT-B weak in the frozen setting? (MSMT17 fold, lr 2e-4; cf. pass2: base 13.0, none 25.4)
+pass2p_md_msmt17 | gpu_wait && train pass2p_md_msmt17 $STEPS $MD $PASSB --backbone pass_vitb_p $(fold msmt17) $LOSS_ARGS $SCHEDULE --learning_rate 2e-4
+pass2l12_md_msmt17 | gpu_wait && train pass2l12_md_msmt17 $STEPS $MD $PASSB --lora_layers 12 $(fold msmt17) $LOSS_ARGS $SCHEDULE --learning_rate 2e-4
+pass2p_none_msmt after=pass2p_md_msmt17 | gpu_wait && active pass2p_none_msmt $(ckpt pass2p_md_msmt17) --domains msmt17 --strategies none --n_seeds 1 --base_seed 0 $REP
+pass2l12_none_msmt after=pass2l12_md_msmt17 | gpu_wait && active pass2l12_none_msmt $(ckpt pass2l12_md_msmt17) --domains msmt17 --strategies none --n_seeds 1 --base_seed 0 $REP

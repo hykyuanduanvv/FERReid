@@ -32,6 +32,7 @@ fold() { echo "--source_domains $(fold_sources "$1") --target_domains $1 --sourc
 
 # multi-domain tokens of the base model (method A): m tokens per layer for every source domain
 CLIP="--backbone clip_b16 --per_device_train_batch_size 32 --instances_per_id 4 --cross_camera_instances True --ot_loss_weight 0"
+PASSB="--backbone pass_vitb --per_device_train_batch_size 32 --instances_per_id 4 --cross_camera_instances True --ot_loss_weight 0"
 MD="--model_type vpt --source_domain_tokens ${MD_TOKENS:-8}"
 
 # train <name> <steps> [extra args...]
@@ -90,14 +91,20 @@ run_fallback_queue() {
 # until it exits, so two launchers never start on one GPU together) and less than 1.5 GB in use (runs started
 # without the lock, e.g. by an older launcher, still finishing there)
 gpu_wait() {
-  local g=${CUDA_VISIBLE_DEVICES:-0} used
-  exec 8>"/tmp/ferreid_gpu$g.lock"
+  # any GPU (not only the one the launcher assigned): the first whose per-GPU lock is free and that has less than
+  # 1.5 GB in use; the lock is held (fd 8) until this task's shell exits and CUDA_VISIBLE_DEVICES is set to it
+  local n g used
+  n=$(nvidia-smi --query-gpu=index --format=csv,noheader | wc -l)
   while true; do
-    if flock -n 8; then
-      used=$(nvidia-smi -i "$g" --query-gpu=memory.used --format=csv,noheader,nounits | tr -d ' ')
-      [ "$used" -lt 1500 ] && return 0
-      flock -u 8
-    fi
+    for g in $(seq 0 $((n - 1))); do
+      exec 8>"/tmp/ferreid_gpu$g.lock"
+      if flock -n 8; then
+        used=$(nvidia-smi -i "$g" --query-gpu=memory.used --format=csv,noheader,nounits | tr -d " ")
+        if [ "$used" -lt 1500 ]; then export CUDA_VISIBLE_DEVICES=$g; echo "[gpu_wait] using GPU $g"; return 0; fi
+        flock -u 8
+      fi
+      exec 8>&-
+    done
     sleep 30
   done
 }
