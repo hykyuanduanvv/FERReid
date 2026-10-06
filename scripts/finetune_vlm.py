@@ -77,7 +77,7 @@ def main():
         batch = [rows[(step * a.batch + k) % len(rows)] for k in range(a.batch)]
         imgs = []
         for r in batch:
-            imgs += [load(r["path_a"], a.height), load(r["path_b"], a.height)]
+            imgs += [load(r["path_a"], a.height, cap=True), load(r["path_b"], a.height, cap=True)]
         inputs = proc(text=[text] * len(batch), images=imgs, return_tensors="pt", padding=True).to("cuda")
         logits = model(**inputs, logits_to_keep=1).logits[:, -1].float()
         lp = torch.log_softmax(logits, -1)

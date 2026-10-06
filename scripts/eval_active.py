@@ -85,6 +85,9 @@ class ActiveArguments:
     cam_norm: bool = field(default=False)       # clustering / selection on camera-normalised features
     shortlist_k: int = field(default=5)         # shortlist questions: candidate clusters per question
     shortlist_rank: str = field(default="rule")  # shortlist: rule | committee (source-token clusterings)
+    answers_file: str = field(default="")       # strategy file: machine answers (i, j, vlm_score)
+    answer_yes: float = field(default=2.2)
+    answer_no: float = field(default=-2.2)
 
 
 def load_split(name, device, cache_max, num_workers):

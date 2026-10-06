@@ -45,9 +45,10 @@ def first_token_ids(tokenizer, words):
     return sorted(ids)
 
 
-def load(path, height):
+def load(path, height, cap=False):
+    """cap: also shrink taller images to `height` (bounds the number of vision tokens, e.g. MSMT17 crops)."""
     img = Image.open(path).convert("RGB")
-    if img.height < height:  # small pedestrian crops: upscale so the vision encoder sees enough patches
+    if img.height < height or (cap and img.height > height):  # small pedestrian crops: upscale so the vision encoder sees enough patches
         img = img.resize((max(28, round(img.width * height / img.height)), height), Image.BICUBIC)
     return img
 

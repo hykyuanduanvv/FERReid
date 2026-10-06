@@ -34,7 +34,10 @@ class TimMViTWrapper(nn.Module):
             arch, pretrained=False,
             img_size=img_size, num_classes=0,
         )
-        state = torch.load(weights, map_location="cpu")
+        state = torch.load(weights, map_location="cpu", weights_only=False)
+        if "cls_pos" in state:  # PASS / TransReID-SSL (LUPerson) checkpoint: separate [CLS] position, [PART] tokens
+            state = {k: v for k, v in state.items() if not k.startswith(("part_token", "part1_", "part2_", "part3_"))}
+            state["pos_embed"] = torch.cat([state.pop("cls_pos"), state["pos_embed"]], dim=1)
         self._vit.load_state_dict(state, strict=True)  # fail loudly instead of silently random-init
 
     # Expose DINOv2-compatible attributes as properties (no duplicate submodule registration)
@@ -77,10 +80,11 @@ class ClipViTWrapper(TimMViTWrapper):
 
     IMAGENET = ((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))
     CLIP = ((0.48145466, 0.4578275, 0.40821073), (0.26862954, 0.26130258, 0.27577711))
+    HALF = ((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))  # PASS / TransReID-SSL LUPerson models (self_norm)
 
-    def __init__(self, img_size, weights, arch):
+    def __init__(self, img_size, weights, arch, norm="clip"):
         super().__init__(img_size=img_size, weights=weights, arch=arch)
-        (mi, si), (mc, sc) = self.IMAGENET, self.CLIP
+        (mi, si), (mc, sc) = self.IMAGENET, {"clip": self.CLIP, "half": self.HALF}[norm]
         t = lambda v: torch.tensor(v).view(1, 3, 1, 1)
         self.register_buffer("_scale", t(si) / t(sc), persistent=False)
         self.register_buffer("_shift", (t(mi) - t(mc)) / t(sc), persistent=False)
@@ -161,7 +165,7 @@ def load_backbone(name):
     if cfg["kind"] == "timm":
         return TimMViTWrapper(img_size=tuple(cfg["input_size"]), weights=cfg["weights"])
     if cfg["kind"] == "clip":
-        return ClipViTWrapper(tuple(cfg["input_size"]), cfg["weights"], cfg["arch"])
+        return ClipViTWrapper(tuple(cfg["input_size"]), cfg["weights"], cfg["arch"], cfg.get("norm", "clip"))
     if cfg["kind"] == "timm_random":
         return TimMViTWrapper(img_size=tuple(cfg["input_size"]), weights=None, arch=cfg["arch"])
     if cfg["kind"] == "dinov2":

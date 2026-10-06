@@ -7,6 +7,8 @@ the active loop. Per domain:
            complementary cluster): medoid of cluster A vs medoid of its candidate, first `n_questions`
   hardpos  same person, different clusters, different cameras (what the clustering misses), random sample
   hardneg  different persons in different clusters, the most similar cross-camera k-NN pairs
+  q_all    (--all_k K) every cluster vs its K nearest complementary clusters, medoid vs medoid: the questions a
+           machine annotator answers without a budget (scripts/eval_active.py --strategies file)
 Writes <output_dir>/verify_pairs.csv: domain, kind, path_a, path_b, same, sim, tau (tau: the similarity threshold
 with the best accuracy on that domain's pairs -- an oracle threshold, favouring the ReID baseline).
 
@@ -38,6 +40,7 @@ class PairArgs:
     checkpoint: str = field(default="")
     domains: str = field(default="msmt17")
     n_questions: int = field(default=250)
+    all_k: int = field(default=0)        # > 0: also "q_all", every cluster vs its all_k nearest complementary clusters
     n_hard: int = field(default=250)
     pseudo_eps: float = field(default=0.6)
     cache_max: int = field(default=40000)
@@ -83,6 +86,13 @@ def main():
                 break
             if np.isfinite(top1[c]):
                 pairs.append(("q_rule", int(medoid[c]), int(medoid[int(np.argmax(S[c]))])))
+        if a.all_k > 0:  # machine-answered questions: no budget, every cluster (pairs deduplicated)
+            done = set()
+            for c in range(C):
+                for d in np.argsort(-S[c])[:a.all_k]:
+                    if np.isfinite(S[c, d]) and (min(c, d), max(c, d)) not in done:
+                        done.add((min(c, d), max(c, d)))
+                        pairs.append(("q_all", int(medoid[c]), int(medoid[d])))
         gid = labels.copy()
         o = np.flatnonzero(gid < 0)
         gid[o] = gid.max() + 1 + np.arange(len(o))
@@ -106,9 +116,11 @@ def main():
         same = np.array([pids[i] == pids[j] for _, i, j in pairs])
         tau = best_tau(sim, same)
         for (kind, i, j), s, y in zip(pairs, sim, same):
-            rows.append({"domain": name, "kind": kind, "path_a": paths[i], "path_b": paths[j], "same": int(y),
+            rows.append({"domain": name, "kind": kind, "i": i, "j": j, "path_a": paths[i], "path_b": paths[j], "same": int(y),
                          "sim": s, "tau": tau})
-        for kind in ("q_rule", "hardpos", "hardneg"):
+        for kind in ("q_rule", "q_all", "hardpos", "hardneg"):
+            if not any(p[0] == kind for p in pairs):
+                continue
             m = np.array([p[0] == kind for p in pairs])
             print("{} {:<8} n {:>4} pos rate {:.3f} reid acc@tau {:.3f}".format(
                 name, kind, int(m.sum()), same[m].mean(), ((sim[m] > tau) == same[m]).mean()), flush=True)

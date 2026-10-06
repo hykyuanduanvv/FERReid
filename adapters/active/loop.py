@@ -60,6 +60,9 @@ class ActiveConfig:
     shortlist_k: int = 5          # shortlist: candidate clusters shown per question (cost: one comparison each)
     shortlist_rank: str = "rule"  # shortlist: "rule" (fewest cameras, then centroid cosine) | "committee" (co-association
     #                               of the clusterings under each source domain's tokens, complementary clusters only)
+    answers_file: str = ""        # strategy "file": machine answers (csv with i, j, vlm_score; scripts/diag_vlm.py)
+    answer_yes: float = 2.2       # file: accept "same" when vlm_score > answer_yes (log-odds; 2.2 ~ P(yes) 0.9)
+    answer_no: float = -2.2       # file: accept "different" when vlm_score < answer_no; in between: no answer
 
 
 def base_prompt(model):
@@ -88,7 +91,7 @@ class ActiveRun:
 
     def __init__(self, model, split, strategy, cfg, seed, log=print):
         self.model, self.split, self.strategy, self.cfg, self.seed, self.log = model, split, strategy, cfg, seed, log
-        if not (strategy in STRATEGIES or strategy in REPAIR_STRATEGIES or strategy in ("none", "oracle", "shortlist")
+        if not (strategy in STRATEGIES or strategy in REPAIR_STRATEGIES or strategy in ("none", "oracle", "shortlist", "file")
                 or strategy.startswith("anchor:")):
             raise ValueError("unknown strategy {}; pair strategies: {}, repair strategies: {}, none, or "
                              "anchor:<image selector>".format(strategy, sorted(STRATEGIES), REPAIR_STRATEGIES))
@@ -242,6 +245,30 @@ class ActiveRun:
             nq += 1
         return {"n_shortlist_q": nq, "round_pos_rate": pos / max(asked, 1), "shortlist_hit_rate": hits / max(nq, 1)}
 
+    def _ask_file(self):
+        """Machine-answered questions (e.g. a fine-tuned MLLM, scripts/diag_vlm.py): only confident answers enter
+        the constraints, at most `budget` of them; the person ids only report how many accepted answers are right."""
+        import csv
+        cfg, store = self.cfg, self.store
+        rows = [r for r in csv.DictReader(open(cfg.answers_file)) if r.get("domain", self.split.name) == self.split.name]
+        if any(r.get("kind") == "q_all" for r in rows):
+            rows = [r for r in rows if r.get("kind") == "q_all"]
+        rows.sort(key=lambda r: -abs(float(r["vlm_score"])))  # most confident first
+        n_yes = n_no = right_yes = right_no = 0
+        for r in rows:
+            if n_yes + n_no >= self.budget:
+                break
+            i, j, s = int(r["i"]), int(r["j"]), float(r["vlm_score"])
+            if cfg.answer_no <= s <= cfg.answer_yes or store.infer(i, j) is not None:
+                continue
+            same = s > cfg.answer_yes
+            store.add(i, j, same)
+            truth = bool(self.oracle._pids[i] == self.oracle._pids[j])  # reporting only (not a human query)
+            n_yes += same; n_no += not same
+            right_yes += same and truth; right_no += (not same) and (not truth)
+        return {"n_machine_yes": n_yes, "n_machine_no": n_no, "machine_yes_prec": right_yes / max(n_yes, 1),
+                "machine_no_prec": right_no / max(n_no, 1), "round_pos_rate": n_yes / max(n_yes + n_no, 1)}
+
     def _committee_labels(self):
         """Pool clusterings under each source domain's tokens (shared prompt | domain_prompts[d]); the base model
         is frozen, so they are computed once per run."""
@@ -306,6 +333,8 @@ class ActiveRun:
                 info = self._ask_anchors(sel)
             elif self.strategy == "shortlist":
                 info = self._ask_shortlist(sel)
+            elif self.strategy == "file":
+                info = self._ask_file()
             else:
                 info = self._ask_pairs(sel)
             if self.strategy == "oracle":  # upper bound, every round: the true identities of the pool

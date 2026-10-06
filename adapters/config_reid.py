@@ -54,6 +54,12 @@ BACKBONES = {
     'clip_b16': {'kind': 'clip', 'arch': 'vit_base_patch16_clip_quickgelu_224',
                  'weights': os.path.join(DOMAIN_CONFIG['weights_dir'], 'vit_base_patch16_clip_quickgelu_openai.pth'),
                  'input_size': (256, 128)},
+    # PASS (ECCV'22) LUPerson self-supervised ViT-S/16 and ViT-B/16 (CASIA-IVA-Lab/PASS-reID release, files renamed),
+    # 256x128 = 16x8 patches; [PART] tokens dropped (CLS feature); inputs normalised with mean = std = 0.5 as in PASS
+    'pass_vits': {'kind': 'clip', 'arch': 'vit_small_patch16_224', 'norm': 'half',
+                  'weights': os.path.join(DOMAIN_CONFIG['weights_dir'], 'pass_vits_lup.pth'), 'input_size': (256, 128)},
+    'pass_vitb': {'kind': 'clip', 'arch': 'vit_base_patch16_224', 'norm': 'half',
+                  'weights': os.path.join(DOMAIN_CONFIG['weights_dir'], 'pass_vitb_lup.pth'), 'input_size': (256, 128)},
     # randomly initialised tiny ViT for the CPU tests (tests/*.py); never used for experiments
     'tiny_test': {'kind': 'timm_random', 'arch': 'vit_tiny_patch16_224', 'input_size': (256, 128)},
 }
