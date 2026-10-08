@@ -1,0 +1,4 @@
+# 10-06: CLIP MSMT17 fold at stage-1 lr 2e-4 (tuning fold: 2e-4 > 1e-4), then none / oracle (seed 0)
+clip2_md_cuhk03 | gpu_wait && train clip2_md_cuhk03 $STEPS $MD $CLIP $(fold cuhk03) $LOSS_ARGS $SCHEDULE --learning_rate 2e-4
+c62_none_cuhk03_s0   after=clip2_md_cuhk03 | gpu_wait && active c62_none_cuhk03_s0   $(ckpt clip2_md_cuhk03) --domains cuhk03 --strategies none   --n_seeds 1 --base_seed 0 $REP
+c62_oracle_cuhk03_s0 after=clip2_md_cuhk03 | gpu_wait && active c62_oracle_cuhk03_s0 $(ckpt clip2_md_cuhk03) --domains cuhk03 --strategies oracle --n_seeds 1 --base_seed 0 $REP

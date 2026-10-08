@@ -5,6 +5,9 @@ between clusters. Transitivity answers further pairs without asking:
   i ~ j and j ~ k             ->  i ~ k
   i ~ j and j !~ k            ->  i !~ k
 so a strategy's ranked list is consumed until the budget is spent on pairs whose answer is unknown.
+
+Cannot-links added with split=False (mix:<eps>: "different" answers to merge questions) count for inference
+but not for infer_split(), which the clustering uses to split clusters when only member answers may split.
 """
 
 
@@ -14,6 +17,7 @@ class ConstraintStore:
         self._parent = {}
         self._members = {}   # root -> list of images
         self._cannot = {}    # root -> set of roots known to be other people
+        self._cannot_split = {}  # root -> the subset of _cannot added with split=True
         self.answers = []    # (i, j, same) in query order
         self.n_inferred = 0  # pairs a strategy proposed whose answer followed from earlier answers
 
@@ -24,6 +28,7 @@ class ConstraintStore:
             self._parent[i] = i
             self._members[i] = [i]
             self._cannot[i] = set()
+            self._cannot_split[i] = set()
 
     def find(self, i):
         if i not in self._parent:
@@ -53,7 +58,18 @@ class ConstraintStore:
             return False
         return None
 
-    def add(self, i, j, same):
+    def infer_split(self, i, j):
+        """infer() restricted to the cannot-links added with split=True."""
+        ri, rj = self.find(i), self.find(j)
+        if ri is None or rj is None:
+            return None
+        if ri == rj:
+            return True
+        if rj in self._cannot_split[ri]:
+            return False
+        return None
+
+    def add(self, i, j, same, split=True):
         i, j = int(i), int(j)
         self._add_node(i)
         self._add_node(j)
@@ -73,11 +89,19 @@ class ConstraintStore:
             for r in moved:
                 self._cannot[r].discard(rj)
                 self._cannot[r].add(ri)
+            moved = self._cannot_split.pop(rj)
+            self._cannot_split[ri] |= moved
+            for r in moved:
+                self._cannot_split[r].discard(rj)
+                self._cannot_split[r].add(ri)
         else:
             if ri == rj:
                 raise ValueError("contradicting answers for images {} and {}".format(i, j))
             self._cannot[ri].add(rj)
             self._cannot[rj].add(ri)
+            if split:
+                self._cannot_split[ri].add(rj)
+                self._cannot_split[rj].add(ri)
 
     # ------------------------------------------------------------------ views
 

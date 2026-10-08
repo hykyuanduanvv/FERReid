@@ -160,6 +160,10 @@ class PoolGraph:
                 nxt += 1
         answered = np.asarray(store.images(), np.int64)
         touched = np.unique(labels[answered]) if len(answered) else np.zeros(0, np.int64)
+        if not getattr(self, "split_cannot", True):  # cannot-links do not split clusters (--cannot_use train|none)
+            return labels
+        # mix:<eps>: only the "different" answers to member questions split clusters
+        infer = store.infer_split if getattr(self, "member_split_only", False) else store.infer
         for lab in touched[touched >= 0]:  # only pseudo clusters holding answered images can conflict
             members = np.flatnonzero(labels == lab)
             rs = sorted({store.find(int(i)) for i in members if store.labeled(int(i))},
@@ -167,7 +171,7 @@ class PoolGraph:
             groups = []
             for r in rs:  # greedy: first group without a cannot-link to r
                 for g in groups:
-                    if not any(store.infer(roots[r][0], roots[o][0]) is False for o in g):
+                    if not any(infer(roots[r][0], roots[o][0]) is False for o in g):
                         g.append(r)
                         break
                 else:

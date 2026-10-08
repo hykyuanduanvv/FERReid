@@ -1,0 +1,3 @@
+# 10-06 night: human budget curve on MSMT17 (shortlist K=1, all in round 1): 500 / 1000 comparisons (cf. 250: 53.0 / 51.7)
+hb500_msmt  | gpu_wait && active hb500_msmt  $(ckpt base_md_msmt17) --domains msmt17 --strategies shortlist --n_seeds 1 --base_seed 0 $REP --shortlist_k 1 --budget_schedule 500,0,0,0,0  --strategy_suffix @k1front500
+hb1000_msmt | gpu_wait && active hb1000_msmt $(ckpt base_md_msmt17) --domains msmt17 --strategies shortlist --n_seeds 1 --base_seed 0 $REP --shortlist_k 1 --budget_schedule 1000,0,0,0,0 --strategy_suffix @k1front1000

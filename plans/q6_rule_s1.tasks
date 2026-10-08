@@ -1,0 +1,1 @@
+q6_rule_msmt_s1  | gpu_wait && active q6_rule_msmt_s1  $(ckpt base_md_msmt17) --domains msmt17 --strategies shortlist --n_seeds 1 --base_seed 1 $REP --shortlist_k 1 --budget_schedule 250,0,0,0,0 --strategy_suffix @k1front

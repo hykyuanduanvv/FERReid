@@ -1,0 +1,3 @@
+# 10-06: human-answer baselines on MSMT17 (DINOv2), 250 comparisons in round 1, seed 0 (cf. none 51.1, rule 53.0, oracle 59.8)
+q6_random_front_msmt  | gpu_wait && active q6_random_front_msmt  $(ckpt base_md_msmt17) --domains msmt17 --strategies random  --n_seeds 1 --base_seed 0 $REP --budget_schedule 250,0,0,0,0 --strategy_suffix @front
+q6_repair2_front_msmt | gpu_wait && active q6_repair2_front_msmt $(ckpt base_md_msmt17) --domains msmt17 --strategies repair2 --n_seeds 1 --base_seed 0 $REP --budget_schedule 250,0,0,0,0 --strategy_suffix @front

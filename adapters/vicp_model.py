@@ -92,7 +92,7 @@ class VICPModel(nn.Module):
 
     @staticmethod
     def _resolve_llm_model(name):
-        local = os.environ.get("QWEN3_06B_DIR", "/root/basic-models/Qwen3-0.6B")
+        local = os.environ.get("QWEN3_06B_DIR", "/data1/yangbin/dz/models/Qwen3-0.6B")
         return local if name == "Qwen/Qwen3-0.6B" and os.path.isdir(local) else name
 
     def _icl_prompts(self, image_features, labels_e, device):

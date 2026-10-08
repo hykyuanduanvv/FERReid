@@ -26,8 +26,8 @@ future==1.0.0
 imageio==2.37.4
 
 # torchreid is installed from source (not on PyPI), commit f8cd150:
-#   git clone https://github.com/KaiyangZhou/deep-person-reid.git /root/autodl-tmp/deep-person-reid
-#   pip install -r /root/autodl-tmp/deep-person-reid/requirements.txt
-#   echo /root/autodl-tmp/deep-person-reid > $(python -c "import site;print(site.getsitepackages()[0])")/torchreid.pth
+#   git clone https://github.com/KaiyangZhou/deep-person-reid.git /data1/yangbin/dz/external/deep-person-reid
+#   pip install -r /data1/yangbin/dz/external/deep-person-reid/requirements.txt
+#   echo /data1/yangbin/dz/external/deep-person-reid > $(python -c "import site;print(site.getsitepackages()[0])")/torchreid.pth
 # (python setup.py develop was OOM-killed on this machine; the .pth registration skips the
 #  Cython build, so torchreid falls back to its Python ranking code, which is fine at this scale)

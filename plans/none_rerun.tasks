@@ -1,0 +1,3 @@
+# 10-06 night: none baselines re-run with the current code (image decoding changed today), same-code comparison with the VLM runs
+n6_none_cuhk03 | gpu_wait && active n6_none_cuhk03 $(ckpt base_md_cuhk03) --domains cuhk03 --strategies none --n_seeds 3 $REP
+n6_none_market | gpu_wait && active n6_none_market $(ckpt base_md_market1501) --domains market1501 --strategies none --n_seeds 2 $REP

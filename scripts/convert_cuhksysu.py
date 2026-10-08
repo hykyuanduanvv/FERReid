@@ -7,7 +7,7 @@ Output (adapters/cuhksysu.py layout, <pid>_<scene>_<n>.jpg, pid = the number of 
     gallery/  the boxes of those persons in their TestG100 gallery scenes (expected  5,447 crops)
 Boxes are (xmin, ymin, width, height) as in the release README. Refuses to write into a non-empty directory.
 
-  python scripts/convert_cuhksysu.py --src /root/autodl-tmp/datasets/cuhksysu/dataset \
+  python scripts/convert_cuhksysu.py --src /data1/yangbin/dz/datasets/cuhksysu/dataset \
       --dst $FERREID_DATA_ROOT/cuhksysu/cuhksysu4reid
 """
 import argparse

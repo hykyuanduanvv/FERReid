@@ -89,7 +89,11 @@ class ActiveArguments:
     answer_yes: float = field(default=2.2)
     answer_no: float = field(default=-2.2)
     human_verify: int = field(default=0)
+    cannot_use: str = field(default="all")
     unverified_yes: str = field(default="trust")
+    select_respect_cannot_use: bool = field(default=False)  # 10-08 BUG switch (False = old behaviour)
+    subset: str = field(default="random")       # oracle_merge_subset: random | persist | all
+    persist_file: str = field(default="")       # oracle_merge_subset persist: E1a persist-pair json
 
 
 def load_split(name, device, cache_max, num_workers):
@@ -195,6 +199,8 @@ def main():
             s = a.base_seed + seed  # the same seed for every strategy
             for strategy in strategies:
                 run = ActiveRun(model, split, strategy, cfg, seed=s)
+                run.round_dir = os.path.join(args.output_dir, "prompts", "rounds_{}_{}_seed{}".format(
+                    name, (strategy + a.strategy_suffix).replace(":", "-").replace("@", "-"), s))  # per-round snapshots
                 for row in run.run():
                     rows.append(dict(base, strategy=strategy + a.strategy_suffix, seed=s, **row))  # actual seed: runs split over tasks merge
                 if a.save_prompts:

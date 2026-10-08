@@ -1,0 +1,4 @@
+# 10-06 night: a perfect annotator answers exactly the VLM question set (every cluster vs K=3 complementary clusters)
+oq_msmt   | gpu_wait && active oq_msmt   $(ckpt base_md_msmt17)     --domains msmt17     --n_seeds 1 --base_seed 0 $REP --strategies file --budget_schedule 100000,0,0,0,0 --answers_file experiments/vlm_qall_msmt/answers_oracle.csv   --answer_yes 2.2 --answer_no -2.2 --strategy_suffix @oracleq
+oq_cuhk03 | gpu_wait && active oq_cuhk03 $(ckpt base_md_cuhk03)     --domains cuhk03     --n_seeds 3 $REP --strategies file --budget_schedule 100000,0,0,0,0 --answers_file experiments/vlm_qall_cuhk03/answers_oracle.csv --answer_yes 2.2 --answer_no -2.2 --strategy_suffix @oracleq
+oq_market | gpu_wait && active oq_market $(ckpt base_md_market1501) --domains market1501 --n_seeds 2 $REP --strategies file --budget_schedule 100000,0,0,0,0 --answers_file experiments/vlm_qall_market/answers_oracle.csv --answer_yes 2.2 --answer_no -2.2 --strategy_suffix @oracleq

@@ -1,0 +1,4 @@
+d6_committee_market | gpu_wait && mkdir -p experiments/d6_committee_market && $PY scripts/diag_committee.py --output_dir experiments/d6_committee_market --checkpoint $(ckpt base_md_market1501) --domains market1501 --prompts experiments/fb_none_market1501/prompts/market1501_none_seed0.pt --fp16 True --report_to none --eval_num_workers 8
+d6_committee_msmt | gpu_wait && mkdir -p experiments/d6_committee_msmt && $PY scripts/diag_committee.py --output_dir experiments/d6_committee_msmt --checkpoint $(ckpt base_md_msmt17) --domains msmt17 --prompts experiments/d6_none_msmt_s0/prompts/msmt17_none_seed0.pt --fp16 True --report_to none --eval_num_workers 8
+d6b_none_msmt_s1   | gpu_wait && active d6b_none_msmt_s1   $(ckpt base_md_msmt17) --domains msmt17 --strategies none   --n_seeds 1 --base_seed 1 $REP
+d6b_oracle_msmt_s1 | gpu_wait && active d6b_oracle_msmt_s1 $(ckpt base_md_msmt17) --domains msmt17 --strategies oracle --n_seeds 1 --base_seed 1 $REP

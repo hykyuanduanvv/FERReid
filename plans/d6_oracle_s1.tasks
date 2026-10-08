@@ -1,0 +1,1 @@
+d6b_oracle_msmt_s1 | gpu_wait && active d6b_oracle_msmt_s1 $(ckpt base_md_msmt17) --domains msmt17 --strategies oracle --n_seeds 1 --base_seed 1 $REP

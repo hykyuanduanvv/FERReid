@@ -28,6 +28,69 @@ from adapters.active.pseudo import PoolGraph, camera_normalize, label_clusters
 from adapters.active.repair import REPAIR_STRATEGIES, Calibrator, rank_repair, repair_candidates, repair_candidates_knn
 
 
+OFFLINE_STRATEGIES = ("off:rule", "off:cos", "off:ac")
+# Decomposition of the full-label upper bound (no questions; true ids fix one error type of every round's clustering):
+# oracle_merge fixes splits only (clusters with the same majority id are merged, outliers join the cluster of their
+# id), oracle_purify fixes impurity only (every cluster is split by true id; groups of one image become outliers).
+ORACLE_FIX = ("oracle_merge", "oracle_purify")
+_OFFLINE = []
+
+
+def mix_eps(strategy):
+    """Share of a round's budget for member questions: mix:<eps> -> eps, off:member -> 1, else None.
+    mix:<eps> asks round(eps * B) member questions (_ask_member) and B - round(eps * B) merge questions (off:rule)."""
+    if strategy == "off:member":
+        return 1.0
+    if strategy.startswith("mix:"):
+        eps = float(strategy.split(":", 1)[1])
+        if not 0 <= eps <= 1:
+            raise ValueError("mix:<eps> needs 0 <= eps <= 1")
+        return eps
+    return None
+
+
+def oracle_fix(labels, pids, mode):
+    labels, pids = np.asarray(labels), np.asarray(pids)
+    out = np.full(len(labels), -1, np.int64)
+    clusters = np.unique(labels[labels >= 0])
+    if mode == "oracle_merge":
+        new = {}
+        for c in clusters:
+            m = labels == c
+            u, n = np.unique(pids[m], return_counts=True)
+            out[m] = new.setdefault(u[np.argmax(n)].item(), len(new))
+        for i in np.flatnonzero(labels < 0):
+            out[i] = new.get(pids[i].item(), -1)
+        return out
+    nxt = 0
+    for c in clusters:
+        idx = np.flatnonzero(labels == c)
+        u, n = np.unique(pids[idx], return_counts=True)
+        for p, k in zip(u, n):
+            if k >= 2:
+                out[idx[pids[idx] == p]] = nxt
+                nxt += 1
+    return out
+
+
+def _offline_modules():
+    """(offline_recall_1006_2, offline_AC_1007), loaded once by path (they are scripts, not package modules)."""
+    if not _OFFLINE:
+        import importlib.util
+        import os
+
+        def load(name, path):
+            s = importlib.util.spec_from_file_location(name, path)
+            m = importlib.util.module_from_spec(s)
+            s.loader.exec_module(m)
+            return m
+        root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        base_path = os.path.join(root, "scripts", "offline_recall_1006_2.py")
+        ac_path = os.environ.get("FERREID_OFFLINE_AC", "/data1/yangbin/dz/code/exp_1007_AC/offline_AC_1007.py")
+        _OFFLINE.extend([load("offline_recall_1006_2", base_path), load("offline_AC_1007", ac_path)])
+    return _OFFLINE
+
+
 @dataclass
 class ActiveConfig:
     rounds: int = 4
@@ -64,7 +127,15 @@ class ActiveConfig:
     answer_yes: float = 2.2       # file: accept "same" when vlm_score > answer_yes (log-odds; 2.2 ~ P(yes) 0.9)
     answer_no: float = -2.2       # file: accept "different" when vlm_score < answer_no; in between: no answer
     human_verify: int = 0         # file: a human checks the top-N "same" candidates of the machine (by score); 0: none
+    cannot_use: str = "all"       # "different" answers: "all" (split clusters + hard negatives in training), "cluster"
+    #                               (split only), "train" (hard negatives only), "none" (ignored)
     unverified_yes: str = "trust" # file + human_verify: "trust" the machine's remaining "same" answers or "drop" them
+    # 10-08 night (task list v3)
+    select_respect_cannot_use: bool = False  # BUG switch: the clustering used for question selection also follows
+    #                                          --cannot_use (default False = the 10-07 / 10-08 behaviour, where it
+    #                                          splits on every "different" answer)
+    subset: str = "random"        # oracle_merge_subset: random | persist | all
+    persist_file: str = ""        # oracle_merge_subset persist: json of round-1 split pairs labelled persist (E1a)
 
 
 def base_prompt(model):
@@ -94,7 +165,8 @@ class ActiveRun:
     def __init__(self, model, split, strategy, cfg, seed, log=print):
         self.model, self.split, self.strategy, self.cfg, self.seed, self.log = model, split, strategy, cfg, seed, log
         if not (strategy in STRATEGIES or strategy in REPAIR_STRATEGIES or strategy in ("none", "oracle", "shortlist", "file")
-                or strategy.startswith("anchor:")):
+                or strategy.startswith("anchor:") or strategy in OFFLINE_STRATEGIES or strategy in ORACLE_FIX
+                or mix_eps(strategy) is not None or strategy == "oracle_merge_subset"):
             raise ValueError("unknown strategy {}; pair strategies: {}, repair strategies: {}, none, or "
                              "anchor:<image selector>".format(strategy, sorted(STRATEGIES), REPAIR_STRATEGIES))
         if strategy == "none" and not cfg.pseudo:
@@ -132,7 +204,8 @@ class ActiveRun:
         if self.strategy == "oracle":
             return False
         return (self.cfg.pseudo or self.strategy in REPAIR_STRATEGIES or self.strategy in NEEDS_GRAPH
-                or self.strategy == "shortlist")
+                or self.strategy == "shortlist" or self.strategy in OFFLINE_STRATEGIES
+                or mix_eps(self.strategy) is not None or self.strategy == "oracle_merge_subset")
 
     def _ask_pairs(self, feats):
         cfg, store = self.cfg, self.store
@@ -282,6 +355,190 @@ class ActiveRun:
                 "n_machine_yes": n_yes, "n_machine_no": n_no, "machine_yes_prec": right_yes / max(n_yes, 1),
                 "machine_no_prec": right_no / max(n_no, 1), "round_pos_rate": n_yes / max(n_yes + n_no, 1)}
 
+    def _ask_member(self, feats):
+        """Member questions ("is this member the same person as its cluster's medoid?") on this round's constrained
+        clustering. Suspicion of a member = 1 - cos(member, normalised cluster centroid); clusters of >= 2 images;
+        the medoid is the member closest to the centroid. Most suspicious first over the whole pool, at most 2
+        questions per cluster and round; pairs whose answer follows from earlier answers are skipped (not charged).
+        "Different" -> cannot-link member / medoid that splits clusters (split=True, kept across rounds);
+        "same" -> must-link. Label-free: features, cameras-free, answers only."""
+        store, X = self.store, feats.float().cpu().numpy()
+        X = X / (np.linalg.norm(X, axis=1, keepdims=True) + 1e-12)
+        labels = self.graph.cluster(store)
+        cand = []  # (suspicion, member, medoid, cluster)
+        for c, m in enumerate(label_clusters(labels)):
+            if len(m) < 2:
+                continue
+            m = np.asarray(m)
+            cent = X[m].mean(0)
+            cent /= np.linalg.norm(cent) + 1e-12
+            cos = X[m] @ cent
+            med = int(m[np.argmax(cos)])
+            for i, s in zip(m.tolist(), (1 - cos).tolist()):
+                if i != med:
+                    cand.append((s, i, med, c))
+        cand.sort(key=lambda t: -t[0])
+        asked = no = 0
+        per = {}
+        susp = []
+        for s, i, med, c in cand:
+            if asked >= self.budget:
+                break
+            if per.get(c, 0) >= 2:
+                continue
+            if store.infer(i, med) is not None:
+                store.n_inferred += 1
+                continue
+            same = self.oracle.same(i, med)
+            store.add(i, med, same, split=True)
+            per[c] = per.get(c, 0) + 1
+            asked += 1
+            no += not same
+            susp.append(s)
+        return {"n_member_q": asked, "n_member_no": no, "member_cands": len(cand),
+                "member_susp_mean": float(np.mean(susp)) if susp else float("nan")}
+
+    def _ask_mix(self, feats):
+        """mix:<eps> / off:member: the round's budget B split into B - round(eps B) merge questions (off:rule, asked
+        first, exactly as the off:rule strategy; their "different" answers do not split clusters) and round(eps B)
+        member questions (_ask_member, on the clustering after the merge answers)."""
+        B = self.budget
+        n_member = int(round(mix_eps(self.strategy) * B))
+        info = {}
+        before = self.store.stats()
+        if B - n_member > 0:
+            self.budget = B - n_member
+            info = self._ask_offline(feats, method="rule", split_no=False)
+        mid = self.store.stats()
+        info.update(n_merge_q=mid["n_queries"] - before["n_queries"], n_merge_yes=mid["n_pos"] - before["n_pos"])
+        self.budget = n_member
+        if n_member > 0:
+            info.update(self._ask_member(feats))
+        else:
+            info.update(n_member_q=0, n_member_no=0)
+        self.budget = B
+        after = self.store.stats()
+        q = after["n_queries"] - before["n_queries"]
+        info["round_pos_rate"] = (after["n_pos"] - before["n_pos"]) / max(q, 1)
+        return info
+
+    def _ask_oracle_subset(self, feats):
+        """E2 (task list v3), oracle: merge B split pairs of this round's clustering with the true ids, each as one
+        "same person" answer between the two units' representatives (split_pairs.py), kept as must-links.
+          random   B pairs drawn uniformly from this round's split pairs;
+          persist  B pairs drawn uniformly from the round-1 split pairs labelled persist in --persist_file (E1a, the
+                   same seed's no-question run: its round-1 clustering is this run's round-1 clustering);
+          random_file  B pairs drawn uniformly from all round-1 split pairs of --persist_file (task list v7: the
+                   round-2 asking groups draw from the same round-1 list as persist, not from round 2's clustering);
+          all      every split pair of this round (budget ignored; only in rounds with a budget).
+        random / random_file / persist are stratified by pair kind with the same quotas (task list v4). Pairs
+        whose representatives this round's clustering already put together are still asked and charged
+        (e2_already_together counts them).
+        Pairs already merged by earlier answers are skipped (not charged)."""
+        import json
+        from adapters.active.split_pairs import split_pairs
+        X = feats.float().cpu().numpy()
+        X = X / (np.linalg.norm(X, axis=1, keepdims=True) + 1e-12)
+        labels = self.graph.cluster(self.store)
+        cur = split_pairs(labels, self.oracle._pids, X)
+        mode = self.cfg.subset
+        if mode not in ("random", "random_file", "persist", "all"):
+            raise ValueError("--subset must be random, random_file, persist or all")
+        if mode in ("random", "random_file", "persist") and getattr(self, "_persist", None) is None:
+            # task list v4: random and persist are stratified by pair kind with the same quotas, taken from the
+            # same seed's persist list (random reads it only for the kind counts)
+            d = json.load(open(self.cfg.persist_file))
+            if int(d["seed"]) != int(self.seed):
+                raise ValueError("persist file of seed {} used by a seed-{} run".format(d["seed"], self.seed))
+            self._file_pairs = list(d["pairs"])  # every round-1 split pair (random_file, task list v7)
+            self._persist = [p for p in d["pairs"] if p["persist"]]
+            self._kind_share = {k: sum(p["kind"] == k for p in self._persist) for k in ("cluster", "outlier")}
+            self._persist_left = dict(self._kind_share)  # persist pairs of each kind not used yet
+        if mode == "all":
+            pool, quota = cur, {"cluster": None, "outlier": None}
+        else:
+            tot = sum(self._kind_share.values())
+            qc = int(round(self.budget * self._kind_share["cluster"] / tot)) if tot else 0
+            quota = {"cluster": qc, "outlier": self.budget - qc}
+            # fewer persist pairs of a kind than its quota: both groups use what persist has left of it
+            quota = {k: min(q, self._persist_left[k]) for k, q in quota.items()}
+            pool = {"persist": self._persist, "random_file": self._file_pairs, "random": cur}[mode]
+            pool = list(pool)
+        order = self.rng.permutation(len(pool)) if mode != "all" else np.arange(len(pool))
+        used = {"cluster": 0, "outlier": 0}
+        skipped = together = 0
+        for k in order:
+            p = pool[k]
+            q = quota[p["kind"]]
+            if q is not None and used[p["kind"]] >= q:
+                continue
+            i, j = int(p["rep_a"]), int(p["rep_b"])
+            if self.store.infer(i, j) is not None:
+                self.store.n_inferred += 1
+                skipped += 1
+                continue
+            same = self.oracle.same(i, j)
+            assert same, "split pair {} {} is not one person".format(i, j)
+            together += bool(labels[i] >= 0 and labels[i] == labels[j])  # already merged by this round's clustering
+            self.store.add(i, j, True)
+            used[p["kind"]] += 1
+        if mode != "all":
+            for kd in used:
+                self._persist_left[kd] -= used[kd]
+        asked = used["cluster"] + used["outlier"]
+        return {"e2_subset": mode, "e2_pool": len(pool), "e2_merged": asked, "e2_merged_cluster": used["cluster"],
+                "e2_merged_outlier": used["outlier"], "e2_quota_cluster": quota["cluster"],
+                "e2_quota_outlier": quota["outlier"], "e2_skipped": skipped, "e2_split_pairs_now": len(cur),
+                "e2_already_together": together,
+                "round_pos_rate": 1.0 if asked else float("nan")}
+
+    def _ask_offline(self, feats, method=None, split_no=True):
+        """Selectors of the offline recall study (scripts/offline_recall_1006_2.py, exp_1007_AC/offline_AC_1007.py)
+        on this round's constrained clustering: off:rule (shortlist rule, K=1), off:cos (camera-subcluster cosine,
+        K=10), off:ac (camera-pair KISSME d128 + cross-camera Sinkhorn, q90, eps 0.05, fix; all clusters as KISSME
+        positives -- no eps-stability filter in the loop). Questions are the selector's representative image pairs in
+        its order; pairs whose answer follows from earlier answers are skipped (not charged). After the questions,
+        the round's split-pair recall and cosine rank diagnostic are logged (true ids: reporting only)."""
+        base, ac = _offline_modules()
+        method = method or self.strategy.split(":", 1)[1]
+        labels = self.graph.cluster(self.store)
+        pool = base.Pool(feats.float().cpu().numpy(), labels, np.asarray(self.split.pool_cams))
+        sub = ac.Sub(pool)
+        if method == "rule":
+            order = base.old_queries(pool, 1, rule=True)
+        elif method == "cos":
+            order = base.camera_queries(pool)
+        else:
+            km = ac.KissmeScore(pool, sub, 128)
+            vals, med, spread = ac.score_stats(km, sub)
+            zq = (float(np.quantile(vals, .9)) - med) / spread
+            order = base.dedup(ac.sinkhorn_queries(km, sub, med, spread, zq, .05, "fix")[0])
+        asked = pos = 0
+        picked = []
+        for i, j in order:
+            if asked >= self.budget:
+                break
+            i, j = int(i), int(j)
+            if self.store.infer(i, j) is not None:
+                self.store.n_inferred += 1
+                continue
+            same = self.oracle.same(i, j)
+            self.store.add(i, j, same, split=split_no)
+            asked += 1
+            pos += same
+            picked.append((i, j))
+        pids = self.oracle._pids  # reporting only, after every question of the round
+        M, _ = base.gold_pairs(pool, pids)
+        row, _, _ = base.metrics(pool, pids, M, np.array(picked, np.int64).reshape(-1, 2))
+        ranks = {r["rank_bucket"]: r["weight_share"] for r in ac.rank_diagnostic(ac.CosineScore(sub), sub, pool, M)}
+        return {"round_pos_rate": pos / max(asked, 1), "off_candidates": len(order), "off_asked": asked,
+                "off_clusters": pool.c, "off_outliers": len(pool.outliers), "off_M_pairs": len(M),
+                "off_M_weight": sum(M.values()), "off_wrecall": row["weighted_recall"],
+                "off_eff_wrecall": row["effective_weighted_recall"],
+                "off_rank1": ranks["1-1"], "off_rank2_10": ranks["2-3"] + ranks["4-10"],
+                "off_rank11_200": ranks["11-50"] + ranks["51-200"], "off_rank_gt200": ranks["201-inf"],
+                "off_rank_none": ranks["no_cross_camera_subcluster_pair"]}
+
     def _committee_labels(self):
         """Pool clusterings under each source domain's tokens (shared prompt | domain_prompts[d]); the base model
         is frozen, so they are computed once per run."""
@@ -339,8 +596,12 @@ class ActiveRun:
                 sel = camera_normalize(feats, self.split.pool_cams) if (cfg.cam_norm and self.split.has_cameras) else feats
                 self.graph = PoolGraph(sel, cfg.pseudo_k1, cfg.pseudo_k2, cfg.pseudo_eps,
                                        cfg.pseudo_min_samples) if self._needs_graph() else None
+                if cfg.select_respect_cannot_use and self.graph is not None:  # BUG fix switch (task list v3)
+                    self.graph.split_cannot = cfg.cannot_use in ("all", "cluster")
+                    if mix_eps(self.strategy) is not None:
+                        self.graph.split_cannot, self.graph.member_split_only = True, True
             self.budget = self._round_budget(r)
-            if self.strategy in ("none", "oracle") or self.budget <= 0:
+            if self.strategy in ("none", "oracle") + ORACLE_FIX or self.budget <= 0:
                 info = {}
             elif self.strategy.startswith("anchor:"):
                 info = self._ask_anchors(sel)
@@ -348,13 +609,27 @@ class ActiveRun:
                 info = self._ask_shortlist(sel)
             elif self.strategy == "file":
                 info = self._ask_file()
+            elif self.strategy in OFFLINE_STRATEGIES:
+                info = self._ask_offline(sel)
+            elif mix_eps(self.strategy) is not None:
+                info = self._ask_mix(sel)
+            elif self.strategy == "oracle_merge_subset":
+                info = self._ask_oracle_subset(sel)
             else:
                 info = self._ask_pairs(sel)
             if self.strategy == "oracle":  # upper bound, every round: the true identities of the pool
                 clusters, cannot = self.oracle.all_identities(), []
             elif cfg.pseudo:
+                self.graph.split_cannot = cfg.cannot_use in ("all", "cluster")
+                if mix_eps(self.strategy) is not None:  # member "different" answers split, merge ones do not
+                    self.graph.split_cannot, self.graph.member_split_only = True, True
                 labels = self.graph.cluster(self.store)
+                if self.strategy in ORACLE_FIX:  # report the clustering before the fix, then train on the fixed one
+                    info.update({"raw_" + k: v for k, v in self.oracle.pseudo_report(labels).items()})
+                    labels = oracle_fix(labels, self.oracle._pids, self.strategy)
                 clusters, cannot = self._pseudo_clusters(labels)
+                if cfg.cannot_use in ("cluster", "none"):
+                    cannot = []
                 info.update(self.oracle.pseudo_report(labels))
             else:
                 clusters = self.store.clusters()
@@ -371,11 +646,25 @@ class ActiveRun:
             row = self._tune_and_eval(r, info, clusters, cannot, evaluate=evaluate and _eval_round(cfg, r),
                                       feats=feats)
             rows.append(row)
+            self._save_round(r)
             self.log("  [{} r{}] queries {} anchors {} | pos {} neg {} inferred {} | clusters {} ({} true ids) | "
                      "mAP {} R1 {}".format(self.strategy, r, row["n_queries"], row["n_anchors"], row["n_pos"],
                                           row["n_neg"], row["n_inferred"], row["n_clusters"], row["true_ids"],
                                           _fmt(row["mAP"]), _fmt(row["rank1"])))
         return rows
+
+    def _save_round(self, r):
+        """Per-round snapshot when round_dir is set (scripts/eval_active.py): the domain prompt after round r and
+        every answer so far, so that features / clusterings of any round can be recomputed later. Saving only."""
+        d = getattr(self, "round_dir", None)
+        if not d:
+            return
+        import os
+        os.makedirs(d, exist_ok=True)
+        torch.save({"prompt": self.prompt.detach().cpu(), "round": r, "strategy": self.strategy, "seed": self.seed,
+                    "answers": list(self.store.answers),
+                    "member_split": {int(k): sorted(int(x) for x in v) for k, v in self.store._cannot_split.items() if v}},
+                   os.path.join(d, "round{:02d}.pt".format(r)))
 
     def _features(self):
         """Pool features under the current prompt; features_cache (a (N, D) tensor of the base model's

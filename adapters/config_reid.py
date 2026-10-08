@@ -11,8 +11,8 @@ DOMAIN_CONFIG = {
     # held-out domain for model selection during training (never a target domain); none by default
     'val_domains': [],
     'target_domains': ['cuhk03'],
-    'data_root': _path('FERREID_DATA_ROOT', '/root/autodl-tmp/reid-data'),
-    'weights_dir': _path('FERREID_WEIGHTS_DIR', '/root/autodl-tmp/weights'),
+    'data_root': _path('FERREID_DATA_ROOT', '/data0/yb_data/dz_data/reid-data'),
+    'weights_dir': _path('FERREID_WEIGHTS_DIR', '/data1/yangbin/dz/weights'),
 }
 
 # Leave-one-out protocol: each target domain is evaluated with a model trained on the *train splits* of
@@ -46,7 +46,7 @@ BACKBONES = {
     # Code: a local clone of facebookresearch/dinov2 (FERREID_DINOV2_REPO); weights: the official
     # dinov2_vitb14_pretrain.pth in the weights dir (scripts/prepare_weights.py --model dinov2_b14).
     'dinov2_b14': {'kind': 'dinov2', 'hub_name': 'dinov2_vitb14',
-                   'repo': _path('FERREID_DINOV2_REPO', '/root/basic-models/dinov2'),
+                   'repo': _path('FERREID_DINOV2_REPO', '/data1/yangbin/dz/models/dinov2'),
                    'weights': os.path.join(DOMAIN_CONFIG['weights_dir'], 'dinov2_vitb14_pretrain.pth'),
                    'input_size': (252, 126)},
     # CLIP ViT-B/16 image encoder (OpenAI, QuickGELU), pos_embed interpolated to 16x8 patches, 768-d CLS before the

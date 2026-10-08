@@ -7,7 +7,7 @@ The objective matches the score of scripts/diag_vlm.py: at the first answer posi
 LoRA on the language model's attention and MLP projections; the vision encoder stays frozen.
 
   python scripts/finetune_vlm.py --pairs experiments/vlm_train_msmt/train_pairs.csv \\
-      --model /root/autodl-tmp/basic-models/Qwen3-VL-8B-Instruct --out experiments/vlm_train_msmt/lora
+      --model /data1/yangbin/dz/models/Qwen3-VL-8B-Instruct --out experiments/vlm_train_msmt/lora
 """
 import argparse
 import csv

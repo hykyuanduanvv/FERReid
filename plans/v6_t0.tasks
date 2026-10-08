@@ -1,0 +1,1 @@
+v6_file_t0_msmt  | while [ ! -s experiments/vlm_qall_msmt/answers_lora.csv ]; do sleep 30; done; gpu_wait && active v6_file_t0_msmt  $(ckpt base_md_msmt17) --domains msmt17 --strategies file --n_seeds 1 --base_seed 0 $REP --budget_schedule 100000,0,0,0,0 --answers_file experiments/vlm_qall_msmt/answers_lora.csv --answer_yes 0 --answer_no 0 --strategy_suffix @t0
